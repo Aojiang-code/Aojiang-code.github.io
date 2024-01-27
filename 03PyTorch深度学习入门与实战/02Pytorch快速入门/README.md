@@ -155,16 +155,556 @@ Ftensor.numpy()
 ```
 ### 随机数生成张量
 ```python
-
+## 设置随机数种子
+torch.manual_seed(123)
 ```
+
+```python
+## 通过指定均值和标准差生成随机数
+torch.manual_seed(123)
+A = torch.normal(mean = 0.0,std = torch.tensor(1.0))
+A
+```
+
+```python
+## 通过指定均值和标准差生成随机数
+torch.manual_seed(123)
+A = torch.normal(mean = 0.0,std=torch.arange(1,5.0))
+A
+```
+
+
+
+```python
+torch.manual_seed(123)
+A = torch.normal(mean = torch.arange(1,5.0),std=torch.arange(1,5.0))
+A
+```
+
+
+```python
+## 在区间[0,1)上生成服从均匀分布的张量
+torch.manual_seed(123)
+B = torch.rand(3,4)
+B
+```
+
+
+
+```python
+## 生成和其它张量尺寸相同的随机数张量
+torch.manual_seed(123)
+C = torch.ones(2,3)
+D = torch.rand_like(C)
+D
+```
+
+
+
+```python
+## 生成服从标准正态分布的随机数
+print(torch.randn(3,3))
+print(torch.randn_like(C))
+```
+
+
+
+```python
+## 将0～10（不包括10）之间的整数随机排序
+torch.manual_seed(123)
+torch.randperm(10)
+```
+###  其它生成张量的函数
+
+
+```python
+## 使用torch.arange()生成张量
+torch.arange(start=0, end = 10, step=2)
+```
+
+
+
+```python
+## 在范围内生成固定数量的等间隔张量
+torch.linspace(start = 1, end = 10, steps=5)
+```
+
+
+
+```python
+## 生成以对数间隔的点
+torch.logspace(start=0.1, end=1.0, steps=5)
+```
+
+
+
+```python
+10**(torch.linspace(start = 0.1, end = 1, steps=5))
+```
+
+
+
+```python
+torch.zeros(3,3)
+torch.ones(3,3)
+torch.eye(3)
+torch.empty(3,3)
+torch.full((3,3),fill_value = 0.25)
+```
+
+## 张量的操作
+### 改变张量的尺寸
+```python
+## 使用tensor.reshape()函数设置张量的尺寸
+A = torch.arange(12.0).reshape(3,4)
+A
+```
+
+
+
+```python
+## 使用torch.reshape()
+torch.reshape(input = A,shape = (2,-1))
+```
+
+
+
+```python
+## 使用resize_方法
+A.resize_(2,6)
+A
+```
+
+
+
+```python
+## 使用
+B = torch.arange(10.0,19.0).reshape(3,3)
+A.resize_as_(B)
+```
+
+
+
+```python
+B
+```
+
+
+
+```python
+## torch.unsqueeze()返回在指定维度插入尺寸为1的新张量
+A = torch.arange(12.0).reshape(2,6)
+B = torch.unsqueeze(A,dim = 0)
+B.shape
+```
+
+
+
+```python
+## torch.squeeze()函数移除所有维度为1的维度
+C = B.unsqueeze(dim = 3)
+print("C.shape : ",C.shape)
+D = torch.squeeze(C)
+print("D.shape : ",D.shape)
+## 移除指定维度为1的维度
+E = torch.squeeze(C,dim = 0)
+print("E.shape : ",E.shape)
+```
+
+
+
+```python
+## 使用.expand()方法拓展张量
+A = torch.arange(3)
+B = A.expand(3,-1)
+B
+```
+
+
+
+```python
+## 使用.expand_as()方法拓展张量
+C = torch.arange(6).reshape(2,3)
+B = A.expand_as(C)
+B
+```
+
+
+
+```python
+## 使用.repeat()方法拓展张量
+D = B.repeat(1,2,2)
+print(D)
+print(D.shape)
+```
+
+
 
 ```python
 
 ```
 
+
+
 ```python
 
 ```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
 
 
 
