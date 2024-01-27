@@ -144,6 +144,21 @@ model = Sequential()
 # 输入的大小
 input_dim = (16, 8, 1)
 ```
+卷积神经网络CNN的结构一般包含这几个层：
+
+1)输入层：用于数据的输入
+
+2)卷积层：使用卷积核进行特征提取和特征映射------>可以多次重复使用
+
+3)激励层：由于卷积也是一种线性运算，因此需要增加非线性映射(也就是激活函数)
+
+4)池化层：进行下采样，对特征图稀疏处理，减少数据运算量----->可以多次重复使用
+
+5）Flatten操作：将二维的向量，拉直为一维的向量，从而可以放入下一层的神经网络中
+
+6)全连接层：通常在CNN的尾部进行重新拟合，减少特征信息的损失----->DNN网络
+
+对于Keras操作中，可以简单地使用 .add() ，将需要搭建的神经网络的layer堆砌起来，像搭积木一样：
 
 ```python
 model.add(Conv2D(64, (3, 3), padding = "same", activation = "tanh", input_shape = input_dim))# 卷积层
@@ -841,18 +856,257 @@ y_pred = model.predict(X_test)
 请注意，以上仅为示例代码，并不完整或可运行的代码。在实际使用时，需要根据具体的问题和数据来设置模型的参数和配置。
 
 
+###### 2.1.2 搭建CNN网络
+
+```python
+# 输入的大小
+input_dim = (16, 8, 1)
+```
+上述代码定义了一个变量 `input_dim`，它的值为 `(16, 8, 1)`。
+
+`input_dim` 表示输入数据的大小或形状。在深度学习模型中，通常需要指定输入层的形状以确保模型能够处理正确的输入数据格式。
+
+具体解释如下：
+
+```python
+input_dim = (16, 8, 1)
+```
+
+这行代码将一个元组 `(16, 8, 1)` 赋值给变量 `input_dim`。
+
+上面的元组表示输入数据的大小或形状，其中：
+
+- `16` 表示输入数据被分割成16个时间步（行）。
+- `8` 表示每个时间步（行）有8个特征维度（每行有8个特征）。
+- `1` 表示特征在卷积操作中的通道数量，即每个时间步（行）中只有1个通道。
+
+这个 `(16, 8, 1)` 的形状描述适用于四维数组，用于表示一批样本，其中每个样本被重塑为 `(16, 8, 1)` 的形状。
+
+在构建深度学习模型时，我们通常需要根据输入数据的实际情况来设置合适的形状。这可以通过观察原始数据集的样本形状来确定，同时也要考虑模型的设计需求和任务类型。在这种情况下，输入数据的大小被定义为 `(16, 8, 1)`，适用于处理数据分割成16行、每行有8个特征、1个通道的情况。
 
 
 
 
+在卷积神经网络（CNN）的结构中，通常包含以下几个层：
+
+1) 输入层：用于接收输入数据。输入层的形状需要与输入数据的维度相匹配。
+
+2) 卷积层：卷积层使用一个或多个卷积核对输入数据进行特征提取和特征映射。每个卷积核通过滑动窗口在输入数据上移动，并计算出局部区域的卷积操作结果。卷积层可以多次重复使用，以增加模型的深度和表达能力。
+
+3) 激活层：由于卷积操作本身是一种线性运算，而深度学习模型需要具备非线性建模能力，因此在卷积层之后添加激活函数层来引入非线性映射。常见的激活函数有ReLU、sigmoid、tanh等，在激活层中对卷积层输出进行非线性变换。
+
+4) 池化层：池化层用于对特征图进行下采样，通过减少特征图的尺寸和参数数量来降低计算量。常用的池化层操作有最大池化和平均池化。池化层可以多次堆叠使用，以进一步减小特征图的尺寸。
+
+5) Flatten层：Flatten操作用于将特征图展平为一维向量，将二维的空间结构转换为一维的特征向量。这样可以将池化层输出的特征图输入到后续的全连接层或其他类型的层中。
+
+6) 全连接层：通常在CNN的尾部添加全连接层，将展平后的特征向量作为输入，利用全连接层来建立DNN（深度神经网络）结构进行重新拟合。全连接层用于对特征信息进行整合和处理，从而将特征映射到最终的输出类别或回归值。
+
+在Keras中，我们可以使用 `.add()` 方法来搭建神经网络模型。通过调用 `.add()` 方法，并传递需要的层对象，可以将各个层堆叠在一起构建神经网络模型。例如：
+
+```python
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, Activation, MaxPooling2D, Flatten, Dense
+
+# 创建Sequential模型
+model = Sequential()
+
+# 添加卷积层
+model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='relu', input_shape=(img_height, img_width, img_channels)))
+
+# 添加激活层
+model.add(Activation('relu'))
+
+# 添加池化层
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+# 添加Flatten层
+model.add(Flatten())
+
+# 添加全连接层
+model.add(Dense(units=64, activation='relu'))
+
+# 输出层
+model.add(Dense(units=num_classes, activation='softmax'))
+```
+
+上面的代码演示了使用Keras构建CNN模型的常见操作。首先创建了一个Sequential模型，然后使用`.add()`方法按顺序添加了卷积层、激活层、池化层、Flatten层、全连接层以及最后的输出层。每个层都有相应的参数，例如卷积层的`filters`（过滤器数量）、`kernel_size`（卷积核大小），激活层的激活函数类型，全连接层的神经元数量等。
+
+上述代码使用了Keras库中的Sequential模型来构建一个卷积神经网络（CNN）模型。
+
+首先，通过引入需要的层对象和模型类型：
+
+```python
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, Activation, MaxPooling2D, Flatten, Dense
+```
+
+然后，创建一个Sequential模型对象：
+
+```python
+model = Sequential()
+```
+
+接下来，按照顺序使用`.add()`方法将各个层添加到模型中：
+
+```python
+model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='relu', input_shape=(img_height, img_width, img_channels)))
+```
+
+这行代码添加了一个卷积层。`Conv2D`表示二维卷积层，`filters=32`表示使用32个卷积核进行特征提取，`kernel_size=(3, 3)`表示每个卷积核的大小为3x3，`activation='relu'`表示在卷积操作后应用ReLU激活函数，`input_shape=(img_height, img_width, img_channels)`表示输入数据的形状。
+
+```python
+model.add(Activation('relu'))
+```
+
+这行代码添加了一个ReLU激活层。
+
+```python
+model.add(MaxPooling2D(pool_size=(2, 2)))
+```
+
+这行代码添加了一个最大池化层。`MaxPooling2D`表示二维最大池化层，`pool_size=(2, 2)`表示池化窗口大小为2x2。
+
+```python
+model.add(Flatten())
+```
+
+这行代码添加了一个Flatten层，用于将二维的特征图拉平为一维向量，方便后续全连接层处理。
+
+```python
+model.add(Dense(units=64, activation='relu'))
+```
+
+这行代码添加了一个全连接层。`Dense`表示全连接层，`units=64`表示该层有64个神经元，`activation='relu'`表示在全连接操作后应用ReLU激活函数。
+
+```python
+model.add(Dense(units=num_classes, activation='softmax'))
+```
+
+最后一行代码添加了输出层。`num_classes`表示输出的类别数量，`units=num_classes`表示该层有与类别数量相同数量的神经元，`activation='softmax'`表示在输出层应用softmax激活函数，用于多类别分类问题。
+
+需要注意，上述代码中的`img_height`、`img_width`、`img_channels`和`num_classes`是需要根据具体问题设置的变量，在实际使用时需要填写合适的值。
+
+总结：该代码片段构建了一个简单的CNN模型，包含卷积层、激活层、池化层、Flatten层和全连接层。最后的输出层可根据具体问题进行调整。
+
+在实际构建CNN时，需要根据具体问题和网络结构需求来选择和配置合适的层，并设置相应的超参数。
 
 
 
 
+```python
+model.add(Conv2D(64, (3, 3), padding = "same", activation = "tanh", input_shape = input_dim))# 卷积层
+model.add(MaxPool2D(pool_size=(2, 2)))# 最大池化
+model.add(Conv2D(128, (3, 3), padding = "same", activation = "tanh")) #卷积层
+model.add(MaxPool2D(pool_size=(2, 2))) # 最大池化层
+model.add(Dropout(0.1))
+model.add(Flatten()) # 展开
+model.add(Dense(1024, activation = "tanh"))
+model.add(Dense(20, activation = "softmax")) # 输出层：20个units输出20个类的概率
+```
 
+这段代码构建了一个卷积神经网络模型，并依次添加了多个不同的层和配置参数。
 
+```python
+model.add(Conv2D(64, (3, 3), padding="same", activation="tanh", input_shape=input_dim))  # 卷积层
+model.add(MaxPool2D(pool_size=(2, 2)))  # 最大池化
+model.add(Conv2D(128, (3, 3), padding="same", activation="tanh"))  # 卷积层
+model.add(MaxPool2D(pool_size=(2, 2)))  # 最大池化层
+model.add(Dropout(0.1))
+model.add(Flatten())  # 展开
+model.add(Dense(1024, activation="tanh"))
+model.add(Dense(20, activation="softmax"))  # 输出层：20个units输出20个类的概率
+```
 
+以下是对该代码的注释：
 
+```python
+# 添加一个卷积层，64个卷积核，每个卷积核大小为(3,3)，使用“same”边缘填充方式，激活函数为tanh，输入形状为input_dim
+model.add(Conv2D(64, (3, 3), padding="same", activation="tanh", input_shape=input_dim))
+
+# 添加一个最大池化层，池化窗口大小为(2,2)
+model.add(MaxPool2D(pool_size=(2, 2)))
+
+# 添加一个卷积层，128个卷积核，每个卷积核大小为(3,3)，使用“same”边缘填充方式，激活函数为tanh
+model.add(Conv2D(128, (3, 3), padding="same", activation="tanh"))
+
+# 添加一个最大池化层，池化窗口大小为(2,2)
+model.add(MaxPool2D(pool_size=(2, 2)))
+
+# 添加一个Dropout层，丢弃率为0.1，用于正则化防止过拟合
+model.add(Dropout(0.1))
+
+# 添加一个展开层，将多维输入数据展平成一维向量
+model.add(Flatten())
+
+# 添加一个全连接层，输出维度为1024，激活函数为tanh
+model.add(Dense(1024, activation="tanh"))
+
+# 添加一个全连接层，输出维度为20（即20个类别），激活函数为softmax（得到每个类别的概率）
+model.add(Dense(20, activation="softmax"))
+```
+
+解释：
+- 代码中使用`model.add()`方法逐层添加神经网络模型中的不同类型的层。
+- `Conv2D` 表示卷积层，用于提取图像特征。第一个参数是卷积核的数量，其后的`(3, 3)`表示卷积核的尺寸。`padding="same"`表示采用相同的填充方式，保持输出特征图的大小与输入相同。`activation="tanh"`表示激活函数使用双曲正切函数。`input_shape` 是输入数据的形状。
+- `MaxPool2D` 表示最大池化层，用于减少特征图的大小，保留重要的特征。`pool_size=(2, 2)` 意味着将特征图按(2, 2)窗口进行下采样，每个窗口取最大值作为输出特征值。
+- `Dropout` 层是一种正则化技术，在训练过程中随机丢弃部分神经元，以减轻模型对训练数据的过拟合。
+- `Flatten` 层用于将多维输入数据展平成一维向量，为后面的全连接层做准备。
+- `Dense` 表示全连接层，即前一层的所有神经元与当前层的所有神经元都有连接关系。第一个参数指定了输出的维度或神经元数量，`activation` 参数指定了该层使用的激活函数。
+- 在这段代码中，最后一个`Dense`层指定输出维度为20，代表共有20个类别。激活函数使用`softmax`，用于输出每个类别的概率。
+
+通过添加不同的层和配置参数，可以构建出具有特定结构和功能的卷积神经网络模型。
+
+上述代码使用Keras库构建了一个卷积神经网络（CNN）模型，下面对每一行代码进行详细解释：
+
+```python
+model.add(Conv2D(64, (3, 3), padding = "same", activation = "tanh", input_shape = input_dim))
+```
+
+这行代码添加了一个卷积层。`Conv2D`表示二维卷积层，`64`表示使用64个卷积核进行特征提取，`(3, 3)`表示每个卷积核的大小为3x3，`padding = "same"`表示在卷积操作时添加边界填充使得输入和输出的特征图大小保持相同，`activation = "tanh"`表示在卷积操作后应用tanh激活函数，`input_shape = input_dim`表示输入数据的形状。
+
+```python
+model.add(MaxPool2D(pool_size=(2, 2)))
+```
+
+这行代码添加了一个最大池化层。`MaxPool2D`表示二维最大池化层，`pool_size=(2, 2)`表示池化窗口大小为2x2。池化操作会对特征图进行下采样，减小特征图的大小。
+
+```python
+model.add(Conv2D(128, (3, 3), padding = "same", activation = "tanh"))
+```
+
+这行代码添加了另一个卷积层。与第一个卷积层类似，这里使用了128个卷积核，并且应用了tanh激活函数。
+
+```python
+model.add(MaxPool2D(pool_size=(2, 2)))
+```
+
+这行代码再次添加了一个最大池化层。
+
+```python
+model.add(Dropout(0.1))
+```
+
+这行代码添加了一个Dropout层，其目的是为了在训练过程中随机丢弃一部分神经元，以减少模型过拟合的风险。这里设置了丢弃概率为0.1，即丢弃10%的神经元。
+
+```python
+model.add(Flatten())
+```
+
+这行代码添加了一个Flatten层，将二维的特征图展平为一维向量，方便后续全连接层处理。
+
+```python
+model.add(Dense(1024, activation = "tanh"))
+```
+
+这行代码添加了一个全连接层。`Dense`表示全连接层，`1024`表示该层有1024个神经元，`activation = "tanh"`表示在全连接操作后应用tanh激活函数。
+
+```python
+model.add(Dense(20, activation = "softmax"))
+```
+
+最后一行代码添加了输出层。该层有20个神经元，对应着20个类别，`activation = "softmax"`表示在输出层应用softmax激活函数，用于多类别分类问题，输出每个类别的概率值。
+
+所以，上述代码构建了一个具有两个卷积层、两个最大池化层以及一个全连接层的CNN模型。通过Flatten将特征图展平为一维向量，并添加Dropout层来减小过拟合风险。最后的输出层由20个神经元组成，用于预测20个不同类别的概率值。
 
 
 
