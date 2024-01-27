@@ -1188,16 +1188,67 @@ model.fit(X_train, Y_train, epochs=90, batch_size=50, validation_data=(X_test, Y
 
 
 
+**查看网络的统计信息**
+
+```python
+model.summary()
+```
+
+上述代码中的 `model.summary()` 用于显示模型的概要信息，提供了关于模型结构、参数数量和层之间连接方式的详细信息。
+
+具体解释每一部分如下：
+
+- **Model**: 表示模型的名称或类型，这里是 "sequential"。
+- **Layer (type)**: 每个层的名称和类型。在这个模型中，依次有 Conv2D、MaxPooling2D、Conv2D、MaxPooling2D、Dropout、Flatten、Dense 和 Dense 层。
+- **Output Shape**: 显示每一层输出的形状。例如 `(None, 16, 8, 64)` 表示输出的形状是一个四维张量，其中 `None` 表示批量大小(batch size)在训练时可以是任意的，而 `(16, 8, 64)` 则表示每个样本的输出尺寸。
+- **Param #:** 显示每层的参数数量。这些参数包括权重（weights）和偏置（biases）。模型通过学习这些参数来适应训练数据，并在后续的预测过程中使用它们。
+    - 总参数数目 (Total params) 是所有层参数数量的总和。
+    - 训练可更新的参数数目 (Trainable params) 是需要通过训练进行优化学习的参数数量。
+    - 不可训练的参数数目 (Non-trainable params) 是不需要更新的参数数量，例如在使用预训练模型时，有些层的参数可能已经固定。
+
+通过查看模型概要信息可以了解每个层的输入和输出形状，以及需要学习的参数数量。这对于理解模型的架构、调试和优化模型都很有帮助。
 
 
+这个模型使用了一个序列（sequential）结构，其中包含了几个不同的层。
 
+1. 第一层是一个卷积层（Conv2D） named `conv2d`。它有64个过滤器(filter)（也称为卷积核），每个过滤器的大小为 $16\times 8$ pixels。输出形状为 `(None, 16, 8, 64)`，其中 `None` 表示批量大小(batch size)。
+   - 参数数量：640，表示在该层中需要学习或拟合的参数的数量。
 
+2. 第二层是一个最大池化层（MaxPooling2D）named `max_pooling2d`。它对输入进行 $2\times 2$ 的窗口上的最大池化操作，以减小特征图的空间尺寸。
+   - 输出形状为 `(None, 8, 4, 64)`。
 
+3. 第三层是另一个卷积层（Conv2D）named `conv2d_1`。它有128个 $1\times 1$ 的过滤器，用于对前一层的特征图进行处理。
+   - 参数数量：73,856。
 
+4. 第四层是另一个最大池化层（MaxPooling2D）named `max_pooling2d_1`。
+   - 输出形状为 `(None, 4, 2, 128)`。
 
+5. 第五层是一个dropout层，在训练过程中将一部分神经元以给定的概率（通常为0.5）排除在外，以减少过拟合。
+   - 输出形状为 `(None, 4, 2, 128)`。
 
+6. 接下来是一个展平层（Flatten），用于将输入数据从二维形状转换为一维形状，以便进行全连接层（Dense）的操作。
+   - 输出形状为 `(None, 1024)`。
 
+7. 第七层是一个全连接层（Dense） named `dense`。它包含1,049,600个参数，该层的输出大小为1024。
+   - 参数数量：1,049,600。
 
+8. 最后一层也是一个全连接层（Dense） named `dense_1`，它将输入映射到最终的输出类别上。输出大小为20，表示模型被训练用于进行20个不同类别的分类任务。
+   - 参数数量：20,500。
+
+总参数数目为1,144,596，其中Trainable params表示需要通过训练进行学习或优化的参数数量，而Non-trainable params表示不需要更新的参数数量（例如对于某些预训练层来说）。这个模型的架构和参数统计提供了有关每个层如何相互连接并影响数据维度和参数数量的信息。
+
+##### 3.2预测测试集
+**新的数据生成预测**
+
+```python
+def extract_features(test_dir, file_ext="*.wav"):
+    feature = []
+    for fn in tqdm(glob.glob(os.path.join(test_dir, file_ext))[:]): # 遍历数据集的所有文件
+        X, sample_rate = librosa.load(fn,res_type='kaiser_fast')
+        mels = np.mean(librosa.feature.melspectrogram(y=X,sr=sample_rate).T,axis=0) # 计算梅尔频谱(mel spectrogram),并把它作为特征
+        feature.extend([mels])
+    return feature
+```
 
 
 
