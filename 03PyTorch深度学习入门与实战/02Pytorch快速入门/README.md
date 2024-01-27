@@ -943,32 +943,69 @@ h,w
 
 
 ```python
-
+## 对灰度图像进行卷积提取图像轮廓
+## 将数组转化为张量
+imh,imw = myimgray.shape
+myimgray_t = torch.from_numpy(myimgray.reshape((1,1,imh,imw)))
+myimgray_t.shape
+## 因为卷积时需要操作一张图像，所以将图像转化为4维表示［batch，channel,h,w］
 ```
 
 
 ```python
-
+## 定义边缘检测卷积核,并纬度处理为1*1*5*5
+kersize = 5
+ker = torch.ones(kersize,kersize,dtype=torch.float32)*-1
+ker[2,2] = 24
+ker = ker.reshape((1,1,kersize,kersize))
+## 进行卷积操作
+conv2d = nn.Conv2d(1,1,(kersize,kersize),bias = False)
+## 设置卷积时使用的核
+conv2d.weight.data = ker
+## 对灰度图像进行卷积操作
+imconv2dout = conv2d(myimgray_t)
+## 对卷积后的输出进行维度压缩
+imconv2dout_im = imconv2dout.data.squeeze()
+print("卷积后尺寸:",imconv2dout_im.shape)
 ```
 
 
 ```python
-
+## 查看使用的卷积核
+conv2d.weight.data
 ```
 
 
 ```python
-
+## 可视化卷积后的图像
+plt.figure(figsize=(6,6))
+plt.imshow(imconv2dout_im,cmap=plt.cm.gray)
+plt.axis("off")
+plt.show()
 ```
 
 
 ```python
-
+## 定义边缘检测卷积核,并纬度处理为1*1*5*5
+kersize = 5
+ker = torch.ones(kersize,kersize,dtype=torch.float32)*-1
+ker[2,2] = 24
+ker = ker.reshape((1,1,kersize,kersize))
+## 进行卷积操作
+conv2d = nn.Conv2d(1,2,(kersize,kersize),bias = False)
+## 设置卷积时使用的核,第一个核使用边缘检测核
+conv2d.weight.data[0] = ker
+## 对灰度图像进行卷积操作
+imconv2dout = conv2d(myimgray_t)
+## 对卷积后的输出进行维度压缩
+imconv2dout_im = imconv2dout.data.squeeze()
+print("卷积后尺寸:",imconv2dout_im.shape)
 ```
 
 
 ```python
-
+## 查看使用的卷积核
+conv2d.weight.data
 ```
 
 
