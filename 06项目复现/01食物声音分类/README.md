@@ -1333,7 +1333,35 @@ X_test = extract_features('./test_a/')
 X_test = np.vstack(X_test)
 predictions = model.predict(X_test.reshape(-1, 16, 8, 1))
 ```
+这段代码对特征数据 `X_test` 进行预测。
 
+```python
+X_test = np.vstack(X_test)
+predictions = model.predict(X_test.reshape(-1, 16, 8, 1))
+```
+
+以下是对该代码的注释：
+
+```python
+# 对特征数据 X_test 进行预测
+# 使用 np.vstack() 将特征列表转换为一个二维数组，以便进行预测
+X_test = np.vstack(X_test)
+
+# 调用模型的 predict() 方法进行预测
+# 将特征数据 reshape 成符合输入要求的形状 (-1, 16, 8, 1)，其中 -1 表示不确定的批次大小
+# predictions 变量保存了模型的预测结果
+predictions = model.predict(X_test.reshape(-1, 16, 8, 1))
+```
+
+解释：
+- `X_test` 是之前从音频文件中提取的特征数据。
+- 在这段代码中，
+    - `np.vstack()` 函数将特征列表 `X_test` 垂直堆叠，转换为一个二维数组。这个步骤通常是因为模型要求输入为二维或多维数组的形式。
+    - `.reshape(-1, 16, 8, 1)` 将特征数据重新排列成指定的形状 (-1, 16, 8, 1)。其中 `-1` 代表不确定的批次大小，`16` 和 `8` 分别表示特征图的高度和宽度，`1` 表示特征图的通道数。
+    - `model.predict()` 方法调用模型进行预测，传入重新排列后的特征数据。模型将对这些特征进行处理，并生成相应的预测结果。
+    - `predictions` 变量保存了模型的预测结果，可以在后续代码中使用这些预测结果进行进一步的分析、判定或可视化等操作。
+
+通过以上代码，我们可以根据预先训练好的模型对提取的音频文件特征进行分类或预测工作，并通过 `predictions` 变量获取预测结果。
 
 
 
