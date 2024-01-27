@@ -176,7 +176,7 @@ model.add(Dense(20, activation = "softmax")) # 输出层：20个units输出20个
 # 编译模型，设置损失函数，优化方法以及评价标准
 model.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy'])
 ```
-#### CNN模型训练与测试
+#### 3CNN模型训练与测试
 ##### 3.1 模型训练
 
 批量的在之前搭建的模型上训练：
@@ -1135,7 +1135,7 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 
 通过使用`model.compile()`函数来配置模型的优化器、损失函数和评价标准后，模型就准备好进行训练了。在训练过程中，优化器将根据损失函数的值更新模型的权重，评价标准将用于衡量模型的性能。
 
-#### CNN模型训练与测试
+#### 3CNN模型训练与测试
 ##### 3.1 模型训练
 批量的在之前搭建的模型上训练：
 
