@@ -132,9 +132,10 @@ Keras 的核心数据结构是 model，一种组织网络层的方式。最简�
 
 Sequential模型可以直接通过如下方式搭建：
 
-from keras.models import Sequential
+`from keras.models import Sequential``
 
-model = Sequential()
+`model = Sequential()`
+
 ```python
 model = Sequential()
 ```
@@ -253,7 +254,7 @@ import librosa
 import librosa.display
 import glob 
 ```
-###### 1.2特征提取以及数据集的建立
+##### 1.2特征提取以及数据集的建立
 
 ```python
 feature = []
