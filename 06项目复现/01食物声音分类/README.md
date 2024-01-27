@@ -53,7 +53,7 @@ label_dict = {'aloe': 0, 'burger': 1, 'cabbage': 2,'candied_fruits':3, 'carrots'
 label_dict_inv = {v:k for k,v in label_dict.items()}
 ```
 
-这段代码的目的是创建空的特征和标签列表，并建立一个字典将类别标签映射到数字。
+这段代码的目的是创建空的特征和标签列表，并建立一个字典将类别标签映射到数字。以下进行逐行解读：
 
 ```python
 feature = []
@@ -75,5 +75,100 @@ label_dict_inv = {v:k for k,v in label_dict.items()}
 这行代码通过将`label_dict`的键值对颠倒，创建了字典`label_dict_inv`。现在，它可以用于将数字标签转换回类别名称。
 
 因此，这段代码旨在为特征和标签数据创建空列表，并提供了一种从类别名称到数字标签的映射方法，以及从数字标签到类别名称的反向映射。
+
+**建立提取音频特征的函数**
+
+```python
+from tqdm import tqdm
+def extract_features(parent_dir, sub_dirs, max_file=10, file_ext="*.wav"):
+    c = 0
+    label, feature = [], []
+    for sub_dir in sub_dirs:
+        for fn in tqdm(glob.glob(os.path.join(parent_dir, sub_dir, file_ext))[:max_file]): # 遍历数据集的所有文件
+            
+           # segment_log_specgrams, segment_labels = [], []
+            #sound_clip,sr = librosa.load(fn)
+            #print(fn)
+            label_name = fn.split('/')[-2]
+            label.extend([label_dict[label_name]])
+            X, sample_rate = librosa.load(fn,res_type='kaiser_fast')
+            mels = np.mean(librosa.feature.melspectrogram(y=X,sr=sample_rate).T,axis=0) # 计算梅尔频谱(mel spectrogram),并把它作为特征
+            feature.extend([mels])
+            
+    return [feature, label]
+```
+```python
+#上面的代码块添加注释后码如下所示：
+from tqdm import tqdm
+
+# 导入所需库
+
+def extract_features(parent_dir, sub_dirs, max_file=10, file_ext="*.wav"):
+    c = 0
+    label, feature = [], []
+
+    # 遍历每个子目录
+    for sub_dir in sub_dirs:
+        # 使用glob.glob()获取子目录下符合file_ext的文件，并限制最大处理文件数量为max_file
+        for fn in tqdm(glob.glob(os.path.join(parent_dir, sub_dir, file_ext))[:max_file]):
+
+            # 提取音频文件的类别标签
+            label_name = fn.split('/')[-2]
+            label.extend([label_dict[label_name]])
+
+            # 加载音频文件并获取音频数据和采样率
+            X, sample_rate = librosa.load(fn, res_type='kaiser_fast')
+
+            # 计算梅尔频谱特征
+            mels = np.mean(librosa.feature.melspectrogram(y=X, sr=sample_rate).T, axis=0)
+
+            # 将特征和标签添加到对应的列表中
+            feature.extend([mels])
+
+    return [feature, label]
+
+```
+这段代码定义了一个名为`extract_features`的函数，用于提取音频文件的特征。以下进行逐行解读：
+
+```python
+from tqdm import tqdm
+```
+该行导入了`tqdm`库，它用于在循环中显示进度条。
+
+```python
+def extract_features(parent_dir, sub_dirs, max_file=10, file_ext="*.wav"):
+    c = 0
+    label, feature = [], []
+    for sub_dir in sub_dirs:
+        for fn in tqdm(glob.glob(os.path.join(parent_dir, sub_dir, file_ext))[:max_file]):
+            ...
+```
+这部分是函数定义的开始。`extract_features`函数接受四个参数：`parent_dir`（父目录路径），`sub_dirs`（子目录列表），`max_file`（最大提取文件数，默认为10），`file_ext`（文件扩展名，默认为"*.wav"）。
+
+在函数内部，初始化了两个空列表`label`和`feature`，用于存储标签和特征数据。然后，通过对每个子目录进行循环，使用`tqdm`遍历每个子目录下指定文件扩展名的文件。
+
+```python
+label_name = fn.split('/')[-2]
+label.extend([label_dict[label_name]])
+```
+此代码将文件路径中的子目录名称作为类别名称，并使用预先定义的`label_dict`字典将其转换为数字标签。然后，将该数字标签添加到`label`列表中。
+
+```python
+# 使用librosa.load()函数加载音频文件，并将返回的音频数据存储在变量X中，采样率存储在变量sample_rate中
+X, sample_rate = librosa.load(fn, res_type='kaiser_fast')
+mels = np.mean(librosa.feature.melspectrogram(y=X, sr=sample_rate).T, axis=0)
+feature.extend([mels])
+```
+这段代码使用`librosa`库加载音频文件，并使用梅尔频谱（Mel Spectrogram）作为特征之一。首先，通过`librosa.load()`函数加载音频文件，然后计算梅尔频谱，并取平均值以得到一个特征向量 `mels`。最后将该特征向量添加到 `feature` 列表中。
+
+```python
+return [feature, label]
+```
+函数的返回语句返回包含特征列表和标签列表的列表。
+
+因此，这个函数的主要功能是从指定的父目录和子目录中提取音频文件的特征，并返回特征列表和对应的标签列表。
+
+
+
 
 
