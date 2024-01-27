@@ -22,7 +22,8 @@
 
 
 * 深度学习
-  * [Pytorch快速入门](03PyTorch深度学习入门与实战\01Pytorch快速入门/)
+  * [Pytorch快速入门](03PyTorch深度学习入门与实战\02Pytorch快速入门/)
+      * [Pytorch快速入门注释版](03PyTorch深度学习入门与实战\02Pytorch快速入门\添加注释/)
   * [循环神经网络](03PyTorch深度学习入门与实战\循环神经网络/)
 
 
