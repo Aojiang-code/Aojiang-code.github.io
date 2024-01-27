@@ -1010,59 +1010,137 @@ conv2d.weight.data
 
 
 ```python
-
+## 可视化卷积后的图像
+plt.figure(figsize=(12,6))
+plt.subplot(1,2,1)
+plt.imshow(imconv2dout_im[0],cmap=plt.cm.gray)
+plt.axis("off")
+plt.subplot(1,2,2)
+plt.imshow(imconv2dout_im[1],cmap=plt.cm.gray)
+plt.axis("off")
+plt.show()
 ```
 
 
 ```python
+### 常用的池化层
 
+最大值池化、平均值池化与自适应平均值池化为例进行相关介绍
 ```
 
 
 ```python
+imconv2dout_im.shape
+```
+#### 最大值池化
 
+```python
+## 对卷积后的结果进行最大值池化
+maxpool2 = nn.MaxPool2d(2,stride=2)
+pool2_out = maxpool2(imconv2dout)
+pool2_out_im = pool2_out.squeeze()
+pool2_out.shape
 ```
 
 
 ```python
+## 可视化最大值池化后的结果
+plt.figure(figsize=(12,6))
+plt.subplot(1,2,1)
+plt.imshow(pool2_out_im[0].data,cmap=plt.cm.gray)
+plt.axis("off")
+plt.subplot(1,2,2)
+plt.imshow(pool2_out_im[1].data,cmap=plt.cm.gray)
+plt.axis("off")
+plt.show()
+```
+#### 平均值池化
 
+```python
+## 对卷积后的结果进行平均值池化
+avgpool2 = nn.AvgPool2d(2,stride=2)
+pool2_out = avgpool2(imconv2dout)
+pool2_out_im = pool2_out.squeeze()
+pool2_out.shape
 ```
 
 
 ```python
+## 可视化平均值池化后的结果
+plt.figure(figsize=(12,6))
+plt.subplot(1,2,1)
+plt.imshow(pool2_out_im[0].data,cmap=plt.cm.gray)
+plt.axis("off")
+plt.subplot(1,2,2)
+plt.imshow(pool2_out_im[1].data,cmap=plt.cm.gray)
+plt.axis("off")
+plt.show()
+```
 
+#### 自适应平均值池化
+
+```python
+## 对卷积后的结果进行自适应平均值池化
+AdaAvgpool2 = nn.AdaptiveAvgPool2d(output_size = (100,100))
+pool2_out = AdaAvgpool2(imconv2dout)
+pool2_out_im = pool2_out.squeeze()
+pool2_out.shape
 ```
 
 
 ```python
+## 可视化自适应平均值池化后的结果
+plt.figure(figsize=(12,6))
+plt.subplot(1,2,1)
+plt.imshow(pool2_out_im[0].data,cmap=plt.cm.gray)
+plt.axis("off")
+plt.subplot(1,2,2)
+plt.imshow(pool2_out_im[1].data,cmap=plt.cm.gray)
+plt.axis("off")
+plt.show()
+```
 
+### 激活函数
+
+```python
+x = torch.linspace(-6,6,100)
+## Sigmoid激活函数
+sigmoid = nn.Sigmoid()
+ysigmoid = sigmoid(x)
+## Tanh激活函数
+tanh = nn.Tanh()
+ytanh = tanh(x)
+## ReLU激活函数
+relu = nn.ReLU()
+yrelu = relu(x)
+## Softplus激活函数
+softplus = nn.Softplus()
+ysoftplus = softplus(x)
 ```
 
 
 ```python
-
+## 可视化激活函数
+plt.figure(figsize=(14,3))
+plt.subplot(1,4,1)
+plt.plot(x.data.numpy(),ysigmoid.data.numpy(),"r-")
+plt.title("Sigmoid")
+plt.grid()
+plt.subplot(1,4,2)
+plt.plot(x.data.numpy(),ytanh.data.numpy(),"r-")
+plt.title("Tanh")
+plt.grid()
+plt.subplot(1,4,3)
+plt.plot(x.data.numpy(),yrelu.data.numpy(),"r-")
+plt.title("Relu")
+plt.grid()
+plt.subplot(1,4,4)
+plt.plot(x.data.numpy(),ysoftplus.data.numpy(),"r-")
+plt.title("Softplus")
+plt.grid()
+plt.show()
 ```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
-
-```python
-
-```
-
+## Pytorch中数据操作和预处理
 
 ```python
 
