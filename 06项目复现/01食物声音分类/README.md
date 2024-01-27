@@ -170,6 +170,7 @@ model.add(Flatten()) # 展开
 model.add(Dense(1024, activation = "tanh"))
 model.add(Dense(20, activation = "softmax")) # 输出层：20个units输出20个类的概率
 ```
+如果需要，你还可以进一步地配置你的优化器.complies())。Keras 的核心原则是使事情变得相当简单，同时又允许用户在需要的时候能够进行完全的控制（终极的控制是源代码的易扩展性）。
 
 ```python
 # 编译模型，设置损失函数，优化方法以及评价标准
@@ -1109,18 +1110,39 @@ model.add(Dense(20, activation = "softmax"))
 所以，上述代码构建了一个具有两个卷积层、两个最大池化层以及一个全连接层的CNN模型。通过Flatten将特征图展平为一维向量，并添加Dropout层来减小过拟合风险。最后的输出层由20个神经元组成，用于预测20个不同类别的概率值。
 
 
+如果需要，你还可以进一步地配置你的优化器.complies())。Keras 的核心原则是使事情变得相当简单，同时又允许用户在需要的时候能够进行完全的控制（终极的控制是源代码的易扩展性）。
 
 
 
 
 
+```python
+# 编译模型，设置损失函数，优化方法以及评价标准
+model.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy'])
+```
 
+上述代码中的`model.compile()`函数用于编译模型，并设置损失函数、优化方法和评价标准。
 
+```python
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+```
 
+下面对其中的参数进行解释：
 
+- `optimizer='adam'`：这里选择了Adam优化器作为模型的优化方法。Adam是一种常用的优化算法，它结合了动量梯度下降和自适应学习率方法，能够有效地加快收敛速度并提高模型性能。
+- `loss='categorical_crossentropy'`：这里选择了交叉熵损失函数作为模型的损失函数。在多分类问题中，交叉熵损失函数是一种常用的选择，可以用于衡量模型输出与真实标签之间的差异。
+- `metrics=['accuracy']`：这里设置了模型的评价标准为准确率。准确率是常用的分类模型评价指标之一，它表示模型预测正确的样本所占的比例。
 
+通过使用`model.compile()`函数来配置模型的优化器、损失函数和评价标准后，模型就准备好进行训练了。在训练过程中，优化器将根据损失函数的值更新模型的权重，评价标准将用于衡量模型的性能。
 
+#### CNN模型训练与测试
+##### 3.1 模型训练
+批量的在之前搭建的模型上训练：
 
+```python
+# 训练模型
+model.fit(X_train, Y_train, epochs = 90, batch_size = 50, validation_data = (X_test, Y_test))
+```
 
 
 
