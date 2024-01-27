@@ -1250,20 +1250,89 @@ def extract_features(test_dir, file_ext="*.wav"):
     return feature
 ```
 
+这段代码定义了一个函数 `extract_features()`，用于从音频文件中提取特征。
+
+```python
+def extract_features(test_dir, file_ext="*.wav"):
+    feature = [] # 用于保存提取的特征
+    for fn in tqdm(glob.glob(os.path.join(test_dir, file_ext))[:]): # 遍历数据集的所有文件
+        X, sample_rate = librosa.load(fn,res_type='kaiser_fast') # 加载音频文件，并获取音频数据和采样率
+        mels = np.mean(librosa.feature.melspectrogram(y=X, sr=sample_rate).T, axis=0) # 计算梅尔频谱(mel spectrogram)，并将其作为特征
+        feature.extend([mels]) # 将提取的特征添加到特征列表中
+    return feature # 返回提取的特征
+```
+
+以下是对该代码的注释：
+
+```python
+# 定义一个函数，用于从音频文件中提取特征
+def extract_features(test_dir, file_ext="*.wav"):
+    feature = []  # 用于保存提取的特征
+    for fn in tqdm(glob.glob(os.path.join(test_dir, file_ext))[:]):  # 遍历数据集的所有文件
+        X, sample_rate = librosa.load(fn, res_type='kaiser_fast')  # 加载音频文件，并获取音频数据和采样率
+
+        # 使用librosa提取音频的梅尔频谱特征，并取每个时间步的平均值，得到一维特征向量
+        mels = np.mean(librosa.feature.melspectrogram(y=X, sr=sample_rate).T, axis=0)
+
+        feature.extend([mels])  # 将提取的特征添加到特征列表中
+    
+    return feature  # 返回提取的特征
+```
+
+解释：
+- `extract_features()` 函数定义了一个用于从音频文件中提取特征的过程。
+- 在这段代码中，
+    - `test_dir`: 测试目录的路径，用于存放需要提取特征的音频文件。
+    - `file_ext`: 要匹配的文件扩展名，默认为 `"*.wav"`，表示提取所有扩展名为 `.wav` 的音频文件。
+    - `feature` 是一个空列表，用于存储从音频文件中提取的特征。
+    - `glob.glob(os.path.join(test_dir, file_ext))[:]` 遍历指定目录下所有符合文件扩展名的文件。使用 `glob.glob()` 函数遍历 `test_dir` 目录下符合 `file_ext` 扩展名规则的文件，并且通过列表切片操作 `[:])` 只选取前面的文件（可以修改切片操作来处理更多或全部文件）。
+    - 对于每个音频文件 `fn` ，使用 `librosa.load()` 函数加载音频文件，并指定 `res_type='kaiser_fast'` 参数以使用快速的采样率转换方法，并返回音频数据 `X` 和采样率 `sample_rate`。
+    - `librosa.feature.melspectrogram()` 计算音频信号 `X` 的梅尔频谱(mel spectrogram)特征。通过转置 `.T` 和对时间维度取平均值 `np.mean(..., axis=0)` 可以将其转换为一维特征向量。
+    - 使用 `numpy.mean()` 函数对转置后的矩阵按列求均值，得到平均梅尔频谱。
+    - 将平均梅尔频谱添加到 `feature` 列表中。
+    - 循环结束后，返回存储了所有音频文件特征的 `feature` 列表。
+- 这个函数使用了一些音频处理库的函数，例如 `librosa` 和 `numpy`，用于加载音频、计算梅尔频谱特征。通过调用这个函数，我们可以从音频文件中提取出有用的特征，用于后续的模型训练或其他任务。
+
+这段代码使用了Librosa库来加载音频文件并计算梅尔频谱作为特征。梅尔频谱是一种在语音和音乐处理中常用的特征表示方式，可以用于训练机器学习模型或进行其他音频分析任务。函数通过遍历指定目录下的音频文件，并将每个文件的梅尔频谱作为特征进行提取和保存。
 
 
 
 
+**保存预测的结果**
+
+```python
+X_test = extract_features('./test_a/')
+```
+
+这段代码调用了之前定义的 `extract_features()` 函数来从给定目录中提取音频特征，并将结果赋值给 `X_test` 变量。
+
+```python
+X_test = extract_features('./test_a/')
+```
+
+以下是对该代码的注释：
+
+```python
+# 从指定目录中提取音频文件的特征，并将结果存储在 X_test 变量中
+X_test = extract_features('./test_a/')
+```
+
+解释：
+- `X_test` 是一个变量，用于存储从音频文件中提取的特征。
+- 在这段代码中，
+    - `./test_a/` 是包含音频文件的目录路径。
+    - `extract_features()` 函数被调用，传入 `./test_a/` 目录作为参数，以从该目录下的音频文件中提取特征。
+    - `extract_features()` 函数会执行音频特征的提取过程，并将提取得到的特征返回。
+    - 最后，返回的特征列表被赋值给 `X_test` 变量。
+
+通过这段代码，我们可以得到 `X_test` 变量，其中包含了从 `./test_a/` 目录中的音频文件提取的特征。这些特征可以用于进一步的音频分析、模型预测等任务。
 
 
 
-
-
-
-
-
-
-
+```python
+X_test = np.vstack(X_test)
+predictions = model.predict(X_test.reshape(-1, 16, 8, 1))
+```
 
 
 
