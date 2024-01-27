@@ -39,7 +39,7 @@ import librosa
 import librosa.display
 import glob 
 ```
-###### 1.2特征提取以及数据集的建立
+##### 1.2特征提取以及数据集的建立
 
 ```python
 feature = []
@@ -426,6 +426,37 @@ data = temp.transpose()
 
 这段代码进行了两个操作：首先将`temp`转换为NumPy数组，然后对该数组进行转置。
 
+在未转置之前，`temp`的数据结构是一个二维列表。该列表包含两个子列表，第一个子列表存储特征数据，第二个子列表存储标签数据。每个子列表中的元素按照样本的顺序排列。
+
+例如，如果 `temp` 数据如下所示：
+
+```
+temp = [[feature_1, feature_2, ..., feature_n],
+        [label_1, label_2, ..., label_n]]
+```
+
+其中，`feature_i`表示第i个样本的特征，而`label_i`表示第i个样本的标签。这里的`n`代表样本数量。换句话说，`temp`的第一行代表特征数据，第二行代表标签数据。
+
+在转置之后，`temp`的数据结构变为一个二维NumPy数组。转置操作将原来的行变为列，并且数组的形状也发生了变化。
+
+如果在转置之前 `temp` 是一个二维数组，它可能看起来像这样：
+
+```
+temp = [[feature_1, feature_2, ..., feature_n],
+        [label_1, label_2, ..., label_n]]
+```
+
+进行转置操作后，`temp` 变成了：
+
+```
+temp_transposed = [[feature_1, label_1],
+                  [feature_2, label_2],
+                  ...,
+                  [feature_n, label_n]]
+```
+
+因此，转置后的 `temp` 具有 `n` 行和 2 列，其中每一行代表一个样本。第一列包含特征数据，第二列包含对应的标签数据。
+
 ```python
 temp = np.array(temp)
 data = temp.transpose()
@@ -498,6 +529,12 @@ print('Y的特征尺寸是：', Y.shape)
 请注意，在上述代码中，`data`数组必须是一个二维数组，并且第一列包含特征数据，第二列包含标签数据。
 
 
+
+
+```python
+# 在Keras库中：to_categorical就是将类别向量转换为二进制（只有0和1）的矩阵类型表示
+Y = to_categorical(Y)
+```
 
 
 
