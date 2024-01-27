@@ -625,31 +625,27 @@ X_train, X_test, Y_train, Y_test = train_test_split(X, Y, random_state = 1, stra
 print('训练集的大小',len(X_train))
 print('测试集的大小',len(X_test))
 ```
-这段代码使用`train_test_split`函数将数据集划分为训练集和测试集，并打印它们的大小。
+上述代码使用了 `train_test_split` 函数来将数据集分割为训练集和测试集。训练集用于模型的训练，而测试集用于评估模型的性能。
 
 ```python
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, random_state=1, stratify=Y)
-print('训练集的大小', len(X_train))
-print('测试集的大小', len(X_test))
+print('训练集的大小:', len(X_train))
+print('测试集的大小:', len(X_test))
 ```
 
-以下是对该代码的注释：
+下面是对上述代码的解释：
 
-```python
-# 使用train_test_split函数将数据集划分为训练集和测试集
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, random_state=1, stratify=Y)
+- `X`: 特征矩阵，包含了所有样本的特征数据。
+- `Y`：目标向量，包含了所有样本的类别标签数据。
 
-# 打印训练集的大小，即训练集样本数量
-print('训练集的大小', len(X_train))
+通过调用 `train_test_split(X, Y, random_state=1, stratify=Y)` 函数，我们将数据集按指定的比例（默认是 75% 训练集和 25% 测试集）进行划分，并且保持了原始数据集中样本类别的分布比例。
 
-# 打印测试集的大小，即测试集样本数量
-print('测试集的大小', len(X_test))
-```
+- `random_state` 参数用于设置随机数生成器的种子，使得每次运行结果都是一致的。
+- `stratify` 参数表示按照类别标签进行分层抽样，确保训练集和测试集中的样本类别分布与原始数据集中的类别分布相同。
 
-解释：
-- `train_test_split`函数是一个用于划分数据集的函数，它将原始数据集`X`和对应的标签`Y`划分为训练集和测试集。参数`random_state`用于设置随机数种子以确保每次划分结果相同，`stratify`参数可用于按照标签值的比例进行分层划分。
-- 通过`train_test_split`函数得到的结果按顺序赋值给四个变量：`X_train`, `X_test`, `Y_train`, `Y_test`，分别表示训练集的特征、测试集的特征、训练集的标签和测试集的标签。
-- `len(X_train)`和`len(X_test)`分别打印训练集和测试集的样本数量，即它们含有多少条数据样本。
+划分后，将训练集的特征、测试集的特征、训练集的类别标签和测试集的类别标签分别保存在 `X_train`、`X_test`、`Y_train`、`Y_test` 变量中。
+
+最后，通过打印输出 `len(X_train)` 和 `len(X_test)`，可以获取训练集和测试集的样本数量。
 
 通过划分训练集和测试集，可以用训练集数据来训练模型参数，然后使用测试集数据来评估模型性能。
 
