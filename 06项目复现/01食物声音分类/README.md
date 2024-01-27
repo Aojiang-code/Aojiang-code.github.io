@@ -168,6 +168,8 @@ return [feature, label]
 
 因此，这个函数的主要功能是从指定的父目录和子目录中提取音频文件的特征，并返回特征列表和对应的标签列表。
 
+
+
 ```python
 # 自己更改目录
 parent_dir = './train_sample/'
@@ -203,9 +205,32 @@ temp = extract_features(parent_dir, sub_dirs, max_file=100)
 请注意，您需要根据自己的目录结构和需求修改这些路径和参数，以正确加载数据并将特征提取到您希望保存的位置。
 
 
+```python
+temp = np.array(temp)
+data = temp.transpose()
+```
 
+这段代码进行了两个操作：首先将`temp`转换为NumPy数组，然后对该数组进行转置。
 
+```python
+temp = np.array(temp)
+data = temp.transpose()
+```
 
+以下是对该代码的注释：
+
+```python
+# 将列表temp转换为NumPy数组
+temp = np.array(temp)
+
+# 对数组temp进行转置
+data = temp.transpose()
+```
+
+解释：
+- `np.array(temp)`: 这行代码使用NumPy的`array()`函数将列表`temp`转换为NumPy数组。由于NumPy数组具有更广泛的功能和更高效的计算能力，转换为NumPy数组可以方便地进行各种操作和分析。
+- `temp.transpose()`: 这行代码使用NumPy数组的`transpose()`方法对数组进行转置操作。转置操作将数组的行与列互换位置，如果初始数组是二维数组，则每一列会变成新数组的一行，每一行会变成新数组的一列。转置操作常用于矩阵操作或者改变数组的形状。
+- `data = temp.transpose()`: 转置后的数组存储在变量`data`中，以便后续使用。
 
 
 
