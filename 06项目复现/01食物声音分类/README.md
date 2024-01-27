@@ -1433,7 +1433,9 @@ result.to_csv('submit.csv', index=None)
 
 
 
-
+```shell
+!ls ./test_a/*.wav | wc -l
+```
 
 
 
