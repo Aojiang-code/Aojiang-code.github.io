@@ -167,51 +167,50 @@ model.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = [
 # 训练模型
 model.fit(X_train, Y_train, epochs = 90, batch_size = 50, validation_data = (X_test, Y_test))
 ```
-
+查看网络的统计信息
 ```python
-
+model.summary()
+```
+##### 3.2预测测试集
+新的数据生成预测
+```python
+def extract_features(test_dir, file_ext="*.wav"):
+    feature = []
+    for fn in tqdm(glob.glob(os.path.join(test_dir, file_ext))[:]): # 遍历数据集的所有文件
+        X, sample_rate = librosa.load(fn,res_type='kaiser_fast')
+        mels = np.mean(librosa.feature.melspectrogram(y=X,sr=sample_rate).T,axis=0) # 计算梅尔频谱(mel spectrogram),并把它作为特征
+        feature.extend([mels])
+    return feature
+```
+保存预测的结果
+```python
+X_test = extract_features('./test_a/')
 ```
 
 ```python
-
+X_test = np.vstack(X_test)
+predictions = model.predict(X_test.reshape(-1, 16, 8, 1))
 ```
 
 ```python
+preds = np.argmax(predictions, axis = 1)
+preds = [label_dict_inv[x] for x in preds]
 
+path = glob.glob('./test_a/*.wav')
+result = pd.DataFrame({'name':path, 'label': preds})
+
+result['name'] = result['name'].apply(lambda x: x.split('/')[-1])
+result.to_csv('submit.csv',index=None)
 ```
 
 ```python
-
+!ls ./test_a/*.wav | wc -l
 ```
 
 ```python
-
+!wc -l submit.csv
 ```
-
-```python
-
-```
-
-```python
-
-```
-
-```python
-
-```
-
-```python
-
-```
-
-
-
-
-
-
-
-
-
+以上就是深度学习模型搭建与训练的全部内容。请尽情享受科技之光吧，少年！
 
 ## 食物声音分类(有注释)
 ### 链接：[零基础入门语音识别-食物声音识别](https://tianchi.aliyun.com/competition/entrance/531887/introduction?spm=a2c22.28136470.0.0.201a4a0aLe7Mr7&from=search-list)
