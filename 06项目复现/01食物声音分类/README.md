@@ -778,14 +778,67 @@ X_test = X_test.reshape(-1, 16, 8, 1)
 
 通过这种形状重塑，我们可以将原始数据集重新组织成适应于需要固定输入形状的模型的结构，例如卷积神经网络。每个样本都按照一定行和列的形状重新排列，并通过最后一个维度的通道数表示该位置上的特征信息。
 
+#### 2建立模型
+##### 2.1 深度学习框架
+Keras 是一个用 Python 编写的高级神经网络 API，它能够以 TensorFlow, CNTK, 或者 Theano 作为后端运行。现在Keras已经和TensorFlow合并，可以通过TensorFlow来调用。
+###### 2.1.1 网络结构搭建
+Keras 的核心数据结构是 model，一种组织网络层的方式。最简单的模型是 Sequential 顺序模型，它由多个网络层线性堆叠。对于更复杂的结构，你应该使用 Keras 函数式 API，它允许构建任意的神经网络图。
 
+Sequential模型可以直接通过如下方式搭建：
 
+`from keras.models import Sequential`
 
+`model = Sequential()`
 
+```python
+model = Sequential()
+```
+上述代码是用来创建一个Sequential模型。Sequential模型是Keras中一种常用的模型类型，用于按照顺序将各个层组合在一起构建深度神经网络。
 
+通过创建Sequential对象并赋值给变量model后，我们可以使用该对象来添加各个层和配置模型的参数。
 
+下面是对该代码的解释：
 
+```python
+model = Sequential()
+```
 
+这行代码创建了一个名为model的Sequential对象。
+
+Sequential模型是一个线性堆叠的层，适用于大多数情况下的前馈神经网络。它允许我们按照顺序将各个层添加到模型中。
+
+创建Sequential模型后，我们可以使用model对象来添加层（例如Dense、Conv2D等）和配置模型的各个参数（例如优化器、损失函数等）。
+
+在实际构建深度神经网络时，我们会进一步添加各个层来定义模型的结构，并设置模型的超参数，如激活函数、输入形状、优化器和损失函数等，以便进行训练和预测任务。
+
+以下是一个伪代码示例，展示如何使用Sequential模型添加两个全连接层，并对模型进行编译和训练：
+
+```python
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
+# 创建Sequential模型
+model = Sequential()
+
+# 添加第一个全连接层
+model.add(Dense(units=64, activation='relu', input_shape=(input_dim,)))
+
+# 添加第二个全连接层
+model.add(Dense(units=10, activation='softmax'))
+
+# 编译模型
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+# 训练模型
+model.fit(X_train, y_train, epochs=10, batch_size=32)
+
+# 进行预测
+y_pred = model.predict(X_test)
+```
+
+上述代码使用Sequential模型创建了一个具有两个全连接层的神经网络，并使用adam优化器和交叉熵损失函数进行模型编译。然后，通过调用fit方法对模型进行训练，并使用predict方法进行预测。
+
+请注意，以上仅为示例代码，并不完整或可运行的代码。在实际使用时，需要根据具体的问题和数据来设置模型的参数和配置。
 
 
 
