@@ -1,15 +1,12 @@
-## 食物声音分类(无注释)
-### 链接：[零基础入门语音识别-食物声音识别](https://tianchi.aliyun.com/competition/entrance/531887/introduction?spm=a2c22.28136470.0.0.201a4a0aLe7Mr7&from=search-list)
-
-### Task4 食物声音识别-深度学习模型搭建与训练
-
-#### 1 前情摘要
+## Task4 食物声音识别-深度学习模型搭建与训练(无注释)
+链接：[零基础入门语音识别-食物声音识别](https://tianchi.aliyun.com/competition/entrance/531887/introduction?spm=a2c22.28136470.0.0.201a4a0aLe7Mr7&from=search-list)
+### 1 前情摘要
 
 前面的task2与task3讲解了音频数据的分析以及特征提取等内容，本次任务主要是讲解CNN模型的搭建与训练，由于模型训练需要用到之前的特侦提取等得让，于是在此再贴一下相关代码。
 
-##### 1.1提取特征
+#### 1.1提取特征
 
-###### 1.1.1导入包
+##### 1.1.1导入包
 
 ```python
 #基本库
@@ -39,7 +36,7 @@ import librosa
 import librosa.display
 import glob 
 ```
-##### 1.2特征提取以及数据集的建立
+#### 1.2特征提取以及数据集的建立
 
 ```python
 feature = []
@@ -123,11 +120,11 @@ print('测试集的大小',len(X_test))
 X_train = X_train.reshape(-1, 16, 8, 1)
 X_test = X_test.reshape(-1, 16, 8, 1)
 ```
-#### 2建立模型
-##### 2.1 深度学习框架
+### 2建立模型
+#### 2.1 深度学习框架
 
 Keras 是一个用 Python 编写的高级神经网络 API，它能够以 TensorFlow, CNTK, 或者 Theano 作为后端运行。现在Keras已经和TensorFlow合并，可以通过TensorFlow来调用。
-###### 2.1.1 网络结构搭建
+##### 2.1.1 网络结构搭建
 Keras 的核心数据结构是 model，一种组织网络层的方式。最简单的模型是 Sequential 顺序模型，它由多个网络层线性堆叠。对于更复杂的结构，你应该使用 Keras 函数式 API，它允许构建任意的神经网络图。
 
 Sequential模型可以直接通过如下方式搭建：
@@ -139,7 +136,7 @@ Sequential模型可以直接通过如下方式搭建：
 ```python
 model = Sequential()
 ```
-###### 2.1.2 搭建CNN网络
+##### 2.1.2 搭建CNN网络
 ```python
 # 输入的大小
 input_dim = (16, 8, 1)
@@ -176,8 +173,8 @@ model.add(Dense(20, activation = "softmax")) # 输出层：20个units输出20个
 # 编译模型，设置损失函数，优化方法以及评价标准
 model.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy'])
 ```
-#### 3CNN模型训练与测试
-##### 3.1 模型训练
+### 3CNN模型训练与测试
+#### 3.1 模型训练
 
 批量的在之前搭建的模型上训练：
 ```python
@@ -188,7 +185,7 @@ model.fit(X_train, Y_train, epochs = 90, batch_size = 50, validation_data = (X_t
 ```python
 model.summary()
 ```
-##### 3.2预测测试集
+#### 3.2预测测试集
 新的数据生成预测
 ```python
 def extract_features(test_dir, file_ext="*.wav"):
@@ -229,18 +226,17 @@ result.to_csv('submit.csv',index=None)
 ```
 以上就是深度学习模型搭建与训练的全部内容。请尽情享受科技之光吧，少年！
 
-## 食物声音分类(有注释)
-### 链接：[零基础入门语音识别-食物声音识别](https://tianchi.aliyun.com/competition/entrance/531887/introduction?spm=a2c22.28136470.0.0.201a4a0aLe7Mr7&from=search-list)
 
-### Task4 食物声音识别-深度学习模型搭建与训练
+## Task4 食物声音识别-深度学习模型搭建与训练(有注释)
+链接：[零基础入门语音识别-食物声音识别](https://tianchi.aliyun.com/competition/entrance/531887/introduction?spm=a2c22.28136470.0.0.201a4a0aLe7Mr7&from=search-list)
 
-#### 1 前情摘要
+### 1 前情摘要
 
 前面的task2与task3讲解了音频数据的分析以及特征提取等内容，本次任务主要是讲解CNN模型的搭建与训练，由于模型训练需要用到之前的特侦提取等得让，于是在此再贴一下相关代码。
 
-##### 1.1提取特征
+#### 1.1提取特征
 
-###### 1.1.1导入包
+##### 1.1.1导入包
 
 ```python
 #基本库
@@ -794,10 +790,10 @@ X_test = X_test.reshape(-1, 16, 8, 1)
 
 通过这种形状重塑，我们可以将原始数据集重新组织成适应于需要固定输入形状的模型的结构，例如卷积神经网络。每个样本都按照一定行和列的形状重新排列，并通过最后一个维度的通道数表示该位置上的特征信息。
 
-#### 2建立模型
-##### 2.1 深度学习框架
+### 2建立模型
+#### 2.1 深度学习框架
 Keras 是一个用 Python 编写的高级神经网络 API，它能够以 TensorFlow, CNTK, 或者 Theano 作为后端运行。现在Keras已经和TensorFlow合并，可以通过TensorFlow来调用。
-###### 2.1.1 网络结构搭建
+##### 2.1.1 网络结构搭建
 Keras 的核心数据结构是 model，一种组织网络层的方式。最简单的模型是 Sequential 顺序模型，它由多个网络层线性堆叠。对于更复杂的结构，你应该使用 Keras 函数式 API，它允许构建任意的神经网络图。
 
 Sequential模型可以直接通过如下方式搭建：
@@ -857,7 +853,7 @@ y_pred = model.predict(X_test)
 请注意，以上仅为示例代码，并不完整或可运行的代码。在实际使用时，需要根据具体的问题和数据来设置模型的参数和配置。
 
 
-###### 2.1.2 搭建CNN网络
+##### 2.1.2 搭建CNN网络
 
 ```python
 # 输入的大小
@@ -1135,8 +1131,8 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 
 通过使用`model.compile()`函数来配置模型的优化器、损失函数和评价标准后，模型就准备好进行训练了。在训练过程中，优化器将根据损失函数的值更新模型的权重，评价标准将用于衡量模型的性能。
 
-#### 3CNN模型训练与测试
-##### 3.1 模型训练
+### 3CNN模型训练与测试
+#### 3.1 模型训练
 批量的在之前搭建的模型上训练：
 
 ```python
@@ -1237,7 +1233,7 @@ model.summary()
 
 总参数数目为1,144,596，其中Trainable params表示需要通过训练进行学习或优化的参数数量，而Non-trainable params表示不需要更新的参数数量（例如对于某些预训练层来说）。这个模型的架构和参数统计提供了有关每个层如何相互连接并影响数据维度和参数数量的信息。
 
-##### 3.2预测测试集
+#### 3.2预测测试集
 **新的数据生成预测**
 
 ```python
