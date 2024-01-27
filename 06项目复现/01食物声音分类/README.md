@@ -168,6 +168,51 @@ return [feature, label]
 
 因此，这个函数的主要功能是从指定的父目录和子目录中提取音频文件的特征，并返回特征列表和对应的标签列表。
 
+```python
+# 自己更改目录
+parent_dir = './train_sample/'
+save_dir = "./"
+folds = sub_dirs = np.array(['aloe','burger','cabbage','candied_fruits',
+                             'carrots','chips','chocolate','drinks','fries',
+                            'grapes','gummies','ice-cream','jelly','noodles','pickles',
+                            'pizza','ribs','salmon','soup','wings'])
+
+# 获取特征feature以及类别的label
+temp = extract_features(parent_dir,sub_dirs,max_file=100)
+```
+
+这段代码包含了一些变量定义和函数调用。
+
+```python
+# 自己更改目录
+parent_dir = './train_sample/'  # 指定包含训练样本的父目录路径
+save_dir = "./"  # 指定保存提取特征的目录路径
+folds = sub_dirs = np.array(['aloe','burger','cabbage','candied_fruits',
+                             'carrots','chips','chocolate','drinks','fries',
+                            'grapes','gummies','ice-cream','jelly','noodles','pickles',
+                            'pizza','ribs','salmon','soup','wings'])  # 定义包含子目录名称的数组
+
+# 调用函数提取特征和标签
+temp = extract_features(parent_dir, sub_dirs, max_file=100)
+```
+
+在这段代码中，`parent_dir`变量指定了包含训练样本的父目录路径，`save_dir`变量指定了保存提取特征的目录路径。`folds`和`sub_dirs`都是包含子目录名称的数组，用于表示不同类别的分类标签。
+
+然后，通过调用`extract_features`函数来提取特征和标签。函数接受三个参数：父目录路径、子目录列表和最大文件数（默认为100）。调用结果被存储在名为`temp`的变量中。
+
+请注意，您需要根据自己的目录结构和需求修改这些路径和参数，以正确加载数据并将特征提取到您希望保存的位置。
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
