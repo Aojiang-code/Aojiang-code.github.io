@@ -149,12 +149,18 @@ cerebral infarction ◼ machine learning ◼ medical decision making ◼ neural 
 
 ## References
 1. Ntaios G, Faouzi M, Ferrari J, Lang W, Vemmos K, Michel P. An integer-based score to predict functional outcome in acute ischemic stroke: the ASTRAL score. Neurology. 2012;78:1916–1922. doi: 10.1212/WNL.0b013e318259e221
- 2. Asadi H, Dowling R, Yan B, Mitchell P. Machine learning for outcome prediction of acute ischemic stroke post intra-arterial therapy. PLoS One. 2014;9:e88225. doi: 10.1371/journal.pone.0088225
- 3. LeCun Y, Bengio Y, Hinton G. Deep learning. Nature. 2015;521:436–444. doi: 10.1038/nature14539
- 4. van Os HJA, Ramos LA, Hilbert A, van Leeuwen M, van Walderveen MAA, Kruyt ND, et al. Predicting outcome of endovascular treatment 
-for acute ischemic stroke: potential value of machine learning algo-rithms. Front Neurol. 2018;9:784.
- 5. Cuadrado-Godia E, Dwivedi P, Sharma S, Ois Santiago A, Roquer Gonzalez J, Balcells M, et al. Cerebral small vessel disease: a review fo-cusing on pathophysiology, biomarkers, and machine learning strategies. J Stroke. 2018;20:302–320. doi: 10.5853/jos.2017.02922
- 6. Breiman L. Random forests. Machine Learning. 2001;45:5–32.
- 7. Abadi M, Barham P, Chen J, Chen Z, Davis A, Dean J, et al. Tensorflow: a system for large-scale machine learning. OSDI. 2016;16:265–283.
- 8. Flint AC, Rao VA, Chan SL, Cullen SP, Faigeles BS, Smith WS, et al; SITS International and VISTA-plus Investigators. Improved ischemic stroke outcome prediction using model estimation of outcome proba-bility: the THRIVE-c calculation. Int J Stroke. 2015;10:815–821. doi:10.1111js.12529
+
+2. Asadi H, Dowling R, Yan B, Mitchell P. Machine learning for outcome prediction of acute ischemic stroke post intra-arterial therapy. PLoS One. 2014;9:e88225. doi: 10.1371/journal.pone.0088225
+
+3. LeCun Y, Bengio Y, Hinton G. Deep learning. Nature. 2015;521:436–444. doi: 10.1038/nature14539
+
+4. van Os HJA, Ramos LA, Hilbert A, van Leeuwen M, van Walderveen MAA, Kruyt ND, et al. Predicting outcome of endovascular treatment for acute ischemic stroke: potential value of machine learning algo-rithms. Front Neurol. 2018;9:784.
+
+5. Cuadrado-Godia E, Dwivedi P, Sharma S, Ois Santiago A, Roquer Gonzalez J, Balcells M, et al. Cerebral small vessel disease: a review fo-cusing on pathophysiology, biomarkers, and machine learning strategies. J Stroke. 2018;20:302–320. doi: 10.5853/jos.2017.02922
+
+6. Breiman L. Random forests. Machine Learning. 2001;45:5–32.
+
+7. Abadi M, Barham P, Chen J, Chen Z, Davis A, Dean J, et al. Tensorflow: a system for large-scale machine learning. OSDI. 2016;16:265–283.
+
+8. Flint AC, Rao VA, Chan SL, Cullen SP, Faigeles BS, Smith WS, et al; SITS International and VISTA-plus Investigators. Improved ischemic stroke outcome prediction using model estimation of outcome proba-bility: the THRIVE-c calculation. Int J Stroke. 2015;10:815–821. doi:10.1111js.12529
 
