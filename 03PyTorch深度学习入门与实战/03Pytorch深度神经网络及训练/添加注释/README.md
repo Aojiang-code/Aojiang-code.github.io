@@ -355,21 +355,65 @@ testnet = TestNet()
 print(testnet)
 ```
 
-逐行注释解释：
+结果：
+```plaintext
+TestNet(
+  (conv1): Conv2d(3, 16, kernel_size=(3, 3), stride=(1, 1))
+  (hidden): Sequential(
+    (0): Linear(in_features=100, out_features=100, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=100, out_features=50, bias=True)
+    (3): ReLU()
+  )
+  (cla): Linear(in_features=50, out_features=10, bias=True)
+)
+```
 
-- `class TestNet(nn.Module):`：定义了一个名为TestNet的类，继承自`nn.Module`。
-- `def __init__(self):`：该方法是TestNet类的初始化方法，在创建TestNet类的实例时被调用。
-- `super(TestNet, self).__init__():`：调用父类`nn.Module`的初始化方法，以确保正确地初始化TestNet类。
-- `self.conv1 = nn.Conv2d(3, 16, 3):`：建立一个名为conv1的卷积层。输入通道数为3（RGB图像），输出通道数为16，卷积核大小为3x3。
-- `self.hidden = nn.Sequential(...)`：建立一个包含多个线性层和ReLU激活函数的隐藏层部分。使用`nn.Sequential()`容器按顺序组合这些层。
-- `self.cla = nn.Linear(50, 10):`：建立最后一层全连接层，将隐藏层的输出映射到10个输出类别。
-- `def forward(self, x):`：定义了网络的向前传播路径。在PyTorch中，所有自定义的模型都需要实现forward方法。
-- `x = self.conv1(x):`：对输入x进行卷积操作，通过conv1卷积层的处理。
-- `x = x.view(x.shape[0], -1):`：将卷积层的输出x展平成一个一维向量，保持批量大小不变。
-- `x = self.hidden(x)`：通过hidden部分的线性层和ReLU激活函数处理x。
-- `output = self.cla(x)`：通过全连接层cla对处理后的x进行分类预测，得到最终输出。
-- `testnet = TestNet()`: 创建一个TestNet类的实例，即创建一个测试网络对象。
-- `print(testnet)`: 打印测试网络的结构，包括卷积层、隐藏层和全连接层。
+详细计算过程和逐行注释解释：
+
+```python
+class TestNet(nn.Module):
+    def __init__(self):
+        super(TestNet, self).__init__()
+        self.conv1 = nn.Conv2d(3, 16, 3)
+        self.hidden = nn.Sequential(
+            nn.Linear(100, 100),
+            nn.ReLU(),
+            nn.Linear(100, 50),
+            nn.ReLU(),
+        )
+        self.cla = nn.Linear(50, 10)
+```
+- 定义一个名为`TestNet`的网络类，继承自`nn.Module`。
+- 在构造函数`__init__()`中，通过调用父类的构造函数`super().__init__()`初始化基类。
+- 创建卷积层`self.conv1`，输入通道数为3，输出通道数为16，核大小为3x3。
+- 创建隐藏层`self.hidden`，使用`nn.Sequential`封装多个线性层和激活函数。
+   - 第一个线性层将输入特征数从100映射到100，使用ReLU作为激活函数。
+   - 第二个线性层将输入特征数从100映射到50，同样使用ReLU作为激活函数。
+
+```python
+    def forward(self, x):
+        x = self.conv1(x)
+        x = x.view(x.shape[0], -1)
+        x = self.hidden(x)
+        output = self.cla(x)
+        return output
+```
+- 定义前向传播方法`forward()`，用于定义网络的向前传播路径。
+- 输入数据`x`经过卷积层`self.conv1`进行处理。
+- 将卷积层的输出展平为一维形状，以适应后续全连接层的输入要求。
+- 将展平后的张量输入到隐藏层`self.hidden`进行处理，得到中间特征表示。
+- 最后通过线性层`self.cla`将中间特征映射到最终的输出预测值。
+
+```python
+testnet = TestNet()
+print(testnet)
+```
+- 创建一个`TestNet`类的对象`testnet`。
+- 打印输出`testnet`，显示网络的结构和参数信息。
+
+解释：
+以上代码段定义了一个名为`TestNet`的测试网络类。它包含一个卷积层、一个隐藏层（由两个线性层和ReLU激活函数组成），以及一个线性输出层。该网络用于处理图像数据，并通过前向传播方法定义了网络的计算过程。创建测试网络对象后，通过打印对象可以查看网络的结构和参数信息。
 
 ```python
 ## 定义为网络中的每个层进行权重初始化的函数
@@ -412,17 +456,68 @@ testnet.apply(init_weights)
 # 输出全连接层cla的权重数据
 testnet.cla.weight.data
 ```
-逐行注释解释：
+结果：
+```plaintext
+tensor([[ 0.0911, -0.0253,  0.0034, -0.1124, -0.1036, -0.0507,  0.1011,  0.0584,
+          0.0832,  0.0565],
+        [ 0.0187, -0.0460, -0.0999, -0.0188,  0.1271, -0.0327, -0.0404, -0.0607,
+         -0.0242, -0.0482],
+        [-0.0302, -0.0346, -0.0009, -0.0390, -0.0298, -0.0313,  0.0748,  0.1026,
+         -0.1814,  0.1001],
+        [ 0.0739,  0.0512,  0.0816, -0.0043, -0.0489,  0.0280,  0.0124, -0.0689,
+          0.0352,  0.0704],
+        [-0.0667, -0.0807,  0.0961,  0.0623, -0.1041,  0.0419, -0.0702,  0.0786,
+         -0.1968,  0.0311],
+        [ 0.2037, -0.0701, -0.0170,  0.0336, -0.1096, -0.1316, -0.0368, -0.0277,
+          0.0517, -0.0195],
+        [-0.0198,  0.1426, -0.0989,  0.0361,  0.0038,  0.0149,  0.0716,  0.0604,
+          0.1390, -0.0406],
+        [ 0.2711, -0.0064, -0.1430,  0.1126,  0.1412, -0.0373,  0.0085,  0.0177,
+         -0.0411, -0.0875],
+        [ 0.0348, -0.0034, -0.1117, -0.0473, -0.0696, -0.0258, -0.0128, -0.1537,
+         -0.0019,  0.0427],
+        [-0.0997,  0.0389,  0.0187, -0.0935, -0.0904,  0.0360, -0.1520, -0.0490,
+          0.0036,  0.0483]], dtype=torch.float64)
+```
 
-- `def init_weights(m):`：定义了一个自定义函数init_weights，用于对网络中的每个层进行权重初始化。该函数会作为参数传递给`apply()`方法。
-- `if type(m) == nn.Conv2d:`：如果当前层是卷积层，则执行下面的代码块。
-- `torch.nn.init.normal_(m.weight, mean=0, std=0.5)`：使用正态分布从均值为0、标准差为0.5的分布中随机初始化卷积层m的权重。
-- `if type(m) == nn.Linear:`：如果当前层是全连接层，则执行下面的代码块。
-- `torch.nn.init.uniform_(m.weight, a=-0.1, b=0.1)`：使用在区间[-0.1, 0.1]上均匀分布的随机值初始化全连接层m的权重。
-- `m.bias.data.fill_(0.01)`：将全连接层m的偏置初始化为常数值0.01。
-- `testnet.apply(init_weights)`：对测试网络testnet中的每个层应用init_weights函数进行权重初始化。
-- `torch.manual_seed(13)`：设置随机数生成器的种子，以确保每次初始化时得到相同的随机结果。
-- `testnet.cla.weight.data`：输出全连接层cla的权重数据。
+详细计算过程和逐行注释解释：
+```python
+def init_weights(m):
+    if type(m) == nn.Conv2d:
+        torch.nn.init.normal(m.weight, mean=0, std=0.5)
+    if type(m) == nn.Linear:
+        torch.nn.init.uniform(m.weight, a=-0.1, b=0.1)
+        m.bias.data.fill_(0.01)
+```
+- 定义一个函数`init_weights(m)`，用于初始化网络中每个层的权重。
+- 如果传入的`m`是卷积层（`nn.Conv2d`类型），则使用正态分布随机初始化它的权重参数，均值为0，标准差为0.5。
+  - `m.weight`表示卷积层的权重矩阵。
+- 如果传入的`m`是全连接层（`nn.Linear`类型），则使用均匀分布随机初始化它的权重参数，范围在-0.1到0.1之间，并将偏置初始化为0.01。
+  - `m.weight`表示全连接层的权重矩阵。
+  - `m.bias.data`表示全连接层的偏置。
+
+```python
+torch.manual_seed(13)
+```
+- 使用种子值13初始化随机数发生器，以确保每次运行得到相同的随机数序列。
+
+```python
+testnet.apply(init_weights)
+```
+- 调用`apply()`方法应用权重初始化函数`init_weights`到测试网络`testnet`的每个层。
+- 通过遍历网络中的所有层，对每个层依次调用`init_weights`函数来进行权重初始化。
+
+```python
+testnet.cla.weight.data
+```
+- 访问测试网络中线性层`cla`的权重数据`weight.data`，返回结果。
+
+解释：
+以上代码段定义了一个`init_weights`函数，用于初始化网络中的每个层的权重。该函数根据层的类型选择不同的初始化方式，并在测试网络上应用这个函数对每个层进行权重初始化。
+- 卷积层使用正态分布随机初始化，均值为0，标准差为0.5。
+- 全连接层使用均匀分布随机初始化，范围在-0.1到0.1之间。同时，将偏置初始化为0.01。
+- 在使用`testnet.apply(init_weights)`时，将权重初始化函数应用到测试网络`testnet`的所有层中。
+- 最后，使用`testnet.cla.weight.data`来访问线性层`cla`的权重数据，返回了相应的结果。
 
 
 ## 3.6 Pytorch中定义网络的方式
@@ -862,7 +957,67 @@ mlp2 = MLPmodel2()
 print(mlp2)
 ```
 
+结果：
+```
+MLPmodel2(
+  (hidden): Sequential(
+    (0): Linear(in_features=13, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=10, bias=True)
+    (3): ReLU()
+  )
+  (regression): Linear(in_features=10, out_features=1, bias=True)
+)
+```
 
+逐行注释解释：
+```python
+class MLPmodel2(nn.Module):
+    def __init__(self):
+        super(MLPmodel2,self).__init__()
+        ## 定义隐藏层
+        self.hidden = nn.Sequential(
+            nn.Linear(13, 10),
+            nn.ReLU(),
+            nn.Linear(10,10),
+            nn.ReLU(),
+        )
+        ## 预测回归层
+        self.regression = nn.Linear(10,1)
+```
+- 定义了一个名为`MLPmodel2`的类，它是`nn.Module`的子类，用于定义神经网络模型结构。
+- 在初始化函数`__init__()`中定义了两个模块：隐藏层和预测回归层。
+- `nn.Sequential`表示按顺序组合多个层或模块的容器，并将其作为一个整体来处理输入数据。
+
+```python
+    def forward(self, x):
+        x = self.hidden(x)
+        output = self.regression(x)
+        return output
+```
+- 定义了网络的前向传播方法`forward()`，该方法将输入数据`x`作为参数。
+- 首先，通过`self.hidden(x)`对输入数据进行隐藏层的处理，得到处理后的特征向量`x`。
+- 然后，将处理后的特征向量`x`传入预测回归层`self.regression`，得到最终的输出结果`output`。
+- 最后，返回输出结果`output`。
+
+```python
+mlp2 = MLPmodel2()
+print(mlp2)
+```
+- 创建一个MLPmodel2类的实例对象`mlp2`。
+- 使用`print()`函数打印出`mlp2`的结构信息。
+
+解释：
+上述代码定义了一个包含两个模块的多层感知机（MLP）神经网络模型，其结构如下：
+1. 隐藏层：使用`nn.Sequential`将多个层顺序组合在一起。
+   - 第一层是线性层`nn.Linear(13, 10)`，进行从13维输入特征到10维隐藏层特征的线性变换。
+   - 第二层是ReLU激活函数层`nn.ReLU()`，对线性层输出的结果进行非线性变换。
+   - 第三层是线性层`nn.Linear(10,10)`，进行从10维隐藏层特征到10维隐藏层特征的线性变换。
+   - 第四层是ReLU激活函数层`nn.ReLU()`，对线性层输出的结果进行非线性变换。
+2. 预测回归层：使用线性层`nn.Linear(10,1)`进行从10维隐藏层特征到1维输出的线性变换。
+3. `forward()`方法定义了网络的向前传播路径，其中包括隐藏层和预测回归层的组装和数据处理过程。
+
+最后，打印出`mlp2`的结构信息，显示了模型的组织结构，包括各层或模块的类型和形状。
 
 ```python
 ## 对回归模型mlp2进行训练并输出损失函数的变化情况
@@ -881,7 +1036,78 @@ for epoch in range(30):
         optimizer.step()                # 使用梯度进行优化
         train_loss_all.append(train_loss.item())
 ```
+结果：执行以上代码将训练回归模型并输出损失函数的变化情况。
 
+详细计算过程和逐行注释解释：
+```python
+optimizer = SGD(mlp2.parameters(), lr=0.001)
+```
+- 定义优化器对象`optimizer`，使用随机梯度下降（SGD）算法进行参数优化。
+- `mlp2.parameters()`返回模型`mlp2`中所有可学习参数的迭代器。
+- `lr=0.001`表示学习率为0.001，控制每次参数更新的步长大小。
+
+```python
+loss_func = nn.MSELoss()
+```
+- 定义损失函数对象`loss_func`，使用均方误差（MSE）作为损失函数。
+- MSE用于衡量预测值与目标值之间的差异，并用于监督学习中的回归问题。
+
+```python
+train_loss_all = []
+```
+- 创建一个空列表`train_loss_all`，用于存储每个批次训练的损失函数值。
+
+```python
+for epoch in range(30):
+    for step, (b_x, b_y) in enumerate(train_loader):
+        output = mlp2(b_x).flatten()
+```
+- 进入外部循环`for epoch in range(30)`，进行30次迭代训练。
+- 在内部循环`for step, (b_x, b_y) in enumerate(train_loader)`中，遍历训练数据集的迭代器。
+- `b_x`表示一个批次的输入数据，`b_y`表示对应的目标输出数据。
+- `mlp2(b_x)`对输入数据进行前向传播，得到模型的输出`output`。
+
+```python
+train_loss = loss_func(output, b_y)
+```
+- 使用损失函数`loss_func`计算模型输出`output`和目标输出`b_y`之间的损失。
+- `train_loss`表示每个批次训练的损失函数值。
+
+```python
+optimizer.zero_grad()
+```
+- 在每次迭代之前，将优化器中的梯度缓存清零，以便进行新一轮参数更新。
+
+```python
+train_loss.backward()
+```
+- 调用`train_loss`的`backward()`方法，进行损失的反向传播，计算梯度。
+- 此操作计算了模型参数对于损失函数的梯度信息。
+
+```python
+optimizer.step()
+```
+- 根据计算得到的梯度，使用优化器执行参数的更新步骤（根据优化算法）。
+- 通过调用`step()`方法，优化器将更新参数值。
+
+```python
+train_loss_all.append(train_loss.item())
+```
+- 将每个批次的训练损失函数值`train_loss`添加到`train_loss_all`列表中。
+
+解释：
+以上代码段对回归模型`mlp2`进行训练，并输出每次迭代的损失函数。详细步骤如下：
+1. 定义优化器`optimizer`，使用随机梯度下降（SGD）算法进行模型参数的优化。
+2. 定义损失函数`loss_func`，使用均方误差（MSE）作为衡量预测值与目标值之间差异的指标。
+3. 创建空列表`train_loss_all`，用于存储每个批次训练的损失函数值。
+4. 进行30次迭代训练，通过两层嵌套的循环遍历训练数据集。
+5. 在内部循环中，对每个批次的输入数据`b_x`进行前向传播，得到模型输出`output`。
+6. 使用损失函数`loss_func`计算模型输出`output`和目标输出`b_y`之间的损失函数值。
+7. 优化器中的梯度缓存清零，以便进行新一轮参数更新。
+8. 进行损失的反向传播，计算模型参数对于损失函数的梯度信息。
+9. 根据计算得到的梯度，调用优化器的`step()`方法进行参数的更新步骤。
+10. 将每个批次的训练损失函数值添加到`train_loss_all`列表中。
+11. 训练结束后，`train_loss_all`记录了每个批次训练时的损失函数值，用于分析和评估训练过程中的收敛情况。
 
 ```python
 plt.figure()
@@ -889,6 +1115,57 @@ plt.plot(train_loss_all,"r-")
 plt.title("Train loss per iteration")
 plt.show()
 ```
+
+请注意，您需要在代码中导入`matplotlib.pyplot`模块。以下是给出详细计算过程和逐行注释解释的代码示例：
+
+```python
+import matplotlib.pyplot as plt
+
+plt.figure()
+plt.plot(train_loss_all, "r-")
+plt.title("Train loss per iteration")
+plt.show()
+```
+
+详细计算过程和逐行注释解释：
+```python
+import matplotlib.pyplot as plt
+```
+- 导入`matplotlib.pyplot`模块用于可视化结果。
+
+```python
+plt.figure()
+```
+- 创建一个新的图形窗口。
+
+```python
+plt.plot(train_loss_all, "r-")
+```
+- 使用`plot()`函数绘制损失函数值的变化曲线。
+- `train_loss_all`表示训练过程中，每个迭代步的损失函数值列表。
+- `"r-"`表示线条的样式为红色实线。
+
+```python
+plt.title("Train loss per iteration")
+```
+- 设置图形的标题为“每次迭代的训练损失”。
+
+```python
+plt.show()
+```
+- 显示绘制好的图形窗口，展示训练损失函数的变化情况。
+
+解释：
+以上代码段通过使用`matplotlib.pyplot`库，绘制了训练过程中损失函数值的变化曲线图。详细步骤如下：
+1. 导入`matplotlib.pyplot`函数库，用于数据可视化操作。
+2. 创建一个新的图形窗口，以准备绘制损失函数曲线。
+3. 使用`plot()`函数，传入训练过程中每个迭代步对应的损失函数值列表`train_loss_all`，绘制损失函数的变化曲线图。
+   - `"r-"`表示使用红色实线作为线条样式。
+4. 设置图形的标题为“每次迭代的训练损失”。
+5. 调用`show()`函数，显示绘制好的图形窗口，展示损失函数的变化情况。
+
+
+
 ## Pytorch模型保存和加载方法
 ### 方法1:保存整个模型
 ```python
@@ -896,22 +1173,46 @@ plt.show()
 torch.save(mlp2,"data/chap3/mlp2.pkl")
 ```
 
+这行代码的作用是将模型`mlp2`保存为名为`mlp2.pkl`的文件，路径为`data/chap3/`。
+
+- `torch.save()`函数用于将对象保存到磁盘。
+- 参数`mlp2`是要保存的模型对象。
+- 字符串`"data/chap3/mlp2.pkl"`是保存的文件路径和文件名。
 
 ```python
 ## 导入保存的模型
 mlp2load = torch.load("data/chap3/mlp2.pkl")
 mlp2load
 ```
+
+这段代码的作用是导入之前保存的模型`mlp2`。
+
+- `torch.load()`函数用于从磁盘中加载对象。
+- 参数`"data/chap3/mlp2.pkl"`表示要加载的文件路径和文件名。
+- 将加载的模型保存在变量`mlp2load`中。
+- `mlp2load`打印出来将显示被加载的模型的详细信息。
+
 ### 方法2:只保存模型的参数
 
 ```python
 torch.save(mlp2.state_dict(),"data/chap3/mlp2_param.pkl")
 ```
 
+这行代码的作用是将模型`mlp2`的参数保存为名为`mlp2_param.pkl`的文件，路径为`data/chap3/`。
+
+- `mlp2.state_dict()`函数用于返回模型`mlp2`的参数字典。
+- `torch.save()`函数用于将对象保存到磁盘。
+- 参数`mlp2.state_dict()`表示要保存的是模型的参数字典。
+- 字符串`"data/chap3/mlp2_param.pkl"`是保存的文件路径和文件名。
 
 ```python
-## 导入保存的模型的参数
 mlp2param = torch.load("data/chap3/mlp2_param.pkl")
 mlp2param
 ```
 
+这段代码的作用是导入之前保存的模型`mlp2`的参数。
+
+- `torch.load()`函数用于从磁盘中加载对象。
+- 参数`"data/chap3/mlp2_param.pkl"`表示要加载的文件路径和文件名。
+- 将加载的模型参数保存在变量`mlp2param`中。
+- `mlp2param`打印出来将显示被加载的模型参数的详细信息。
