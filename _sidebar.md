@@ -21,10 +21,12 @@
   * [深度学习入门](02R语言机器学习与统计分析\12第十二章_深度学习入门/)
 
 
-* PyTorch
+* **PyTorch**
   * [Pytorch快速入门](03PyTorch深度学习入门与实战\02Pytorch快速入门/)
       * [Pytorch快速入门注释版](03PyTorch深度学习入门与实战\02Pytorch快速入门\添加注释/)
-  * [循环神经网络](03PyTorch深度学习入门与实战\循环神经网络/)
+  * [Pytorch深度神经网络及训练](03PyTorch深度学习入门与实战\03Pytorch深度神经网络及训练/)
+    * [Pytorch深度神经网络及训练注释版](03PyTorch深度学习入门与实战\03Pytorch深度神经网络及训练\添加注释/)
+  * [基于Pytorch的相关可视化工具](03PyTorch深度学习入门与实战\04基于Pytorch的相关可视化工具/)
 
 
 * 文献阅读

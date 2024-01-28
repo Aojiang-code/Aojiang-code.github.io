@@ -1,4 +1,4 @@
-# Pytorch深度神经网络及训练(无注释)
+# Pytorch深度神经网络及训练(有注释)
 
 ```python
 %config InlineBackend.figure_format = 'retina'
