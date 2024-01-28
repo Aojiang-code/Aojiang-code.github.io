@@ -57,7 +57,9 @@ GitHub地址：[动手学深度学习](https://github.com/d2l-ai/d2l-zh.git)
 
 [PDF链接二](https://zh-v2.d2l.ai/d2l-zh-pytorch.pdf)
 
+### AI文献阅读
 
+[ChatPaper](https://www.msbd123.com/sites/20241.html)
 
 
 
