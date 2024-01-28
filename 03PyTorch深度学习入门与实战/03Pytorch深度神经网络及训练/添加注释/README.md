@@ -658,7 +658,71 @@ class MLPmodel(nn.Module):
 mlp1 = MLPmodel()
 print(mlp1)
 ```
+结果：
+```python
+MLPmodel(
+  (hidden1): Linear(in_features=13, out_features=10, bias=True)
+  (active1): ReLU()
+  (hidden2): Linear(in_features=10, out_features=10, bias=True)
+  (active2): ReLU()
+  (regression): Linear(in_features=10, out_features=1, bias=True)
+)
+```
 
+逐行注释解释:
+```python
+class MLPmodel(nn.Module):
+    def __init__(self):
+        super(MLPmodel,self).__init__()
+```
+- 定义一个名为`MLPmodel`的类，继承自`nn.Module`类。这个类表示了我们要定义的全连接神经网络模型。
+
+```python
+self.hidden1 = nn.Linear(
+    in_features=13,
+    out_features=10,
+    bias=True,
+)
+self.active1 = nn.ReLU()
+```
+- `self.hidden1 = nn.Linear(in_features=13, out_features=10, bias=True)`: 定义了第一个隐藏层，其中`in_features=13`表示输入特征的数量为13，`out_features=10`表示该隐藏层有10个神经元。
+- `self.active1 = nn.ReLU()`: 定义了激活函数为ReLU（整流线性单元），用于在隐藏层之后引入非线性变换。
+
+```python
+self.hidden2 = nn.Linear(10, 10)
+self.active2 = nn.ReLU()
+```
+- `self.hidden2 = nn.Linear(10,10)`: 定义了第二个隐藏层，它接收来自第一个隐藏层的输出作为输入，并且有10个神经元。
+- `self.active2 = nn.ReLU()`: 定义了第二个隐藏层后面的ReLU激活函数。
+
+```python
+self.regression = nn.Linear(10, 1)
+```
+- `self.regression = nn.Linear(10,1)`: 定义了预测回归层，该层接收来自第二个隐藏层的输出作为输入，并且只有一个神经元的输出。
+
+```python
+def forward(self, x):
+    x = self.hidden1(x)
+    x = self.active1(x)
+    x = self.hidden2(x)
+    x = self.active2(x)
+    output = self.regression(x)
+    return output
+```
+- `forward()`方法定义了网络的向前传播路径。给定输入`x`，通过依次调用各个层进行计算，最终返回网络的输出结果。
+- 首先，将输入`x`传递给第一个隐藏层`self.hidden1`进行线性变换，并将结果赋值给`x`。
+- 接下来，在第一个隐藏层的输出上应用ReLU激活函数`self.active1`，以获得非线性变换后的结果。
+- 然后，将激活后的结果传递给第二个隐藏层`self.hidden2`进行线性变换。
+- 再次通过ReLU激活函数`self.active2`进行非线性变换。
+- 最后，将第二个隐藏层的输出传递给预测回归层`self.regression`，得到最终的输出结果。
+- 输出结果`output`即为模型的预测结果。
+
+```python
+mlp1 = MLPmodel()
+print(mlp1)
+```
+- 创建一个名为`mlp1`的`MLPmodel`对象，并打印输出该对象，以显示网络结构。
+- 结果显示了神经网络的各个层和其参数设置，包括输入特征数量、隐藏层神经元数量和是否有偏置。
 
 ```python
 ## 对回归模型mlp1进行训练并输出损失函数的变化情况
@@ -677,7 +741,54 @@ for epoch in range(30):
         optimizer.step()                # 使用梯度进行优化
         train_loss_all.append(train_loss.item())
 ```
+结果：执行该部分代码将不会直接返回结果，而是进行回归模型的训练并输出损失函数的变化情况。
 
+逐行注释解释：
+```python
+optimizer = SGD(mlp1.parameters(), lr=0.001)
+```
+- 定义一个随机梯度下降（SGD）优化器，用于更新模型参数。`mlp1.parameters()`表示`mlp1`模型中的所有可学习参数，根据这些参数来更新梯度。
+- `lr=0.001`指定学习率为0.001，即每次参数更新的步长大小。
+
+```python
+loss_func = nn.MSELoss()
+```
+- 定义损失函数`nn.MSELoss()`为均方误差（MSE），用于度量预测值与实际值之间的差距。
+
+```python
+train_loss_all = []
+```
+- 创建一个空列表`train_loss_all`，用于存储每个批次训练的损失函数。
+
+```python
+for epoch in range(30):
+    for step, (b_x, b_y) in enumerate(train_loader):
+        output = mlp1(b_x).flatten()
+        train_loss = loss_func(output, b_y)
+        optimizer.zero_grad()
+        train_loss.backward()
+        optimizer.step()
+        train_loss_all.append(train_loss.item())
+```
+- 进行模型训练的循环。
+- 外层循环`for epoch in range(30)`指定了要进行30个训练轮次。
+- 内层循环`for step, (b_x, b_y) in enumerate(train_loader)`遍历每个批次的训练数据。
+- `mlp1(b_x)`将批次的特征矩阵传递给MLP模型进行前向传播，并得到预测值`output`。
+- 使用定义的损失函数`loss_func`计算预测值和实际值之间的均方误差，并将结果存储在`train_loss`变量中。
+- `optimizer.zero_grad()`将梯度初始化为0，以便进行新一轮迭代的梯度计算。
+- `train_loss.backward()`进行误差的反向传播，计算各个参数对误差的贡献，即计算梯度。
+- `optimizer.step()`使用优化器根据计算得到的梯度来更新模型参数。
+- `train_loss_all.append(train_loss.item())`将每个批次训练的损失函数添加到`train_loss_all`列表中。
+
+解释：
+上述代码通过循环训练方式对回归模型进行学习，其中整个训练过程包括以下步骤：
+1. 对于每个训练轮次（epoch），使用外层循环进行迭代次数的控制。
+2. 对于每个训练批次，使用内层循环遍历训练数据集的每个批次，并获取批次的特征`b_x`和对应的目标变量`b_y`。
+3. 将批次的特征传递给MLP模型进行前向传播得到预测值`output`，并使用预测值和目标变量计算均方误差`train_loss`。
+4. 将梯度初始化为0，然后进行误差的反向传播，计算各个参数对误差的贡献，并使用优化器通过更新梯度来更新模型参数。
+5. 每个批次训练结束后，将该批次的损失函数值`train_loss.item()`添加到`train_loss_all`列表中，用于后续分析和可视化损失函数的变化情况。
+
+最终，通过这个训练过程，可以得到一个存储了每个批次训练的损失函数值的列表`train_loss_all`，用于观察模型在训练过程中损失函数的变化。
 
 ```python
 plt.figure()
@@ -685,6 +796,44 @@ plt.plot(train_loss_all,"r-")
 plt.title("Train loss per iteration")
 plt.show()
 ```
+
+结果：执行该部分代码将绘制一个图形，显示训练过程中损失函数的变化情况。
+
+逐行注释解释：
+```python
+plt.figure()
+```
+- 创建一个新的图形窗口。
+
+```python
+plt.plot(train_loss_all, "r-")
+```
+- 使用`plt.plot()`函数绘制训练损失函数随迭代次数的变化曲线。
+- `train_loss_all`作为y轴数据，表示每个批次训练的损失函数值。
+- `"r-"`表示红色实线，用于指定曲线的颜色和线型。
+
+```python
+plt.title("Train loss per iteration")
+```
+- 使用`plt.title()`函数给图形添加标题。
+- 标题文本为"Train loss per iteration"，表示每次迭代的训练损失。
+
+```python
+plt.show()
+```
+- 使用`plt.show()`函数显示绘制的图形。
+
+解释：
+上述代码使用Matplotlib库来绘制训练过程中损失函数的变化曲线。具体步骤如下：
+1. 创建一个新的图形窗口，用于显示绘制的图像。
+2. 使用`plt.plot()`函数将损失函数值`train_loss_all`作为y轴数据，迭代次数作为x轴数据，在一张图表上绘制损失函数随迭代次数的变化曲线。
+3. `"r-"`表示选择红色实线作为曲线的颜色和线型。
+4. 使用`plt.title()`函数给图形添加标题，以描述绘制曲线的含义。
+5. 最后，使用`plt.show()`函数显示绘制的图形窗口，展示损失函数随迭代次数的变化情况。
+
+通过观察这个图像，可以了解模型训练过程中损失函数的变化情况，以评估模型训练的效果。
+
+
 ### 使用nn.Sequential
 
 ```python
