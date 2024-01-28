@@ -487,6 +487,30 @@ MyConvnetvis.format = "png" ## 形式转化为png,默认pdf
 MyConvnetvis.directory = "data/chap4/MyConvnet_vis"
 MyConvnetvis.view() ## 会自动在当前文件夹生成文件
 ```
+
+这段代码用于将使用`torchviz`库生成的卷积神经网络计算图保存为一张图片。下面是对每一部分代码的详细解释：
+
+```python
+MyConvnetvis.format = "png"
+```
+首先，我们使用`.format`属性将可视化的计算图的保存格式设置为PNG。默认情况下，格式是PDF，但在这里我们将其更改为PNG格式。
+
+```python
+MyConvnetvis.directory = "data/chap4/MyConvnet_vis"
+```
+接下来，我们使用`.directory`属性指定了保存的文件夹路径。这里我们将图像保存在`data/chap4/MyConvnet_vis`目录下，以便后续的访问和处理。
+
+```python
+MyConvnetvis.view()
+```
+最后，我们调用`.view()`方法来保存可视化的计算图。这个方法会自动将计算图保存到之前指定的文件夹中，并以给定的格式命名图像文件。在这种情况下，它会生成一张名为`MyConvnet_vis.png`的PNG格式的图像。
+
+通过这段代码，我们可以将可视化的卷积神经网络计算图保存为一张图片，方便进行后续的查看、存储、共享和使用。保存为图片的计算图可以直观地呈现网络结构和数据流动，供进一步分析和调试使用。
+
+
+
+
+
 ## 训练过程的可视化
 ### 利用tensorboardX
 
