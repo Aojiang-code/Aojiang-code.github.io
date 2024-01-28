@@ -866,6 +866,69 @@ for epoch in range(5):
                 canvas1.draw_image(history1["hidden_weight"])
        
 ```
+
+这段代码主要用于定义优化器、损失函数以及记录训练过程中的指标和可视化。下面将逐个解释每个代码块的作用和具体实现。
+
+```python
+optimizer = torch.optim.Adam(MyConvnet.parameters(), lr=0.0003)
+```
+首先，通过`torch.optim.Adam`创建了一个Adam优化器对象。将`MyConvnet.parameters()`作为参数传递给优化器，使得该优化器可以更新神经网络模型`MyConvnet`中所有可学习的参数（权重和偏置）。`lr=0.0003`表示设置学习率为0.0003，即优化器在每次更新参数时所采用的步长大小。
+
+然后，通过`nn.CrossEntropyLoss()`创建了一个交叉熵损失函数对象`loss_func`。交叉熵损失函数通常用于多分类任务中，用于衡量模型输出与目标类别之间的差异。
+
+```python
+history1 = hl.History()
+canvas1 = hl.Canvas()
+```
+接着，创建`hiddenlayer`库中的`History`和`Canvas`对象。`History`用于记录训练过程中的指标，例如训练集损失和测试集精度等。`Canvas`则用于进行数据可视化，包括绘制损失曲线和精度曲线等。
+
+```python
+print_step = 100
+```
+定义了一个变量`print_step`，用于指定每经过多少次迭代后进行输出。在此例中，每经过100次迭代（即每经过100个batch）后，在控制台打印一些额外的信息。
+
+```python
+for epoch in range(5):
+    for step, (b_x, b_y) in enumerate(train_loader):
+        output = MyConvnet(b_x)
+        loss = loss_func(output, b_y)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        if step % print_step == 0:
+            output = MyConvnet(test_data_x)
+            _,pre_lab = torch.max(output,1)
+            acc = accuracy_score(test_data_y,pre_lab)
+            history1.log((epoch, step),
+                         train_loss=loss,
+                         test_acc=acc,
+                         hidden_weight=MyConvnet.fc[2].weight)
+            with canvas1:
+                canvas1.draw_plot(history1["train_loss"])
+                canvas1.draw_plot(history1["test_acc"])
+                canvas1.draw_image(history1["hidden_weight"])
+```
+最后，使用嵌套的循环对模型进行迭代训练。外层循环`for epoch in range(5)`用于遍历指定轮数的训练过程（这里设定为5轮）。内层循环`for step, (b_x, b_y) in enumerate(train_loader)`用于遍历训练数据集中的每个批次。
+
+在每个批次中，首先通过前向传播计算神经网络模型`MyConvnet`在当前输入`b_x`上的输出结果 `output`。然后，使用损失函数`loss_func`计算输出结果和目标`b_y`之间的损失`loss`。接着，通过`optimizer.zero_grad()`将优化器中的梯度置零，以便进行梯度更新。然后，调用`loss.backward()`方法进行反向传播计算梯度，并使用`optimizer.step()`方法根据梯度值来更新模型参数。
+
+在每经过`print_step`次迭代后，执行一些额外的操作。首先，计算模型在测试集上的精度`acc`。然后，通过`history1.log()`方法将当前的训练损失、测试精度以及指定层的权重信息记录到`history1`中。最后，通过`canvas1`对象进行可视化，使用`draw_plot()`绘制训练损失曲线和测试精度曲线，使用`draw_image()`绘制指定层的权重图像。
+
+该段代码的目的是对已定义好的神经网络模型`MyConvnet`进行迭代训练，并在每个batch或指定的迭代步骤后记录训练过程中的指标和进行可视化展示。通过使用Adam优化器和交叉熵损失函数进行模型训练，可以实现神经网络的参数优化和模型性能提升。记录和可视化训练过程的指标有助于了解模型的学习进展和性能表现，辅助分析和调整模型的训练策略和超参数设置。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 使用Visdom进行可视化
 
 ```python
