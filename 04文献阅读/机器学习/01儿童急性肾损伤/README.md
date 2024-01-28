@@ -19,11 +19,11 @@
 ## [ChatPaper](https://chatpaper.org/)分析结果
 
 ### Basic Information:
-Title: Machine learning model for early prediction of acute kidney injury (AKI) in pediatric critical care (机器学习模型用于儿科重症监护中早期预测急性肾损伤)
-Authors: Junzi Dong, Ting Feng, Binod Thapa-Chhetry, Byung Gu Cho, Tunu Shum, David P. Inwald, Christopher J. L. Newth, Vinay U. Vaidya
-Affiliation: Connected Care and Personal Health Team, Philips Research North America, 222 Jacobs Street, Cambridge, MA 02141, USA (美国飞利浦研究北美公司)
-Keywords: Acute kidney injury, AKI, Pediatric critical care, Machine learning, Predictive model
-URLs: [Paper](https://doi.org/10.1186/s13054-021-03724-0), [GitHub: None]
+- Title: Machine learning model for early prediction of acute kidney injury (AKI) in pediatric critical care (机器学习模型用于儿科重症监护中早期预测急性肾损伤)
+- Authors: Junzi Dong, Ting Feng, Binod Thapa-Chhetry, Byung Gu Cho, Tunu Shum, David P. Inwald, Christopher J. L. Newth, Vinay U. Vaidya
+- Affiliation: Connected Care and Personal Health Team, Philips Research North America, 222 Jacobs Street, Cambridge, MA 02141, USA (美国飞利浦研究北美公司)
+- Keywords: Acute kidney injury, AKI, Pediatric critical care, Machine learning, Predictive model
+- URLs: [Paper](https://doi.org/10.1186/s13054-021-03724-0), [GitHub: None]
 ### 论文简要 :
 本研究开发了一个机器学习模型，通过学习生理测量的预病模式，能够在儿科重症监护中提前48小时预测急性肾损伤（AKI），以及提供相关信息和建议的预警，有望通过早期干预措施改善儿科AKI的预后。
 ### 背景信息:
@@ -47,6 +47,31 @@ URLs: [Paper](https://doi.org/10.1186/s13054-021-03724-0), [GitHub: None]
 #### b. 详细的实验结果:
 
 本研究中描述的机器学习模型能够准确预测中度到重度AKI的发生，提前48小时。通过提供早期警报和可操作的反馈，它可能通过实施早期措施（如药物调整）来改善结果，从而预防或减少AKI的发生。这是首个为所有儿科重症监护患者验证的多中心AKI预测模型。
+
+### 讨论(方法、创新点、不足之处)
+#### 方法：
+
+研究人群：该研究包括来自三个独立的三级儿科重症监护中心的PICU和心胸外科重症监护病房（CTICU）的患者。数据集来自美国医院（Hospital 1）的2003年至2011年、英国医院（Hospital 2）的2009年至2015年和美国医院（Hospital 3）的2014年至2019年。研究数据已去标识化，并且根据声明中的规定免除了知情同意。
+数据提取和验证：每个中心的患者数据被分为推导（70%）、验证（15%）和保留测试（15%）数据集，没有患者重叠。使用推导和验证数据从所有医院设计和训练了一个单一的预测模型，然后在每个医院的保留测试数据上进行验证。
+研究结果：训练模型能够在AKI发生前48到6小时的时间范围内预测2/3期AKI。模型还可以预测任何AKI（1/2/3期）和需要RRT的情况。
+#### 创新点：
+
+该模型使用了包括生命体征、实验室值、药物历史和通气参数在内的四种类型的数据元素作为预测因子。
+模型考虑了年龄相关的风险，使其适用于广泛的患者年龄范围。
+模型的预测风险是所有弱分类器预测的总和，可以分离和排名每个非年龄预测因子对每个预测的贡献，从而使AKI风险预测对用户透明和可解释。
+#### 不足之处：
+
+该模型仅使用肌酐来分期AKI，可能导致AKI率较低。
+模型的泛化能力尚未完全解决，需要在更大的非美国数据集上进行更多的验证工作。
+如何将模型呈现和整合到工作流程中的最佳方式尚未经过测试。
+模型对入院原因和患者合并症的性能未知。
+可借鉴之处：
+
+该模型提供了一个预测工具，可以在AKI发生前48小时内对PICU患者进行预测，为临床干预提供了关键的时间窗口。
+模型能够提供与患者测量值相关的信息，为临床医生提供潜在的可操作建议。
+该模型在多个独立的PICU上进行了训练和验证，具有较强的预测性能。
+
+
 ### Note:
 本总结源自于LLM的总结，请注意数据判别. Power by ChatPaper. End.
 
