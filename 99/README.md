@@ -61,7 +61,13 @@ GitHub地址：[动手学深度学习](https://github.com/d2l-ai/d2l-zh.git)
 
 [ChatPaper](https://www.msbd123.com/sites/20241.html)
 
-
+|工具名称|工具作用|在线网站|
+|----|----|----|
+|ChatPaper|通过ChatGPT实现对论文进行总结，帮助科研人进行论文初筛|https://chatpaper.org/|
+|ChatReviewer|利用ChatGPT对论文进行优缺点分析，提出改进建议|https://huggingface.co/spaces/ShiwenNi/ChatReviewer|
+|ChatImprovement|利用ChatGPT对论文初稿进行润色、翻译等|[学术版GPT](http://academic.chatwithpaper.org/)|
+|ChatResponse|利用ChatGPT对审稿人的提问进行回复|https://huggingface.co/spaces/ShiwenNi/ChatResponse|
+|ChatGenTitle|利用百万arXiv论文元信息训练出来的论文题目生成模型，根据论文摘要生成合适题目|https://drive.google.com/file/d/1akrC4-YnYdiyD1_VK-92hncN7HS0FLf5/view?usp=sharing|
 
 
 
