@@ -519,6 +519,31 @@ MyConvnetvis.view()
 from tensorboardX import SummaryWriter
 SumWriter = SummaryWriter(log_dir="data/chap4/log")
 ```
+这段代码用于从`tensorboardX`库中导入所需的API，并创建一个`SummaryWriter`对象。下面是对每一部分代码的详细解释：
+
+```python
+from tensorboardX import SummaryWriter
+```
+
+首先，我们导入了`tensorboardX`库，并从中引入了`SummaryWriter`类。这个类是`tensorboardX`库中用于创建事件文件的主要接口。
+
+```python
+SumWriter = SummaryWriter(log_dir="data/chap4/log")
+```
+
+接下来，我们创建了一个`SummaryWriter`对象，并将其赋值给变量`SumWriter`。通过调用`SummaryWriter`类的构造函数，我们可以指定一个保存日志文件的目录路径。
+
+在这里，我们使用`log_dir`参数指定了日志文件保存的路径为`data/chap4/log`。这个路径会在指定目录下创建一个`log`文件夹，并把所有与日志相关的信息保存到这个文件夹中。
+
+通过创建`SummaryWriter`对象，我们可以将训练过程中的各种指标和可视化数据写入到事件文件中。这些事件文件可以被`TensorBoard`程序读取和展示，以便进行训练过程的监控、可视化和分析。
+
+总结起来，这段代码导入了`tensorboardX`库，并创建了一个`SummaryWriter`对象，用于向事件文件中写入日志和可视化数据。这是为了方便后续使用`TensorBoard`进行训练过程的可视化和分析。
+
+
+
+
+
+
 
 
 ```python
