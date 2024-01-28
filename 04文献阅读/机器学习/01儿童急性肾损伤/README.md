@@ -135,10 +135,69 @@ AKI影响多达四分之一的儿科重症监护患者[1]，并与更高的死�
 
 据我们所知，这是第一个用于解释每个预测的AKI预测模型，也是第一个用于普通儿科重症监护AKI预测的多中心验证模型。
 
+## Methods
+### Study population
+
+
+### Derivation and validation data
 
 
 
+### Cohort extraction
 
 
+
+### Outcomes
+
+
+
+### Baseline comparator
+
+
+
+### Predictors
+
+
+
+### Statistical analysis methods
+
+
+
+## Results
+
+
+
+### Performance
+
+
+### Predictions for example patient
+
+
+### Baseline comparator
+
+
+## Discussion
+
+
+### AKI predictors
+
+
+### Impacting clinical workflow and improving outcomes
+
+
+### Performance variability across hospitals
+
+
+### Baseline comparator
+
+
+### Prediction frequency
+
+
+## Limitations
+
+
+
+## Conclusion
 
 
