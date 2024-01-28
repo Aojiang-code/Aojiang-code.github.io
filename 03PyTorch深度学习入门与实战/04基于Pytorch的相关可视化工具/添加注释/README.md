@@ -391,6 +391,9 @@ hl_graph = hl.build_graph(MyConvnet, torch.zeros([1, 1, 28, 28]))
 hl_graph.theme = hl.graph.THEMES["blue"].copy()
 ```
 在这一行代码中，我们将图形对象的主题设置为蓝色（blue）。HiddenLayer库提供了一些预定义的主题，可以根据个人喜好进行选择。我们通过`THEMES["blue"]`来选择蓝色主题，并使用`copy()`函数创建了一个主题副本，以便进一步的自定义。
+两个问题：
+- 如何使用其他预定义的主题？
+- 如何进行进一步的自定义？
 
 ```python
 hl_graph
