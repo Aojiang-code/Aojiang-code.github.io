@@ -587,6 +587,126 @@ for epoch in range(5):
        
 ```
 
+#### 定义优化器
+```python
+optimizer = torch.optim.Adam(MyConvnet.parameters(), lr=0.0003)
+```
+在这部分代码中，我们使用Adam优化算法来定义一个优化器`optimizer`。我们将模型`MyConvnet`的所有可训练参数作为优化器的参数，并设置学习率为0.0003。
+
+优化器是用于更新模型参数的工具。它通过计算模型的损失函数梯度，并使用梯度信息来调整模型参数，以最小化损失函数。Adam优化算法是一种常用的优化算法，它结合了动量方法和自适应学习率的特性，可以有效地优化深度神经网络模型。
+
+#### 定义损失函数
+```python
+loss_func = nn.CrossEntropyLoss()
+```
+接下来，我们定义了一个损失函数`loss_func`，使用交叉熵损失函数来度量模型输出与真实标签之间的差异。交叉熵损失函数通常用于多类别分类任务，例如图像识别中的物体分类问题。
+
+交叉熵损失函数对于分类任务非常有用，它通过比较模型输出的概率分布与真实标签的概率分布，来计算模型的预测与真实标签之间的差异。该损失函数越小，表示模型的预测越接近真实标签。
+
+#### 初始化变量
+```python
+train_loss = 0
+print_step = 100
+```
+在这部分代码中，我们初始化了两个变量。`train_loss`用于累积训练过程中的损失值，初始值为0。`print_step`表示每经过多少次迭代后输出一次损失值。
+
+`train_loss`和`print_step`是训练过程中的辅助变量，用于监测和记录每个迭代步骤的损失情况，并在特定的迭代次数触发打印操作。
+
+
+#### 外层循环：遍历训练数据集
+```python
+for epoch in range(5):
+```
+这部分代码使用`range()`函数创建一个迭代器，迭代范围为0到4，表示总共进行5轮训练。
+
+该循环在训练阶段被称为"epoch"，一次epoch表示对整个训练数据集进行一次完整的训练。每次epoch可以由多个迭代步骤组成，通过遍历训练数据集中的每个批次来实现。
+
+#### 内层循环：遍历训练数据集的批次
+```python
+for step, (b_x, b_y) in enumerate(train_loader):
+```
+这部分代码使用`enumerate()`函数迭代遍历训练数据集的每个批次，获取批次的索引`step`和对应的输入数据`b_x`和标签数据`b_y`。
+
+`train_loader`是训练数据集的迭代器，用于提供每个批次的数据。每个批次通常包含一组输入样本和对应的标签，用于训练模型。
+
+#### 前向传播及损失计算
+```python
+output = MyConvnet(b_x)
+loss = loss_func(output, b_y)
+```
+这部分代码进行了两个核心操作。
+
+首先，通过将输入数据`b_x`传递给模型`MyConvnet`，实现了模型的前向传播过程。模型对输入进行处理并生成输出结果`output`，这里假设模型是一个卷积神经网络（CNN）。
+
+其次，使用定义好的损失函数`loss_func`计算模型预测输出`output`和对应的标签`b_y`之间的损失值。损失函数通常用于度量模型输出与真实标签之间的差异，本例中使用交叉熵损失函数。
+
+#### 梯度清零及反向传播
+```python
+optimizer.zero_grad()
+loss.backward()
+```
+在优化器开始更新参数之前，需要执行两个操作。
+
+首先，调用`optimizer.zero_grad()`方法将模型的梯度缓存清零，以防止在下一次迭代中出现重复计算。这是因为PyTorch默认会累加梯度，而不是覆盖它们。
+
+接下来，调用`loss.backward()`方法进行反向传播。反向传播会计算损失函数相对于模型参数的梯度，并将其存储在每个参数的`.grad`属性中。这些梯度将用于更新模型参数。
+
+#### 参数更新及损失累加
+```python
+optimizer.step()
+train_loss = train_loss + loss
+```
+这部分代码执行两个操作。
+
+首先，调用`optimizer.step()`方法来更新模型的参数。优化器根据计算得到的梯度信息来调整模型参数，以最小化损失函数。在本例中，使用的是Adam优化算法。
+
+其次，将当前批次的损失值`loss`累加到`train_loss`变量中。通过迭代训练过程中的每个批次，我们可以得到整个训练数据集上的累计损失值。
+
+#### 记录训练过程中的指标和可视化
+```python
+niter = epoch * len(train_loader) + step + 1
+if niter % print_step == 0:
+    # 记录训练集损失函数
+    SumWriter.add_scalar("train loss", train_loss.item() / niter, global_step=niter)
+    output = MyConvnet(test_data_x)
+    _, pre_lab = torch.max(output, 1)
+    acc = accuracy_score(test_data_y, pre_lab)
+    # 记录测试集准确率
+    SumWriter.add_scalar("test acc", acc.item(), niter)
+    # 记录训练数据的可视化图像
+    b_x_im = vutils.make_grid(b_x, nrow=12)
+    SumWriter.add_image('train image sample', b_x_im, niter)
+    # 使用直方图可视化网络中参数的分布情况
+    for name, param in MyConvnet.named_parameters():
+        SumWriter.add_histogram(name, param.data.numpy(), niter)
+```
+这部分代码用于记录训练过程中的指标和进行可视化操作。
+
+首先，通过计算`niter`（迭代次数）来判断是否需要输出信息或执行可视化操作。当`niter`能够被`print_step`整除时，达到了设定的迭代步骤。
+
+然后，在TensorBoard日志中记录训练集损失函数的值。使用`SumWriter.add_scalar()`方法将平均损失添加到TensorBoard日志文件中，以便后续可视化和分析。
+
+接着，对测试集数据进行模型预测，并计算预测精度。使用预测精度的值将其添加到TensorBoard日志中，以评估模型在测试集上的性能。
+
+此外，还记录训练数据的可视化图像。使用`vutils.make_grid()`方法处理训练数据`b_x`，将其排列为网格状并添加到TensorBoard日志中。可视化训练数据有助于了解模型对图像的处理效果。
+
+最后，使用直方图可视化网络中参数的分布情况。通过遍历模型参数并使用`SumWriter.add_histogram()`方法将参数值的分布添加到TensorBoard日志中。直方图可以提供有关参数值范围、分布及变化情况等信息。
+
+通过这段代码，我们完成了一个完整的模型训练过程，并使用TensorBoard记录了训练过程中的指标和可视化信息。这些信息对于分析和优化模型性能非常有帮助。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```python
 # ## 为日志中添加训练数据的可视化图像，使用最后一个batch的图像
