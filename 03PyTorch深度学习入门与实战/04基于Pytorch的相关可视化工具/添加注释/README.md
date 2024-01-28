@@ -543,7 +543,7 @@ SumWriter = SummaryWriter(log_dir="data/chap4/log")
 
 
 
-
+###### 以下内容未看
 
 
 ```python
@@ -714,6 +714,30 @@ if niter % print_step == 0:
 # b_x_im = vutils.make_grid(b_x,nrow=12)
 # SumWriter.add_image('train image sample', b_x_im)
 ```
+这段代码是用于将训练数据中的图像样本可视化并添加到TensorBoard日志中。下面将逐个解释每个代码块的作用和具体实现。
+
+```python
+b_x_im = vutils.make_grid(b_x, nrow=12)
+```
+首先，通过调用`vutils.make_grid()`方法将一个批次的图像`b_x`进行处理。`make_grid()`函数会将多张图像按照指定的行数和列数排列成一个网格状的图像，方便进行展示。`nrow=12`参数表示设置每行显示的图像数量为12。
+
+```python
+SumWriter.add_image('train image sample', b_x_im)
+```
+接着，通过`SumWriter.add_image()`方法向TensorBoard日志中添加图像。第一个参数是图像的名称，这里命名为'train image sample'。第二个参数是待添加的图像数据`b_x_im`，即经过处理后的网格状图像。
+
+这段代码的目的是在训练过程中，每经过一定次数的迭代后，将最后一个batch的图像样本转换成一个网格状的图像，并添加到TensorBoard日志中，以便可视化查看训练数据的样本情况。
+
+其中，`vutils.make_grid()`方法负责将多张图像进行排列，使得它们按指定的行数和列数组成一个网格状图像。这样做有利于更好地观察和比较多张图像之间的关系。
+
+`SumWriter.add_image()`方法则负责将处理后的图像数据添加到TensorBoard日志中。这样，可以通过TensorBoard来查看训练中生成的图像网格，并对图像内容进行直观分析。
+
+该代码块为项目提供了一个非常有用的功能，即可视化训练数据的图像样本。通过观察图像，我们可以更好地理解模型在训练中遇到的数据，以及模型对不同类别的数据的表示能力和区分度。这有助于我们对模型的学习过程和性能进行调试和改进。
+
+
+
+
+
 
 
 ```python
@@ -721,6 +745,31 @@ if niter % print_step == 0:
 # for name, param in MyConvnet.named_parameters():
 #     SumWriter.add_histogram(name, param.data.numpy())
 ```
+这段代码用于使用直方图对神经网络中的参数进行可视化，并将其添加到TensorBoard日志中。下面将逐个解释每个代码块的作用和具体实现。
+
+```python
+for name, param in MyConvnet.named_parameters():
+    SumWriter.add_histogram(name, param.data.numpy())
+```
+首先，通过`MyConvnet.named_parameters()`方法遍历了模型`MyConvnet`中的所有参数。`named_parameters()`函数返回一个迭代器，每次迭代返回参数的名称（name）和参数的值（param）。
+
+然后，使用循环将每个参数的名称和数值传递给`SumWriter.add_histogram()`方法。该方法用于将直方图添加到TensorBoard日志中。第一个参数`name`表示用于标识直方图的名称，通常使用参数的名称来命名。第二个参数`param.data.numpy()`是将参数的数值转换为NumPy数组的形式，以便传递给`add_histogram()`方法。
+
+这段代码的目的是在训练过程中，周期性地计算并可视化网络模型中所有参数的分布情况。直方图以一种直观的方式展示了参数取值的频率分布，表达了模型各参数值的集中程度、范围和偏移情况。通过观察直方图，可以帮助我们更好地理解模型参数的学习过程和收敛状态，辅助分析和调整模型的训练结果。
+
+`MyConvnet.named_parameters()`方法用于获取模型中所有参数的名称和数值。通过遍历每个参数，可以将它们的数值传递给`add_histogram()`方法，并指定相应的直方图名称。然后，TensorBoard可通过这些直方图展示参数的分布情况，提供了对模型内部运行情况的可视化分析工具。
+
+该代码块为项目提供了一个重要的功能，即在训练过程中监测并分析网络模型中参数的分布情况。通过观察直方图，我们可以获得对模型参数值分布的直观认识，有助于发现潜在的问题、调整训练策略和优化算法，以改进模型的性能和收敛速度。
+
+
+
+
+
+
+
+
+
+
 ### 利用hiddenlayer
 
 
@@ -728,6 +777,26 @@ if niter % print_step == 0:
 import hiddenlayer as hl
 import time
 ```
+这段代码引入了名为`hiddenlayer`的库，并导入了名为`hl`的模块。同时，引入了`time`模块。下面将逐个解释每个代码块的作用和具体实现。
+
+```python
+import hiddenlayer as hl
+```
+该行将名为`hiddenlayer`的库导入到当前脚本中，以便后续使用其中的功能。`hiddenlayer`库提供了一个易于使用且功能强大的工具，用于可视化神经网络的结构图、流程图和训练过程等信息。
+
+```python
+import time
+```
+该行导入了名为`time`的模块，用于处理与时间相关的操作。在此代码片段中，可能会使用`time`模块来计算某些操作所花费的时间，例如模型训练的持续时间、迭代时间等。
+
+通过上述两个导入语句，我们可以利用`hiddenlayer`库提供的工具进行神经网络的可视化展示，通过图形化界面直观地观察和分析网络结构和训练过程。而`time`模块的导入则可用于计时等时间相关的操作，方便统计和追踪代码执行的时间开销。
+
+然而，在给定的代码片段中，这些导入语句没有被其他代码使用，因此无法提供进一步的信息。若需要更详细的解释，请提供与这些导入语句相关的其他代码或问题，我将很乐意为您提供帮助。
+
+
+
+
+
 
 
 ```python
@@ -735,6 +804,27 @@ import time
 MyConvnet = ConvNet()
 print(MyConvnet)
 ```
+这段代码主要涉及神经网络模型的初始化，下面将逐个解释每个代码块的作用和具体实现。
+
+```python
+MyConvnet = ConvNet()
+```
+首先，使用`ConvNet()`创建了一个名为`MyConvnet`的神经网络对象。这里假设在之前已经定义好了一个名为`ConvNet`的类，该类实现了自定义的卷积神经网络结构。通过调用`ConvNet()`来实例化这个类，我们可以得到一个可用的神经网络对象。
+
+```python
+print(MyConvnet)
+```
+接着，通过`print(MyConvnet)`语句将`MyConvnet`打印出来。这样可以显示该神经网络对象的字符串表示形式，即在`ConvNet`类中所定义的`__str__()`方法的返回值。这通常用于查看网络对象的基本信息，例如网络结构、层的数量和参数等。
+
+该段代码的目的是初始化一个名为`MyConvnet`的卷积神经网络对象，并打印出其基本信息。通过实例化网络对象，我们可以方便地访问和操作该网络，包括设置网络参数、进行前向传播和反向传播等操作。
+
+需要注意的是，这段代码中的`ConvNet()`用于示例目的，实际上需要在代码中定义一个名为`ConvNet`的类来描述具体的神经网络结构和功能。因此，对于详细的解释和说明，请提供`ConvNet`类的定义或相关代码，以便更具体地了解该神经网络的结构和功能。
+
+
+
+
+
+
 
 
 ```python
