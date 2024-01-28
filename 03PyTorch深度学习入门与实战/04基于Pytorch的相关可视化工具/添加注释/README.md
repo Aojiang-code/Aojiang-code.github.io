@@ -6,7 +6,21 @@
 %config InlineBackend.figure_format = 'retina'
 %matplotlib inline
 ```
+这段代码是Jupyter Notebook中的魔术命令，用于配置图形输出的格式和将图形直接显示在Notebook中。让我们逐行解释：
 
+```python
+%config InlineBackend.figure_format = 'retina'
+```
+
+该命令设置图形输出的分辨率为Retina级别。在高DPI（像素密度）的屏幕上，使用'Retina'选项可以提供更清晰的图像。
+
+```python
+%matplotlib inline
+```
+
+该命令启用内联绘图，并且在Notebook中自动显示绘制的图形。这使得我们可以在Notebook中直接看到图形结果，而无需调用`plt.show()`来显示图形。
+
+这两行代码的目的是为了优化图形的显示效果以及直接在Notebook中展示绘制的图形。
 
 ```python
 import torch
@@ -18,7 +32,49 @@ import torch.utils.data as Data
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 ```
+这段代码是一个典型的PyTorch的导入代码块，它导入所需的库和模块。让我们逐行解释：
 
+```python
+import torch
+```
+`torch`是PyTorch库的主要入口。它提供了张量操作、神经网络构建、自动求导等功能。
+
+```python
+import torch.nn as nn
+```
+`torch.nn`模块提供了构建神经网络所需的各种工具和类。
+
+```python
+import torchvision
+```
+`torchvision`库提供了常用的计算机视觉任务相关的数据集、模型架构和图像处理函数等功能。
+
+```python
+import torchvision.utils as vutils
+```
+`torchvision.utils`中的`vutils`模块提供了在PyTorch中方便地可视化和处理图像的实用函数。
+
+```python
+from torch.optim import SGD
+```
+`torch.optim`模块提供了优化算法的实现，`SGD`是其中的一种梯度下降优化器。
+
+```python
+import torch.utils.data as Data
+```
+`torch.utils.data`模块提供了用于处理和加载数据的工具类，比如`DataLoader`。
+
+```python
+from sklearn.metrics import accuracy_score
+```
+`sklearn.metrics`模块提供了各种评估指标的计算，`accuracy_score`是其中用于计算准确率的函数。
+
+```python
+import matplotlib.pyplot as plt
+```
+`matplotlib.pyplot`模块是Matplotlib库的子模块，用于绘制图形和可视化数据。这里我们将其导入为`plt`以方便使用。
+
+该代码段的目的是导入PyTorch及相关的库和模块以供后续使用，包括构建神经网络、数据操作、优化器、评估指标和图形绘制等。
 
 ```python
 ## 使用手写字体数据
@@ -63,6 +119,85 @@ print("test_data_x.shape:",test_data_x.shape)
 print("test_data_y.shape:",test_data_y.shape)
 
 ```
+这段代码是用于准备手写数字数据集（MNIST）并加载训练和测试数据的过程。让我们逐行解释：
+```python
+train_data = torchvision.datasets.MNIST(
+    root="./data/MNIST",  # 数据的路径
+    train=True,  # 只使用训练数据集
+    transform=torchvision.transforms.ToTensor(),  # 将数据转化为torch使用的张量，取值范围为[0,1]
+    download=False  # 因为数据已经下载过，所以这里不再下载
+)
+```
+
+这行代码创建了一个名为`train_data`的`MNIST`数据集实例。参数说明如下：
+- `root`是数据集的存储路径。
+- `train=True`表示使用训练数据集。
+- `transform=torchvision.transforms.ToTensor()`将数据转换为PyTorch张量，并将像素值范围从[0, 255]缩放到[0, 1]之间。
+- `download=False`表示不从互联网上下载数据。
+
+
+```python
+train_loader = Data.DataLoader(
+    dataset=train_data,  # 使用的数据集
+    batch_size=128,  # 批处理样本大小
+    shuffle=True,  # 每次迭代前打乱数据
+    num_workers=2  # 使用两个进程
+)
+```
+
+定义一个数据加载器`train_loader`，用于按照指定配置加载训练数据集。
+- `dataset=train_data`表示要加载的数据集。
+- `batch_size=128`每个批次中的样本数量。
+- `shuffle=True`表示每次迭代前对数据进行随机打乱。
+- `num_workers=2`表示使用两个进程并行加载数据。
+
+```python
+for step, (b_x, b_y) in enumerate(train_loader):
+    if step > 0:
+        break
+```
+
+迭代遍历训练数据集的一个批次。在这个例子中，我们仅迭代一次，并提取出第一个批次的数据。`b_x`是输入图像张量，`b_y`是对应的标签。
+
+```python
+print(b_x.shape)
+print(b_y.shape)
+```
+
+输出训练图像张量的形状和标签张量的形状。
+
+```python
+test_data = torchvision.datasets.MNIST(
+    root="./data/MNIST",  # 数据的路径
+    train=False,  # 不使用训练数据集
+    download=False  # 因为数据已经下载过，所以这里不再下载
+)
+```
+
+这行代码创建了一个名为`test_data`的`MNIST`数据集实例，用于准备测试数据集。参数说明与训练数据集相同，只是将`train`设置为`False`表示不使用训练数据。
+
+```python
+test_data_x = test_data.data.type(torch.FloatTensor) / 255.0  # 为数据添加一个通道维度，并将取值范围缩放到0~1之间
+test_data_x = torch.unsqueeze(test_data_x, dim=1)
+test_data_y = test_data.targets  # 测试集的标签
+
+```
+
+这部分代码准备了测试数据集。首先，通过`test_data.data`获取测试图像数据，并将其转换为`FloatTensor`类型。然后，将像素值范围从[0, 255]缩放到[0, 1]之间。最后，通过`torch.unsqueeze()`函数在通道维度上添加一个额外的维度（因为图片数据是单通道灰度图像）。`test_data_y`保存了对应的测试标签。
+
+```python
+print("test_data_x.shape:", test_data_x.shape)
+print("test_data_y.shape:", test_data_y.shape)
+```
+
+这两行代码用于打印测试数据集的形状信息，即打印测试数据集的图像张量形状和标签张量形状。
+
+
+
+
+
+
+
 
 
 ```python
@@ -117,6 +252,96 @@ class ConvNet(nn.Module):
 MyConvnet = ConvNet()
 print(MyConvnet)
 ```
+
+这段代码搭建了一个卷积神经网络（ConvNet）用于图像分类任务。下面我会详细解释每一部分的含义和功能：
+
+**整体结构**
+```python
+class ConvNet(nn.Module):
+    def __init__(self):
+        super(ConvNet,self).__init__()
+```
+在这段代码中，定义了一个名为`ConvNet`的类，并继承自`nn.Module`。
+
+**第一个卷积层**
+```python
+        self.conv1 = nn.Sequential(
+            nn.Conv2d(
+                in_channels = 1,  # 输入的特征图通道数
+                out_channels = 16,  # 输出的特征图通道数
+                kernel_size = 3,  # 卷积核尺寸
+                stride=1,  # 卷积核步长
+                padding=1,  # 进行填充
+            ), 
+            nn.ReLU(),  # 激活函数
+            nn.AvgPool2d(
+                kernel_size = 2,  # 平均值池化层大小,使用 2x2
+                stride=2,  # 池化步长为2 
+            ), 
+        )
+```
+第一个卷积层(`conv1`)由一个卷积操作(`nn.Conv2d`)、ReLU激活函数(`nn.ReLU`)以及平均值池化层(`nn.AvgPool2d`)组成。输入特征图通道数是1，输出特征图通道数是16，卷积核尺寸为3x3，卷积步长为1，填充为1。平均值池化层使用2x2的窗口和步长。
+
+**第二个卷积层**
+```python
+        self.conv2 = nn.Sequential(
+            nn.Conv2d(16,32,3,1,1), 
+            nn.ReLU(),  # 激活函数
+            nn.MaxPool2d(2,2)  # 最大值池化层
+        )
+```
+第二个卷积层(`conv2`)由一个卷积操作 (`nn.Conv2d`)、ReLU激活函数 (`nn.ReLU`) 和最大值池化层 (`nn.MaxPool2d`) 组成。该层输入特征图通道数是16，输出特征图通道数是32，卷积核尺寸是3x3，卷积步长为1，填充为1。最大值池化层使用2x2的窗口和步长。
+
+**全连接层**
+```python
+        self.fc = nn.Sequential(
+            nn.Linear(
+                in_features = 32*7*7,  # 输入特征数量
+                out_features = 128,  # 输出特征数量
+            ),
+            nn.ReLU(),  # 激活函数
+            nn.Linear(128,64),
+            nn.ReLU()  # 激活函数
+        )
+        self.out = nn.Linear(64,10)  # 最后的分类层
+```
+定义了全连接层 (`fc`)，它由两个线性变换 (`nn.Linear`) 和 ReLU激活函数 (`nn.ReLU`) 组成。输入特征数量是32x7x7 (通过计算可以得知)，输出特征数量是128。之后是一个线性变换和ReLU激活函数，输入为128，输出为64。
+
+最后，定义了一个分类层 (`out`)，接收来自全连接层的输入（64），并映射到10个类别。
+
+**前向传播路径**
+```python
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.conv2(x)
+        x = x.view(x.size(0), -1)  # 展平多维的卷积图层
+        x = self.fc(x)
+        output = self.out(x)
+        return output
+```
+`forward()` 方法定义了网络的前向传播路径。输入 (`x`) 首先通过 `conv1` 进行卷积、激活和池化操作，然后再经过 `conv2` 进行相同的操作。之后，使用 `view()` 函数将多维的卷积图层展平成一维张量。接下来，传递给全连接层 (`fc`)，然后通过分类层 (`out`) 得到最终输出。
+
+**实例化和打印网络结构**
+```python
+MyConvnet = ConvNet()
+print(MyConvnet)
+```
+在这里，我们实例化了 `ConvNet` 类，并打印出网络结构信息。
+
+总结来说，代码搭建了一个简单的卷积神经网络，包括两个卷积层、两个全连接层和一个分类层。网络接收图像数据作为输入，并输出对应的十个类别的预测结果。每个卷积层通过卷积操作提取特征，并使用激活函数进行非线性映射。池化层则用于进一步减少特征图的尺寸。全连接层将展平的特征连接到神经元，并通过线性变换和激活函数处理。最后的分类层将从全连接层获得的特征向量映射到预测的类别上。
+
+
+
+
+
+
+
+
+
+
+
+
+
 ###  使用hiddenlayer包可视化网络
 
 ```python
@@ -385,4 +610,45 @@ Supports Torch and Numpy."""
 vis.text(texts,win="text plot", env="MyimagePlot",
          opts = dict(title = "可视化文本"))
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
