@@ -326,6 +326,30 @@ class ConvNet(nn.Module):
 MyConvnet = ConvNet()
 print(MyConvnet)
 ```
+**输出网络结构**
+```
+ConvNet(
+  (conv1): Sequential(
+    (0): Conv2d(1, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU()
+    (2): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  )
+  (conv2): Sequential(
+    (0): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (fc): Sequential(
+    (0): Linear(in_features=1568, out_features=128, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=128, out_features=64, bias=True)
+    (3): ReLU()
+  )
+  (out): Linear(in_features=64, out_features=10, bias=True)
+)
+
+```
+
 在这里，我们实例化了 `ConvNet` 类，并打印出网络结构信息。
 
 总结来说，代码搭建了一个简单的卷积神经网络，包括两个卷积层、两个全连接层和一个分类层。网络接收图像数据作为输入，并输出对应的十个类别的预测结果。每个卷积层通过卷积操作提取特征，并使用激活函数进行非线性映射。池化层则用于进一步减少特征图的尺寸。全连接层将展平的特征连接到神经元，并通过线性变换和激活函数处理。最后的分类层将从全连接层获得的特征向量映射到预测的类别上。
@@ -351,12 +375,61 @@ hl_graph = hl.build_graph(MyConvnet, torch.zeros([1, 1, 28, 28]))
 hl_graph.theme = hl.graph.THEMES["blue"].copy()  
 hl_graph
 ```
+这段代码使用了HiddenLayer库来实现卷积神经网络的可视化。下面是对每一部分代码的详细解释：
+
+```python
+import hiddenlayer as hl
+```
+首先，我们导入HiddenLayer库，它是一个用于可视化深度学习模型结构的工具。
+
+```python
+hl_graph = hl.build_graph(MyConvnet, torch.zeros([1, 1, 28, 28]))
+```
+接下来，在这一行代码中，我们使用`build_graph`函数创建了一个图形对象`hl_graph`。此函数的第一个参数是我们要可视化的卷积神经网络对象`MyConvnet`，第二个参数是一个输入示例`torch.zeros([1, 1, 28, 28])`，表示输入图像的大小为1x28x28。该函数会根据给定的网络和输入生成一张图，用于表示网络的层次结构和连接方式。
+
+```python
+hl_graph.theme = hl.graph.THEMES["blue"].copy()
+```
+在这一行代码中，我们将图形对象的主题设置为蓝色（blue）。HiddenLayer库提供了一些预定义的主题，可以根据个人喜好进行选择。我们通过`THEMES["blue"]`来选择蓝色主题，并使用`copy()`函数创建了一个主题副本，以便进一步的自定义。
+
+```python
+hl_graph
+```
+最后，打印或显示`hl_graph`对象，以便在Jupyter Notebook中查看可视化的卷积神经网络结构。这将显示一个图形，该图形代表了我们搭建的卷积神经网络的层次结构，以及不同层之间的连接方式。
+
+通过这段代码，我们可以更好地理解卷积神经网络的结构，并通过可视化来展示网络中的信息流动。这对于理解和调试复杂的深度学习模型非常有用，也为教学和演示提供了一个可视化工具。
+
+
+
+
+
+
+
 
 
 ```python
 ## 将可视化的网路保存为图片,默认格式为pdf
 hl_graph.save("data/chap4/MyConvnet_hl.png", format="png")
 ```
+这段代码用于将可视化的网络结构保存为一张图片。下面是对每一部分代码的详细解释：
+
+```python
+hl_graph.save("data/chap4/MyConvnet_hl.png", format="png")
+```
+
+首先，我们调用`save`函数来保存可视化的网络结构。这个函数接受两个参数: 
+
+- 第一个参数 `"data/chap4/MyConvnet_hl.png"` 是保存的路径和文件名，表示要将图像保存在 `data/chap4` 目录下，并将图像命名为 `MyConvnet_hl.png`。
+
+- 第二个参数 `format="png"` 表示保存图像的格式为PNG。我们指定了PNG格式，但你也可以选择其他格式，例如JPEG、PDF等。
+
+此代码通过调用`save`函数将可视化的网络结构保存为一张图片。
+
+通过这段代码，我们可以将可视化的卷积神经网络结构保存为图片，以供进一步使用或分享给他人。保存为图片的网络结构可以更方便地被读取、显示和共享。
+
+
+
+
 ###  使用torchviz包可视化网络
 
 ```python
@@ -367,6 +440,41 @@ y = MyConvnet(x)
 MyConvnetvis = make_dot(y, params=dict(list(MyConvnet.named_parameters()) + [('x', x)]))
 MyConvnetvis
 ```
+这段代码使用了`torchviz`库来可视化卷积神经网络，并对每一部分进行详细解释。下面是对代码的解释：
+
+```python
+from torchviz import make_dot
+```
+首先，我们导入了`torchviz`库，它是PyTorch中的一个工具，用于可视化计算图。
+
+```python
+x = torch.randn(1, 1, 28, 28).requires_grad_(True)
+```
+接下来，我们创建了一个张量`x`，它是一个大小为1x1x28x28的随机张量，并设置`requires_grad`为`True`，以便追踪梯度信息。
+
+```python
+y = MyConvnet(x)
+```
+然后，我们将输入张量`x`传递给`MyConvnet`模型，并将输出赋值给变量`y`。这样做是为了获取网络的输出结果，以便在计算图中使用。
+
+```python
+MyConvnetvis = make_dot(y, params=dict(list(MyConvnet.named_parameters()) + [('x', x)]))
+```
+在这一行代码中，我们使用`make_dot`函数创建了一个图形对象`MyConvnetvis`，该对象代表了使用`y`作为输出和`MyConvnet`中的参数的计算图。我们通过传递两个参数给`make_dot`函数来生成计算图：
+
+- 第一个参数`y`是网络的输出结果，我们希望可视化这个节点。
+- 第二个参数`params`是一个字典，包含了模型参数和输入张量的名称。我们使用`list(MyConvnet.named_parameters())`获取了模型中的所有参数，并将其与输入张量`x`的名称`'x'`合并成一个字典，以便在计算图中显示参数和输入节点。
+
+```python
+MyConvnetvis
+```
+最后，我们输出`MyConvnetvis`对象，以在Jupyter Notebook中查看可视化的计算图。
+
+通过这段代码，我们可以使用`torchviz`库生成并显示卷积神经网络的计算图。计算图可以帮助我们理解网络的数据流和梯度传播，以及识别潜在的错误或优化点。这对于深入分析和调试复杂的神经网络非常有用，并且可以提供教学和演示目的。
+
+
+
+
 
 
 ```python
