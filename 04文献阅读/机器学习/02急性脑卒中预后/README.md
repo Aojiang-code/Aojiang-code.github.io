@@ -1,19 +1,19 @@
 # 儿童重症监护中早期预测急性肾损伤（AKI）的机器学习模型
 
 ## 基本信息
-- 标题：
+- 标题：Machine Learning–Based Model for Prediction of  Outcomes in Acute Stroke
 - 分区：
-- 期刊：
+- 期刊：Stroke
 - 发表时间：2019年
 - 阅读时间：2024年1月
 - 关键词：
-- 作者：
-- 国家：
+- 作者：JoonNyung Heo, MD*; Jihoon G. Yoon, MD*; Hyungjong Park, MD; Young Dae Kim, MD, PhD;  Hyo Suk Nam, MD, PhD; Ji Hoe Heo, MD, PhD
+- 国家：韩国
 - 方法：
 - 创新点：
 - 不足之处：
 - 可借鉴之处：
-- DOI:
+- DOI:10.1161/STROKEAHA.118.024293
 
 
 ## [ChatPaper](https://chatpaper.org/)分析结果
@@ -71,12 +71,24 @@
 ### Note:
 本总结源自于LLM的总结，请注意数据判别. Power by ChatPaper. End.
 
+## Abstract
+### Background and Purpose
+
+
+### Methods
 
 
 
+### Results
 
 
 
+### Conclusions
+
+
+
+### Key Words
+cerebral infarction ◼ machine learning ◼ medical decision making ◼ neural networks ◼ stroke
 
 
 
