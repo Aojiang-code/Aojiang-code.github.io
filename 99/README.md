@@ -72,7 +72,7 @@ GitHub地址：[动手学深度学习](https://github.com/d2l-ai/d2l-zh.git)
 
 ### 深度学习代码逐行注释
 
-[深度学习代码逐行注释](https://nn.labml.ai)
+[nn.labml](https://nn.labml.ai)
 
 
 
