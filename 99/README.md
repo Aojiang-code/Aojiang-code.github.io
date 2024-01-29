@@ -70,8 +70,9 @@ GitHub地址：[动手学深度学习](https://github.com/d2l-ai/d2l-zh.git)
 |ChatGenTitle|利用百万arXiv论文元信息训练出来的论文题目生成模型，根据论文摘要生成合适题目|https://drive.google.com/file/d/1akrC4-YnYdiyD1_VK-92hncN7HS0FLf5/view?usp=sharing|
 
 
+### 深度学习代码逐行注释
 
-
+[深度学习代码逐行注释](https://nn.labml.ai)
 
 
 
