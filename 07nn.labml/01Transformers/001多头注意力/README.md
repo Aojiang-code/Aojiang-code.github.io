@@ -1,4 +1,4 @@
-# Multi-head attention
+# [Multi-head attention](https://nn.labml.ai/transformers/mha.html)
 
 **多头注意力 (MHA)**
 
