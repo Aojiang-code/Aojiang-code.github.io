@@ -132,13 +132,10 @@ Note: The table mentioned in your question is missing, so I cannot provide the s
 
 
 
-通讯地址：
+01通过一维Inception_Time卷积神经网络进行心音图分类 copy通讯地址：
 Bjørn-Jostein Singstad
 挪威奥斯陆0164号Kristian Augustus Gate 23
 电子邮件：bjornjs@simula.no
 
 
-
-[<<返回目录](06项目复现\03心电图\01通过一维Inception_Time卷积神经网络进行心音图分类/)
-
-
+[<<返回心音图目录](06项目复现\03心电图/)
