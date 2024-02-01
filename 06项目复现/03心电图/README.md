@@ -5,8 +5,7 @@
 
 # 目录
 
-* [Phonocardiogram Classification Using 1-Dimensional Inception Time
-Convolutional Neural Networks](06项目复现\03心电图\01通过一维Inception Time卷积神经网络进行心音图分类/)
+* [Phonocardiogram_Classification_Using_1-Dimensional_Inception_Time_Convolutional_Neural_Networks](06项目复现\03心电图\01通过一维Inception_Time卷积神经网络进行心音图分类/)
 
 
 
