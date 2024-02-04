@@ -1,5 +1,7 @@
 # Phonocardiogram Classification Using 1-Dimensional Inception TimeConvolutional Neural Networks
 
+通过一维Inception Time卷积神经网络进行心音图分类
+
 ## Abstract
 
 心脏杂音是由湍流血流引起的声音，通常是患者结构性心脏疾病的首个征兆。通过听诊器或最近的心音图（PCG）可以检测到这些声音。我们旨在利用机器学习从PCG记录中识别心脏杂音的存在、不存在或不确定情况，以及预测临床结果是否正常或异常。
@@ -113,20 +115,35 @@ Note: The table mentioned in your question is missing, so I cannot provide the s
 ## References
 
 [1] 世界卫生组织心血管疾病（CVDs）. 链接：https://www.who.int/news-room/fact-sheets/detail/cardiovascular-diseases-(cvds). 访问日期：2022年8月21日。
+
 [2] Tavel ME. 心脏听诊。《循环》2006年3月；113（9）：1255-1259，DOI：https://doi.org/10.1161/CIRCULATIONAHA.105.591149。
+
 [3] Montinari MR, Minelli S. 心脏听诊的前200年和未来展望。《多学科医疗保健杂志》2019年3月；12：183-189，DOI：https://doi.org/10.2147/JMDH.S193904。
+
 [4] Reyna MA, Kiarashi Y, Elola A, Oliveira J, Renna F, Gu A等. 来自心音图记录的心脏杂音检测：George B. Moody PhysioNet Challenge 2022. 预印本，Health Informatics，2022年8月。DOI：https://doi.org/10.1101/2022.08.11.22278688。
+
 [5] Vukanovic-Criley JM, Criley S, Warde CM, Boker JR, Guevara-Matheus L, Churchill WH等. 医学生、实习生、医师和教员心脏检查技能能力。《内科档案》2006年3月；166（6）：610-616，DOI：https://doi.org/10.1001/archinte.166.6.610。
+
 [6] Roy D, Sargeant J, Gray J, Hoyt B, Allen M, Fleming M. 帮助家庭医生通过互动式光盘-ROM提高心脏听诊技能。《继续医学教育杂志》2002年；22（3）：152-159，DOI：https://doi.org/10.1002/chp.1340220304。
+
 [7] Barrett MJ, Mackie AS, Finley JP. 现代化中的心脏听诊：夭折还是重生？《心脏病学评论》2017年10月；25（5）：205-210，DOI：https://doi.org/10.1097/CRD.0000000000000145。
+
 [8] Rangayyan RM, Lehner RJ. 心音图信号分析：综述《生物医学工程评论》1987年；15（3）：211-236。
+
 [9] Emmanuel BS. 临床诊断中心脏声音分析的信号处理技术综述。《医学工程技术杂志》2012年8月；36（6）：303-307，DOI：https://doi.org/10.3109/03091902.2012.684831。
+
 [10] Debbal ￥￥, Bereksi-Reguig F. 计算机化的心脏声音分析。《计算生物学与医学》2008年2月；38（2）：263-280，DOI：https://doi.org/10.1016/j.compbiomed.2007.09.006。
+
 [11] Chen W, Sun Q, Chen X, Xie G, Wu H, Xu C. 基于深度学习的心音分类方法：系统综述。《熵》2021年5月；23（6）：667，DOI：https://doi.org/10.3390/e23060667。
+
 [12] Goldberger AL等. PhysioBank、PhysioToolkit和PhysioNet：复杂生理信号的新研究资源组成部分。《循环》2000年6月；101（23），DOI：https://doi.org/10.1161/01.CIR.101.23.e215。
+
 [13] Oliveira J, Renna F, Costa PD, Nogueira M, Oliveira C, Ferreira C等. CirCor DigiScope数据集：从杂音检测到杂音分类。IEEE生物医学与健康信息学杂志2022年6月；26（6）：2524-2535，DOI：https://doi.org/10.1109/JBHI.2021.3137048。
+
 [14] Ismail Fawaz等. InceptionTime：时间序列分类的AlexNet。《数据挖掘与知识发现》2020年11月；34（6）：1936-1962，DOI：https://doi.org/10.1007/s10618-020-00710-y。
+
 [15] Clifford G等. 正常/异常心音记录的分类：PhysioNet/计算心脏病学挑战2016年。《Circulation》2016年9月；URL http://www.cinc.org/archives/2016/pdf/179-154.pdf。
+
 [16] Clifford GD, Liu C, Moody B, Millet J, Schmidt S, Li Q等. 心脏声音分析的最新进展。《生理测量学》2017年8月；38（8）：E10，DOI：https://doi.org/10.1088/1361-6579/aa7ec8。
 
 
