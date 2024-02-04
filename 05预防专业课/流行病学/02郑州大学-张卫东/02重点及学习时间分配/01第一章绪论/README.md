@@ -25,14 +25,14 @@
 epidemiology, epidemic, eco-epidemiology
 
 #### 复习思考题
-1.流行病学的研究方法。 
-2.流行病学的特征。 
-3.流行病学定义的内涵。
+1. 流行病学的研究方法。 
+2. 流行病学的特征。 
+3. 流行病学定义的内涵。
 
 #### 参考教材（资料） 
-1.耿贯一 主编. 流行病学. 第二版. 北京：人民卫生出版社.1995. 
-2.曾光   主编. 现代流行病学方法与应用. 北京：联合出版社.1996.
-3.王天根 主编. 流行病学研究方法.北京：人民卫生出版社. 1993.
+1. 耿贯一 主编. 流行病学. 第二版. 北京：人民卫生出版社.1995. 
+2. 曾光   主编. 现代流行病学方法与应用. 北京：联合出版社.1996.
+3. 王天根 主编. 流行病学研究方法.北京：人民卫生出版社. 1993.
 
 ### 重点难点详解
 
@@ -105,6 +105,141 @@ epidemiology, epidemic, eco-epidemiology
 > 意大利威尼斯－最早的检疫
 > > 14 世纪  外来船只必须在港外停留检疫 40 天quadraginta ( 拉丁语，意思为 40) → quarantine
 > > 1423 年成立了首家传染病隔离医院
+
+
+> John Graunt (1620-1674)
+> > 利用死亡数据进行死亡分布及规律性研究
+> 创制了第一张寿命表，计算期望寿命
+> 用生存概率和死亡概率来概括死亡经历
+> 提出设立比较组的思想
+> 将统计学引入流行病学领域
+
+
+#### 学科形成期
+
+> James Lind (1716-1794)
+> > VitC 缺乏 – 坏血病 (1747)
+> 开创了流行病学临床试验的先河
+
+> Edward Jenner (1749-1823)
+> > (1796)接种牛痘,预防天花
+> > 开创了主动免疫的先河
+
+> William Farr (1807-1883)
+> > 在英国首创人口和死亡的常规资料收集
+> > 提出许多流行病学的重要概念：标化死亡率、人年、剂量反应关系、患病率
+> >   患病率＝发病率 × 病程
+> > 现代流行病学的奠基人之一
+> > 公共卫生运动的领导者之一
+
+> John Snow (1813-1858)
+> > 伦敦宽街－霍乱爆发
+> > 标点地图法
+> > 霍乱是介水传播
+> > 流行病学现场调查、    分析与控制的经典实
+
+> London Epidemiological Society (1850)
+> > 全世界第一个流行病学学会
+> > 标志着流行病学学科的形成
+
+> London Epidemiological Society  END
+> > 标志着第一个流行病学时代的结束
+> 约 1870 年起进入了细菌时代－流行病学的低迷时期
+
+> Louis Pasteur (1822-1895)
+> > 微生物理论 (germ theory)
+> > 主张改革临床实践，减少微生物相关疾病的传播
+> > 开发了鸡霍乱、炭疽、猪丹毒疫苗
+> > 减毒的微生物可以用作免疫
+> > 提出狂犬病是由一种显微镜看不到的物质传播的（即病毒），并开发疫苗治疗和预防狂犬病
+> > 巴斯德杀菌法
+
+
+
+> Robert Koch (1843-1910)  
+> > 确定了结核杆菌和霍乱弧菌
+> > 1905 年诺贝尔生理学或医学奖
+> > 确定了水净化在疾病预防过程中的重要性
+> > 确定微生物为致病因子时， Henle-Koch 提出 4 条原则：
+> > 1. 在相应疾病患者中总是能检出该病病原体( 必要病因 )
+> > 2. 在其他疾病患者中不能检出该病原体 ( 效应特异性 )
+> > 3. 能从相应疾病患者中分离到该病原体，传过几代的培养物能引起实验动物患相同疾病 ( 充分病因 )
+> > 4. 能从患该病的动物中分离到相同病原体
+
+> Joseph Goldberger (1914-1930)  
+> > 糙皮病－饮食缺乏 ( 烟酸缺乏 ), 而不是传染病
+
+> 20 世纪学科复兴
+> > 饮水加氟预防龋齿 (1930s － )
+> > 水中高氟<->氟斑牙<->不易得龋齿
+> 临床观察->流行病学调查->公共卫生干预
+
+#### 学科发展期
+特 点
+
+- 传染病→所有疾病、健康问题
+- 传统的调查分析→定量 + 定性、宏观 + 微观
+- “ 流行”→“分布”、“动态” +“ 静态”
+- 三环节两因素→社会行为因素
+- 分支学科↑、应用范围↑
+
+##### 第二次流行病学革命 ( 现代流行病学 )
+－非传染性疾病
+
+- 第一阶段 (20 世纪 40 年代－ 50 年代 )
+- 第二阶段 (20 世纪 60 年代－ 80 年代 )
+- 第三阶段 (20 世纪 90 年代－至今 )
+
+###### 第一阶段 (20 世纪 40 年代－ 50 年代 )
+> Richard Doll & Austin Bradford Hill
+> > 吸烟 - 肺癌
+> > 开创了生活方式的研究领域
+> > 开辟了慢性病病因学研究的新天地
+
+> Framingham Heart Study
+
+> Nathan Mantel & William Haenszel
+> > 分层分析法
+> > Mantel N, Haenszel W. Statistical aspects of the analysis of  data from retrospective studies of disease. J Natl Cancer Inst 1959; 22 (4): 719-748.
+
+> Jonas Edward Salk
+> > 脊髓灰质炎疫苗现场试验(1954)
+> > 现场：美国 + 加拿大 + 芬兰
+> > 研究对象： 1-3 年级儿童
+> > 观察对照设计：近 100 万人
+> > 安慰剂对照设计： 40 余万人
+> >     结果：保护率 60%~90%
+
+###### 第二阶段 (20 世纪 60 年代－ 80 年代 )   流行病学方法长足发展
+> Cornfield J. Joint dependence of risk of coronary heart disease on serum cholesterol and systolic blood pressure: a discriminant function analysis. Fed Proc 1962; 2: 58-61. ( 多变量分析 )
+> Sackett DL. Bias in analytic research. J Chron Dis 1979; 32: 51-63. (35 种偏倚 )
+> Miettinen OS. Theoretical epidemiology. New York: J. Wiley. 1985. (3 大类偏倚：比较、选择、信息偏倚 )
+
+
+> 代表性的流行病学教科书 / 专著
+> > MacMahon B and Pugh TF. Epidemiology Principles and Methods. Boston: Little, Brown and Company. 1970.
+> Lilienfeld AM and Lilienfeld DE. Foundations of Epidemiology (2nd ed.). New York: Oxford University Press. 1980
+> Last JM. A dictionary of epidemiology. Oxford University Press. 1983.
+> Rothman KJ. Modern Epidemiology. Boston: Little, Brown and Company. 1986
+
+
+###### 第三阶段 (20 世纪 90 年代－至今 )    流行病学应用领域进一步扩大
+
+临床流行病学异军突起
+
+>  Epidemiology stepped into mainstream medicine - clinical medicine. 流行病学从此迈进了医学的主要殿堂
+>  The role of epidemiology was applied to various aspects of medicine: design, measurement & evaluation etc. 用于研究设计、项目实施与项目评估等医学科学的各个方面
+>  Randomized controlled trials: the flagship of clinicalepidemiology. 随机对照试验 : 临床流行病学的旗舰
+
+
+
+
+
+
+
+
+
+
 
 
 
