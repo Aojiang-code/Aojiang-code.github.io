@@ -31,7 +31,6 @@ from sklearn.utils.class_weight import compute_class_weight
 
 
 
-    
 # Train your model.
 def train_challenge_model(data_folder, model_folder, verbose):
     # Find data files.
