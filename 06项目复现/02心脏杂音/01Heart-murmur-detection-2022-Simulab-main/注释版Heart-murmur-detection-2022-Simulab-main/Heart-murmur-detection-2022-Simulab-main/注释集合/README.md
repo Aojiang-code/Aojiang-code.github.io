@@ -1,191 +1,187 @@
-# Phonocardiogram Classification Using 1-Dimensional Inception Time Convolutional Neural Networks : George B. Moody PhysioNet Challenge 2022
-## Team name: Simulab
----
+# 使用1-Dimensional Inception Time Convolutional Neural Networks进行心音图分类：George B. Moody PhysioNet Challenge 2022
 
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/phonocardiogram-classification-using-1/predict-clinical-outcome-on-circor-digiscope)](https://paperswithcode.com/sota/predict-clinical-outcome-on-circor-digiscope?p=phonocardiogram-classification-using-1)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/phonocardiogram-classification-using-1/classify-murmurs-on-circor-digiscope)](https://paperswithcode.com/sota/classify-murmurs-on-circor-digiscope?p=phonocardiogram-classification-using-1)
+## 团队名称：Simulab
+------------------------------------------------
+![alt text](06项目复现\02心脏杂音\01Heart-murmur-detection-2022-Simulab-main\注释版Heart-murmur-detection-2022-Simulab-main\Heart-murmur-detection-2022-Simulab-main\注释集合\CNN_architecture.png)
 
-![alt text](docs/CNN_architecture.png)
-#### The 1-D CNN Inception time Architecture of the two classifiers
+#### 两个分类器的1-D CNN Inception时间架构
 
-This repository is associated with the paper: [*Phonocardiogram Classification Using 1-Dimensional Inception Time Convolutional Neural Networks*](https://ieeexplore.ieee.org/document/10081878)
+这个仓库与以下论文相关联：
+[*Phonocardiogram Classification Using 1-Dimensional Inception Time Convolutional Neural Networks*](https://ieeexplore.ieee.org/document/10081878)
 
-Full reference to the original paper :
+原始论文的完整引用：
 
-> B. -J. Singstad, A. M. Gitau, M. K. Johnsen, J. Ravn, L. A. Bongo and H. Schirmer, "Phonocardiogram Classification Using 1-Dimensional Inception Time Convolutional Neural Networks," 2022 Computing in Cardiology (CinC), Tampere, Finland, 2022, pp. 1-4, doi: 10.22489/CinC.2022.108.
+> B. -J. Singstad, A. M. Gitau, M. K. Johnsen, J. Ravn, L. A. Bongo 和 H. Schirmer, "Phonocardiogram Classification Using 1-Dimensional Inception Time Convolutional Neural Networks," 2022 Computing in Cardiology (CinC), Tampere, Finland, 2022, pp. 1-4, doi: 10.22489/CinC.2022.108.
 
-## Team members:
-* Markus Johnsen
-* Johan Ravn
-* Lars Ailo Bongo
-* Henrik Schirmer
-* Antony M. Gitau
-* Bjørn-Jostein Singstad
----------------------------------
+## 团队成员：
 
-
-## What's in this repository?
-This repository contains the code for our contribution to the George B. Moody PhysioNet Challenge 2022. The objective of this challenge was to identify murmurs as present, absent or unclear and predict clinical outcome as normal or abnormal from phonocardiograms collected from multiple auscultation locations on the chest walls using digital stethoscope. 
-
-We trained and tested two 1-dimensional convolutional
-neural networks (CNN) on a PCG data set (5272 PCGs) from a pediatric
-population of 1568 individuals. One model predicted murmurs, while the other model predicted clinical outcomes.
-Both models were trained to give recording-wise predictions, while the final predictions were given for every patient (patient wise predictions).
-
-Our team, **Simulab**, trained a clinical outcome classifier that achieved a challenge cost score of `8720 (ranked 1st out of 305 submissions)` and the murmur classifier achieved a weighted
-accuracy of `0.585 (ranked 182nd out of 305 submissions)`
-on the validation set.
-
-## A brief of the files and folders in this repository
+- Markus Johnsen
+- Johan Ravn
+- Lars Ailo Bongo
+- Henrik Schirmer
+- Antony M. Gitau
+- Bjørn-Jostein Singstad
+----------------------------------------------------------------
 
 
-### Python scripts
-This repository contains some scripts we can edit and some scripts provided by the organizers of George B. Moody PhysioNet Challenge 2022 which should **NOT** be edited
+## 这个仓库包含什么？
 
-#### Can be edited:
-* `cross_validate.py`
-* `team_code.py`
+这个仓库包含了我们对George B. Moody PhysioNet Challenge 2022的贡献代码。这个挑战的目标是从胸部多个听诊位置收集的数字听诊器的心音图（PCG）中识别出杂音的存在、不存在或不清晰，并预测正常或异常的临床结果。
 
-#### Should not be edited
-* `evaluate_model.py`
-* `helper_code.py`
-* `run_model.py`
-* `train_model.py`
+我们训练并测试了两个1-D卷积神经网络（CNN）在一个来自1568名儿童的PCG数据集（5272个PCG）上。一个模型预测杂音，另一个模型预测临床结果。两个模型都被训练为给出录音级别的预测，而最终的预测是针对每个病人（病人级别预测）。
 
-### Notebooks:
-The repository also contains Jupyter Notebooks which makes easier to experiment with the data, models and other parameters. Some of the notebooks are designed to use in Google Colab in order to get access to GPUs and some notebooks are ok to run on your local computer.
+我们的团队Simulab训练了一个临床结果分类器，在验证集上取得了8720的挑战成本分数（在305个提交中排名第1），而杂音分类器在验证集上取得了0.585的加权准确率（在305个提交中排名第182）。
 
-#### Colab:
-* `5-fold cross-validaton.ipynb` # contains code for cross-validating the model on the training set
-* `Train and test model.ipynb` # contains code training model a model on the whole training set, save the weights, then upload the wights and test the model on the training set and finaly evaluate the predictions
-* `pretrain model on 2015 dataset.ipynb` # contains code for pretraing model on phonocardiogram data from PhysioNet Challenge 2016. returns a .h5 file
-#### Local:
-* `EDA-Phonocardiogram-dataset.ipynb` # Exploratory data analysis of the dataset
+## 仓库中的文件和文件夹简介
 
-### Other files:
-This repository also contains the following files 
-* `.gitignore`
-* `LICENSE`
-* `Dockerfile`
-* `requirements.txt`
+### Python脚本
 
+这个仓库包含了一些我们可以编辑的脚本，以及George B. Moody PhysioNet Challenge 2022组织者提供的不应该被编辑的脚本。
 
-The Dockerfile and the requirements.txt are very important as they are used to build the docker image when submitting our code to the challenge organizers.
+可以编辑的：
 
-## Data:
-The main data source is [the CirCor DigiScope Dataset](https://physionet.org/content/circor-heart-sound/1.0.0/) . When using the Jupyter Notebooks in Colab we need to download this dataset each time we start a new session.
- 
- To speed up the downloading we have created [a Kaggle version](https://www.kaggle.com/datasets/bjoernjostein/the-circor-digiscope-phonocardiogram-dataset-v2) of this dataset. 
- 
- To download the dataset, you will have to sign up for a Kaggle account, get a kaggle.json file from you Kaggle profile (containing a API token) and upload it to the root folder in the temporary folder in Colab.
+- cross_validate.py
+- team_code.py
 
-To pretrain the models we use the open dataset from [PhysioNet Challenge 2016](https://physionet.org/content/challenge-2016/1.0.0/), also available on [Kaggle](https://www.kaggle.com/datasets/bjoernjostein/physionet-challenge-2016).
+不应该被编辑的：
 
-## Dependencies
-* `numpy==1.21.6`
-* `scipy==1.4.1`
-* `scikit-learn==0.23.2`
-* `joblib==0.17.0`
-* `tensorflow == 2.8.2`
-* `Cython==0.29.24`
-* `pandas==1.3.2`
-* `h5py==2.10.0`
-* `tqdm==4.54.0`
+- evaluate_model.py
+- helper_code.py
+- run_model.py
+- train_model.py
 
-## Run the code locally: 
+### 笔记本
 
-You can try it by running the following commands on the Challenge training sets. These commands should take a few minutes or less to run from start to finish on a recent personal computer.
+仓库还包含了Jupyter Notebooks，这使得实验数据、模型和其他参数更加容易。一些笔记本设计用于在Google Colab中使用，以便获得GPU访问权限，而一些笔记本可以在本地计算机上运行。
 
-For this example, we implemented a random forest classifier with several features. You can use a different classifier, features, and libraries for your entry. This simple example is designed **not** to perform well, so you should **not** use it as a baseline for your model's performance.
+Colab:
 
-This code uses four main scripts, described below, to train and run a model for the 2022 Challenge.
+- `5-fold cross-validation.ipynb` # 包含在训练集上交叉验证模型的代码
+- `Train and test model.ipynb` # 包含在完整训练集上训练模型、保存权重，然后在训练集上测试模型并最终评估预测的代码
+- `pretrain model on 2015 dataset.ipynb` # 包含在PhysioNet Challenge 2016的心音图数据上预训练模型的代码。返回一个.h5文件
 
-## Run the code using Docker
+Local:
 
-You can install the dependencies for these scripts by creating a Docker image (see below) and running
+- `EDA-Phonocardiogram-dataset.ipynb` # 对数据集进行探索性数据分析
+
+### 其他文件
+
+这个仓库还包含了以下文件：
+- .gitignore
+- LICENSE
+- Dockerfile
+- requirements.txt
+
+Dockerfile和requirements.txt非常重要，因为它们用于构建提交给挑战组织者的Docker镜像。
+
+## 数据
+
+主要数据来源是[CirCor DigiScope](https://physionet.org/content/circor-heart-sound/1.0.0/)数据集。在使用Colab中的Jupyter Notebooks时，我们每次开始新会话时都需要下载这个数据集。
+
+为了加快下载速度，我们创建了这个[数据集的Kaggle版本](https://www.kaggle.com/datasets/bjoernjostein/the-circor-digiscope-phonocardiogram-dataset-v2)。
+
+要下载数据集，你需要注册一个Kaggle账户，从你的Kaggle个人资料中获取一个kaggle.json文件（包含API令牌），并将其上传到Colab的临时文件夹的根目录。
+
+为了预训练模型，我们使用[PhysioNet Challenge 2016](https://physionet.org/content/challenge-2016/1.0.0/), also available on [Kaggle](https://www.kaggle.com/datasets/bjoernjostein/physionet-challenge-2016)的开放数据集，也在Kaggle上有提供。
+
+## 依赖项
+
+- numpy==1.21.6
+- scipy==1.4.1
+- scikit-learn==0.23.2
+- joblib==0.17.0
+- tensorflow == 2.8.2
+- Cython==0.29.24
+- pandas==1.3.2
+- h5py==2.10.0
+- tqdm==4.54.0
+
+## 在本地运行代码：
+
+你可以尝试通过在挑战训练集上运行以下命令来尝试。这些命令应该在最近的个人电脑上从开始到结束只需要几分钟或更少的时间。
+
+例如，我们实现了一个带有多个特征的随机森林分类器。你可以为你的参赛作品使用不同的分类器、特征和库。这个简单的例子设计得不好，所以**不应该**作为你模型性能的基准。
+
+这段代码使用了四个主要脚本，下面将进行描述，用于训练和运行2022年挑战的模型。
+
+## 使用Docker运行代码
+
+你可以安装这些脚本的依赖项，通过创建一个Docker镜像（见下文）并运行。
 
     pip install requirements.txt
 
-You can train and run your model by running
+你可以训练并运行你的模型，运行以下命令：
 
     python train_model.py training_data model
     python run_model.py model test_data test_outputs
 
-where `training_data` is a folder with the training data files, `model` is a folder for saving your model, `test_data` is a folder with the test data files (you can use the training data for debugging and cross-validation), and `test_outputs` is a folder for saving your model outputs. The [2022 Challenge website](https://physionetchallenges.org/2022/) provides a training database with a description of the contents and structure of the data files.
+其中`training_data`是包含训练数据文件的文件夹，`model`是保存你的模型的文件夹，`test_data`是包含测试数据文件的文件夹（你可以使用训练数据进行调试和交叉验证），`test_outputs`是保存你的模型输出的文件夹。[2022年挑战网站](https://physionetchallenges.org/2022/)提供了一个训练数据库，描述了数据文件的内容和结构。
 
-You can evaluate your model by running
+你可以通过运行以下命令来评估你的模型：
 
     python evaluate_model.py labels outputs scores.csv class_scores.csv
 
-where `labels` is a folder with labels for the data, such as the training database on the PhysioNet webpage; `outputs` is a folder containing files with your model's outputs for the data; `scores.csv` (optional) is a collection of scores for your model; and `class_scores.csv` (optional) is a collection of per-class scores for your model.
+其中`labels`是包含数据标签的文件夹，例如`PhysioNet`网页上的培训数据库；`outputs`是包含你模型输出文件的文件夹；`scores.csv`（可选）是你的模型的分数集合；`class_scores.csv`（可选）是你的模型的每类分数集合。
 
+## 如何在Docker中运行这些脚本？
 
-### How do I run these scripts in Docker?
+Docker和类似平台允许你将代码与特定依赖项一起容器化和打包，以便你可以在其他计算环境和操作系统中可靠地运行你的代码。
 
-Docker and similar platforms allow you to containerize and package your code with specific dependencies so that you can run your code reliably in other computing environments and operating systems.
+为了确保我们可以运行你的代码，请[安装](https://docs.docker.com/get-docker/)Docker，从你的代码构建一个Docker镜像，并在训练数据上运行它。为了快速检查你的代码是否有错误，你可能希望在训练数据的小子集上运行它。
 
-To guarantee that we can run your code, please [install](https://docs.docker.com/get-docker/) Docker, build a Docker image from your code, and run it on the training data. To quickly check your code for bugs, you may want to run it on a small subset of the training data.
+如果你在运行代码时遇到问题，那么请尝试以下步骤来运行示例代码。
 
-If you have trouble running your code, then please try the follow steps to run the example code.
+1. 在你的主目录中创建一个名为`example`的文件夹，并在其中创建几个子文件夹。
 
-1. Create a folder `example` in your home directory with several subfolders.
+    user@computer:~$ cd ~/
+    user@computer:~$ mkdir example
+    user@computer:~$ cd example
+    user@computer:~/example$ mkdir training_data test_data model test_outputs
+    
+2. 从[挑战网站](https://physionetchallenges.org/2022)下载训练数据。将一些训练数据放入`training_data`和`test_data`。你可以使用一些训练数据来检查你的代码（并且应该在训练数据上执行交叉验证以评估你的算法）。
 
-        user@computer:~$ cd ~/
-        user@computer:~$ mkdir example
-        user@computer:~$ cd example
-        user@computer:~/example$ mkdir training_data test_data model test_outputs
+3. 在你的终端下载或克隆这个仓库。
 
-2. Download the training data from the [Challenge website](https://physionetchallenges.org/2022). Put some of the training data in `training_data` and `test_data`. You can use some of the training data to check your code (and should perform cross-validation on the training data to evaluate your algorithm).
+    user@computer:~/example$ git clone https://github.com/physionetchallenges/python-classifier-2022.git
 
-3. Download or clone this repository in your terminal.
+4. 在你的终端构建一个Docker镜像并在其中运行示例代码。
 
-        user@computer:~/example$ git clone https://github.com/physionetchallenges/python-classifier-2022.git
+user@computer:~/example$ ls
+model  python-classifier-2022  test_data  test_outputs  training_data
 
-4. Build a Docker image and run the example code in your terminal.
+user@computer:~/example/python-classifier-2022$ docker build -t image .
+...
+Successfully tagged image:latest
 
-        user@computer:~/example$ ls
-        model  python-classifier-2022  test_data  test_outputs  training_data
+user@computer:~/example/python-classifier-2022$ docker run -it -v ~/example/model:/physionet/model -v ~/example/test_data:/physionet/test_data -v ~/example/test_outputs:/physionet/test_outputs -v ~/example/training_data:/physionet/training_data image bash
 
-        user@computer:~/example$ cd python-classifier-2022/
+root@[...]:/physionet# ls
+Dockerfile             README.md         test_outputs
+evaluate_model.py      requirements.txt  training_data
+helper_code.py         team_code.py      train_model.py
+LICENSE                run_model.py
 
-        user@computer:~/example/python-classifier-2022$ docker build -t image .
+root@[...]:/physionet# python train_model.py training_data model
 
-        Sending build context to Docker daemon  [...]kB
-        [...]
-        Successfully tagged image:latest
+root@[...]:/physionet# python run_model.py model test_data test_outputs
 
-        user@computer:~/example/python-classifier-2022$ docker run -it -v ~/example/model:/physionet/model -v ~/example/test_data:/physionet/test_data -v ~/example/test_outputs:/physionet/test_outputs -v ~/example/training_data:/physionet/training_data image bash
+root@[...]:/physionet# python evaluate_model.py model test_data test_outputs
+...
 
-        root@[...]:/physionet# ls
-            Dockerfile             README.md         test_outputs
-            evaluate_model.py      requirements.txt  training_data
-            helper_code.py         team_code.py      train_model.py
-            LICENSE                run_model.py
+root@[...]:/physionet# exit
+Exit
 
-        root@[...]:/physionet# python train_model.py training_data model
+## 结果
 
-        root@[...]:/physionet# python run_model.py model test_data test_outputs
-
-        root@[...]:/physionet# python evaluate_model.py model test_data test_outputs
-        [...]
-
-        root@[...]:/physionet# exit
-        Exit
-
-
-# Results
-
-
-|Model| Best parameters | Metrics | Training | Validation | Test |
+| 模型 | 最佳参数 | 指标 | 训练 | 验证 | 测试 |
 |:-----:|:-----------------:|:---------:|:----------:|:------------:|:----:|
-|Murmur|Adam optimization|Weighted accuracy |0.497 ± 0.083| 0.585|0.593
-||Weighted categorical cross entropy|Challenge metrics|13158 ± 1283|8866|13134
-||20 batch size|Accuracy|0.446 ± 0.070|0.423|0.497
-||30 epoch|F measure|0.403 ± 0.055|0.384|0.398
-|Clinical | Adam optimization| Weighted accuracy|0.713 ± 0.042|0.732|0.703
-||20 batch size|Challenge metrics|12315 ± 903|8720|12419
-||20 epoch| Accuracy |0.51 ± 0.047|0.537|0.537
-||Weighted categorical cross entropy| F measure|0.465 ± 0.061 |0.530|0.503
+| 杂音 | Adam优化 | 加权准确率 | 0.497 ± 0.083 | 0.585 | 0.593 |
+|| 加权分类交叉熵 | 挑战指标 | 13158 ± 1283 | 8866 | 13134 |
+|| 20批大小 | 准确率 | 0.446 ± 0.070 | 0.423 | 0.497 |
+|| 30个周期 | F测量 | 0.403 ± 0.055 | 0.384 | 0.398 |
+| 临床 | Adam优化 | 加权准确率 | 0.713 ± 0.042 | 0.732 | 0.703 |
+|| 20批大小 | 挑战指标 | 12315 ± 903 | 8720
+
 
 # Citation
 ```
