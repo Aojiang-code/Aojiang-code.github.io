@@ -146,30 +146,138 @@ Docker和类似平台允许你将代码与特定依赖项一起容器化和打�
 
 4. 在你的终端构建一个Docker镜像并在其中运行示例代码。
 
-user@computer:~/example$ ls
-model  python-classifier-2022  test_data  test_outputs  training_data
+    user@computer:~/example$ ls
+    model  python-classifier-2022  test_data  test_outputs  training_data
+    
+    user@computer:~/example/python-classifier-2022$ docker build -t image .
+    ...
+    Successfully tagged image:latest
+    
+    user@computer:~/example/python-classifier-2022$ docker run -it -v ~/example/model:/physionet/model -v ~/example/test_data:/physionet/test_data -v ~/example/test_outputs:/physionet/test_outputs -v ~/example/training_data:/physionet/training_data image bash
+    
+    root@[...]:/physionet# ls
+    Dockerfile             README.md         test_outputs
+    evaluate_model.py      requirements.txt  training_data
+    helper_code.py         team_code.py      train_model.py
+    LICENSE                run_model.py
+    
+    root@[...]:/physionet# python train_model.py training_data model
+    
+    root@[...]:/physionet# python run_model.py model test_data test_outputs
+    
+    root@[...]:/physionet# python evaluate_model.py model test_data test_outputs
+    ...
+    
+    root@[...]:/physionet# exit
+    Exit
 
+
+上述内容是一个在Linux终端中使用Docker的示例，包括构建Docker镜像和在镜像中运行Python脚本的步骤。下面是逐行的详细解释：
+
+### 1. 查看当前目录内容
+
+```bash
+user@computer:~/example$ ls
+```
+
+这行命令显示了用户当前所在的目录（`~/example`）中的文件和文件夹列表。在这个目录下，有名为`model`、`python-classifier-2022`、`test_data`、`test_outputs`和`training_data`的文件夹。
+
+### 2. 构建Docker镜像
+
+```bash
 user@computer:~/example/python-classifier-2022$ docker build -t image .
+```
+
+用户切换到包含Python分类器代码的目录（`python-classifier-2022`），然后使用`docker build`命令来构建一个新的Docker镜像。`-t image`指定了新镜像的名称为`image`，`.`表示Docker会在这个目录下查找名为`Dockerfile`的文件来构建镜像。
+
+### 3. 构建成功
+
+```plaintext
 ...
 Successfully tagged image:latest
+```
 
+构建过程结束后，Docker会输出一条消息，表明镜像已经成功创建，并且默认被打上了`latest`标签。
+
+### 4. 运行Docker容器
+
+```bash
 user@computer:~/example/python-classifier-2022$ docker run -it -v ~/example/model:/physionet/model -v ~/example/test_data:/physionet/test_data -v ~/example/test_outputs:/physionet/test_outputs -v ~/example/training_data:/physionet/training_data image bash
+```
 
+用户使用`docker run`命令来启动一个新的Docker容器。这个命令包含了几个参数：
+
+- `-it`：这个组合参数允许用户以交互模式运行容器，并且分配一个伪终端。
+- `-v`：这个参数用于挂载宿主机的目录到容器内部。在这个例子中，宿主机的`model`、`test_data`、`test_outputs`和`training_data`目录被挂载到容器内的相应路径。
+- `image`：这是之前构建的Docker镜像的名称。
+- `bash`：这是要在容器内部执行的命令，即启动bash shell。
+
+### 5. 查看容器内部内容
+
+```plaintext
 root@[...]:/physionet# ls
-Dockerfile             README.md         test_outputs
-evaluate_model.py      requirements.txt  training_data
-helper_code.py         team_code.py      train_model.py
-LICENSE                run_model.py
+```
 
-root@[...]:/physionet# python train_model.py training_data model
+在容器内部，用户使用`ls`命令查看当前目录（`/physionet`）下的文件和文件夹。这些文件和文件夹是从宿主机挂载过来的。
 
-root@[...]:/physionet# python run_model.py model test_data test_outputs
+### 6. 在容器内运行Python脚本
 
-root@[...]:/physionet# python evaluate_model.py model test_data test_outputs
-...
+用户在容器内部执行了三个Python脚本，这些脚本可能是用于训练模型、运行模型和评估模型的：
 
+```plaintext
+python train_model.py training_data model
+python run_model.py model test_data test_outputs
+python evaluate_model.py model test_data test_outputs
+```
+
+这些命令调用了Python脚本，传入了必要的参数，如数据路径和模型输出路径。
+
+### 7. 退出容器
+
+```plaintext
 root@[...]:/physionet# exit
 Exit
+```
+
+用户在容器内部输入`exit`命令退出了bash shell。这会导致容器停止运行。在Docker中，容器的状态会被保存，所以用户可以在以后重新启动容器，继续之前的工作。
+
+
+而在Windows终端（假设你使用的是Windows 10的PowerShell或者Windows Subsystem for Linux (WSL)）中运行上述Docker命令，步骤和Linux终端中的类似，但有一些小的差异。以下是在Windows环境中运行上述Docker命令的步骤：
+
+1. **打开Windows终端**：
+   - 如果你使用的是PowerShell，可以直接打开它。
+   - 如果你使用的是WSL，可以通过在开始菜单中搜索并打开它。
+
+2. **导航到项目目录**：
+   - 使用`cd`命令切换到包含Python分类器代码的目录。例如：
+     ```powershell
+     cd C:\path\to\example\python-classifier-2022
+     ```
+
+3. **构建Docker镜像**：
+   - 在PowerShell中，你可以使用与Linux相同的命令来构建Docker镜像：
+     ```powershell
+     docker build -t image .
+     ```
+   - 如果你使用的是WSL，命令也是相同的。
+
+4. **运行Docker容器**：
+   - 在PowerShell中，挂载卷的路径需要使用Windows风格的路径，并且可能需要使用`\\`来转义反斜杠。例如：
+     ```powershell
+     docker run -it -v C:\path\to\example\model:/physionet/model -v C:\path\to\example\test_data:/physionet/test_data -v C:\path\to\example\test_outputs:/physionet/test_outputs -v C:\path\to\example\training_data:/physionet/training_data image bash
+     ```
+   - 如果你使用的是WSL，路径可以直接使用Linux风格的路径，就像在Linux终端中一样。
+
+5. **在容器内执行命令**：
+   - 一旦容器启动，你可以像在Linux终端中一样执行Python脚本。
+
+6. **退出容器**：
+   - 输入`exit`命令退出容器。
+
+请注意，如果你在Windows上没有安装Docker，你需要先下载并安装Docker Desktop。Docker Desktop for Windows提供了一个Docker命令行界面，允许你在Windows上运行Docker命令。如果你使用的是WSL，Docker命令的语法和Linux上的基本相同。
+
+
+
 
 ## 结果
 
@@ -181,6 +289,8 @@ Exit
 || 30个周期 | F测量 | 0.403 ± 0.055 | 0.384 | 0.398 |
 | 临床 | Adam优化 | 加权准确率 | 0.713 ± 0.042 | 0.732 | 0.703 |
 || 20批大小 | 挑战指标 | 12315 ± 903 | 8720
+| | 20个周期 | 准确率 | 0.51 ± 0.047 | 0.537 | 0.537 |
+|| 加权分类交叉熵 | F测量 | 0.465 ± 0.061 | 0.530 | 0.503 |
 
 
 # Citation
