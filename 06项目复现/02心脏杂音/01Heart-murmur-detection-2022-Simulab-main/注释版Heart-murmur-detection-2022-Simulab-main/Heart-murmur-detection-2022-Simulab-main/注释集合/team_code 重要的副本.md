@@ -123,21 +123,41 @@ from sklearn.utils.class_weight import compute_class_weight
 
 下面这段代码是一个Python函数，用于训练一个机器学习模型。这个函数包含了数据加载、预处理、模型构建、训练和保存的整个过程。下面是对这个函数的逐行注释：
 
+
+下面这个Python函数train_challenge_model是一个训练模型的函数，它包含了一些预定义的变量和条件判断，用于控制训练过程的不同方面。以下是对这个函数的逐行注释：
 ```python
-# 训练模型的函数。
+# 训练模型的函数。# 定义训练挑战模型的函数。
 def train_challenge_model(data_folder, model_folder, verbose):
-    # 打印信息，如果verbose参数大于或等于1。
+    # 如果verbose参数大于或等于1，则打印寻找数据文件的信息。
     if verbose >= 1:
         print('Finding data files...')
 
-    # 预定义的一些变量，用于后续的模型训练。
-    PRE_TRAIN = False  # 是否进行预训练的标志。
-    NEW_FREQUENCY = 100  # 重采样到的目标频率。
+    # 预定义一些变量，这些变量将在后续的模型训练过程中使用。
+    PRE_TRAIN = False  # 一个布尔值，指示是否进行预训练。
+    NEW_FREQUENCY = 100  # 目标采样频率，用于重采样信号数据。
     EPOCHS_1 = 30  # 第一阶段训练的轮数。
     EPOCHS_2 = 20  # 第二阶段训练的轮数。
     BATCH_SIZE_1 = 20  # 第一阶段训练的批量大小。
     BATCH_SIZE_2 = 20  # 第二阶段训练的批量大小。
 
+    # 这里省略了实际的模型训练代码，通常包括加载数据、预处理、模型构建、训练和保存模型等步骤。
+    # 这些步骤需要根据具体的数据集、模型架构和训练策略来实现。
+```
+在这个函数中，`verbose`参数用于控制训练过程中的信息输出。如果`verbose`大于或等于1，函数会在开始寻找数据文件时打印一条信息。接着，函数定义了一系列的预定义变量，这些变量用于控制训练过程中的不同参数，如是否进行预训练、目标采样频率、训练轮数和批量大小等。
+
+请注意，这段代码只是函数的开始部分，实际的模型训练逻辑（如加载数据、预处理、模型构建、训练循环和模型保存）在这段注释之后。这些步骤需要根据具体的项目需求和数据集来实现。
+
+
+
+
+
+
+
+
+
+
+
+```python
     # 查找患者数据文件。
     patient_files = find_patient_files(data_folder)  # 假设find_patient_files是一个自定义函数，用于查找患者数据文件。
     num_patient_files = len(patient_files)
@@ -148,13 +168,26 @@ def train_challenge_model(data_folder, model_folder, verbose):
 
     # 如果模型文件夹不存在，则创建它。
     os.makedirs(model_folder, exist_ok=True)  # 创建模型文件夹。
+```
 
+下面这段Python代码定义了两组类别标签，一组用于心脏病杂音的检测（murmur_classes），另一组用于心脏病的临床结果（outcome_classes）。这些类别标签通常用于机器学习模型的分类任务中。以下是对这段代码的逐行注释：
+```python
     # 定义类别标签。
-    murmur_classes = ['Present', 'Unknown', 'Absent']  # 杂音类别。
-    num_murmur_classes = len(murmur_classes)  # 杂音类别的数量。
-    outcome_classes = ['Abnormal', 'Normal']  # 结果类别。
-    num_outcome_classes = len(outcome_classes)  # 结果类别的数量。
+    murmur_classes = ['Present', 'Unknown', 'Absent']  # 定义杂音类别的列表。# 杂音类别包括：存在（Present）、未知（Unknown）、不存在（Absent）。
+    num_murmur_classes = len(murmur_classes)  # 计算杂音类别的数量。# 获取列表中元素的数量，即杂音类别的总数。
+    outcome_classes = ['Abnormal', 'Normal']  # 定义结果类别的列表。# 结果类别包括：异常（Abnormal）、正常（Normal）。
+    num_outcome_classes = len(outcome_classes)  # 计算结果类别的数量。# 获取列表中元素的数量，即结果类别的总数。
+```
+在上面这段代码中，我们首先创建了一个名为murmur_classes的列表，用于表示心脏病杂音可能的状态。然后，我们使用len()函数计算这个列表的长度，得到杂音类别的总数，并将其存储在num_murmur_classes变量中。同样，我们为心脏病的临床结果创建了一个名为outcome_classes的列表，并计算其长度，得到结果类别的总数，并将其存储在num_outcome_classes变量中。
 
+这些类别标签和数量在构建机器学习模型时非常重要，因为它们帮助定义了模型的输出层结构，以及如何处理和解释模型的预测结果。例如，如果模型是一个分类器，那么输出层的神经元数量应该与这些类别的数量相匹配。
+
+
+
+
+
+
+```python
     # 提取特征和标签。
     if verbose >= 1:
         print('Extracting features and labels from the Challenge data...')
