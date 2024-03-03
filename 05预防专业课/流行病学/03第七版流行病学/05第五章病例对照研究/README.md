@@ -408,6 +408,12 @@ data <- data.frame(  # 创建一个数据框
 # 匹配设计
 matches <- matchit(BreastCancer ~ Age + Menopause + NightShift, data, method = "nearest", ratio = 1)  # 使用最近邻匹配方法进行倾向得分匹配
 
+
+# 什么是倾向得分匹配？
+# 倾向得分匹配的介绍如下：
+
+
+#什么是最近邻匹配方法？
 # 最近邻匹配方法的介绍如下：
 
 
