@@ -350,7 +350,61 @@ for j in range(len(current_recordings)):
 
 
 
+让我们通过一个具体的例子来说明上述代码段的内容。假设我们正在处理一个心脏杂音数据库，其中包含了多个患者的听诊录音和相关的听诊位置信息。我们的目标是从这些数据中提取每个录音对应的听诊位置和杂音位置信息。
 
+首先，我们有一个名为`current_patient_data`的字符串，它包含了一个患者的所有听诊位置信息。这些信息可能以文本形式存储，例如：
+
+```
+Patient ID: 1234
+Auscultation Locations: 1+2+3+4
+Recordings: 5
+Location 1:
+...
+Location 2:
+...
+Location 3:
+...
+Location 4:
+...
+```
+
+在这个例子中，`Patient ID`和`Auscultation Locations`是头部信息，而`Recordings`后面跟着的数字表示录音的数量。每个`Location`后面跟着的是具体的听诊位置信息。
+
+现在，我们想要提取每个录音的听诊位置和杂音位置信息。我们可以按照以下步骤操作：
+
+1. 使用`split('\n')`方法按换行符分割`current_patient_data`字符串，得到一个列表，其中每个元素代表一行数据。
+
+2. 通过切片操作`[1:]`获取从第二行开始的数据，因为第一行是头部信息。
+
+3. 对于每个录音（假设有5个录音），我们使用`split(" ")`方法按空格分割对应的听诊位置信息字符串，然后取列表的第一个元素作为当前录音的听诊位置。
+
+4. 同时，我们调用自定义函数`get_murmur_locations`来提取所有杂音位置信息。这个函数会解析`current_patient_data`字符串，并返回一个包含所有杂音位置的字符串。然后，我们使用`split("+")`方法按`"+"`符号分割这个字符串，得到一个列表，其中每个元素代表一个杂音位置的信息。
+
+以下是一个简化的代码示例，展示了这个过程：
+
+```python
+# 假设的current_patient_data字符串
+current_patient_data = "Patient ID: 1234\nAuscultation Locations: 1+2+3+4\nRecordings: 5\nLocation 1:\n...\nLocation 2:\n...\nLocation 3:\n...\nLocation 4:\n..."
+
+# 假设的current_recordings列表，包含5个录音
+current_recordings = [...]  # 这里应该是实际的录音数据
+
+# 提取听诊位置信息
+auscultation_locations = current_patient_data.split('\n')[1:6]  # 假设听诊位置信息在第二行到第五行
+for j in range(len(current_recordings)):
+    current_location_info = auscultation_locations[j].split(" ")
+    current_auscultation_location = current_location_info[0]  # 假设听诊位置是每个信息块的第一个元素
+
+# 提取杂音位置信息
+murmur_locations_str = "Auscultation Locations: 1+2+3+4"  # 从current_patient_data中提取杂音位置信息
+all_murmur_locations = murmur_locations_str.split("+")
+
+# 输出结果
+print("Current Auscultation Location:", current_auscultation_location)
+print("All Murmur Locations:", all_murmur_locations)
+```
+
+在这个例子中，我们假设`current_recordings`列表包含了5个录音，每个录音对应一个听诊位置。我们从`current_patient_data`中提取了听诊位置和杂音位置信息，并存储在相应的变量中。这些信息可以用于后续的数据分析，例如，分析特定听诊位置的录音中是否存在杂音。
 
 
 
