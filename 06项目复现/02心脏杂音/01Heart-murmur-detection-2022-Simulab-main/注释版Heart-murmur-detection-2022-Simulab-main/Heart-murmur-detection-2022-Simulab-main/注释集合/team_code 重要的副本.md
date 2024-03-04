@@ -255,7 +255,54 @@ def train_challenge_model(data_folder, model_folder, verbose):
 
 
 
+让我们通过一个具体的例子来说明上述代码段的内容。假设我们正在处理心脏杂音的音频数据，我们的目标是将所有录音的采样率统一到一个较低的值，比如16kHz，以便于后续的分析和处理。
 
+首先，我们有一个名为`current_recordings`的列表，它包含了多个患者的心脏录音。每个录音都是一个时间序列数据，记录了心脏声音随时间的变化。这些录音可能来自不同的设备，因此它们的采样率可能各不相同。
+
+现在，我们想要将这些录音的采样率统一到16kHz。为了实现这一点，我们需要执行以下步骤：
+
+1. 初始化一个空列表`data`，用于存储重采样后的录音数据。
+
+2. 对于`current_recordings`列表中的每个录音（假设有N个录音），执行以下操作：
+
+   a. 获取当前录音的原始采样率，记为`freq[j]`。
+   
+   b. 使用`signal.resample`函数对当前录音进行重采样。这个函数的第一个参数是原始录音数据，第二个参数是新的采样点数。为了计算新的采样点数，我们需要知道原始录音的总时长（秒）。这可以通过原始采样点数除以原始采样率得到。然后，我们将这个时长乘以新的采样率（16kHz）来得到新的采样点数。公式如下：
+
+   ```
+   new_sample_count = int((len(current_recordings[j]) / freq[j]) * NEW_FREQUENCY)
+   ```
+
+   其中`NEW_FREQUENCY`是我们想要设置的新采样率，这里是16000。
+
+   c. 将重采样后的录音数据添加到`data`列表中。
+
+3. 循环结束后，`data`列表将包含所有重采样后的录音数据，它们的采样率都是16kHz。
+
+下面是一个简化的代码示例，展示了这个过程：
+
+```python
+import signal
+
+# 假设current_recordings是一个包含多个录音的列表，freq是一个包含对应采样率的列表
+current_recordings = [...]  # 原始录音数据列表
+freq = [...]  # 原始采样率列表
+NEW_FREQUENCY = 16000  # 新的采样率，16kHz
+
+data = []  # 初始化一个空列表，用于存储重采样后的录音数据
+
+for j in range(len(current_recordings)):
+    # 重采样当前录音
+    new_sample_count = int((len(current_recordings[j]) / freq[j]) * NEW_FREQUENCY)
+    resampled_data = signal.resample(current_recordings[j], new_sample_count)
+    
+    # 将重采样后的录音数据添加到data列表中
+    data.append(resampled_data)
+
+# 现在data列表包含了所有重采样后的录音数据
+```
+
+在这个例子中，我们没有直接使用`signal.resample`函数，而是展示了计算新采样点数的逻辑。在实际应用中，你可以直接使用`signal.resample`函数来执行重采样操作。
 
 
 
