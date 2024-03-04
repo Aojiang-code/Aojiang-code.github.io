@@ -159,16 +159,23 @@ def train_challenge_model(data_folder, model_folder, verbose):
 
 ```python
     # 查找患者数据文件。
+    # 调用自定义函数find_patient_files来在指定的文件夹data_folder中查找所有患者数据文件。
     patient_files = find_patient_files(data_folder)  # 假设find_patient_files是一个自定义函数，用于查找患者数据文件。
+    # 获取找到的患者数据文件数量。
     num_patient_files = len(patient_files)
 
-    # 如果没有提供数据，则抛出异常。
+    # 如果没有提供数据文件，则抛出异常。
+    # 检查找到的患者数据文件数量，如果为0，说明没有提供数据文件，抛出异常。
     if num_patient_files == 0:
         raise Exception('No data was provided.')
 
     # 如果模型文件夹不存在，则创建它。
+    # 使用os模块的makedirs函数创建名为model_folder的文件夹，exist_ok=True表示如果文件夹已存在，不会抛出异常。
     os.makedirs(model_folder, exist_ok=True)  # 创建模型文件夹。
 ```
+
+
+
 
 下面这段Python代码定义了两组类别标签，一组用于心脏病杂音的检测（murmur_classes），另一组用于心脏病的临床结果（outcome_classes）。这些类别标签通常用于机器学习模型的分类任务中。以下是对这段代码的逐行注释：
 ```python
@@ -189,25 +196,96 @@ def train_challenge_model(data_folder, model_folder, verbose):
 
 ```python
     # 提取特征和标签。
+    # 如果verbose参数大于或等于1，则打印提示信息，表示正在从挑战数据中提取特征和标签。
     if verbose >= 1:
         print('Extracting features and labels from the Challenge data...')
 
     # 初始化数据列表和杂音、结果列表。
+    # 创建一个空列表data，用于存储提取的数据。
     data = []
+    # 创建一个空列表murmurs，用于存储杂音数据。
     murmurs = list()
+    # 创建一个空列表outcomes，用于存储结果标签。
     outcomes = list()
+```
+
+
+
+```python
+
 
     # 遍历所有患者文件，加载数据并进行预处理。
+    # 使用tqdm库的tqdm函数创建一个进度条，用于显示遍历进度。range(num_patient_files)生成一个从0到num_patient_files-1的整数序列。
     for i in tqdm.tqdm(range(num_patient_files)):
         # 加载当前患者的数据和录音。
-        current_patient_data = load_patient_data(patient_files[i])  # 假设load_patient_data是一个自定义函数，用于加载患者数据。
-        current_recordings, freq = load_recordings(data_folder, current_patient_data, get_frequencies=True)  # 假设load_recordings是一个自定义函数，用于加载录音数据。
+        # 调用自定义函数load_patient_data，传入patient_files列表中的第i个文件路径，加载当前患者的数据。
+        current_patient_data = load_patient_data(patient_files[i])
+        # 调用自定义函数load_recordings，传入data_folder（数据文件夹路径）、current_patient_data（当前患者数据）和get_frequencies=True（获取频率信息的标志），
+        # 加载当前患者的录音数据，返回录音数据和采样频率。
+        current_recordings, freq = load_recordings(data_folder, current_patient_data, get_frequencies=True)
+```
+
+
+
+```python
+        # 对当前患者的每个录音进行处理。
         for j in range(len(current_recordings)):
             # 对录音进行重采样。
+            # 使用signal模块的resample函数对第j个录音进行重采样，将其采样率调整为NEW_FREQUENCY。
+            # 计算新的采样点数：原始采样点数除以原始频率，然后乘以新的频率。
+            # 将重采样后的录音数据添加到data列表中。
             data.append(signal.resample(current_recordings[j], int((len(current_recordings[j]) / freq[j]) * NEW_FREQUENCY)))
+```
+上述代码段是处理音频数据的一部分，具体来说，是对每个患者的录音进行重采样。重采样是音频处理中的一种常见操作，它改变音频信号的采样率。在这个过程中，原始音频数据会被重新处理，以适应新的采样率。以下是对这段代码的详细解释：
+
+1. `for j in range(len(current_recordings)):`
+   这行代码开始一个循环，它将遍历`current_recordings`列表中的所有录音。`current_recordings`是一个包含多个音频信号的列表，每个音频信号对应患者的一个录音。
+
+2. `data.append(signal.resample(current_recordings[j], int((len(current_recordings[j]) / freq[j]) * NEW_FREQUENCY)))`
+   在循环内部，这行代码执行重采样操作。它使用`signal`模块的`resample`函数，该函数接受两个参数：原始音频信号和新的采样率。
+
+   - `current_recordings[j]`：这是当前正在处理的录音数据，它是`current_recordings`列表中的第`j`个元素。
+   - `int((len(current_recordings[j]) / freq[j]) * NEW_FREQUENCY)`：这是计算新的采样率的公式。首先，`len(current_recordings[j])`获取当前录音的原始采样点数。然后，`freq[j]`是当前录音的原始采样频率。通过将原始采样点数除以原始频率，得到原始音频的时长（秒）。接着，将这个时长乘以新的采样率`NEW_FREQUENCY`，得到新的采样点数。最后，将这个新的采样点数转换为整数，作为`resample`函数的第二个参数。
+
+   - `data.append(...)`：将重采样后的音频数据添加到`data`列表中。`data`列表在循环开始前已经初始化，用于存储所有处理后的音频数据。
+
+`NEW_FREQUENCY`是一个在代码其他地方定义的变量，它指定了新的采样率。例如，如果原始录音的采样率是44.1kHz，而我们想要将其重采样到22.05kHz，那么`NEW_FREQUENCY`的值就是22.05。
+
+重采样后的音频数据将被用于后续的分析或特征提取，这在音频处理和机器学习任务中是很常见的。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```python
             # 获取当前听诊位置和杂音位置信息。
+            # 假设current_patient_data是一个字符串，包含了患者的所有听诊位置信息。
+            # 使用split('\n')按行分割字符串，然后取从第二行开始到第len(current_recordings)+1行的数据，这应该对应于每个录音的听诊位置信息。
+            # 然后，对于每个听诊位置信息，再次使用split(" ")按空格分割，取每个分割结果的第一个元素，即为当前的听诊位置。
             current_auscultation_location = current_patient_data.split('\n')[1:len(current_recordings) + 1][j].split(" ")[0]
+
+            # 使用自定义函数get_murmur_locations获取当前患者数据中的所有杂音位置信息。
+            # 假设get_murmur_locations是一个自定义函数，它解析患者数据并返回杂音位置的字符串。
+            # 然后，使用split("+")按"+"符号分割字符串，得到一个包含所有杂音位置的列表。
             all_murmur_locations = get_murmur_locations(current_patient_data).split("+")
+```
+
+
+
+```python
             # 根据患者数据确定杂音类别。
             current_murmur = np.zeros(num_murmur_classes, dtype=int)
             if get_murmur(current_patient_data) == "Present":
@@ -221,6 +299,11 @@ def train_challenge_model(data_folder, model_folder, verbose):
                 current_murmur[2] = 1
             murmurs.append(current_murmur)
 
+```
+
+
+
+```python
             # 根据患者数据确定结果类别。
             current_outcome = np.zeros(num_outcome_classes, dtype=int)
             outcome = get_outcome(current_patient_data)  # 假设get_outcome是一个自定义函数，用于获取结果。
@@ -229,14 +312,31 @@ def train_challenge_model(data_folder, model_folder, verbose):
                 current_outcome[j] = 1
             outcomes.append(current_outcome)
 
+
+
+```
+
+
+
+
+
+```python
     # 对数据进行填充，以确保所有信号长度一致。
     data_padded = pad_array(data)  # 假设pad_array是一个自定义函数，用于填充数据。
     data_padded = np.expand_dims(data_padded, 2)  # 扩展数据维度，以适应模型输入。
+```
 
+
+
+```python
     # 将杂音和结果类别转换为NumPy数组。
     murmurs = np.vstack(murmurs)
     outcomes = np.argmax(np.vstack(outcomes), axis=1)  # 假设使用argmax来确定最可能的类别。
+```
 
+
+
+```python
     # 打印信号数量。
     print(f"Number of signals = {data_padded.shape[0]}")
 
@@ -245,22 +345,42 @@ def train_challenge_model(data_folder, model_folder, verbose):
     print(f"Present = {np.where(np.argmax(murmurs, axis=1) == 0)[0].shape[0]}, Unknown = {np.where(np.argmax(murmurs, axis=1) == 1)[0].shape[0]}, Absent = {np.where(np.argmax(murmurs, axis=1) == 2)[0].shape[0]})")
     print("Outcomes prevalence:")
     print(f"Abnormal = {len(np.where(outcomes == 0)[0])}, Normal = {len(np.where(outcomes == 1)[0])}")
+```
 
+
+
+```python
     # 计算杂音类别的权重。
     new_weights_murmur = calculating_class_weights(murmurs)  # 假设calculating_class_weights是一个自定义函数，用于计算类别权重。
     murmur_weight_dictionary = dict(zip(np.arange(0, len(murmur_classes), 1), new_weights_murmur.T[1]))
+```
 
+
+
+```python
     # 计算结果类别的权重。
     weight_outcome = np.unique(outcomes, return_counts=True)[1][0] / np.unique(outcomes, return_counts=True)[1][1]
     outcome_weight_dictionary = {0: 1.0, 1: weight_outcome}
+```
 
+
+
+```python
     # 设置学习率调度器。
     lr_schedule = tf.keras.callbacks.LearningRateScheduler(scheduler_2, verbose=0)  # 假设scheduler_2是一个自定义的学习率调度函数。
+```
 
+
+
+```python
     # 配置GPU。
     gpus = tf.config.list_logical_devices('GPU')
     strategy = tf.distribute.MirroredStrategy(gpus)  # 使用MirroredStrategy来分配GPU资源。
+```
 
+
+
+```python
     # 在策略范围内构建模型。
     with strategy.scope():
         # 如果不进行预训练，则构建模型。
@@ -271,32 +391,52 @@ def train_challenge_model(data_folder, model_folder, verbose):
             # 如果进行预训练，则加载预训练模型。
             model = base_model(data_padded.shape[1], data_padded.shape[2])  # 假设base_model是一个自定义的预训练模型。
             model.load_weights("./pretrained_model.h5")  # 加载预训练模型权重。
+```
 
+
+
+```python
             # 添加输出层并编译模型。
             outcome_layer = tf.keras.layers.Dense(1, "sigmoid", name="clinical_output")(model.layers[-2].output)
             clinical_model = tf.keras.Model(inputs=model.layers[0].output, outputs=[outcome_layer])
             clinical_model.compile(loss="binary_crossentropy", optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
                                     metrics=[tf.keras.metrics.BinaryAccuracy(), tf.keras.metrics.AUC(curve='ROC')])
+```
 
+
+
+```python
             murmur_layer = tf.keras.layers.Dense(3, "softmax", name="murmur_output")(model.layers[-2].output)
             murmur_model = tf.keras.Model(inputs=model.layers[0].output, outputs=[murmur_layer])
             murmur_model.compile(loss="categorical_crossentropy", optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
                                     metrics=[tf.keras.metrics.CategoricalAccuracy(), tf.keras.metrics.AUC(curve='ROC')])
+```
 
+
+
+```python
         # 训练杂音模型。
         murmur_model.fit(x=data_padded, y=murmurs, epochs=EPOCHS_1, batch_size=BATCH_SIZE_1,
                         verbose=1, shuffle=True,
                         class_weight=murmur_weight_dictionary
                         # ,callbacks=[lr_schedule]
                         )
+```
 
+
+
+```python
         # 训练临床模型。
         clinical_model.fit(x=data_padded, y=outcomes, epochs=EPOCHS_2, batch_size=BATCH_SIZE_2,
                         verbose=1, shuffle=True,
                         class_weight=outcome_weight_dictionary
                         # ,callbacks=[lr_schedule]
                         )
+```
 
+
+
+```python
     # 保存模型。
     murmur_model.save(os.path.join(model_folder, 'murmur_model.h5'))  # 保存杂音模型。
     clinical_model.save(os.path.join(model_folder, 'clinical_model.h5'))  # 保存临床模型。
