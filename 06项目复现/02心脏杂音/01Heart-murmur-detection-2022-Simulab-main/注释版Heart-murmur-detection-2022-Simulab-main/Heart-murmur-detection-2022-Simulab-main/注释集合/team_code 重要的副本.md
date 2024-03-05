@@ -327,7 +327,7 @@ for j in range(len(current_recordings)):
             all_murmur_locations = get_murmur_locations(current_patient_data).split("+")
 ```
 #### 详细介绍获取当前听诊位置和杂音位置信息
-上述代码段的目的是从患者的数据中提取听诊位置和杂音位置信息。这些信息通常用于心脏杂音分析，其中听诊位置指的是医生使用听诊器听取心脏声音的具体位置，而杂音位置则是指在听诊过程中检测到心脏杂音的具体位置。以下是对这段代码的详细解释：
+上述代码段的目的是从患者的数据中提取听诊位置和杂音位置信息。这些信息通常用于心脏杂音分析，其中**听诊位置指的是医生使用听诊器听取心脏声音的具体位置，而杂音位置则是指在听诊过程中检测到心脏杂音的具体位置**。以下是对这段代码的详细解释：
 
 1. `current_auscultation_location = current_patient_data.split('\n')[1:len(current_recordings) + 1][j].split(" ")[0]`
    - `current_patient_data.split('\n')`：这行代码首先使用`split('\n')`方法按换行符`\n`分割`current_patient_data`字符串，得到一个列表，其中每个元素代表一行数据。
@@ -344,8 +344,6 @@ for j in range(len(current_recordings)):
 
 
 #### 举例介绍获取当前听诊位置和杂音位置信息
-
-
 
 让我们通过一个具体的例子来说明上述代码段的内容。假设我们正在处理一个心脏杂音数据库，其中包含了多个患者的听诊录音和相关的听诊位置信息。我们的目标是从这些数据中提取每个录音对应的听诊位置和杂音位置信息。
 
@@ -387,7 +385,7 @@ current_patient_data = "Patient ID: 1234\nAuscultation Locations: 1+2+3+4\nRecor
 current_recordings = [...]  # 这里应该是实际的录音数据
 
 # 提取听诊位置信息
-auscultation_locations = current_patient_data.split('\n')[1:6]  # 假设听诊位置信息在第二行到第五行
+auscultation_locations = current_patient_data.split('\n')[1:6]  # 假设听诊位置信息在第二行到第七行
 for j in range(len(current_recordings)):
     current_location_info = auscultation_locations[j].split(" ")
     current_auscultation_location = current_location_info[0]  # 假设听诊位置是每个信息块的第一个元素
@@ -430,7 +428,7 @@ current_patient_data = "Patient ID: 5678\nAuscultation Locations: 1+2+3+4\nRecor
 lines = current_patient_data.split('\n')
 
 # 获取听诊位置信息的行（假设从第二行开始）
-auscultation_locations_lines = lines[1:5]  # 从第二行到第五行
+auscultation_locations_lines = lines[1:5]  # 从第二行到第六行
 
 # 提取每个录音的听诊位置
 for j in range(4):  # 我们有4个录音
