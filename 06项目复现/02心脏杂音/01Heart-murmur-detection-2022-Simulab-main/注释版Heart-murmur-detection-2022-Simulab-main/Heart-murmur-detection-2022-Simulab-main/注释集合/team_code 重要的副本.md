@@ -428,16 +428,17 @@ current_patient_data = "Patient ID: 5678\nAuscultation Locations: 1+2+3+4\nRecor
 lines = current_patient_data.split('\n')
 
 # 找到包含听诊位置信息的行
-auscultation_locations_line = lines[3]  # 假设听诊位置信息在第四行（索引为3）
+auscultation_locations_line = lines[4]  # 修正索引为4
 
 # 提取所有听诊位置
 auscultation_locations = auscultation_locations_line.split("Location ")
 
 # 提取每个录音的听诊位置
-for j in range(1, len(auscultation_locations), 2):  # 从第二个元素开始，每隔一个元素（因为每个位置信息包含两个部分，如"Location 1: Apical"）
-    # 提取听诊位置名称
-    location_name = auscultation_locations[j + 1].split(":")[1].strip()
-    print(f"Recording {j+1} Auscultation Location: {location_name}")
+for i in range(0, len(auscultation_locations), 2):  # 遍历所有元素，步长为2
+    # 提取听诊位置编号和名称
+    location_number = auscultation_locations[i].strip()
+    location_name = auscultation_locations[i + 1].split(":")[1].strip()
+    print(f"Recording {location_number} Auscultation Location: {location_name}")
 ```
 
 输出：
@@ -452,7 +453,7 @@ Recording 4 Auscultation Location: Aortic
 ```python
 # 使用自定义函数get_murmur_locations提取杂音位置信息
 def get_murmur_locations(data):
-    # 假设杂音位置信息在"Auscultation Locations:"后面
+    # 假设杂音位置信息在"Auscultation Locations:"后面#但其实不是这样的，在后文定义了`get_murmur_locations()`这个函数，但是我没有`data`的数据结构，所以不知道真实的数据是怎样的
     murmur_info = data.split("Auscultation Locations:")[1]
     return murmur_info
 
@@ -470,11 +471,7 @@ All Murmur Locations: ['1', '2', '3', '4']
 
 
 
-
-
-
-
-
+### 根据患者数据确定杂音类别
 
 ```python
             # 根据患者数据确定杂音类别。
@@ -492,7 +489,7 @@ All Murmur Locations: ['1', '2', '3', '4']
 
 ```
 
-
+### 根据患者数据确定结果类别
 
 ```python
             # 根据患者数据确定结果类别。
@@ -508,7 +505,7 @@ All Murmur Locations: ['1', '2', '3', '4']
 ```
 
 
-
+### 对数据进行填充，以确保所有信号长度一致
 
 
 ```python
@@ -517,20 +514,19 @@ All Murmur Locations: ['1', '2', '3', '4']
     data_padded = np.expand_dims(data_padded, 2)  # 扩展数据维度，以适应模型输入。
 ```
 
-
+### 将杂音和结果类别转换为NumPy数组
 
 ```python
     # 将杂音和结果类别转换为NumPy数组。
     murmurs = np.vstack(murmurs)
     outcomes = np.argmax(np.vstack(outcomes), axis=1)  # 假设使用argmax来确定最可能的类别。
-```
-
-
-
-```python
     # 打印信号数量。
     print(f"Number of signals = {data_padded.shape[0]}")
+```
 
+### 打印杂音和结果的分布情况
+
+```python
     # 打印杂音和结果的分布情况。
     print("Murmurs prevalence:")
     print(f"Present = {np.where(np.argmax(murmurs, axis=1) == 0)[0].shape[0]}, Unknown = {np.where(np.argmax(murmurs, axis=1) == 1)[0].shape[0]}, Absent = {np.where(np.argmax(murmurs, axis=1) == 2)[0].shape[0]})")
@@ -538,7 +534,7 @@ All Murmur Locations: ['1', '2', '3', '4']
     print(f"Abnormal = {len(np.where(outcomes == 0)[0])}, Normal = {len(np.where(outcomes == 1)[0])}")
 ```
 
-
+### 计算杂音类别的权重
 
 ```python
     # 计算杂音类别的权重。
@@ -546,7 +542,7 @@ All Murmur Locations: ['1', '2', '3', '4']
     murmur_weight_dictionary = dict(zip(np.arange(0, len(murmur_classes), 1), new_weights_murmur.T[1]))
 ```
 
-
+### 计算结果类别的权重
 
 ```python
     # 计算结果类别的权重。
@@ -554,14 +550,14 @@ All Murmur Locations: ['1', '2', '3', '4']
     outcome_weight_dictionary = {0: 1.0, 1: weight_outcome}
 ```
 
-
+### 设置学习率调度器
 
 ```python
     # 设置学习率调度器。
     lr_schedule = tf.keras.callbacks.LearningRateScheduler(scheduler_2, verbose=0)  # 假设scheduler_2是一个自定义的学习率调度函数。
 ```
 
-
+### 配置GPU
 
 ```python
     # 配置GPU。
@@ -569,7 +565,7 @@ All Murmur Locations: ['1', '2', '3', '4']
     strategy = tf.distribute.MirroredStrategy(gpus)  # 使用MirroredStrategy来分配GPU资源。
 ```
 
-
+### 在策略范围内构建模型
 
 ```python
     # 在策略范围内构建模型。
@@ -584,7 +580,7 @@ All Murmur Locations: ['1', '2', '3', '4']
             model.load_weights("./pretrained_model.h5")  # 加载预训练模型权重。
 ```
 
-
+### 添加输出层并编译模型
 
 ```python
             # 添加输出层并编译模型。
@@ -594,7 +590,7 @@ All Murmur Locations: ['1', '2', '3', '4']
                                     metrics=[tf.keras.metrics.BinaryAccuracy(), tf.keras.metrics.AUC(curve='ROC')])
 ```
 
-
+### 
 
 ```python
             murmur_layer = tf.keras.layers.Dense(3, "softmax", name="murmur_output")(model.layers[-2].output)
@@ -604,6 +600,15 @@ All Murmur Locations: ['1', '2', '3', '4']
 ```
 
 
+
+
+
+
+
+
+
+
+### 训练杂音模型
 
 ```python
         # 训练杂音模型。
@@ -616,6 +621,12 @@ All Murmur Locations: ['1', '2', '3', '4']
 
 
 
+
+
+
+
+### 训练临床模型
+
 ```python
         # 训练临床模型。
         clinical_model.fit(x=data_padded, y=outcomes, epochs=EPOCHS_2, batch_size=BATCH_SIZE_2,
@@ -626,6 +637,13 @@ All Murmur Locations: ['1', '2', '3', '4']
 ```
 
 
+
+
+
+
+
+
+### 保存模型
 
 ```python
     # 保存模型。
