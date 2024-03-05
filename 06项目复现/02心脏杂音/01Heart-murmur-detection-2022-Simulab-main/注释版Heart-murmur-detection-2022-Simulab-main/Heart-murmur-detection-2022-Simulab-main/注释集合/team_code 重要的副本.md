@@ -488,6 +488,106 @@ All Murmur Locations: ['1', '2', '3', '4']
             murmurs.append(current_murmur)
 
 ```
+### 详细介绍根据患者数据确定杂音类别
+上面这段代码的目的是从一个患者的数据中确定杂音的存在与否，并将结果编码为一个数值向量。这个向量将用于后续的数据分析或机器学习任务。以下是对上面这段代码的详细介绍：
+
+1. `current_murmur = np.zeros(num_murmur_classes, dtype=int)`
+   - 这行代码使用NumPy库创建了一个名为`current_murmur`的零向量。`num_murmur_classes`是一个整数，表示杂音类别的数量。这个向量的每个元素都是0，它的大小由`num_murmur_classes`决定。这个向量将用于表示当前患者的杂音类别。
+
+2. `if get_murmur(current_patient_data) == "Present":`
+   - 这行代码调用了一个名为`get_murmur`的自定义函数，该函数接收`current_patient_data`作为输入，并返回一个字符串，表示杂音是否存在（"Present"、"Unknown"或"Absent"）。
+   - 如果杂音存在（"Present"），则执行以下条件判断。
+
+3. `if current_auscultation_location in all_murmur_locations:`
+   - 这行代码检查当前听诊位置（`current_auscultation_location`）是否在所有已知杂音位置（`all_murmur_locations`）的列表中。
+   - 如果当前听诊位置是杂音位置，那么`current_murmur[0] = 1`，将向量的第一个元素设置为1，表示杂音在该位置存在。
+
+4. `else:`
+   - 如果当前听诊位置不是杂音位置，那么什么也不做（`pass`），这意味着向量的第一个元素保持为0。
+
+5. `elif get_murmur(current_patient_data) == "Unknown":`
+   - 如果杂音的存在性未知（"Unknown"），那么`current_murmur[1] = 1`，将向量的第二个元素设置为1，表示杂音的存在性未知。
+
+6. `elif get_murmur(current_patient_data) == "Absent":`
+   - 如果杂音不存在（"Absent"），那么`current_murmur[2] = 1`，将向量的第三个元素设置为1，表示杂音不存在。
+
+7. `murmurs.append(current_murmur)`
+   - 最后，将`current_murmur`向量添加到`murmurs`列表中。这个列表将包含所有患者的杂音类别信息。
+
+这段代码的输出是一个列表`murmurs`，其中每个元素都是一个向量，表示一个患者的杂音类别。这个列表可以用于后续的数据分析，例如，训练一个机器学习模型来预测杂音的存在性，或者进行统计分析以了解杂音在不同听诊位置的分布情况。
+
+
+#### 举例介绍根据患者数据确定杂音类别
+让我们通过一个具体的例子来说明上述代码段的内容。假设我们有一个心脏杂音数据库，其中包含了多个患者的听诊数据。我们的目标是根据这些数据确定每个患者是否存在杂音，并将结果编码为一个数值向量。以下是这个过程的Python实例：
+
+首先，我们定义一个名为`get_murmur`的函数，它将检查患者的数据并返回杂音的存在性（"Present"、"Unknown"或"Absent"）。然后，我们将创建一个列表`murmurs`来存储所有患者的杂音类别信息。
+
+```python
+import numpy as np
+
+# 假设我们有三个患者的数据
+patient_data = [
+    "Patient ID: 1\nAuscultation Locations: 1\nMurmur: Present",
+    "Patient ID: 2\nAuscultation Locations: 2\nMurmur: Unknown",
+    "Patient ID: 3\nAuscultation Locations: 3\nMurmur: Absent"
+]
+
+# 假设我们有三个杂音类别
+num_murmur_classes = 3
+
+# 定义一个函数来获取杂音的存在性
+def get_murmur(data):
+    # 这里我们简单地根据字符串内容返回杂音的存在性
+    if "Present" in data:
+        return "Present"
+    elif "Unknown" in data:
+        return "Unknown"
+    elif "Absent" in data:
+        return "Absent"
+    else:
+        return "Error"
+
+# 初始化murmurs列表
+murmurs = []
+
+# 遍历每个患者的数据
+for current_patient_data in patient_data:
+    # 初始化杂音类别向量
+    current_murmur = np.zeros(num_murmur_classes, dtype=int)
+    
+    # 获取杂音的存在性
+    murmur_status = get_murmur(current_patient_data)
+    
+    # 根据杂音的存在性设置向量
+    if murmur_status == "Present":
+        # 假设杂音位置是1
+        current_murmur[0] = 1
+    elif murmur_status == "Unknown":
+        current_murmur[1] = 1
+    elif murmur_status == "Absent":
+        current_murmur[2] = 1
+    
+    # 将当前患者的杂音类别向量添加到列表中
+    murmurs.append(current_murmur)
+
+# 输出结果
+print("Murmur categories for each patient:")
+print(murmurs)
+```
+
+在这个例子中，我们有三个患者的数据，每个数据包含患者的ID、听诊位置和杂音的存在性。我们定义了一个函数`get_murmur`来解析这些数据并返回杂音的存在性。然后，我们为每个患者创建一个杂音类别向量，并根据杂音的存在性设置向量的相应位置。最后，我们将这些向量添加到`murmurs`列表中。
+
+输出的`murmurs`列表将包含每个患者的杂音类别信息，例如：
+
+```
+Murmur categories for each patient:
+[[1 0 0]
+ [0 1 0]
+ [0 0 1]]
+```
+
+这表示第一个患者有杂音（Present），第二个患者的杂音存在性未知（Unknown），第三个患者没有杂音（Absent）。这个列表可以用于后续的数据分析或机器学习任务。
+
 
 ### 根据患者数据确定结果类别
 
@@ -499,10 +599,95 @@ All Murmur Locations: ['1', '2', '3', '4']
                 j = outcome_classes.index(outcome)
                 current_outcome[j] = 1
             outcomes.append(current_outcome)
+```
+#### 详细介绍根据患者数据确定结果类别
+这段代码的目的是根据患者的数据来确定一个特定的结果类别，并将这个类别编码为一个数值向量。这个向量随后会被添加到一个列表中，以便进行进一步的分析。以下是对这段代码的详细介绍：
 
+1. `current_outcome = np.zeros(num_outcome_classes, dtype=int)`
+   - 这行代码使用NumPy库创建了一个名为`current_outcome`的零向量。`num_outcome_classes`是一个整数，表示可能的结果类别的数量。这个向量的每个元素都是0，它的大小由`num_outcome_classes`决定。这个向量将用于表示当前患者的特定结果类别。
 
+2. `outcome = get_outcome(current_patient_data)`
+   - 这行代码调用了一个名为`get_outcome`的自定义函数，该函数接收`current_patient_data`作为输入，并返回一个字符串或数值，表示患者的结果类别。这个结果类别应该是`outcome_classes`列表中的一个元素。
+
+3. `if outcome in outcome_classes:`
+   - 这行代码检查`outcome`是否是`outcome_classes`列表中的一个有效类别。`outcome_classes`是一个包含了所有可能结果类别的列表。
+
+4. `j = outcome_classes.index(outcome)`
+   - 如果`outcome`是一个有效的类别，这行代码将使用`index`方法找到`outcome`在`outcome_classes`列表中的索引位置，并将其赋值给变量`j`。
+
+5. `current_outcome[j] = 1`
+   - 一旦我们有了索引`j`，我们将`current_outcome`向量中对应索引位置的元素设置为1。这样，`current_outcome`向量就表示了当前患者的特定结果类别。
+
+6. `outcomes.append(current_outcome)`
+   - 最后，将`current_outcome`向量添加到`outcomes`列表中。这个列表将包含所有患者的结果类别信息。
+
+这段代码的输出是一个列表`outcomes`，其中每个元素都是一个向量，表示一个患者的特定结果类别。这个列表可以用于后续的数据分析，例如，训练一个机器学习模型来预测结果类别，或者进行统计分析以了解不同结果类别的分布情况。
+
+请注意，这段代码假设`outcome_classes`是一个已经定义好的列表，包含了所有可能的结果类别。此外，`get_outcome`函数需要能够正确解析`current_patient_data`并返回相应的结果类别。如果`outcome`不是`outcome_classes`中的一个有效类别，那么在尝试获取索引时会抛出一个`ValueError`。在实际应用中，可能需要添加额外的错误处理来确保代码的健壮性。
+
+#### 举例介绍根据患者数据确定结果类别
+让我们通过一个具体的例子来说明上述代码段的内容。假设我们正在处理一个医疗数据集，其中包含了患者的健康检查结果，我们的目标是根据这些结果来确定患者的健康状况类别。以下是这个过程的Python实例：
+
+首先，我们定义一个名为`get_outcome`的函数，它将检查患者的数据并返回一个表示健康状况的类别。然后，我们将创建一个列表`outcomes`来存储所有患者的健康状态类别。
+
+```python
+import numpy as np
+
+# 假设我们有三个患者的数据
+patient_data = [
+    "Patient ID: 1\nDiagnosis: Healthy",
+    "Patient ID: 2\nDiagnosis: Diabetes",
+    "Patient ID: 3\nDiagnosis: Hypertension"
+]
+
+# 假设我们有三个健康状态类别
+outcome_classes = ["Healthy", "Diabetes", "Hypertension"]
+num_outcome_classes = len(outcome_classes)
+
+# 定义一个函数来获取患者的健康状态类别
+def get_outcome(data):
+    # 这里我们简单地根据字符串内容返回健康状态类别
+    for i, outcome in enumerate(outcome_classes):
+        if outcome in data:
+            return outcome
+    return "Unknown"
+
+# 初始化outcomes列表
+outcomes = []
+
+# 遍历每个患者的数据
+for current_patient_data in patient_data:
+    # 初始化健康状态类别向量
+    current_outcome = np.zeros(num_outcome_classes, dtype=int)
+    
+    # 获取患者的健康状态类别
+    outcome = get_outcome(current_patient_data)
+    
+    # 如果结果是有效的类别，则设置向量
+    if outcome in outcome_classes:
+        j = outcome_classes.index(outcome)
+        current_outcome[j] = 1
+    
+    # 将当前患者的健康状态类别向量添加到列表中
+    outcomes.append(current_outcome)
+
+# 输出结果
+print("Health status categories for each patient:")
+print(outcomes)
+```
+
+在这个例子中，我们有三个患者的数据，每个数据包含患者的ID和诊断结果。我们定义了一个函数`get_outcome`来解析这些数据并返回健康状态类别。然后，我们为每个患者创建一个健康状态类别向量，并根据诊断结果设置向量的相应位置。最后，我们将这些向量添加到`outcomes`列表中。
+
+输出的`outcomes`列表将包含每个患者的健康状态类别信息，例如：
 
 ```
+Health status categories for each patient:
+[[1 0 0]
+ [0 0 1]
+ [0 1 0]]
+```
+
+这表示第一个患者是健康的（Healthy），第二个患者患有糖尿病（Diabetes），第三个患者患有高血压（Hypertension）。这个列表可以用于后续的数据分析或机器学习任务。请注意，这个例子假设`outcome_classes`列表已经包含了所有可能的健康状态类别，并且`get_outcome`函数能够正确地从患者数据中提取类别信息。在实际应用中，可能需要更复杂的逻辑来处理数据。
 
 
 ### 对数据进行填充，以确保所有信号长度一致
@@ -513,6 +698,8 @@ All Murmur Locations: ['1', '2', '3', '4']
     data_padded = pad_array(data)  # 假设pad_array是一个自定义函数，用于填充数据。
     data_padded = np.expand_dims(data_padded, 2)  # 扩展数据维度，以适应模型输入。
 ```
+
+
 
 ### 将杂音和结果类别转换为NumPy数组
 
