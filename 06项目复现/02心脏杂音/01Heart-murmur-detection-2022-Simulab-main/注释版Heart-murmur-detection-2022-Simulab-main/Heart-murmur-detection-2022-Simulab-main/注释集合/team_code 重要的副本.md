@@ -310,7 +310,101 @@ for j in range(len(current_recordings)):
 
 在这个例子中，我们没有直接使用`signal.resample`函数，而是展示了计算新采样点数的逻辑。在实际应用中，你可以直接使用`signal.resample`函数来执行重采样操作。
 
-#### 举例介绍重采样
+
+
+### 获取当前听诊位置和杂音位置信息
+
+```python
+            # 获取当前听诊位置和杂音位置信息。
+            # 假设current_patient_data是一个字符串，包含了患者的所有听诊位置信息。
+            # 使用split('\n')按行分割字符串，然后取从第二行开始到第len(current_recordings)+1行的数据，这应该对应于每个录音的听诊位置信息。
+            # 然后，对于每个听诊位置信息，再次使用split(" ")按空格分割，取每个分割结果的第一个元素，即为当前的听诊位置。
+            current_auscultation_location = current_patient_data.split('\n')[1:len(current_recordings) + 1][j].split(" ")[0]
+
+            # 使用自定义函数get_murmur_locations获取当前患者数据中的所有杂音位置信息。
+            # 假设get_murmur_locations是一个自定义函数，它解析患者数据并返回杂音位置的字符串。
+            # 然后，使用split("+")按"+"符号分割字符串，得到一个包含所有杂音位置的列表。
+            all_murmur_locations = get_murmur_locations(current_patient_data).split("+")
+```
+#### 详细介绍获取当前听诊位置和杂音位置信息
+上述代码段的目的是从患者的数据中提取听诊位置和杂音位置信息。这些信息通常用于心脏杂音分析，其中听诊位置指的是医生使用听诊器听取心脏声音的具体位置，而杂音位置则是指在听诊过程中检测到心脏杂音的具体位置。以下是对这段代码的详细解释：
+
+1. `current_auscultation_location = current_patient_data.split('\n')[1:len(current_recordings) + 1][j].split(" ")[0]`
+   - `current_patient_data.split('\n')`：这行代码首先使用`split('\n')`方法按换行符`\n`分割`current_patient_data`字符串，得到一个列表，其中每个元素代表一行数据。
+   - `1:len(current_recordings) + 1`：这里使用切片操作`[1:]`来获取从第二行开始到`len(current_recordings) + 1`行的数据。这里假设第一行不是听诊位置信息，而是其他头部信息，而`len(current_recordings)`行对应于最后一个录音的听诊位置信息。
+   - `[j]`：从切片后的结果中取出第`j`个元素，这代表当前正在处理的录音的听诊位置信息。
+   - `.split(" ")`：再次使用`split(" ")`方法按空格`" "`分割上述字符串，得到一个列表。
+   - `[0]`：最后，取这个列表的第一个元素，这通常代表听诊位置的名称或代码。
+
+2. `all_murmur_locations = get_murmur_locations(current_patient_data).split("+")`
+   - `get_murmur_locations(current_patient_data)`：这是一个自定义函数，它接收`current_patient_data`作为输入，解析出所有杂音位置的信息，并返回一个字符串。这个字符串可能包含了多个杂音位置，它们之间可能用特定的符号（如`+`）分隔。
+   - `.split("+")`：使用`split("+")`方法按`"+"`符号分割这个字符串，得到一个列表，其中每个元素代表一个杂音位置的信息。
+
+这段代码的输出是两个变量：`current_auscultation_location`存储当前录音的听诊位置信息，而`all_murmur_locations`存储所有杂音位置的信息。这些信息可以用于后续的数据分析，例如，确定杂音是否出现在特定的听诊位置。
+
+
+#### 举例介绍获取当前听诊位置和杂音位置信息
+
+
+
+让我们通过一个具体的例子来说明上述代码段的内容。假设我们正在处理一个心脏杂音数据库，其中包含了多个患者的听诊录音和相关的听诊位置信息。我们的目标是从这些数据中提取每个录音对应的听诊位置和杂音位置信息。
+
+首先，我们有一个名为`current_patient_data`的字符串，它包含了一个患者的所有听诊位置信息。这些信息可能以文本形式存储，例如：
+
+```
+Patient ID: 1234
+Auscultation Locations: 1+2+3+4
+Recordings: 5
+Location 1:
+...
+Location 2:
+...
+Location 3:
+...
+Location 4:
+...
+```
+
+在这个例子中，`Patient ID`和`Auscultation Locations`是头部信息，而`Recordings`后面跟着的数字表示录音的数量。每个`Location`后面跟着的是具体的听诊位置信息。
+
+现在，我们想要提取每个录音的听诊位置和杂音位置信息。我们可以按照以下步骤操作：
+
+1. 使用`split('\n')`方法按换行符分割`current_patient_data`字符串，得到一个列表，其中每个元素代表一行数据。
+
+2. 通过切片操作`[1:]`获取从第二行开始的数据，因为第一行是头部信息。
+
+3. 对于每个录音（假设有5个录音），我们使用`split(" ")`方法按空格分割对应的听诊位置信息字符串，然后取列表的第一个元素作为当前录音的听诊位置。
+
+4. 同时，我们调用自定义函数`get_murmur_locations`来提取所有杂音位置信息。这个函数会解析`current_patient_data`字符串，并返回一个包含所有杂音位置的字符串。然后，我们使用`split("+")`方法按`"+"`符号分割这个字符串，得到一个列表，其中每个元素代表一个杂音位置的信息。
+
+以下是一个简化的代码示例，展示了这个过程：
+
+```python
+# 假设的current_patient_data字符串
+current_patient_data = "Patient ID: 1234\nAuscultation Locations: 1+2+3+4\nRecordings: 5\nLocation 1:\n...\nLocation 2:\n...\nLocation 3:\n...\nLocation 4:\n..."
+
+# 假设的current_recordings列表，包含5个录音
+current_recordings = [...]  # 这里应该是实际的录音数据
+
+# 提取听诊位置信息
+auscultation_locations = current_patient_data.split('\n')[1:6]  # 假设听诊位置信息在第二行到第五行
+for j in range(len(current_recordings)):
+    current_location_info = auscultation_locations[j].split(" ")
+    current_auscultation_location = current_location_info[0]  # 假设听诊位置是每个信息块的第一个元素
+
+# 提取杂音位置信息
+murmur_locations_str = "Auscultation Locations: 1+2+3+4"  # 从current_patient_data中提取杂音位置信息
+all_murmur_locations = murmur_locations_str.split("+")
+
+# 输出结果
+print("Current Auscultation Location:", current_auscultation_location)
+print("All Murmur Locations:", all_murmur_locations)
+```
+
+在这个例子中，我们假设`current_recordings`列表包含了5个录音，每个录音对应一个听诊位置。我们从`current_patient_data`中提取了听诊位置和杂音位置信息，并存储在相应的变量中。这些信息可以用于后续的数据分析，例如，分析特定听诊位置的录音中是否存在杂音。
+
+
+#### 举例介绍获取当前听诊位置和杂音位置信息
 让我们通过一个具体的例子来说明上述代码段的内容。假设我们有一个患者的心脏听诊数据，这些数据以文本文件的形式存储，文件内容如下：
 
 ```
@@ -374,109 +468,6 @@ All Murmur Locations: ['1', '2', '3', '4']
 ```
 
 在这个例子中，我们首先提取了每个录音的听诊位置，然后提取了所有杂音位置。这些信息可以用于后续的数据分析，例如，分析特定听诊位置的录音中是否存在杂音。
-
-
-
-
-
-
-
-
-
-
-
-
-```python
-            # 获取当前听诊位置和杂音位置信息。
-            # 假设current_patient_data是一个字符串，包含了患者的所有听诊位置信息。
-            # 使用split('\n')按行分割字符串，然后取从第二行开始到第len(current_recordings)+1行的数据，这应该对应于每个录音的听诊位置信息。
-            # 然后，对于每个听诊位置信息，再次使用split(" ")按空格分割，取每个分割结果的第一个元素，即为当前的听诊位置。
-            current_auscultation_location = current_patient_data.split('\n')[1:len(current_recordings) + 1][j].split(" ")[0]
-
-            # 使用自定义函数get_murmur_locations获取当前患者数据中的所有杂音位置信息。
-            # 假设get_murmur_locations是一个自定义函数，它解析患者数据并返回杂音位置的字符串。
-            # 然后，使用split("+")按"+"符号分割字符串，得到一个包含所有杂音位置的列表。
-            all_murmur_locations = get_murmur_locations(current_patient_data).split("+")
-```
-
-上述代码段的目的是从患者的数据中提取听诊位置和杂音位置信息。这些信息通常用于心脏杂音分析，其中听诊位置指的是医生使用听诊器听取心脏声音的具体位置，而杂音位置则是指在听诊过程中检测到心脏杂音的具体位置。以下是对这段代码的详细解释：
-
-1. `current_auscultation_location = current_patient_data.split('\n')[1:len(current_recordings) + 1][j].split(" ")[0]`
-   - `current_patient_data.split('\n')`：这行代码首先使用`split('\n')`方法按换行符`\n`分割`current_patient_data`字符串，得到一个列表，其中每个元素代表一行数据。
-   - `1:len(current_recordings) + 1`：这里使用切片操作`[1:]`来获取从第二行开始到`len(current_recordings) + 1`行的数据。这里假设第一行不是听诊位置信息，而是其他头部信息，而`len(current_recordings)`行对应于最后一个录音的听诊位置信息。
-   - `[j]`：从切片后的结果中取出第`j`个元素，这代表当前正在处理的录音的听诊位置信息。
-   - `.split(" ")`：再次使用`split(" ")`方法按空格`" "`分割上述字符串，得到一个列表。
-   - `[0]`：最后，取这个列表的第一个元素，这通常代表听诊位置的名称或代码。
-
-2. `all_murmur_locations = get_murmur_locations(current_patient_data).split("+")`
-   - `get_murmur_locations(current_patient_data)`：这是一个自定义函数，它接收`current_patient_data`作为输入，解析出所有杂音位置的信息，并返回一个字符串。这个字符串可能包含了多个杂音位置，它们之间可能用特定的符号（如`+`）分隔。
-   - `.split("+")`：使用`split("+")`方法按`"+"`符号分割这个字符串，得到一个列表，其中每个元素代表一个杂音位置的信息。
-
-这段代码的输出是两个变量：`current_auscultation_location`存储当前录音的听诊位置信息，而`all_murmur_locations`存储所有杂音位置的信息。这些信息可以用于后续的数据分析，例如，确定杂音是否出现在特定的听诊位置。
-
-
-
-
-
-
-让我们通过一个具体的例子来说明上述代码段的内容。假设我们正在处理一个心脏杂音数据库，其中包含了多个患者的听诊录音和相关的听诊位置信息。我们的目标是从这些数据中提取每个录音对应的听诊位置和杂音位置信息。
-
-首先，我们有一个名为`current_patient_data`的字符串，它包含了一个患者的所有听诊位置信息。这些信息可能以文本形式存储，例如：
-
-```
-Patient ID: 1234
-Auscultation Locations: 1+2+3+4
-Recordings: 5
-Location 1:
-...
-Location 2:
-...
-Location 3:
-...
-Location 4:
-...
-```
-
-在这个例子中，`Patient ID`和`Auscultation Locations`是头部信息，而`Recordings`后面跟着的数字表示录音的数量。每个`Location`后面跟着的是具体的听诊位置信息。
-
-现在，我们想要提取每个录音的听诊位置和杂音位置信息。我们可以按照以下步骤操作：
-
-1. 使用`split('\n')`方法按换行符分割`current_patient_data`字符串，得到一个列表，其中每个元素代表一行数据。
-
-2. 通过切片操作`[1:]`获取从第二行开始的数据，因为第一行是头部信息。
-
-3. 对于每个录音（假设有5个录音），我们使用`split(" ")`方法按空格分割对应的听诊位置信息字符串，然后取列表的第一个元素作为当前录音的听诊位置。
-
-4. 同时，我们调用自定义函数`get_murmur_locations`来提取所有杂音位置信息。这个函数会解析`current_patient_data`字符串，并返回一个包含所有杂音位置的字符串。然后，我们使用`split("+")`方法按`"+"`符号分割这个字符串，得到一个列表，其中每个元素代表一个杂音位置的信息。
-
-以下是一个简化的代码示例，展示了这个过程：
-
-```python
-# 假设的current_patient_data字符串
-current_patient_data = "Patient ID: 1234\nAuscultation Locations: 1+2+3+4\nRecordings: 5\nLocation 1:\n...\nLocation 2:\n...\nLocation 3:\n...\nLocation 4:\n..."
-
-# 假设的current_recordings列表，包含5个录音
-current_recordings = [...]  # 这里应该是实际的录音数据
-
-# 提取听诊位置信息
-auscultation_locations = current_patient_data.split('\n')[1:6]  # 假设听诊位置信息在第二行到第五行
-for j in range(len(current_recordings)):
-    current_location_info = auscultation_locations[j].split(" ")
-    current_auscultation_location = current_location_info[0]  # 假设听诊位置是每个信息块的第一个元素
-
-# 提取杂音位置信息
-murmur_locations_str = "Auscultation Locations: 1+2+3+4"  # 从current_patient_data中提取杂音位置信息
-all_murmur_locations = murmur_locations_str.split("+")
-
-# 输出结果
-print("Current Auscultation Location:", current_auscultation_location)
-print("All Murmur Locations:", all_murmur_locations)
-```
-
-在这个例子中，我们假设`current_recordings`列表包含了5个录音，每个录音对应一个听诊位置。我们从`current_patient_data`中提取了听诊位置和杂音位置信息，并存储在相应的变量中。这些信息可以用于后续的数据分析，例如，分析特定听诊位置的录音中是否存在杂音。
-
-
-
 
 
 
