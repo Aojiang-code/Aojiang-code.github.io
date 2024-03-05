@@ -121,6 +121,10 @@ from sklearn.utils.class_weight import compute_class_weight
 ----------------------------------------------------------------
 ## 训练模型的函数
 
+
+
+### 预定义一些变量，这些变量将在后续的模型训练过程中使用。
+
 下面这段代码是一个Python函数，用于训练一个机器学习模型。这个函数包含了数据加载、预处理、模型构建、训练和保存的整个过程。下面是对这个函数的逐行注释：
 
 
@@ -154,8 +158,7 @@ def train_challenge_model(data_folder, model_folder, verbose):
 
 
 
-
-
+### 查找患者数据文件
 
 ```python
     # 查找患者数据文件。
@@ -175,7 +178,7 @@ def train_challenge_model(data_folder, model_folder, verbose):
 ```
 
 
-
+### 定义类别标签
 
 下面这段Python代码定义了两组类别标签，一组用于心脏病杂音的检测（murmur_classes），另一组用于心脏病的临床结果（outcome_classes）。这些类别标签通常用于机器学习模型的分类任务中。以下是对这段代码的逐行注释：
 ```python
@@ -192,7 +195,7 @@ def train_challenge_model(data_folder, model_folder, verbose):
 
 
 
-
+### 提取特征和标签。
 
 ```python
     # 提取特征和标签。
@@ -209,7 +212,7 @@ def train_challenge_model(data_folder, model_folder, verbose):
     outcomes = list()
 ```
 
-
+### 遍历所有患者文件，加载数据并进行预处理。
 
 ```python
 
@@ -226,6 +229,7 @@ def train_challenge_model(data_folder, model_folder, verbose):
 ```
 
 
+### 对当前患者的每个录音进行处理---重采样
 
 ```python
         # 对当前患者的每个录音进行处理。
@@ -236,6 +240,8 @@ def train_challenge_model(data_folder, model_folder, verbose):
             # 将重采样后的录音数据添加到data列表中。
             data.append(signal.resample(current_recordings[j], int((len(current_recordings[j]) / freq[j]) * NEW_FREQUENCY)))
 ```
+
+#### 详细介绍重采样
 上述代码段是处理音频数据的一部分，具体来说，是对每个患者的录音进行重采样。重采样是音频处理中的一种常见操作，它改变音频信号的采样率。在这个过程中，原始音频数据会被重新处理，以适应新的采样率。以下是对这段代码的详细解释：
 
 1. `for j in range(len(current_recordings)):`
@@ -245,7 +251,7 @@ def train_challenge_model(data_folder, model_folder, verbose):
    在循环内部，这行代码执行重采样操作。它使用`signal`模块的`resample`函数，该函数接受两个参数：原始音频信号和新的采样率。
 
    - `current_recordings[j]`：这是当前正在处理的录音数据，它是`current_recordings`列表中的第`j`个元素。
-   - `int((len(current_recordings[j]) / freq[j]) * NEW_FREQUENCY)`：这是计算新的采样率的公式。首先，`len(current_recordings[j])`获取当前录音的原始采样点数。然后，`freq[j]`是当前录音的原始采样频率。通过将原始采样点数除以原始频率，得到原始音频的时长（秒）。接着，将这个时长乘以新的采样率`NEW_FREQUENCY`，得到新的采样点数。最后，将这个新的采样点数转换为整数，作为`resample`函数的第二个参数。
+   - `int((len(current_recordings[j]) / freq[j]) * NEW_FREQUENCY)`：这是计算新的采样率的公式。首先，`len(current_recordings[j])`获取当前录音的原始采样点数。然后，`freq[j]`是当前录音的原始采样频率。**通过将原始采样点数除以原始频率，得到原始音频的时长（秒）。**  **接着，将这个时长乘以新的采样率`NEW_FREQUENCY`，得到新的采样点数。** 最后，将这个新的采样点数转换为整数，作为`resample`函数的第二个参数。
 
    - `data.append(...)`：将重采样后的音频数据添加到`data`列表中。`data`列表在循环开始前已经初始化，用于存储所有处理后的音频数据。
 
@@ -254,12 +260,12 @@ def train_challenge_model(data_folder, model_folder, verbose):
 重采样后的音频数据将被用于后续的分析或特征提取，这在音频处理和机器学习任务中是很常见的。
 
 
-
+#### 举例介绍重采样
 让我们通过一个具体的例子来说明上述代码段的内容。假设我们正在处理心脏杂音的音频数据，我们的目标是将所有录音的采样率统一到一个较低的值，比如16kHz，以便于后续的分析和处理。
 
-首先，我们有一个名为`current_recordings`的列表，它包含了多个患者的心脏录音。每个录音都是一个时间序列数据，记录了心脏声音随时间的变化。这些录音可能来自不同的设备，因此它们的采样率可能各不相同。
+首先，我们有一个名为`current_recordings`的列表，它包含了多个患者的心脏录音。每个录音都是一个时间序列数据，记录了心脏声音随时间的变化。**这些录音可能来自不同的设备，因此它们的采样率可能各不相同。**
 
-现在，我们想要将这些录音的采样率统一到16kHz。为了实现这一点，我们需要执行以下步骤：
+**现在，我们想要将这些录音的采样率统一到16kHz。为了实现这一点，我们需要执行以下步骤：**
 
 1. 初始化一个空列表`data`，用于存储重采样后的录音数据。
 
@@ -267,7 +273,7 @@ def train_challenge_model(data_folder, model_folder, verbose):
 
    a. 获取当前录音的原始采样率，记为`freq[j]`。
    
-   b. 使用`signal.resample`函数对当前录音进行重采样。这个函数的第一个参数是原始录音数据，第二个参数是新的采样点数。为了计算新的采样点数，我们需要知道原始录音的总时长（秒）。这可以通过原始采样点数除以原始采样率得到。然后，我们将这个时长乘以新的采样率（16kHz）来得到新的采样点数。公式如下：
+   b. 使用`signal.resample`函数对当前录音进行重采样。这个函数的第一个参数是原始录音数据，第二个参数是新的采样点数。为了计算新的采样点数，我们需要知道原始录音的总时长（秒）。**这可以通过原始采样点数除以原始采样率得到。然后，我们将这个时长乘以新的采样率（16kHz）来得到新的采样点数。**公式如下：
 
    ```
    new_sample_count = int((len(current_recordings[j]) / freq[j]) * NEW_FREQUENCY)
@@ -304,7 +310,70 @@ for j in range(len(current_recordings)):
 
 在这个例子中，我们没有直接使用`signal.resample`函数，而是展示了计算新采样点数的逻辑。在实际应用中，你可以直接使用`signal.resample`函数来执行重采样操作。
 
+#### 举例介绍重采样
+让我们通过一个具体的例子来说明上述代码段的内容。假设我们有一个患者的心脏听诊数据，这些数据以文本文件的形式存储，文件内容如下：
 
+```
+Patient ID: 5678
+Auscultation Locations: 1+2+3+4
+Recordings: 4
+Location 1: Apical     #心尖部
+Location 2: Tricuspid  #三尖瓣
+Location 3: Pulmonic   #肺动脉
+Location 4: Aortic     #主动脉
+```
+
+在这个例子中，我们有4个录音，每个录音对应一个听诊位置。我们的目标是从这个文本文件中提取每个录音的听诊位置和所有杂音位置信息。
+
+首先，我们读取这个文本文件，并将内容存储在`current_patient_data`变量中。然后，我们按照上述代码段的步骤提取信息：
+
+1. 提取听诊位置信息：
+```python
+# 假设current_patient_data是上面文本文件内容的字符串表示
+current_patient_data = "Patient ID: 5678\nAuscultation Locations: 1+2+3+4\nRecordings: 4\nLocation 1: Apical\nLocation 2: Tricuspid\nLocation 3: Pulmonic\nLocation 4: Aortic"
+
+# 使用split('\n')按换行符分割字符串
+lines = current_patient_data.split('\n')
+
+# 获取听诊位置信息的行（假设从第二行开始）
+auscultation_locations_lines = lines[1:5]  # 从第二行到第五行
+
+# 提取每个录音的听诊位置
+for j in range(4):  # 我们有4个录音
+    # 获取每个录音的听诊位置信息
+    location_info = auscultation_locations_lines[j].split(" ")
+    # 假设听诊位置是每个信息块的第一个元素
+    current_auscultation_location = location_info[0]
+    print(f"Recording {j+1} Auscultation Location: {current_auscultation_location}")
+```
+
+输出：
+```
+Recording 1 Auscultation Location: Apical
+Recording 2 Auscultation Location: Tricuspid
+Recording 3 Auscultation Location: Pulmonic
+Recording 4 Auscultation Location: Aortic
+```
+
+2. 提取杂音位置信息：
+```python
+# 使用自定义函数get_murmur_locations提取杂音位置信息
+def get_murmur_locations(data):
+    # 假设杂音位置信息在"Auscultation Locations:"后面
+    murmur_info = data.split("Auscultation Locations:")[1]
+    return murmur_info
+
+# 提取所有杂音位置
+all_murmur_locations = get_murmur_locations(current_patient_data).split("+")
+print("All Murmur Locations:", all_murmur_locations)
+```
+
+输出：
+```
+All Murmur Locations: ['1', '2', '3', '4']
+```
+
+在这个例子中，我们首先提取了每个录音的听诊位置，然后提取了所有杂音位置。这些信息可以用于后续的数据分析，例如，分析特定听诊位置的录音中是否存在杂音。
 
 
 
