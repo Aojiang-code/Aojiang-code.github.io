@@ -388,7 +388,7 @@ current_recordings = [...]  # 这里应该是实际的录音数据
 auscultation_locations = current_patient_data.split('\n')[1:6]  # 假设听诊位置信息在第二行到第七行
 for j in range(len(current_recordings)):
     current_location_info = auscultation_locations[j].split(" ")
-    current_auscultation_location = current_location_info[0]  # 假设听诊位置是每个信息块的第一个元素
+    current_auscultation_location = current_location_info[0]  # 假设听诊位置是每个信息块的第一个元素#这里有错误，因为听诊位置不是每个信息块的第一个元素，而是第三个元素
 
 # 提取杂音位置信息
 murmur_locations_str = "Auscultation Locations: 1+2+3+4"  # 从current_patient_data中提取杂音位置信息
@@ -427,16 +427,17 @@ current_patient_data = "Patient ID: 5678\nAuscultation Locations: 1+2+3+4\nRecor
 # 使用split('\n')按换行符分割字符串
 lines = current_patient_data.split('\n')
 
-# 获取听诊位置信息的行（假设从第二行开始）
-auscultation_locations_lines = lines[1:5]  # 从第二行到第六行
+# 找到包含听诊位置信息的行
+auscultation_locations_line = lines[3]  # 假设听诊位置信息在第四行（索引为3）
+
+# 提取所有听诊位置
+auscultation_locations = auscultation_locations_line.split("Location ")
 
 # 提取每个录音的听诊位置
-for j in range(4):  # 我们有4个录音
-    # 获取每个录音的听诊位置信息
-    location_info = auscultation_locations_lines[j].split(" ")
-    # 假设听诊位置是每个信息块的第一个元素
-    current_auscultation_location = location_info[0]
-    print(f"Recording {j+1} Auscultation Location: {current_auscultation_location}")
+for j in range(1, len(auscultation_locations), 2):  # 从第二个元素开始，每隔一个元素（因为每个位置信息包含两个部分，如"Location 1: Apical"）
+    # 提取听诊位置名称
+    location_name = auscultation_locations[j + 1].split(":")[1].strip()
+    print(f"Recording {j+1} Auscultation Location: {location_name}")
 ```
 
 输出：
