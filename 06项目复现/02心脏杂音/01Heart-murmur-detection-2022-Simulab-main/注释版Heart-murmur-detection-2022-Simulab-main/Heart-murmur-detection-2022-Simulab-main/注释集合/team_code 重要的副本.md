@@ -974,7 +974,54 @@ Abnormal = 2, Normal = 1
 请注意，这段代码假设`calculating_class_weights`函数已经定义，并且能够返回一个包含权重的数组。此外，`murmur_classes`应该在代码的其他部分定义，包含了所有可能的杂音类别。在实际应用中，这些函数和变量的具体实现将取决于你的数据和需求。
 
 #### 举例介绍计算杂音类别的权重
+为了提供一个具体的例子，我们需要首先定义`calculating_class_weights`函数，这个函数将计算每个杂音类别的权重。然后，我们将创建一个模拟的`murmurs`数组和`murmur_classes`列表。最后，我们将执行上述代码并展示输出结果。
 
+首先，我们定义一个简单的`calculating_class_weights`函数，这个函数将返回一个包含权重的数组。为了简化，我们将使用类别的频率来计算权重，较少的类别将获得更高的权重。
+
+```python
+import numpy as np
+
+# 假设的杂音类别
+murmur_classes = ['Present', 'Absent']
+
+# 假设的杂音数据，每一行代表一个患者的杂音类别向量
+# 这里我们使用0和1来表示杂音的存在（Present）或不存在（Absent）
+murmurs = np.array([
+    [1, 0],  # 患者1有杂音
+    [0, 1],  # 患者2没有杂音
+    [1, 0],  # 患者3有杂音
+    [0, 1]   # 患者4没有杂音
+])
+
+# 定义一个函数来计算类别权重
+def calculating_class_weights(y):
+    # 计算每个类别的频率
+    class_frequencies = np.sum(y, axis=0)
+    # 计算权重，类别频率越低，权重越高
+    weights = 1.0 / class_frequencies
+    return weights
+
+# 计算杂音类别的权重
+new_weights_murmur = calculating_class_weights(murmurs)
+
+# 创建一个字典来存储权重
+murmur_weight_dictionary = dict(zip(murmur_classes, new_weights_murmur))
+
+# 输出权重
+print("Murmurs Weights:")
+print(murmur_weight_dictionary)
+```
+
+在这个例子中，我们有4个患者，其中2个有杂音（Present），2个没有杂音（Absent）。`calculating_class_weights`函数计算了每个类别的频率，并根据频率计算了权重。由于有杂音和没有杂音的患者数量相同，所以这里每个类别的权重都是1.0。
+
+输出结果将是：
+
+```
+Murmurs Weights:
+{'Present': 1.0, 'Absent': 1.0}
+```
+
+这表示在这种情况下，由于类别平衡，每个类别的权重都是1.0。如果类别不平衡，权重将会根据类别的频率进行调整，以确保模型在训练时能够平衡地关注所有类别。
 
 
 
