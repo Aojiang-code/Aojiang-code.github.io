@@ -868,9 +868,89 @@ Number of signals = 3
     print(f"Abnormal = {len(np.where(outcomes == 0)[0])}, Normal = {len(np.where(outcomes == 1)[0])}")
 ```
 #### 详细介绍打印杂音和结果的分布情况
+这段代码的目的是统计并打印出杂音（murmurs）和结果（outcomes）的分布情况。这里假设`murmurs`和`outcomes`都是NumPy数组，分别表示每个患者的杂音类别和结果类别。`murmurs`数组中的每个元素是一个整数，表示杂音的存在性（例如，0表示存在，1表示未知，2表示不存在），而`outcomes`数组中的每个元素也是一个整数，表示结果类别（例如，0表示异常，1表示正常）。
 
+以下是对这段代码的详细介绍：
+
+1. `print("Murmurs prevalence:")`
+   - 这行代码打印出杂音分布的标题。
+
+2. `print(f"Present = {np.where(np.argmax(murmurs, axis=1) == 0)[0].shape[0]}, Unknown = {np.where(np.argmax(murmurs, axis=1) == 1)[0].shape[0]}, Absent = {np.where(np.argmax(murmurs, axis=1) == 2)[0].shape[0]})")`
+   - 这行代码首先使用`np.argmax`函数沿着`murmurs`数组的第一个轴（axis=1）找到每个向量中最大值的索引。这个索引代表了杂音类别。
+   - 然后，使用`np.where`函数找到所有杂音类别为“Present”（索引0）、“Unknown”（索引1）和“Absent”（索引2）的患者的索引。
+   - `.shape[0]`用于获取这些索引数组的长度，即每个类别的患者数量。
+   - 最后，打印出每个杂音类别的患者数量。
+
+3. `print("Outcomes prevalence:")`
+   - 这行代码打印出结果分布的标题。
+
+4. `print(f"Abnormal = {len(np.where(outcomes == 0)[0])}, Normal = {len(np.where(outcomes == 1)[0])}")`
+   - 这行代码使用`np.where`函数找到`outcomes`数组中值为0（异常）和1（正常）的患者索引。
+   - `len`函数用于计算这些索引数组的长度，即异常和正常结果的患者数量。
+   - 最后，打印出异常和正常结果的患者数量。
+
+这段代码的输出将显示杂音和结果的分布情况，例如：
+
+```
+Murmurs prevalence:
+Present = 2, Unknown = 1, Absent = 1
+Outcomes prevalence:
+Abnormal = 1, Normal = 2
+```
+
+这表示在数据集中，有2个患者的杂音类别是“Present”，1个是“Unknown”，1个是“Absent”。在结果类别中，有1个患者的结果为“Abnormal”，2个患者的结果为“Normal”。这些统计信息对于理解数据集的分布和进行后续分析非常有用。
 #### 举例介绍打印杂音和结果的分布情况
+让我们通过一个具体的例子来说明如何使用Python代码来统计并打印杂音和结果的分布情况。假设我们有一组患者的杂音类别和结果类别数据。
 
+```python
+import numpy as np
+
+# 假设我们有以下杂音类别向量列表，每个向量代表一个患者的杂音情况
+# 这里我们使用0、1、2分别代表杂音不存在、未知、存在
+murmurs = np.array([
+    [0, 1, 2],  # 患者1的杂音情况未知
+    [1, 0, 0],  # 患者2的杂音存在
+    [0, 2, 0]   # 患者3的杂音不存在
+])
+
+# 假设我们有以下结果类别列表，每个元素代表一个患者的健康结果
+# 这里我们使用0、1分别代表结果异常、正常
+outcomes = np.array([
+    0,  # 患者1的结果异常
+    1,  # 患者2的结果正常
+    0   # 患者3的结果异常
+])
+
+# 打印杂音的分布情况
+print("Murmurs prevalence:")
+# 使用np.argmax找到每个患者杂音类别的最大值索引
+murmur_indices = np.argmax(murmurs, axis=1)
+# 使用np.where找到每个类别的患者数量
+present_count = np.where(murmur_indices == 0)[0].shape[0]
+unknown_count = np.where(murmur_indices == 1)[0].shape[0]
+absent_count = np.where(murmur_indices == 2)[0].shape[0]
+print(f"Present = {present_count}, Unknown = {unknown_count}, Absent = {absent_count}")
+
+# 打印结果的分布情况
+print("Outcomes prevalence:")
+# 使用np.where找到每个结果类别的患者数量
+abnormal_count = len(np.where(outcomes == 0)[0])
+normal_count = len(np.where(outcomes == 1)[0])
+print(f"Abnormal = {abnormal_count}, Normal = {normal_count}")
+```
+
+在这个例子中，我们有三个患者的杂音类别和结果类别数据。我们首先使用`np.argmax`函数找到每个患者杂音类别的最大值索引，这代表了杂音的存在性。然后，我们使用`np.where`函数来统计每个类别的患者数量。对于结果类别，我们同样使用`np.where`函数来统计异常和正常结果的患者数量。
+
+输出结果可能如下：
+
+```
+Murmurs prevalence:
+Present = 1, Unknown = 1, Absent = 1
+Outcomes prevalence:
+Abnormal = 2, Normal = 1
+```
+
+这表示在数据集中，有1个患者的杂音存在，1个患者的杂音未知，1个患者的杂音不存在。在结果类别中，有2个患者的结果异常，1个患者的结果正常。这些统计信息有助于我们理解数据集的分布情况。
 ### 计算杂音类别的权重
 
 ```python
@@ -879,7 +959,19 @@ Number of signals = 3
     murmur_weight_dictionary = dict(zip(np.arange(0, len(murmur_classes), 1), new_weights_murmur.T[1]))
 ```
 #### 详细介绍计算杂音类别的权重
+这段代码的目的是计算杂音类别的权重，这通常在机器学习中用于处理类别不平衡问题，即某些类别的样本数量远多于其他类别。权重可以帮助模型在训练过程中给予较少见类别更多的关注。以下是对这段代码的详细介绍：
 
+1. `new_weights_murmur = calculating_class_weights(murmurs)`
+   - 这行代码调用了一个名为`calculating_class_weights`的自定义函数，该函数接收`murmurs`数组作为输入。`murmurs`数组包含了每个患者的杂音类别信息，通常是一个二维数组，其中每一行代表一个患者的类别向量，每一列代表一个类别。这个函数的目的是计算每个类别的权重。
+
+2. `murmur_weight_dictionary = dict(zip(np.arange(0, len(murmur_classes), 1), new_weights_murmur.T[1]))`
+   - 这行代码首先使用`np.arange`创建一个从0开始的整数序列，直到`len(murmur_classes)`（不包括`len(murmur_classes)`），步长为1。这里假设`murmur_classes`是一个列表或数组，包含了所有可能的杂音类别。
+   - 然后，使用`zip`函数将这个整数序列与`new_weights_murmur.T[1]`（即`new_weights_murmur`数组的转置后的第二列）对应起来。`zip`函数将两个序列组合成一个元组的列表。
+   - 最后，使用`dict`构造函数将`zip`的结果转换为一个字典，其中键是类别索引（从0开始），值是对应的权重。这样，`murmur_weight_dictionary`就包含了每个杂音类别的权重。
+
+这段代码的输出是一个字典`murmur_weight_dictionary`，它可以用来在机器学习模型的训练过程中为每个类别分配不同的权重。例如，如果某个类别的样本数量较少，我们可以给它分配一个更大的权重，以确保模型不会忽视这个类别。
+
+请注意，这段代码假设`calculating_class_weights`函数已经定义，并且能够返回一个包含权重的数组。此外，`murmur_classes`应该在代码的其他部分定义，包含了所有可能的杂音类别。在实际应用中，这些函数和变量的具体实现将取决于你的数据和需求。
 
 #### 举例介绍计算杂音类别的权重
 
