@@ -699,6 +699,75 @@ Health status categories for each patient:
     data_padded = np.expand_dims(data_padded, 2)  # 扩展数据维度，以适应模型输入。
 ```
 
+#### 详细介绍对数据进行填充，以确保所有信号长度一致
+这段代码的目的是处理一组音频信号数据，确保它们具有相同的长度，以便能够被机器学习模型或其他处理流程一致地处理。这在处理批量数据时尤其重要，因为大多数机器学习模型要求输入数据具有统一的尺寸。以下是对这段代码的详细介绍：
+
+1. `data_padded = pad_array(data)`
+   - 这行代码调用了一个名为`pad_array`的自定义函数，该函数接收一个音频信号列表`data`作为输入。这个函数的目的是为列表中的每个音频信号添加填充（padding），以使所有信号的长度相同。填充通常在信号的末尾添加零或其他特定值，直到所有信号达到相同的长度。这个处理后的填充数据列表被赋值给变量`data_padded`。
+
+2. `data_padded = np.expand_dims(data_padded, 2)`
+   - 这行代码使用NumPy库的`expand_dims`函数来扩展`data_padded`的维度。`expand_dims`函数在指定的位置（这里是第二个维度，即索引为2的位置）增加一个维度。这样做的目的是为了适应某些机器学习模型的输入要求，这些模型可能需要三维输入，例如，对于处理图像数据的卷积神经网络（CNN），输入数据的形状通常是`(batch_size, height, width)`。
+
+   - 在音频信号处理的上下文中，`data_padded`的形状可能最初是`(num_samples, signal_length)`，其中`num_samples`是信号数量，`signal_length`是每个信号的样本数。通过`np.expand_dims`，我们将其形状改变为`(num_samples, signal_length, 1)`。这样，每个音频信号现在都有一个额外的维度，它可以被当作单通道的“图像”来处理，这对于某些类型的神经网络模型是必要的。
+
+这段代码的输出是一个形状扩展后的音频信号数据集`data_padded`，它现在可以被用作机器学习模型的输入。例如，如果原始音频数据是一维的，并且长度不一，经过这个过程后，所有音频信号都将具有相同的长度，并且形状适合于模型输入。
+
+#### 举例介绍对数据进行填充，以确保所有信号长度一致
+让我们通过一个具体的例子来说明上述代码段的内容。假设我们有一组长度不一的一维音频信号数据，我们想要将它们填充到相同的长度，以便能够被机器学习模型处理。以下是这个过程的Python实例：
+
+首先，我们定义一个名为`pad_array`的函数，它将对输入的音频信号列表进行填充。然后，我们将使用NumPy的`expand_dims`函数来扩展数据的维度。
+
+```python
+import numpy as np
+
+# 假设我们有以下长度不一的一维音频信号数据
+audio_signals = [
+    np.array([1, 2, 3, 4, 5]),
+    np.array([1, 2, 3]),
+    np.array([1, 2, 3, 4, 5, 6, 7])
+]
+
+# 定义一个函数来填充音频信号数据
+def pad_array(signals, desired_length=5):
+    # 创建一个空的填充数组，初始化为0
+    padded_signals = np.zeros((len(signals), desired_length))
+    
+    # 对每个信号进行填充
+    for i, signal in enumerate(signals):
+        # 将原始信号复制到填充数组中，直到达到期望长度
+        padded_signals[i, :len(signal)] = signal
+    return padded_signals
+
+# 对音频信号数据进行填充
+desired_length = 7  # 假设我们想要所有信号的长度为7
+data_padded = pad_array(audio_signals, desired_length)
+
+# 使用NumPy的expand_dims函数扩展数据维度
+data_padded = np.expand_dims(data_padded, axis=2)
+
+# 输出结果
+print("Padded audio signals:")
+print(data_padded)
+```
+
+在这个例子中，我们有三个音频信号，它们的长度分别是5、3和7。我们定义了一个`pad_array`函数，它接受一个音频信号列表和一个期望的长度，然后返回一个填充后的信号列表，所有信号的长度都与期望长度相同。在这个例子中，我们选择了期望长度为7。
+
+然后，我们使用`np.expand_dims`函数在第二个维度（axis=2）上扩展数据的维度，使得每个音频信号现在的形状是`(1, desired_length, 1)`。这样，每个音频信号都可以被当作一个单通道的“图像”来处理，这对于某些类型的神经网络模型是必要的。
+
+输出的`data_padded`将是：
+
+```
+Padded audio signals:
+[[[0 0 0 0 0 0 0 0]
+  [1 2 3 0 0 0 0 0]
+  [1 2 3 4 5 6 7 0]]]
+```
+
+这表示所有音频信号现在都被填充到了长度为7，并且每个信号都被扩展为三维形状，以适应机器学习模型的输入要求。
+
+
+
+
 
 
 ### 将杂音和结果类别转换为NumPy数组
@@ -710,6 +779,12 @@ Health status categories for each patient:
     # 打印信号数量。
     print(f"Number of signals = {data_padded.shape[0]}")
 ```
+#### 详细介绍将杂音和结果类别转换为NumPy数组
+
+
+#### 举例介绍将杂音和结果类别转换为NumPy数组
+
+
 
 ### 打印杂音和结果的分布情况
 
@@ -720,6 +795,9 @@ Health status categories for each patient:
     print("Outcomes prevalence:")
     print(f"Abnormal = {len(np.where(outcomes == 0)[0])}, Normal = {len(np.where(outcomes == 1)[0])}")
 ```
+#### 详细介绍
+
+#### 举例介绍
 
 ### 计算杂音类别的权重
 
@@ -728,6 +806,14 @@ Health status categories for each patient:
     new_weights_murmur = calculating_class_weights(murmurs)  # 假设calculating_class_weights是一个自定义函数，用于计算类别权重。
     murmur_weight_dictionary = dict(zip(np.arange(0, len(murmur_classes), 1), new_weights_murmur.T[1]))
 ```
+#### 详细介绍计算杂音类别的权重
+
+
+#### 举例介绍计算杂音类别的权重
+
+
+
+
 
 ### 计算结果类别的权重
 
