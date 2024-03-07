@@ -171,7 +171,7 @@ sox_wavs(new_parent_dir, old_parent_dir, sub_dirs, max_file=10000, file_ext="*.w
 在实际应用中，这段代码需要在已经安装了`sox`、`glob`和`tqdm`库的环境中运行。`sox`是一个强大的音频处理工具，它支持多种音频格式的转换和处理。`glob`模块用于文件路径模式匹配，而`tqdm`库用于显示进度条，使得长时间运行的进程更加用户友好。通过这个脚本，你可以批量处理音频文件，为后续的数据分析或机器学习任务做好准备。
 
 
-##### 第三步：
+##### 第三步：定义特征提取函数，用于从音频文件中抽取梅尔频率倒谱系数（MFCC）特征
 ```python
 # 定义一个函数，用于从音频文件中抽取梅尔频率倒谱系数（MFCC）特征。
 def extract_mfcc(parent_dir, sub_dirs, max_file=10, file_ext="*.wav"):
