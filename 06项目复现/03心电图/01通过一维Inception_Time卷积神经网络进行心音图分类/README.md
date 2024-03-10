@@ -2,6 +2,10 @@
 
 通过一维Inception Time卷积神经网络进行心音图分类
 
+> 最开始是在[paperwithcode](https://paperswithcode.com/paper/phonocardiogram-classification-using-1)上看到的这篇文章 。
+
+> 使用[CirCor DigiScope](https://paperswithcode.com/dataset/circor-digiscope)数据库，这个数据库相关的文献还有不少，大概有十篇，建议全部看一下，还挺有趣的。
+
 ## Abstract
 
 心脏杂音是由湍流血流引起的声音，通常是患者结构性心脏疾病的首个征兆。通过听诊器或最近的心音图（PCG）可以检测到这些声音。我们旨在利用机器学习从PCG记录中识别心脏杂音的存在、不存在或不确定情况，以及预测临床结果是否正常或异常。
