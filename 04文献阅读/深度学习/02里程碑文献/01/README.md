@@ -1,6 +1,10 @@
-由于文档内容较长，我将分段进行翻译。以下是第一部分的翻译：
-
-1 Facebook AI 研究院，770 Broadway，纽约，纽约州 10003 美国。2 纽约大学，715 Broadway，纽约，纽约州 10003，美国。3 蒙特利尔大学计算机科学与运筹学系，安德烈-艾森斯塔特楼，邮政信箱 6128 中心站，蒙特利尔，魁北克省 H3C 3J7，加拿大。4 Google，1600 Amphitheatre Parkway，山景城，加利福尼亚州 94043，美国。5 多伦多大学计算机科学系，6 King's College Road，多伦多，安大略省 M5S 3G4，加拿大。
+# 
+1 Facebook AI 研究院，770 Broadway，纽约，纽约州 10003 美国。
+2 纽约大学，715 Broadway，纽约，纽约州 10003，美国。
+3 蒙特利尔大学计算机科学与运筹学系，安德烈-艾森斯塔特楼，邮政信箱 6128 中心站，蒙特利尔，魁北克省 H3C 3J7，加拿大。
+4 Google，1600 Amphitheatre Parkway，山景城，加利福尼亚州 94043，美国。
+5 多伦多大学计算机科学系，
+6 King's College Road，多伦多，安大略省 M5S 3G4，加拿大。
 
 机器学习技术为现代社会的许多方面提供动力：从网络搜索到社交网络上的内容过滤，再到电子商务网站上的推荐，它越来越多地出现在消费产品如相机和智能手机中。机器学习系统被用来识别图像中的对象，将语音转录成文本，匹配新闻项目、帖子或产品与用户的兴趣，并选择搜索的相关结果。越来越多地，这些应用程序利用了一类称为深度学习的技术。
 
@@ -103,278 +107,278 @@ LSTM网络随后被证明比传统的RNNs更有效，特别是当它们对每个
 1. Krizhevsky, A., Sutskever, I. & Hinton, G. ImageNet classification with deep convolutional neural networks. In Proc. Advances in Neural Information Processing Systems 25 1090–1098 (2012).
 这份报告是一个突破，使用卷积网络将对象识别的错误率几乎减半，并促使计算机视觉社区迅速采用深度学习。
 
-2. Farabet, C., Couprie, C., Najman, L. & LeCun, Y. Learning hierarchical features for scene labeling. IEEE Trans. Pattern Anal. Mach. Intell. 35, 1915–1929 (2013).
+1. Farabet, C., Couprie, C., Najman, L. & LeCun, Y. Learning hierarchical features for scene labeling. IEEE Trans. Pattern Anal. Mach. Intell. 35, 1915–1929 (2013).
 
-3. Tompson, J., Jain, A., LeCun, Y. & Bregler, C. Joint training of a convolutional network and a graphical model for human pose estimation. In Proc. Advances in Neural Information Processing Systems 27 1799–1807 (2014).
+2. Tompson, J., Jain, A., LeCun, Y. & Bregler, C. Joint training of a convolutional network and a graphical model for human pose estimation. In Proc. Advances in Neural Information Processing Systems 27 1799–1807 (2014).
 
-4. Szegedy, C. et al. Going deeper with convolutions. Preprint at http://arxiv.org/abs/1409.4842 (2014).
+3. Szegedy, C. et al. Going deeper with convolutions. Preprint at http://arxiv.org/abs/1409.4842 (2014).
 
-5. Mikolov, T., Deoras, A., Povey, D., Burget, L. & Cernocky, J. Strategies for training large scale neural network language models. In Proc. Automatic Speech Recognition and Understanding 196–201 (2011).
+4. Mikolov, T., Deoras, A., Povey, D., Burget, L. & Cernocky, J. Strategies for training large scale neural network language models. In Proc. Automatic Speech Recognition and Understanding 196–201 (2011).
 
-6. Hinton, G. et al. Deep neural networks for acoustic modeling in speech recognition. IEEE Signal Processing Magazine 29, 82–97 (2012).
+5. Hinton, G. et al. Deep neural networks for acoustic modeling in speech recognition. IEEE Signal Processing Magazine 29, 82–97 (2012).
 这篇来自主要语音识别实验室的联合论文，总结了在自动语音识别的音素分类任务中使用深度学习取得的突破，是深度学习的首个主要工业应用。
 
-7. Sainath, T., Mohamed, A.-R., Kingsbury, B. & Ramabhadran, B. Deep convolutional neural networks for LVCSR. In Proc. Acoustics, Speech and Signal Processing 8614–8618 (2013).
+1. Sainath, T., Mohamed, A.-R., Kingsbury, B. & Ramabhadran, B. Deep convolutional neural networks for LVCSR. In Proc. Acoustics, Speech and Signal Processing 8614–8618 (2013).
 
-8. Ma, J., Sheridan, R. P., Liaw, A., Dahl, G. E. & Svetnik, V. Deep neural nets as a method for quantitative structure-activity relationships. J. Chem. Inf. Model. 55, 263–274 (2015).
+2. Ma, J., Sheridan, R. P., Liaw, A., Dahl, G. E. & Svetnik, V. Deep neural nets as a method for quantitative structure-activity relationships. J. Chem. Inf. Model. 55, 263–274 (2015).
 
-9. Ciodaro, T., Deva, D., de Seixas, J. & Damazio, D. Online particle detection with neural networks based on topological calorimetry information. J. Phys. Conf. Series 368, 012030 (2012).
+3. Ciodaro, T., Deva, D., de Seixas, J. & Damazio, D. Online particle detection with neural networks based on topological calorimetry information. J. Phys. Conf. Series 368, 012030 (2012).
 
-10. Kaggle. Higgs boson machine learning challenge. Kaggle https://www.kaggle.com/c/higgs-boson (2014).
+4.  Kaggle. Higgs boson machine learning challenge. Kaggle https://www.kaggle.com/c/higgs-boson (2014).
 
-11. Helmstaedter, M. et al. Connectomic reconstruction of the inner plexiform layer in the mouse retina. Nature 500, 168–174 (2013).
+5.  Helmstaedter, M. et al. Connectomic reconstruction of the inner plexiform layer in the mouse retina. Nature 500, 168–174 (2013).
 
-12. Leung, M. K., Xiong, H. Y., Lee, L. J. & Frey, B. J. Deep learning of the tissue regulated splicing code. Bioinformatics 30, i121–i129 (2014).
+6.  Leung, M. K., Xiong, H. Y., Lee, L. J. & Frey, B. J. Deep learning of the tissue regulated splicing code. Bioinformatics 30, i121–i129 (2014).
 
-13. Xiong, H. Y. et al. The human splicing code reveals new insights into the genetic determinants of disease. Science 347, 6218 (2015).
+7.  Xiong, H. Y. et al. The human splicing code reveals new insights into the genetic determinants of disease. Science 347, 6218 (2015).
 
-14. Collobert, R., et al. Natural language processing (almost) from scratch. J. Mach. Learn. Res. 12, 2493–2537 (2011).
+8.  Collobert, R., et al. Natural language processing (almost) from scratch. J. Mach. Learn. Res. 12, 2493–2537 (2011).
 
-15. Bordes, A., Chopra, S. & Weston, J. Question answering with subgraph embeddings. In Proc. Empirical Methods in Natural Language Processing http://arxiv.org/abs/1406.3676v3 (2014).
+9.  Bordes, A., Chopra, S. & Weston, J. Question answering with subgraph embeddings. In Proc. Empirical Methods in Natural Language Processing http://arxiv.org/abs/1406.3676v3 (2014).
 
-16. Jean, S., Cho, K., Memisevic, R. & Bengio, Y. On using very large target vocabulary for neural machine translation. In Proc. ACL-IJCNLP http://arxiv.org/abs/1412.2007 (2015).
+10. Jean, S., Cho, K., Memisevic, R. & Bengio, Y. On using very large target vocabulary for neural machine translation. In Proc. ACL-IJCNLP http://arxiv.org/abs/1412.2007 (2015).
 
-17. Sutskever, I. Vinyals, O. & Le. Q. V. Sequence to sequence learning with neural networks. In Proc. Advances in Neural Information Processing Systems 27 3104–3112 (2014).
+11. Sutskever, I. Vinyals, O. & Le. Q. V. Sequence to sequence learning with neural networks. In Proc. Advances in Neural Information Processing Systems 27 3104–3112 (2014).
 这篇论文展示了使用在参考文献72中介绍的架构的最新机器翻译结果，其中一个循环网络被训练来阅读一种语言的句子，产生其含义的语义表示，并生成另一种语言的翻译。
 
-18. Bottou, L. & Bousquet, O. The tradeoffs of large scale learning. In Proc. Advances in Neural Information Processing Systems 20 161–168 (2007).
+1.  Bottou, L. & Bousquet, O. The tradeoffs of large scale learning. In Proc. Advances in Neural Information Processing Systems 20 161–168 (2007).
 
-19. Duda, R. O. & Hart, P. E. Pattern Classiﬁcation and Scene Analysis (Wiley, 1973).
+2.  Duda, R. O. & Hart, P. E. Pattern Classiﬁcation and Scene Analysis (Wiley, 1973).
 
-20. Schölkopf, B. & Smola, A. Learning with Kernels (MIT Press, 2002).
+3.  Schölkopf, B. & Smola, A. Learning with Kernels (MIT Press, 2002).
 
-21. Bengio, Y., Delalleau, O. & Le Roux, N. The curse of highly variable functions for local kernel machines. In Proc. Advances in Neural Information Processing Systems 18 107–114 (2005).
+4.  Bengio, Y., Delalleau, O. & Le Roux, N. The curse of highly variable functions for local kernel machines. In Proc. Advances in Neural Information Processing Systems 18 107–114 (2005).
 
-22. Selfridge, O. G. Pandemonium: a paradigm for learning in mechanisation of thought processes. In Proc. Symposium on Mechanisation of Thought Processes 513–526 (1958).
+5.  Selfridge, O. G. Pandemonium: a paradigm for learning in mechanisation of thought processes. In Proc. Symposium on Mechanisation of Thought Processes 513–526 (1958).
 
-23. Rosenblatt, F. The Perceptron — A Perceiving and Recognizing Automaton. Tech. Rep. 85-460-1 (Cornell Aeronautical Laboratory, 1957).
+6.  Rosenblatt, F. The Perceptron — A Perceiving and Recognizing Automaton. Tech. Rep. 85-460-1 (Cornell Aeronautical Laboratory, 1957).
 
-24. Werbos, P. Beyond Regression: New Tools for Prediction and Analysis in the Behavioral Sciences. PhD thesis, Harvard Univ. (1974).
+7.  Werbos, P. Beyond Regression: New Tools for Prediction and Analysis in the Behavioral Sciences. PhD thesis, Harvard Univ. (1974).
 
-25. Parker, D. B. Learning Logic Report TR–47 (MIT Press, 1985).
+8.  Parker, D. B. Learning Logic Report TR–47 (MIT Press, 1985).
 
-26. LeCun, Y. Une procédure d’apprentissage pour Réseau à seuil assymétrique in Cognitiva 85: a la Frontière de l’Intelligence Artiﬁcielle, des Sciences de la Connaissance et des Neurosciences [in French] 599–604 (1985).
+9.  LeCun, Y. Une procédure d’apprentissage pour Réseau à seuil assymétrique in Cognitiva 85: a la Frontière de l’Intelligence Artiﬁcielle, des Sciences de la Connaissance et des Neurosciences [in French] 599–604 (1985).
 
-27. Rumelhart, D. E., Hinton, G. E. & Williams, R. J. Learning representations by back-propagating errors. Nature 323, 533–536 (1986).
+10. Rumelhart, D. E., Hinton, G. E. & Williams, R. J. Learning representations by back-propagating errors. Nature 323, 533–536 (1986).
 
-28. Glorot, X., Bordes, A. & Bengio. Y. Deep sparse rectiﬁer neural networks. In Proc. 14th International Conference on Artificial Intelligence and Statistics 315–323 (2011).
+11. Glorot, X., Bordes, A. & Bengio. Y. Deep sparse rectiﬁer neural networks. In Proc. 14th International Conference on Artificial Intelligence and Statistics 315–323 (2011).
 这篇论文展示了如果隐藏层由ReLU组成，那么非常深的神经网络的监督训练会快得多。
 
-29. Dauphin, Y. et al. Identifying and attacking the saddle point problem in high-dimensional non-convex optimization. In Proc. Advances in Neural Information Processing Systems 27 2933–2941 (2014).
+1.  Dauphin, Y. et al. Identifying and attacking the saddle point problem in high-dimensional non-convex optimization. In Proc. Advances in Neural Information Processing Systems 27 2933–2941 (2014).
 
-30. Choromanska, A., Henaff, M., Mathieu, M., Arous, G. B. & LeCun, Y. The loss surface of multilayer networks. In Proc. Conference on AI and Statistics http://arxiv.org/abs/1412.0233 (2014).
+2.  Choromanska, A., Henaff, M., Mathieu, M., Arous, G. B. & LeCun, Y. The loss surface of multilayer networks. In Proc. Conference on AI and Statistics http://arxiv.org/abs/1412.0233 (2014).
 
-31. Hinton, G. E. What kind of graphical model is the brain? In Proc. 19th International Joint Conference on Artificial intelligence 1765–1775 (2005).
+3.  Hinton, G. E. What kind of graphical model is the brain? In Proc. 19th International Joint Conference on Artificial intelligence 1765–1775 (2005).
 
-32. Hinton, G. E., Osindero, S. & Teh, Y.-W. A fast learning algorithm for deep belief nets. Neural Comp. 18, 1527–1554 (2006).
+4.  Hinton, G. E., Osindero, S. & Teh, Y.-W. A fast learning algorithm for deep belief nets. Neural Comp. 18, 1527–1554 (2006).
 这篇论文介绍了一种新颖有效的方法，通过使用受限玻尔兹曼机的无监督学习过程逐层预训练一个隐藏层，来训练非常深的神经网络。
 
-33. Bengio, Y., Lamblin, P., Popovici, D. & Larochelle, H. Greedy layer-wise training of deep networks. In Proc. Advances in Neural Information Processing Systems 19 153–160 (2006).
+1.  Bengio, Y., Lamblin, P., Popovici, D. & Larochelle, H. Greedy layer-wise training of deep networks. In Proc. Advances in Neural Information Processing Systems 19 153–160 (2006).
 这篇报告证明了参考文献32中介绍的无监督预训练方法显著提高了测试数据上的性能，并将该方法推广到其他无监督表示学习方法，如自编码器。
 
-34. Ranzato, M., Poultney, C., Chopra, S. & LeCun, Y. Efficient learning of sparse representations with an energy-based model. In Proc. Advances in Neural Information Processing Systems 19 1137–1144 (2006).
+1.  Ranzato, M., Poultney, C., Chopra, S. & LeCun, Y. Efficient learning of sparse representations with an energy-based model. In Proc. Advances in Neural Information Processing Systems 19 1137–1144 (2006).
 
-35. Hinton, G. E. & Salakhutdinov, R. Reducing the dimensionality of data with neural networks. Science 313, 504–507 (2006).
+2.  Hinton, G. E. & Salakhutdinov, R. Reducing the dimensionality of data with neural networks. Science 313, 504–507 (2006).
 
-36. Sermanet, P., Kavukcuoglu, K., Chintala, S. & LeCun, Y. Pedestrian detection with unsupervised multi-stage feature learning. In Proc. International Conference on Computer Vision and Pattern Raina, R., Madhavan, A. & Ng, A. Y. Large-scale deep unsupervised learning using graphics processors. In Proc. 26th Annual International Conference on Machine Learning 873–880 (2009).
+3.  Sermanet, P., Kavukcuoglu, K., Chintala, S. & LeCun, Y. Pedestrian detection with unsupervised multi-stage feature learning. In Proc. International Conference on Computer Vision and Pattern Raina, R., Madhavan, A. & Ng, A. Y. Large-scale deep unsupervised learning using graphics processors. In Proc. 26th Annual International Conference on Machine Learning 873–880 (2009).
 这篇论文介绍了使用图形处理器进行大规模无监督学习的方法。
 
-37.  Mohamed, A.-R., Dahl, G. E. & Hinton, G. Acoustic modeling using deep belief networks. IEEE Trans. Audio Speech Lang. Process. 20, 14–22 (2012).
+1.   Mohamed, A.-R., Dahl, G. E. & Hinton, G. Acoustic modeling using deep belief networks. IEEE Trans. Audio Speech Lang. Process. 20, 14–22 (2012).
 这篇论文探讨了使用深度信念网络进行声学建模的方法。
 
-38.  Dahl, G. E., Yu, D., Deng, L. & Acero, A. Context-dependent pre-trained deep neural networks for large vocabulary speech recognition. IEEE Trans. Audio Speech Lang. Process. 20, 33–42 (2012).
+1.   Dahl, G. E., Yu, D., Deng, L. & Acero, A. Context-dependent pre-trained deep neural networks for large vocabulary speech recognition. IEEE Trans. Audio Speech Lang. Process. 20, 33–42 (2012).
 这篇论文讨论了用于大词汇量语音识别的上下文依赖的预训练深度神经网络。
 
-39.  Bengio, Y., Courville, A. & Vincent, P. Representation learning: a review and new perspectives. IEEE Trans. Pattern Anal. Machine Intell. 35, 1798–1828 (2013).
+1.   Bengio, Y., Courville, A. & Vincent, P. Representation learning: a review and new perspectives. IEEE Trans. Pattern Anal. Machine Intell. 35, 1798–1828 (2013).
 这篇论文回顾了表示学习，并提出了新的视角。
 
-40.  LeCun, Y. et al. Handwritten digit recognition with a back-propagation network. In Proc. Advances in Neural Information Processing Systems 396–404 (1990).
+1.   LeCun, Y. et al. Handwritten digit recognition with a back-propagation network. In Proc. Advances in Neural Information Processing Systems 396–404 (1990).
 这篇论文是关于使用反向传播网络进行手写数字识别的第一篇论文。
 
-41.  LeCun, Y., Bottou, L., Bengio, Y. & Haffner, P. Gradient-based learning applied to document recognition. Proc. IEEE 86, 2278–2324 (1998).
+1.   LeCun, Y., Bottou, L., Bengio, Y. & Haffner, P. Gradient-based learning applied to document recognition. Proc. IEEE 86, 2278–2324 (1998).
 这篇概述论文讨论了如何使用基于梯度的优化对模块化系统（如深度神经网络）进行端到端训练的原则，并展示了如何将神经网络（特别是卷积网络）与搜索或推理机制结合起来，以模拟复杂输出，如与文档内容相关的字符序列。
 
 42.  Hubel, D. H. & Wiesel, T. N. Receptive ﬁelds, binocular interaction, and functional architecture in the cat’s visual cortex. J. Physiol. 160, 106–154 (1962).
 这篇论文探讨了猫的视觉皮层中的感受野、双眼交互和功能架构。
 
-43.  Felleman, D. J. & Essen, D. C. V. Distributed hierarchical processing in the primate cerebral cortex. Cereb. Cortex 1, 1–47 (1991).
+1.   Felleman, D. J. & Essen, D. C. V. Distributed hierarchical processing in the primate cerebral cortex. Cereb. Cortex 1, 1–47 (1991).
 这篇论文讨论了灵长类动物大脑皮层中的分布式层次处理。
 
-44.  Cadieu, C. F. et al. Deep neural networks rival the representation of primate it cortex for core visual object recognition. PLoS Comp. Biol. 10, e1003963 (2014).
+1.   Cadieu, C. F. et al. Deep neural networks rival the representation of primate it cortex for core visual object recognition. PLoS Comp. Biol. 10, e1003963 (2014).
 这篇论文比较了深度神经网络与灵长类动物it皮层在核心视觉对象识别方面的表示能力。
 
-45.  Fukushima, K. & Miyake, S. Neocognitron: a new algorithm for pattern recognition tolerant of deformations and shifts in position. Pattern Recognition 15, 455–469 (1982).
+1.   Fukushima, K. & Miyake, S. Neocognitron: a new algorithm for pattern recognition tolerant of deformations and shifts in position. Pattern Recognition 15, 455–469 (1982).
 这篇论文介绍了一种新的模式识别算法——新认知晶体管，它能够容忍形状变形和位置移动。
 
-46.  Waibel, A., Hanazawa, T., Hinton, G. E., Shikano, K. & Lang, K. Phoneme recognition using time-delay neural networks. IEEE Trans. Acoustics Speech Signal Process. 37, 328–339 (1989).
+1.   Waibel, A., Hanazawa, T., Hinton, G. E., Shikano, K. & Lang, K. Phoneme recognition using time-delay neural networks. IEEE Trans. Acoustics Speech Signal Process. 37, 328–339 (1989).
 这篇论文探讨了使用时延神经网络进行音素识别。
 
-47.  Bottou, L., Fogelman-Soulié, F., Blanchet, P. & Lienard, J. Experiments with time delay networks and dynamic time warping for speaker independent isolated digit recognition. In Proc. EuroSpeech 89 537–540 (1989).
+1.   Bottou, L., Fogelman-Soulié, F., Blanchet, P. & Lienard, J. Experiments with time delay networks and dynamic time warping for speaker independent isolated digit recognition. In Proc. EuroSpeech 89 537–540 (1989).
 这篇论文介绍了使用时延网络和动态时间规整进行说话人独立隔离数字识别的实验。
 
-48.  Simard, D., Steinkraus, P. Y. & Platt, J. C. Best practices for convolutional neural networks. In Proc. Document Analysis and Recognition 958–963 (2003).
+1.   Simard, D., Steinkraus, P. Y. & Platt, J. C. Best practices for convolutional neural networks. In Proc. Document Analysis and Recognition 958–963 (2003).
 这篇论文讨论了卷积神经网络的最佳实践。
 
-49.  Vaillant, R., Monrocq, C. & LeCun, Y. Original approach for the localisation of objects in images. In Proc. Vision, Image, and Signal Processing 141, 245–250 (1994).
+1.   Vaillant, R., Monrocq, C. & LeCun, Y. Original approach for the localisation of objects in images. In Proc. Vision, Image, and Signal Processing 141, 245–250 (1994).
 这篇论文提出了一种图像中对象定位的原创方法。
 
-50.  Nowlan, S. & Platt, J. in Neural Information Processing Systems 901–908 (1995).
+1.   Nowlan, S. & Platt, J. in Neural Information Processing Systems 901–908 (1995).
 这篇论文讨论了神经信息处理系统中的一些主题。
 
-51.  Lawrence, S., Giles, C. L., Tsoi, A. C. & Back, A. D. Face recognition: a convolutional neural-network approach. IEEE Trans. Neural Networks 8, 98–113 (1997).
+1.   Lawrence, S., Giles, C. L., Tsoi, A. C. & Back, A. D. Face recognition: a convolutional neural-network approach. IEEE Trans. Neural Networks 8, 98–113 (1997).
 这篇论文探讨了一种使用卷积神经网络进行面部识别的方法。
 
-52.  Ciresan, D., Meier, U. Masci, J. & Schmidhuber, J. Multi-column deep neural network for traffic sign classification. Neural Networks 32, 333–338 (2012).
+1.   Ciresan, D., Meier, U. Masci, J. & Schmidhuber, J. Multi-column deep neural network for traffic sign classification. Neural Networks 32, 333–338 (2012).
 这篇论文介绍了一种用于交通标志分类的多列深度神经网络。
 
-53.  Ning, F. et al. Toward automatic phenotyping of developing embryos from videos. IEEE Trans. Image Process. 14, 1360–1371 (2005).
+1.   Ning, F. et al. Toward automatic phenotyping of developing embryos from videos. IEEE Trans. Image Process. 14, 1360–1371 (2005).
 这篇论文探讨了从视频中自动表型发育胚胎的方法。
 
-54.  Turaga, S. C. et al. Convolutional networks can learn to generate affinity graphs for image segmentation. Neural Comput. 22, 511–538 (2010).
+1.   Turaga, S. C. et al. Convolutional networks can learn to generate affinity graphs for image segmentation. Neural Comput. 22, 511–538 (2010).
 这篇论文讨论了卷积网络可以学习生成图像分割的亲和图。
 
-55.  Garcia, C. & Delakis, M. Convolutional face ﬁnder: a neural architecture for fast and robust face detection. IEEE Trans. Pattern Anal. Machine Intell. 26, 1408–1423 (2004).
+1.   Garcia, C. & Delakis, M. Convolutional face ﬁnder: a neural architecture for fast and robust face detection. IEEE Trans. Pattern Anal. Machine Intell. 26, 1408–1423 (2004).
 这篇论文介绍了一种用于快速和稳健面部检测的卷积面部查找器神经架构。
 
-56.  Osadchy, M., LeCun, Y. & Miller, M. Synergistic face detection and pose estimation with energy-based models. J. Mach. Learn. Res. 8, 1197–1215 (2007).
+1.   Osadchy, M., LeCun, Y. & Miller, M. Synergistic face detection and pose estimation with energy-based models. J. Mach. Learn. Res. 8, 1197–1215 (2007).
 这篇论文探讨了使用基于能量的模型进行协同面部检测和姿态估计。
 
-57.  Tompson, J., Goroshin, R. R., Jain, A., LeCun, Y. Y. & Bregler, C. C. Efﬁcient object localization using convolutional networks. In Proc. Conference on Computer Vision and Pattern Recognition http://arxiv.org/abs/1411.4280 (2014).
+1.   Tompson, J., Goroshin, R. R., Jain, A., LeCun, Y. Y. & Bregler, C. C. Efﬁcient object localization using convolutional networks. In Proc. Conference on Computer Vision and Pattern Recognition http://arxiv.org/abs/1411.4280 (2014).
 这篇论文介绍了使用卷积网络进行高效对象定位的方法。
 
-58.  Taigman, Y., Yang, M., Ranzato, M. & Wolf, L. Deepface: closing the gap to human-level performance in face verification. In Proc. Conference on Computer Vision and Pattern Recognition 1701–1708 (2014).
+1.   Taigman, Y., Yang, M., Ranzato, M. & Wolf, L. Deepface: closing the gap to human-level performance in face verification. In Proc. Conference on Computer Vision and Pattern Recognition 1701–1708 (2014).
 这篇论文讨论了Deepface技术，它在面部验证方面接近人类水平的表现。
 
-59.  Hadsell, R. et al. Learning long-range vision for autonomous off-road driving. J. Field Robot. 26, 120–144 (2009).
+1.   Hadsell, R. et al. Learning long-range vision for autonomous off-road driving. J. Field Robot. 26, 120–144 (2009).
 这篇论文探讨了为自主越野驾驶学习远距离视觉的方法。
 
-60.  Farabet, C., Couprie, C., Najman, L. & LeCun, Y. Scene parsing with multiscale feature learning, purity trees, and optimal covers. In Proc. International Conference on Machine Learning http://arxiv.org/abs/1202.2160 (2012).
+1.   Farabet, C., Couprie, C., Najman, L. & LeCun, Y. Scene parsing with multiscale feature learning, purity trees, and optimal covers. In Proc. International Conference on Machine Learning http://arxiv.org/abs/1202.2160 (2012).
 这篇论文介绍了使用多尺度特征学习、纯度树和最优覆盖进行场景解析的方法。
 
-61.  Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I. & Salakhutdinov, R. Dropout: a simple way to prevent neural networks from overﬁtting. J. Machine Learning Res. 15, 1929–1958 (2014).
+1.   Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I. & Salakhutdinov, R. Dropout: a simple way to prevent neural networks from overﬁtting. J. Machine Learning Res. 15, 1929–1958 (2014).
 这篇论文介绍了Dropout技术，这是一种简单的防止神经网络过拟合的方法。
 
-62.  Sermanet, P. et al. Overfeat: integrated recognition, localization and detection using convolutional networks. In Proc. International Conference on Learning Representations http://arxiv.org/abs/1312.6229 (2014).
+1.   Sermanet, P. et al. Overfeat: integrated recognition, localization and detection using convolutional networks. In Proc. International Conference on Learning Representations http://arxiv.org/abs/1312.6229 (2014).
 这篇论文介绍了Overfeat，一个使用卷积网络进行集成识别、定位和检测的系统。
 
-63.  Girshick, R., Donahue, J., Darrell, T. & Malik, J. Rich feature hierarchies for accurate object detection and semantic segmentation. In Proc. Conference on Computer Vision and Pattern Recognition 580–587 (2014).
+1.   Girshick, R., Donahue, J., Darrell, T. & Malik, J. Rich feature hierarchies for accurate object detection and semantic segmentation. In Proc. Conference on Computer Vision and Pattern Recognition 580–587 (2014).
 这篇论文讨论了为了准确对象检测和语义分割的丰富特征层次结构。
 
-65. Simonyan, K. & Zisserman, A. Very deep convolutional networks for large-scale image recognition. In Proc. International Conference on Learning Representations http://arxiv.org/abs/1409.1556 (2014).
+1.  Simonyan, K. & Zisserman, A. Very deep convolutional networks for large-scale image recognition. In Proc. International Conference on Learning Representations http://arxiv.org/abs/1409.1556 (2014).
 这篇论文介绍了非常深的卷积网络，用于大规模图像识别。
 
-66. Boser, B., Sackinger, E., Bromley, J., LeCun, Y. & Jackel, L. An analog neural network processor with programmable topology. J. Solid State Circuits 26, 2017–2025 (1991).
+1.  Boser, B., Sackinger, E., Bromley, J., LeCun, Y. & Jackel, L. An analog neural network processor with programmable topology. J. Solid State Circuits 26, 2017–2025 (1991).
 这篇论文描述了一种具有可编程拓扑的模拟神经网络处理器。
 
-67. Farabet, C. et al. Large-scale FPGA-based convolutional networks. In Scaling up Machine Learning: Parallel and Distributed Approaches (eds Bekkerman, R., Bilenko, M. & Langford, J.) 399–419 (Cambridge Univ. Press, 2011).
+1.  Farabet, C. et al. Large-scale FPGA-based convolutional networks. In Scaling up Machine Learning: Parallel and Distributed Approaches (eds Bekkerman, R., Bilenko, M. & Langford, J.) 399–419 (Cambridge Univ. Press, 2011).
 这本书的章节讨论了基于FPGA的大规模卷积网络。
 
-68. Bengio, Y. Learning Deep Architectures for AI (Now, 2009).
+1.  Bengio, Y. Learning Deep Architectures for AI (Now, 2009).
 这篇论文讨论了为人工智能学习深度架构。
 
-69. Montufar, G. & Morton, J. When does a mixture of products contain a product of mixtures? J. Discrete Math. 29, 321–347 (2014).
+1.  Montufar, G. & Morton, J. When does a mixture of products contain a product of mixtures? J. Discrete Math. 29, 321–347 (2014).
 这篇数学论文探讨了混合产品何时包含混合的产品。
 
-70. Montufar, G. F., Pascanu, R., Cho, K. & Bengio, Y. On the number of linear regions of deep neural networks. In Proc. Advances in Neural Information Processing Systems 27 2924–2932 (2014).
+1.  Montufar, G. F., Pascanu, R., Cho, K. & Bengio, Y. On the number of linear regions of deep neural networks. In Proc. Advances in Neural Information Processing Systems 27 2924–2932 (2014).
 这篇论文研究了深度神经网络的线性区域数量。
 
-71. Bengio, Y., Ducharme, R. & Vincent, P. A neural probabilistic language model. In Proc Advances in Neural Information Processing Systems 13 932–938 (2001).
+1.  Bengio, Y., Ducharme, R. & Vincent, P. A neural probabilistic language model. In Proc Advances in Neural Information Processing Systems 13 932–938 (2001).
 这篇论文介绍了神经语言模型，它们学习将单词符号转换为单词向量或由学习到的语义特征组成的单词嵌入，以预测序列中的下一个单词。
 
-72. Cho, K. et al. Learning phrase representations using RNN encoder-decoder for statistical machine translation. In Proc. Conference on Empirical Methods in Natural Language Processing 1724–1734 (2014).
+1.  Cho, K. et al. Learning phrase representations using RNN encoder-decoder for statistical machine translation. In Proc. Conference on Empirical Methods in Natural Language Processing 1724–1734 (2014).
 这篇论文讨论了使用RNN编码器-解码器学习短语表示，用于统计机器翻译。
 
-73. Schwenk, H. Continuous space language models. Computer Speech Lang. 21, 492–518 (2007).
+1.  Schwenk, H. Continuous space language models. Computer Speech Lang. 21, 492–518 (2007).
 这篇论文探讨了连续空间语言模型。
 
-74. Socher, R., Lin, C. C-Y., Manning, C. & Ng, A. Y. Parsing natural scenes and natural language with recursive neural networks. In Proc. International Conference on Machine Learning 129–136 (2011).
+1.  Socher, R., Lin, C. C-Y., Manning, C. & Ng, A. Y. Parsing natural scenes and natural language with recursive neural networks. In Proc. International Conference on Machine Learning 129–136 (2011).
 这篇论文讨论了使用递归神经网络解析自然场景和自然语言。
 
-75. Mikolov, T., Sutskever, I., Chen, K., Corrado, G. & Dean, J. Distributed representations of words and phrases and their compositionality. In Proc. Advances in Neural Information Processing Systems 26 3111–3119 (2013).
+1.  Mikolov, T., Sutskever, I., Chen, K., Corrado, G. & Dean, J. Distributed representations of words and phrases and their compositionality. In Proc. Advances in Neural Information Processing Systems 26 3111–3119 (2013).
 这篇论文讨论了单词和短语的分布式表示及其组合性。
 
-76. Bahdanau, D., Cho, K. & Bengio, Y. Neural machine translation by jointly learning to align and translate. In Proc. International Conference on Learning Representations http://arxiv.org/abs/1409.0473 (2015).
+1.  Bahdanau, D., Cho, K. & Bengio, Y. Neural machine translation by jointly learning to align and translate. In Proc. International Conference on Learning Representations http://arxiv.org/abs/1409.0473 (2015).
 这篇论文介绍了通过联合学习对齐和翻译进行神经机器翻译。
 
-77. Hochreiter, S. Untersuchungen zu dynamischen neuronalen Netzen [in German] Diploma thesis, T.U. Münich (1991).
+1.  Hochreiter, S. Untersuchungen zu dynamischen neuronalen Netzen [in German] Diploma thesis, T.U. Münich (1991).
 这篇德语学位论文探讨了动态神经网络的研究。
 
-78. Bengio, Y., Simard, P. & Frasconi, P. Learning long-term dependencies with gradient descent is difficult. IEEE Trans. Neural Networks 5, 157–166 (1994).
+1.  Bengio, Y., Simard, P. & Frasconi, P. Learning long-term dependencies with gradient descent is difficult. IEEE Trans. Neural Networks 5, 157–166 (1994).
 这篇论文讨论了使用梯度下降学习长期依赖性是困难的。
 
-79. Hochreiter, S. & Schmidhuber, J. Long short-term memory. Neural Comput. 9, 1735–1780 (1997).
+1.  Hochreiter, S. & Schmidhuber, J. Long short-term memory. Neural Comput. 9, 1735–1780 (1997).
 这篇论文介绍了LSTM循环网络，它们在最近的循环网络进展中成为了关键成分，因为它们擅长学习长期依赖性。
 
-80. ElHihi, S. & Bengio, Y. Hierarchical recurrent neural networks for long-term dependencies. In Proc Advances in Neural Information Processing Systems 8 http://papers.nips.cc/paper/1102-hierarchical-recurrent-neural-networks-forlong-term-dependencies (1995).
+1.  ElHihi, S. & Bengio, Y. Hierarchical recurrent neural networks for long-term dependencies. In Proc Advances in Neural Information Processing Systems 8 http://papers.nips.cc/paper/1102-hierarchical-recurrent-neural-networks-forlong-term-dependencies (1995).
 这篇论文讨论了用于长期依赖性的层次化循环神经网络。
 
-81. Sutskever, I. Training Recurrent Neural Networks. PhD thesis, Univ. Toronto (2012).
+1.  Sutskever, I. Training Recurrent Neural Networks. PhD thesis, Univ. Toronto (2012).
 这篇博士学位论文讨论了训练循环神经网络。
 
-82. Pascanu, R., Mikolov, T. & Bengio, Y. On the difficulty of training recurrent neural networks. In Proc. 30th International Conference on Machine Learning 1310– 1318 (2013).
+1.  Pascanu, R., Mikolov, T. & Bengio, Y. On the difficulty of training recurrent neural networks. In Proc. 30th International Conference on Machine Learning 1310– 1318 (2013).
 这篇论文讨论了训练循环神经网络的困难。
 
-83. Sutskever, I., Martens, J. & Hinton, G. E. Generating text with recurrent neural networks. In Proc. 28th International Conference on Machine Learning 1017– 1024 (2011).
+1.  Sutskever, I., Martens, J. & Hinton, G. E. Generating text with recurrent neural networks. In Proc. 28th International Conference on Machine Learning 1017– 1024 (2011).
 这篇论文介绍了使用循环神经网络生成文本。
 
-84. Lakoff, G. & Johnson, M. Metaphors We Live By (Univ. Chicago Press, 2008).
+1.  Lakoff, G. & Johnson, M. Metaphors We Live By (Univ. Chicago Press, 2008).
 这本书探讨了我们生活中隐喻的使用。
 
-85. Rogers, T. T. & McClelland, J. L. Semantic Cognition: A Parallel Distributed Processing Approach (MIT Press, 2004).
+1.  Rogers, T. T. & McClelland, J. L. Semantic Cognition: A Parallel Distributed Processing Approach (MIT Press, 2004).
 这本书讨论了语义认知的并行分布式处理方法。
 
-86. Xu, K. et al. Show, attend and tell: Neural image caption generation with visual attention. In Proc. International Conference on Learning Representations http:// arxiv.org/abs/1502.03044 (2015).
+1.  Xu, K. et al. Show, attend and tell: Neural image caption generation with visual attention. In Proc. International Conference on Learning Representations http:// arxiv.org/abs/1502.03044 (2015).
 这篇论文介绍了一种使用视觉注意力的神经图像字幕生成方法。
 
-87. Graves, A., Mohamed, A.-R. & Hinton, G. Speech recognition with deep recurrent neural networks. In Proc. International Conference on Acoustics, Speech and Signal Processing 6645–6649 (2013).
+1.  Graves, A., Mohamed, A.-R. & Hinton, G. Speech recognition with deep recurrent neural networks. In Proc. International Conference on Acoustics, Speech and Signal Processing 6645–6649 (2013).
 这篇论文讨论了使用深度循环神经网络进行语音识别。
 
-88. Graves, A., Wayne, G. & Danihelka, I. Neural Turing machines. http://arxiv.org/abs/1410.5401 (2014).
+1.  Graves, A., Wayne, G. & Danihelka, I. Neural Turing machines. http://arxiv.org/abs/1410.5401 (2014).
 这篇论文介绍了神经图灵机。
 
-89. Weston, J., Chopra, S. & Bordes, A. Memory networks. http://arxiv.org/abs/1410.3916 (2014).
+1.  Weston, J., Chopra, S. & Bordes, A. Memory networks. http://arxiv.org/abs/1410.3916 (2014).
 这篇论文介绍了记忆网络。
 
 90. Weston, J., Bordes, A., Chopra, S. & Mikolov, T. Towards AI-complete question answering: a set of prerequisite toy tasks. http://arxiv.org/abs/1502.05698 (2015).
 这篇论文讨论了朝向AI完备问题回答的一系列预备玩具任务。
 
-91. Hinton, G. E., Dayan, P., Frey, B. J. & Neal, R. M. The wake-sleep algorithm for unsupervised neural networks. Science 268, 1558–1161 (1995).
+1.  Hinton, G. E., Dayan, P., Frey, B. J. & Neal, R. M. The wake-sleep algorithm for unsupervised neural networks. Science 268, 1558–1161 (1995).
 这篇论文介绍了用于无监督神经网络的唤醒-睡眠算法。
 
-92. Salakhutdinov, R. & Hinton, G. Deep Boltzmann machines. In Proc. International Conference on Artificial Intelligence and Statistics 448–455 (2009).
+1.  Salakhutdinov, R. & Hinton, G. Deep Boltzmann machines. In Proc. International Conference on Artificial Intelligence and Statistics 448–455 (2009).
 这篇论文讨论了深度玻尔兹曼机。
 
-93. Vincent, P., Larochelle, H., Bengio, Y. & Manzagol, P.-A. Extracting and composing robust features with denoising autoencoders. In Proc. 25th International Conference on Machine Learning 1096–1103 (2008).
+1.  Vincent, P., Larochelle, H., Bengio, Y. & Manzagol, P.-A. Extracting and composing robust features with denoising autoencoders. In Proc. 25th International Conference on Machine Learning 1096–1103 (2008).
 这篇论文介绍了使用去噪自编码器提取和组合鲁棒特征。
 
-94. Kavukcuoglu, K. et al. Learning convolutional feature hierarchies for visual recognition. In Proc. Advances in Neural Information Processing Systems 23 1090–1098 (2010).
+1.  Kavukcuoglu, K. et al. Learning convolutional feature hierarchies for visual recognition. In Proc. Advances in Neural Information Processing Systems 23 1090–1098 (2010).
 这篇论文讨论了用于视觉识别的学习卷积特征层次结构。
 
-95. Gregor, K. & LeCun, Y. Learning fast approximations of sparse coding. In Proc. International Conference on Machine Learning 399–406 (2010).
+1.  Gregor, K. & LeCun, Y. Learning fast approximations of sparse coding. In Proc. International Conference on Machine Learning 399–406 (2010).
 这篇论文讨论了学习稀疏编码的快速近似。
 
-96. Ranzato, M., Mnih, V., Susskind, J. M. & Hinton, G. E. Modeling natural images using gated MRFs. IEEE Trans. Pattern Anal. Machine Intell. 35, 2206–2222 (2013).
+1.  Ranzato, M., Mnih, V., Susskind, J. M. & Hinton, G. E. Modeling natural images using gated MRFs. IEEE Trans. Pattern Anal. Machine Intell. 35, 2206–2222 (2013).
 这篇论文探讨了使用门控马尔可夫随机场（MRFs）对自然图像进行建模。
 
-97. Bengio, Y., Thibodeau-Laufer, E., Alain, G. & Yosinski, J. Deep generative stochastic networks trainable by backprop. In Proc. 31st International Conference on Machine Learning 226–234 (2014).
+1.  Bengio, Y., Thibodeau-Laufer, E., Alain, G. & Yosinski, J. Deep generative stochastic networks trainable by backprop. In Proc. 31st International Conference on Machine Learning 226–234 (2014).
 这篇论文介绍了一种可以通过反向传播训练的深度生成随机网络。
 
-98. Kingma, D., Rezende, D., Mohamed, S. & Welling, M. Semi-supervised learning with deep generative models. In Proc. Advances in Neural Information Processing Systems 27 3581–3589 (2014).
+1.  Kingma, D., Rezende, D., Mohamed, S. & Welling, M. Semi-supervised learning with deep generative models. In Proc. Advances in Neural Information Processing Systems 27 3581–3589 (2014).
 这篇论文讨论了使用深度生成模型进行半监督学习。
 
-99. Ba, J., Mnih, V. & Kavukcuoglu, K. Multiple object recognition with visual attention. In Proc. International Conference on Learning Representations http:// arxiv.org/abs/1412.7755 (2014).
+1.  Ba, J., Mnih, V. & Kavukcuoglu, K. Multiple object recognition with visual attention. In Proc. International Conference on Learning Representations http:// arxiv.org/abs/1412.7755 (2014).
 这篇论文介绍了使用视觉注意力进行多对象识别的方法。
 
-100. Mnih, V. et al. Human-level control through deep reinforcement learning. Nature 518, 529–533 (2015).
+1.   Mnih, V. et al. Human-level control through deep reinforcement learning. Nature 518, 529–533 (2015).
 这篇论文探讨了通过深度强化学习实现人类水平的控制。
 
-101. Bottou, L. From machine learning to machine reasoning. Mach. Learn. 94, 133–149 (2014).
+1.   Bottou, L. From machine learning to machine reasoning. Mach. Learn. 94, 133–149 (2014).
 这篇文章讨论了从机器学习到机器推理的发展。
 
-102. Vinyals, O., Toshev, A., Bengio, S. & Erhan, D. Show and tell: a neural image caption generator. In Proc. International Conference on Machine Learning http:// arxiv.org/abs/1502.03044 (2014).
+1.   Vinyals, O., Toshev, A., Bengio, S. & Erhan, D. Show and tell: a neural image caption generator. In Proc. International Conference on Machine Learning http:// arxiv.org/abs/1502.03044 (2014).
 这篇论文介绍了一种神经图像字幕生成器，能够根据图像生成描述性文本。
 
-103. van der Maaten, L. & Hinton, G. E. Visualizing data using t-SNE. J. Mach. Learn. Research 9, 2579–2605 (2008).
+1.   van der Maaten, L. & Hinton, G. E. Visualizing data using t-SNE. J. Mach. Learn. Research 9, 2579–2605 (2008).
 这篇论文介绍了使用t-SNE算法进行数据可视化的方法。
 
 作者信息 转载和权限信息可在 www.nature.com/reprints 找到。作者声明没有竞争性的财务利益。读者可以在 go.nature.com/7cjbaa 上对本文的在线版本发表评论。通信应发送至Y.L. (yann@cs.nyu.edu)。
