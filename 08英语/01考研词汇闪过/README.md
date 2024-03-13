@@ -1,46 +1,50 @@
 # 考研词汇闪过
 
 ## 2024.03.13
+> P125~P129
+> 星期四，晴，第二周，下午没课。
+> 下午两点半开始背。两点前在锻炼。锻炼后刷了半小时手机。
+> 这些单词前几天已经看过一遍了
 ### 单词
-1. embody
+1. **embody**
 2. embrace
 3. enthusiasm
 4. enthsiasitic
 5. enlarge
 6. enhance
-7. entitle
-8. encounter
+7. **entitle**
+8. **encounter**
 9. endure
 10. react
-11. reveal
-12. retreat
+11. **reveal**
+12. **retreat**
 13. reflect
 14. refleaction
 15. reinforce
 16. remember
-17. resort
+17. **resort**
 18. register
 19. recovery
 20. replace
 
 ### 含义
-1. embody /ɪmˈbɒdi/ (动词) - 体现；具体化
+1. **embody /ɪmˈbɒdi/ (动词) - 体现；具体化**
 2. embrace /ɪmˈbreɪs/ (动词) - 拥抱；接受；包括
 3. enthusiasm /ɪnˈθjuːziæsəm/ (名词) - 热情；热忱
 4. enthusiastic /ɪnˌθjuːziˈæstɪk/ (形容词) - 热情的；热心的
 5. enlarge /ɪnˈlɑːrdʒ/ (动词) - 扩大；扩展
 6. enhance /ɪnˈhæns/ (动词) - 提高；增强；提高...的价值
-7. entitle /ɪnˈtaɪtl/ (动词) - 给...命名；授权；给...称号
-8. encounter /ɪnˈkaʊntər/ (动词) - 遭遇；遇到；(名词) - 遭遇；会面
+7. **entitle /ɪnˈtaɪtl/ (动词) - 给...命名；授权；给...称号**
+8. **encounter /ɪnˈkaʊntər/ (动词) - 遭遇；遇到；(名词) - 遭遇；会面**
 9. endure /ɪnˈdjʊər/ (动词) - 忍受；耐久；持续
 10. react /riˈækt/ (动词) - 反应；起反作用
-11. reveal /rɪˈviːl/ (动词) - 揭示；揭露；显示
-12. retreat /rɪˈtriːt/ (动词) - 撤退；退隐；(名词) - 撤退；避静处
+11. **reveal /rɪˈviːl/ (动词) - 揭示；揭露；显示**
+12. **retreat /rɪˈtriːt/ (动词) - 撤退；退隐；(名词) - 撤退；避静处**
 13. reflect /rɪˈflekt/ (动词) - 反映；反射；深思
 14. reflection /rɪˈflekʃən/ (名词) - 反映；反思；倒影
 15. reinforce /ˌriːɪnˈfɔːrs/ (动词) - 加强；加固；增援
 16. remember /rɪˈmembər/ (动词) - 记得；记起
-17. resort /rɪˈzɔːrt/ (动词) - 诉诸；求助于；(名词) - 度假胜地；手段
+17. **resort /rɪˈzɔːrt/ (动词) - 诉诸；求助于；(名词) - 度假胜地；手段**
 18. register /ˈredʒɪstər/ (动词) - 注册；登记；(名词) - 登记册；注册表
 19. recovery /rɪˈkʌvəri/ (名词) - 恢复；康复；痊愈
 20. replace /rɪˈpleɪs/ (动词) - 替换；取代；把...放回原处
