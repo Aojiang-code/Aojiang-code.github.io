@@ -61,37 +61,114 @@
 **负梯度向量指示这个景观中陡峭下降的方向，将其带向一个最小值，那里的平均输出误差较低。**
 
 **在实践中，大多数从业者使用一种称为随机梯度下降（SGD）的程序。**
-这包括展示几个示例的输入向量，计算输出和误差，计算这些示例的平均梯度，并相应地调整权重。这个过程在训练集的许多小示例集上重复进行，直到目标函数的平均值停止下降。它被称为随机的，因为每个小示例集给出了所有示例的平均梯度的嘈杂估计。这种简单的过程通常在与远更复杂的优化技术相比时，能够令人惊讶地快速找到一组好的权重18。训练后，系统的性能在称为测试集的不同示例集上进行测量。这用于测试机器的泛化能力——它在从未在训练期间见过的新输入上产生合理答案的能力。
+这包括展示几个示例的**输入向量**，**计算输出和误差**，**计算这些示例的平均梯度**，并**相应地调整权重**。
+**这个过程在训练集的许多小示例集上重复进行，直到目标函数的平均值停止下降。**
+它被称为随机的，因为每个小示例集给出了所有示例的平均梯度的嘈杂估计。
+这种简单的过程通常在与远更复杂的优化技术相比时，能够令人惊讶地**快速**找到一组好的权重18。
+训练后，系统的性能在称为测试集的不同示例集上进行测量。
+这用于测试机器的泛化能力——它在从未在训练期间见过的新输入上产生合理答案的能力。
 
-目前机器学习的实际应用中，许多使用手工设计的特征上的线性分类器。一个二类线性分类器计算特征向量分量的加权和。如果加权和高于阈值，输入就被分类为属于特定类别。
+目前机器学习的实际应用中，许多使用手工设计的特征上的线性分类器。
+一个二类线性分类器计算特征向量分量的加权和。
+如果加权和高于阈值，输入就被分类为属于特定类别。
 
-自20世纪60年代以来，我们知道线性分类器只能将输入空间划分为非常简单的区域，即由超平面分隔的半空间19。但是，像图像和语音识别这样的问题要求输入输出函数对输入的不相关变化不敏感，例如对象的位置、方向或照明的变化，或者语音的音高或口音的变化，同时对特定的微小变化非常敏感（例如，白狼和称为萨摩耶德的类似白狼的犬种之间的区别）。在像素级别，两个不同姿势和不同环境中的萨摩耶德的图像可能彼此非常不同，而同一位置和类似背景下的萨摩耶德和狼的两个图像可能彼此非常相似。线性分类器，或任何其他在原始像素上操作的“浅层”分类器，不可能区分后者两者，而将前者两者归为同一类别。这就是为什么浅层分类器需要一个好的特征提取器来解决选择性-不变性困境——一个产生对图像的某些方面有选择性但对动物的姿势等不相关方面不变的表示。为了使分类器更强大，可以使用通用的非线性特征，如与核方法20一起使用的那样，但像高斯核这样的通用特征不允许学习者远离训练示例很好地泛化21。传统选择是手工设计好的特征提取器，这需要相当多的工程技能和领域专业知识。但如果可以使用通用的学习过程自动学习好的特征，所有这些都可以避免。这是深度学习的关键优势。
+自20世纪60年代以来，我们知道线性分类器只能将输入空间划分为非常简单的区域，即由超平面分隔的半空间19。
+但是，像图像和语音识别这样的问题要求输入输出函数对输入的不相关变化不敏感，
+> 例如对象的位置、方向或照明的变化，或者语音的音高或口音的变化，同时对特定的微小变化非常敏感（例如，白狼和称为萨摩耶德的类似白狼的犬种之间的区别）。
+> 在像素级别，两个不同姿势和不同环境中的萨摩耶德的图像可能彼此非常不同，而同一位置和类似背景下的萨摩耶德和狼的两个图像可能彼此非常相似。
 
-深度学习架构是一个简单模块的多层堆栈，所有（或大多数）模块都受到学习的影响，许多模块计算非线性输入-输出映射。堆栈中的每个模块都转换其输入以增加表示的选择性和不变性。通过多个非线性层，比如说5到20层的深度，一个系统可以实施其输入的极其复杂的函数，同时对微小的细节敏感——区分萨摩耶德和白狼——并对大的不相关变化如背景、姿势、照明和周围对象不敏感。
+线性分类器，或任何其他在原始像素上操作的“浅层”分类器，不可能区分后者两者，而将前者两者归为同一类别。
+这就是为什么浅层分类器需要一个好的特征提取器来解决选择性-不变性困境——一个产生对图像的某些方面有选择性但对动物的姿势等不相关方面不变的表示。
+为了使分类器更强大，可以使用通用的非线性特征，如与核方法20一起使用的那样，但像高斯核这样的通用特征不允许学习者远离训练示例很好地泛化21。
+**传统选择是手工设计好的特征提取器，这需要相当多的工程技能和领域专业知识。**
+**但如果可以使用通用的学习过程自动学习好的特征，所有这些都可以避免。**
+**这是深度学习的关键优势。**
 
-反向传播训练多层架构 从模式识别的最早日子开始22,23，研究人员的目标就是用可训练的多层网络取代手工设计的特征，尽管它的解决方案很简单，直到1980年代中期才被广泛理解。事实证明，多层架构可以通过简单的随机梯度下降进行训练。只要模块是其输入和内部权重的相对平滑函数，就可以使用反向传播过程计算梯度。这个想法可以在1970年代和1980年代由几个不同的研究小组独立发现24-27。
+深度学习架构是一个简单模块的多层堆栈，所有（或大多数）模块都受到学习的影响，许多模块计算非线性输入-输出映射。
+堆栈中的每个模块都转换其输入以增加表示的选择性和不变性。
+通过多个非线性层，比如说5到20层的深度，一个系统可以实施其输入的极其复杂的函数，同时对微小的细节敏感——区分萨摩耶德和白狼——并对大的不相关变化如背景、姿势、照明和周围对象不敏感。
 
-反向传播过程计算一个多层模块堆栈的权重的目标函数梯度，只不过是梯度链式法则的实用应用。关键的洞察是，通过从该模块的输出（或后续模块的输入）的梯度向后工作，可以计算出目标相对于模块输入的导数（或梯度）（图1）。反向传播方程可以反复应用，将梯度通过所有模块传播，从顶部的输出开始（网络在那里产生其预测），一直到底部（外部输入被输入）。一旦计算出这些梯度，就可以直接计算出每个模块权重的梯度。
+## 反向传播训练多层架构 
+从模式识别的最早日子开始22,23，研究人员的目标就是用可训练的多层网络取代手工设计的特征，尽管它的解决方案很简单，直到1980年代中期才被广泛理解。
+事实证明，多层架构可以通过简单的随机梯度下降进行训练。
+只要模块是其输入和内部权重的相对平滑函数，就可以使用反向传播过程计算梯度。
+这个想法可以在1970年代和1980年代由几个不同的研究小组独立发现24-27。
 
-许多深度学习的应用使用前馈神经网络架构（图1），它们学习将固定大小的输入（例如，一张图像）映射到固定大小的输出（例如，几个类别的概率）。为了从一个层次到下一个层次，一组单元计算其来自前一层次的输入的加权和，并将结果通过非线性函数传递。目前，最受欢迎的非线性函数是修正线性单元（ReLU），它简单地是半波整流器f(z) = max(z, 0)。在过去的几十年中，神经网络使用了更平滑的非线性，例如tanh(z)或1/(1 + exp(−z))，但ReLU通常在许多层的网络中学习得更快，允许在没有无监督预训练的情况下训练深度监督网络28。不在输入或输出层的单元通常被称为隐藏单元。隐藏层可以看作是以非线性方式扭曲输入，使得类别在最后一层变得线性可分（图1）。
+反向传播过程计算一个多层模块堆栈的权重的目标函数梯度，只不过是梯度链式法则的实用应用。
+关键的洞察是，通过从该模块的输出（或后续模块的输入）的梯度向后工作，可以计算出目标相对于模块输入的导数（或梯度）（图1）。
+反向传播方程可以反复应用，将梯度通过所有模块传播，从顶部的输出开始（网络在那里产生其预测），一直到底部（外部输入被输入）。
+一旦计算出这些梯度，就可以直接计算出每个模块权重的梯度。
 
-在20世纪90年代末，神经网络和反向传播在很大程度上被机器学习社区抛弃，并且被计算机视觉和语音识别社区忽视。人们普遍认为，用很少的先验知识学习有用的多阶段特征提取器是不可行的。特别是，人们普遍认为简单的梯度下降会陷入较差的局部最小值——权重配置，对于这些配置，没有小的变化会降低平均误差。
+许多深度学习的应用使用前馈神经网络架构（图1），它们学习将固定大小的输入（例如，一张图像）映射到固定大小的输出（例如，几个类别的概率）。
+为了从一个层次到下一个层次，一组单元计算其来自前一层次的输入的加权和，并将结果通过非线性函数传递。
+目前，最受欢迎的非线性函数是修正线性单元（ReLU），它简单地是半波整流器f(z) = max(z, 0)。
+在过去的几十年中，神经网络使用了更平滑的非线性，例如tanh(z)或1/(1 + exp(−z))，但ReLU通常在许多层的网络中学习得更快，允许在没有无监督预训练的情况下训练深度监督网络28。
+不在输入或输出层的单元通常被称为隐藏单元。
+隐藏层可以看作是以非线性方式扭曲输入，使得类别在最后一层变得线性可分（图1）。
 
-在实践中，对于大型网络来说，较差的局部最小值很少是问题。无论初始条件如何，系统几乎总是达到非常相似质量的解决方案。最近的理论和经验结果强烈表明，局部最小值通常不是一般问题。相反，这个景观充满了组合上的大量鞍点，其中梯度为零，表面在大多数维度上向上弯曲，在其余维度上向下弯曲29,30。分析似乎表明，只有少数向下弯曲方向的鞍点在非常大的数量中存在，但几乎所有这些鞍点的目标函数值都非常相似。因此，算法陷入这些鞍点中的哪一个并不重要。
+在20世纪90年代末，神经网络和反向传播在很大程度上被机器学习社区抛弃，并且被计算机视觉和语音识别社区忽视。
+人们普遍认为，用很少的先验知识学习有用的多阶段特征提取器是不可行的。
+特别是，人们普遍认为简单的梯度下降会陷入较差的局部最小值——权重配置，对于这些配置，没有小的变化会降低平均误差。
 
-对深度前馈网络的兴趣在2006年左右被重新唤起，这要归功于加拿大高级研究所（CIFAR）聚集的一组研究人员。研究人员引入了无监督学习程序，可以在不需要标记数据的情况下创建特征检测器层。学习每一层特征检测器的目标是能够重建或模拟下面一层的特征检测器（或原始输入）的活动。通过使用这种重建目标“预训练”几个逐渐更复杂的特征检测器层，可以将深度网络的权重初始化为合理的值。然后可以在网络的顶部添加一个输出单元的最终层，并使用标准反向传播对整个深度系统进行微调33-35。这对于识别手写数字或检测行人非常有效，特别是当标记数据量非常有限时36。
+在实践中，对于大型网络来说，较差的局部最小值很少是问题。
+无论初始条件如何，系统几乎总是达到非常相似质量的解决方案。
+最近的理论和经验结果强烈表明，局部最小值通常不是一般问题。
+相反，这个景观充满了组合上的大量鞍点，其中梯度为零，表面在大多数维度上向上弯曲，在其余维度上向下弯曲29,30。
+分析似乎表明，只有少数向下弯曲方向的鞍点在非常大的数量中存在，但几乎所有这些鞍点的目标函数值都非常相似。
+因此，算法陷入这些鞍点中的哪一个并不重要。
 
-这种预训练方法的首次重大应用是在语音识别中，这得益于快速图形处理单元（GPU）的出现，这些GPU易于编程37，并允许研究人员以比以往快10或20倍的速度训练网络。2009年，该方法被用于将从声波中提取的系数的短时间窗口映射到可能由窗口中心的帧表示的语音片段的各种片段的概率集。它在一个小词汇量的标准语音识别基准测试中取得了突破性的结果38，并迅速发展到在一个大词汇量任务上取得突破性的结果39。到2012年，2009年的深度网络版本正在被许多主要的语音团队开发6，并已经部署在Android手机中。对于较小的数据集，无监督预训练有助于防止过拟合40，从而在标记示例数量较少时，或在转移设置中，我们有许多“源”任务的示例但只有很少的“目标”任务的示例时，导致显著更好的泛化。一旦深度学习得到复兴，事实证明，预训练阶段只需要用于较小的数据集。
+对深度前馈网络的兴趣在2006年左右被重新唤起，这要归功于加拿大高级研究所（CIFAR）聚集的一组研究人员。
+研究人员引入了无监督学习程序，可以在不需要标记数据的情况下创建特征检测器层。
+学习每一层特征检测器的目标是能够重建或模拟下面一层的特征检测器（或原始输入）的活动。
+通过使用这种重建目标“预训练”几个逐渐更复杂的特征检测器层，可以将深度网络的权重初始化为合理的值。
+然后可以在网络的顶部添加一个输出单元的最终层，并使用标准反向传播对整个深度系统进行微调33-35。
+这对于识别手写数字或检测行人非常有效，特别是当标记数据量非常有限时36。
 
-然而，有一种特定类型的深度前馈网络比具有相邻层之间完全连接的网络更容易训练，并且泛化效果更好。这就是卷积神经网络（ConvNet）41,42。它在神经网络不受欢迎的时期取得了许多实际成功，并最近被计算机视觉社区广泛采用。
+这种预训练方法的首次重大应用是在语音识别中，这得益于快速图形处理单元（GPU）的出现，这些GPU易于编程37，并允许研究人员以比以往快10或20倍的速度训练网络。
+2009年，该方法被用于将从声波中提取的系数的短时间窗口映射到可能由窗口中心的帧表示的语音片段的各种片段的概率集。
+它在一个小词汇量的标准语音识别基准测试中取得了突破性的结果38，并迅速发展到在一个大词汇量任务上取得突破性的结果39。
+到2012年，2009年的深度网络版本正在被许多主要的语音团队开发6，并已经部署在Android手机中。
+对于较小的数据集，无监督预训练有助于防止过拟合40，从而在标记示例数量较少时，或在转移设置中，我们有许多“源”任务的示例但只有很少的“目标”任务的示例时，导致显著更好的泛化。
+一旦深度学习得到复兴，事实证明，预训练阶段只需要用于较小的数据集。
 
-卷积神经网络 ConvNets旨在处理以多个数组形式出现的数据，例如由三个包含三个颜色通道像素强度的2D数组组成的彩色图像。许多数据模态都是以多个数组的形式存在的：1D用于信号和序列，包括语言；2D用于图像或音频频谱图；3D用于视频或体积图像。ConvNets背后的四个关键思想利用了自然信号的特性：局部连接、共享权重、池化和使用多层。
+然而，有一种特定类型的深度前馈网络比具有相邻层之间完全连接的网络更容易训练，并且泛化效果更好。
+这就是卷积神经网络（ConvNet）41,42。
+它在神经网络不受欢迎的时期取得了许多实际成功，并最近被计算机视觉社区广泛采用。
 
-典型的ConvNet的架构（图2）是由一系列阶段组成的。前几个阶段由两种类型的层组成：卷积层和池化层。卷积层中的单元组织在特征图中，其中每个单元通过称为滤波器库的一组权重与前一层特征图的局部补丁相连。这个局部加权和的结果然后通过ReLU等非线性函数传递。一个特征图中的所有单元共享相同的滤波器库。层中的不同特征图使用不同的滤波器库。这种架构的原因有两个。首先，在图像等数组数据中，局部值组通常是高度相关的，形成容易检测的独特局部图案。其次，图像和其他信号的局部统计特性对位置不变。换句话说，如果一个图案可以出现在图像的一个部分，它可能无处不在，因此不同位置的单元共享相同的权重并在数组的不同部分检测相同的图案。数学上，特征图执行的过滤操作是离散卷积，因此得名。
+卷积神经网络 ConvNets旨在处理以多个数组形式出现的数据，例如由三个包含三个颜色通道像素强度的2D数组组成的彩色图像。
+许多数据模态都是以多个数组的形式存在的：
+- 1D用于信号和序列，包括语言；
+- 2D用于图像或音频频谱图；
+- 3D用于视频或体积图像。
 
-尽管卷积层的作用是检测前一层的局部特征组合，但池化层的作用是将语义上相似的特征合并为一个。因为形成图案的特征的相对位置可能会有所变化，通过粗化每个特征的位置来可靠地检测图案。典型的池化单元计算一个特征图中局部补丁单元的最大值（或在少数特征图中）。邻近的池化单元从被移位了一个或多个行或列的补丁中获取输入，从而降低了表示的维度，并创建了对小的位移和扭曲的不变性。两到三个卷积、非线性和池化阶段堆叠在一起，然后是更多的卷积和全连接层。通过ConvNet反向传播梯度就像通过常规深度网络一样简单，允许所有滤波器库中的所有权重进行训练。
+ConvNets背后的四个关键思想利用了自然信号的特性：
+- 局部连接、
+- 共享权重、
+- 池化和使用多层。
 
-深度神经网络利用了许多自然信号是组合层次结构的特性，其中更高层次的特征是通过组合较低层次的特征获得的。在图像中，边缘的局部组合形成图案，图案组装成部分，部分形成对象。在从声音到音素、音节、单词和句子的语音和文本中存在类似的层次结构。池化允许表示在前一层的元素在位置和外观变化时变化非常小。
+典型的ConvNet的架构（图2）是由一系列阶段组成的。
+前几个阶段由两种类型的层组成：卷积层和池化层。
+卷积层中的单元组织在特征图中，其中每个单元通过称为滤波器库的一组权重与前一层特征图的局部补丁相连。
+这个局部加权和的结果然后通过ReLU等非线性函数传递。
+一个特征图中的所有单元共享相同的滤波器库。
+层中的不同特征图使用不同的滤波器库。
+这种架构的原因有两个:
+- 首先，在图像等数组数据中，局部值组通常是高度相关的，形成容易检测的独特局部图案。
+- 其次，图像和其他信号的局部统计特性对位置不变。换句话说，如果一个图案可以出现在图像的一个部分，它可能无处不在，因此不同位置的单元共享相同的权重并在数组的不同部分检测相同的图案。
+
+数学上，特征图执行的过滤操作是离散卷积，因此得名。
+
+尽管卷积层的作用是检测前一层的局部特征组合，但池化层的作用是将语义上相似的特征合并为一个。
+因为形成图案的特征的相对位置可能会有所变化，通过粗化每个特征的位置来可靠地检测图案。
+典型的池化单元计算一个特征图中局部补丁单元的最大值（或在少数特征图中）。
+邻近的池化单元从被移位了一个或多个行或列的补丁中获取输入，从而降低了表示的维度，并创建了对小的位移和扭曲的不变性。
+两到三个卷积、非线性和池化阶段堆叠在一起，然后是更多的卷积和全连接层。
+通过ConvNet反向传播梯度就像通过常规深度网络一样简单，允许所有滤波器库中的所有权重进行训练。
+
+深度神经网络利用了许多自然信号是组合层次结构的特性，其中更高层次的特征是通过组合较低层次的特征获得的。
+在图像中，边缘的局部组合形成图案，图案组装成部分，部分形成对象。
+在从声音到音素、音节、单词和句子的语音和文本中存在类似的层次结构。
+池化允许表示在前一层的元素在位置和外观变化时变化非常小。
 
 ConvNets中的卷积和池化层直接受到视觉神经科学中经典简单细胞和复杂细胞概念的启发43，整体架构让人想起视觉皮层腹侧通路中的LGN-V1-V2-V4-IT层次结构44。当ConvNet模型和猴子被展示相同的图片时，ConvNet中高级单元的激活解释了猴子颞下皮层中随机160个神经元的方差的一半45。ConvNets的根源在于neocognitron46，其架构有些相似，但没有像反向传播这样的端到端监督学习算法。一个原始的1D ConvNet称为时延神经网络被用于识别音素和简单单词47,48。
 
@@ -115,7 +192,7 @@ ConvNet基础视觉系统的性能导致大多数主要技术公司，包括Goog
 
 在引入神经语言模型71之前，统计语言建模的标准方法没有利用分布式表示：它基于计算长度高达N的短符号序列的出现频率（称为N-gram）。可能的N-gram数量在V^N的数量级，其中V是词汇表大小，因此考虑超过少数几个单词的上下文将需要非常大的训练语料库。N-gram将每个单词视为原子单元，因此它们不能泛化到语义相关的单词序列，而神经语言模型可以，因为它们将每个单词与实值特征向量相关联，并且语义相关的单词在该向量空间中最终靠近彼此（图4）。
 
-循环神经网络 当反向传播首次引入时，它最令人兴奋的用途是用于训练循环神经网络（RNNs）。对于涉及序列输入的任务，如语音和语言，通常最好使用RNNs（图5）。RNNs一次处理输入序列的一个元素，在其隐藏单元中保持一个“状态向量”，该向量隐含地包含有关序列所有过去元素的历史信息。当我们考虑不同离散时间步的隐藏单元的输出，就好像它们是深度多层网络中不同神经元的输出一样（图5，右），就变得清楚了，我们如何可以将反向传播应用于训练RNNs。
+## 循环神经网络 当反向传播首次引入时，它最令人兴奋的用途是用于训练循环神经网络（RNNs）。对于涉及序列输入的任务，如语音和语言，通常最好使用RNNs（图5）。RNNs一次处理输入序列的一个元素，在其隐藏单元中保持一个“状态向量”，该向量隐含地包含有关序列所有过去元素的历史信息。当我们考虑不同离散时间步的隐藏单元的输出，就好像它们是深度多层网络中不同神经元的输出一样（图5，右），就变得清楚了，我们如何可以将反向传播应用于训练RNNs。
 
 RNNs是非常强大的动态系统，但训练它们已被证明是有问题的，因为反向传播的梯度在每个时间步要么增长要么缩小，所以经过许多时间步后，它们通常会爆炸或消失77,78。
 
@@ -142,7 +219,7 @@ LSTM网络随后被证明比传统的RNNs更有效，特别是当它们对每个
 最终，人工智能的重大进展将来自于结合表示学习和复杂推理的系统。尽管深度学习和简单的推理已经用于语音和手写识别很长时间了，但需要新的范式来取代基于规则的符号表达式操作，通过在大型向量上的操作来实现101。■
 
 收到日期：2015年2月25日；接受日期：2015年5月1日。
-
+## 参考文献
 1. Krizhevsky, A., Sutskever, I. & Hinton, G. ImageNet classification with deep convolutional neural networks. In Proc. Advances in Neural Information Processing Systems 25 1090–1098 (2012).
 这份报告是一个突破，使用卷积网络将对象识别的错误率几乎减半，并促使计算机视觉社区迅速采用深度学习。
 
@@ -225,55 +302,55 @@ LSTM网络随后被证明比传统的RNNs更有效，特别是当它们对每个
 1.   Mohamed, A.-R., Dahl, G. E. & Hinton, G. Acoustic modeling using deep belief networks. IEEE Trans. Audio Speech Lang. Process. 20, 14–22 (2012).
 这篇论文探讨了使用深度信念网络进行声学建模的方法。
 
-1.   Dahl, G. E., Yu, D., Deng, L. & Acero, A. Context-dependent pre-trained deep neural networks for large vocabulary speech recognition. IEEE Trans. Audio Speech Lang. Process. 20, 33–42 (2012).
+1.    Dahl, G. E., Yu, D., Deng, L. & Acero, A. Context-dependent pre-trained deep neural networks for large vocabulary speech recognition. IEEE Trans. Audio Speech Lang. Process. 20, 33–42 (2012).
 这篇论文讨论了用于大词汇量语音识别的上下文依赖的预训练深度神经网络。
 
-1.   Bengio, Y., Courville, A. & Vincent, P. Representation learning: a review and new perspectives. IEEE Trans. Pattern Anal. Machine Intell. 35, 1798–1828 (2013).
+1.    Bengio, Y., Courville, A. & Vincent, P. Representation learning: a review and new perspectives. IEEE Trans. Pattern Anal. Machine Intell. 35, 1798–1828 (2013).
 这篇论文回顾了表示学习，并提出了新的视角。
 
-1.   LeCun, Y. et al. Handwritten digit recognition with a back-propagation network. In Proc. Advances in Neural Information Processing Systems 396–404 (1990).
+1.    LeCun, Y. et al. Handwritten digit recognition with a back-propagation network. In Proc. Advances in Neural Information Processing Systems 396–404 (1990).
 这篇论文是关于使用反向传播网络进行手写数字识别的第一篇论文。
 
-1.   LeCun, Y., Bottou, L., Bengio, Y. & Haffner, P. Gradient-based learning applied to document recognition. Proc. IEEE 86, 2278–2324 (1998).
+1.    LeCun, Y., Bottou, L., Bengio, Y. & Haffner, P. Gradient-based learning applied to document recognition. Proc. IEEE 86, 2278–2324 (1998).
 这篇概述论文讨论了如何使用基于梯度的优化对模块化系统（如深度神经网络）进行端到端训练的原则，并展示了如何将神经网络（特别是卷积网络）与搜索或推理机制结合起来，以模拟复杂输出，如与文档内容相关的字符序列。
 
-42.  Hubel, D. H. & Wiesel, T. N. Receptive ﬁelds, binocular interaction, and functional architecture in the cat’s visual cortex. J. Physiol. 160, 106–154 (1962).
+1.   Hubel, D. H. & Wiesel, T. N. Receptive ﬁelds, binocular interaction, and functional architecture in the cat’s visual cortex. J. Physiol. 160, 106–154 (1962).
 这篇论文探讨了猫的视觉皮层中的感受野、双眼交互和功能架构。
 
-1.   Felleman, D. J. & Essen, D. C. V. Distributed hierarchical processing in the primate cerebral cortex. Cereb. Cortex 1, 1–47 (1991).
+1.    Felleman, D. J. & Essen, D. C. V. Distributed hierarchical processing in the primate cerebral cortex. Cereb. Cortex 1, 1–47 (1991).
 这篇论文讨论了灵长类动物大脑皮层中的分布式层次处理。
 
-1.   Cadieu, C. F. et al. Deep neural networks rival the representation of primate it cortex for core visual object recognition. PLoS Comp. Biol. 10, e1003963 (2014).
+1.    Cadieu, C. F. et al. Deep neural networks rival the representation of primate it cortex for core visual object recognition. PLoS Comp. Biol. 10, e1003963 (2014).
 这篇论文比较了深度神经网络与灵长类动物it皮层在核心视觉对象识别方面的表示能力。
 
-1.   Fukushima, K. & Miyake, S. Neocognitron: a new algorithm for pattern recognition tolerant of deformations and shifts in position. Pattern Recognition 15, 455–469 (1982).
+1.    Fukushima, K. & Miyake, S. Neocognitron: a new algorithm for pattern recognition tolerant of deformations and shifts in position. Pattern Recognition 15, 455–469 (1982).
 这篇论文介绍了一种新的模式识别算法——新认知晶体管，它能够容忍形状变形和位置移动。
 
-1.   Waibel, A., Hanazawa, T., Hinton, G. E., Shikano, K. & Lang, K. Phoneme recognition using time-delay neural networks. IEEE Trans. Acoustics Speech Signal Process. 37, 328–339 (1989).
+1.    Waibel, A., Hanazawa, T., Hinton, G. E., Shikano, K. & Lang, K. Phoneme recognition using time-delay neural networks. IEEE Trans. Acoustics Speech Signal Process. 37, 328–339 (1989).
 这篇论文探讨了使用时延神经网络进行音素识别。
 
-1.   Bottou, L., Fogelman-Soulié, F., Blanchet, P. & Lienard, J. Experiments with time delay networks and dynamic time warping for speaker independent isolated digit recognition. In Proc. EuroSpeech 89 537–540 (1989).
+1.    Bottou, L., Fogelman-Soulié, F., Blanchet, P. & Lienard, J. Experiments with time delay networks and dynamic time warping for speaker independent isolated digit recognition. In Proc. EuroSpeech 89 537–540 (1989).
 这篇论文介绍了使用时延网络和动态时间规整进行说话人独立隔离数字识别的实验。
 
-1.   Simard, D., Steinkraus, P. Y. & Platt, J. C. Best practices for convolutional neural networks. In Proc. Document Analysis and Recognition 958–963 (2003).
+1.    Simard, D., Steinkraus, P. Y. & Platt, J. C. Best practices for convolutional neural networks. In Proc. Document Analysis and Recognition 958–963 (2003).
 这篇论文讨论了卷积神经网络的最佳实践。
 
-1.   Vaillant, R., Monrocq, C. & LeCun, Y. Original approach for the localisation of objects in images. In Proc. Vision, Image, and Signal Processing 141, 245–250 (1994).
+1.    Vaillant, R., Monrocq, C. & LeCun, Y. Original approach for the localisation of objects in images. In Proc. Vision, Image, and Signal Processing 141, 245–250 (1994).
 这篇论文提出了一种图像中对象定位的原创方法。
 
-1.   Nowlan, S. & Platt, J. in Neural Information Processing Systems 901–908 (1995).
+1.    Nowlan, S. & Platt, J. in Neural Information Processing Systems 901–908 (1995).
 这篇论文讨论了神经信息处理系统中的一些主题。
 
-1.   Lawrence, S., Giles, C. L., Tsoi, A. C. & Back, A. D. Face recognition: a convolutional neural-network approach. IEEE Trans. Neural Networks 8, 98–113 (1997).
+1.    Lawrence, S., Giles, C. L., Tsoi, A. C. & Back, A. D. Face recognition: a convolutional neural-network approach. IEEE Trans. Neural Networks 8, 98–113 (1997).
 这篇论文探讨了一种使用卷积神经网络进行面部识别的方法。
 
-1.   Ciresan, D., Meier, U. Masci, J. & Schmidhuber, J. Multi-column deep neural network for traffic sign classification. Neural Networks 32, 333–338 (2012).
+1.    Ciresan, D., Meier, U. Masci, J. & Schmidhuber, J. Multi-column deep neural network for traffic sign classification. Neural Networks 32, 333–338 (2012).
 这篇论文介绍了一种用于交通标志分类的多列深度神经网络。
 
-1.   Ning, F. et al. Toward automatic phenotyping of developing embryos from videos. IEEE Trans. Image Process. 14, 1360–1371 (2005).
+1.    Ning, F. et al. Toward automatic phenotyping of developing embryos from videos. IEEE Trans. Image Process. 14, 1360–1371 (2005).
 这篇论文探讨了从视频中自动表型发育胚胎的方法。
 
-1.   Turaga, S. C. et al. Convolutional networks can learn to generate affinity graphs for image segmentation. Neural Comput. 22, 511–538 (2010).
+1.    Turaga, S. C. et al. Convolutional networks can learn to generate affinity graphs for image segmentation. Neural Comput. 22, 511–538 (2010).
 这篇论文讨论了卷积网络可以学习生成图像分割的亲和图。
 
 1.   Garcia, C. & Delakis, M. Convolutional face ﬁnder: a neural architecture for fast and robust face detection. IEEE Trans. Pattern Anal. Machine Intell. 26, 1408–1423 (2004).
@@ -378,7 +455,7 @@ LSTM网络随后被证明比传统的RNNs更有效，特别是当它们对每个
 1.  Weston, J., Chopra, S. & Bordes, A. Memory networks. http://arxiv.org/abs/1410.3916 (2014).
 这篇论文介绍了记忆网络。
 
-90. Weston, J., Bordes, A., Chopra, S. & Mikolov, T. Towards AI-complete question answering: a set of prerequisite toy tasks. http://arxiv.org/abs/1502.05698 (2015).
+1.  Weston, J., Bordes, A., Chopra, S. & Mikolov, T. Towards AI-complete question answering: a set of prerequisite toy tasks. http://arxiv.org/abs/1502.05698 (2015).
 这篇论文讨论了朝向AI完备问题回答的一系列预备玩具任务。
 
 1.  Hinton, G. E., Dayan, P., Frey, B. J. & Neal, R. M. The wake-sleep algorithm for unsupervised neural networks. Science 268, 1558–1161 (1995).
