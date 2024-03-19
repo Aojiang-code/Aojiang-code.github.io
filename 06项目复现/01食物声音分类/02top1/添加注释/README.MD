@@ -447,32 +447,55 @@ for train_index, valid_index in kf.split(X, Y):
 
 #### DNN
 ```python
-# 定义模型
+# 定义构建模型的函数
 def built_model():
+    # 创建一个Sequential模型实例，用于线性堆叠网络层
     model_dense = Sequential()
 
+    # 添加第一个全连接层，有128个神经元，使用ReLU激活函数，并添加L2正则化
     model_dense.add(Dense(128, activation='relu', kernel_regularizer=regularizers.l2(0.005)))
+    # 添加批量归一化层，用于改善训练过程的稳定性和速度
     model_dense.add(BatchNormalization())
+    # 添加Dropout层，随机丢弃20%的神经元，减少过拟合
     model_dense.add(Dropout(0.2))
+    # 添加第二个全连接层，有256个神经元，使用ReLU激活函数，并添加L2正则化
     model_dense.add(Dense(256, activation='relu', kernel_regularizer=regularizers.l2(0.005)))
+    # 再次添加批量归一化层
     model_dense.add(BatchNormalization())
+    # 再次添加Dropout层，随机丢弃30%的神经元
     model_dense.add(Dropout(0.3))
-    model_dense.add(Dense(512, activation='relu',kernel_regularizer=regularizers.l2(0.005)))
+    # 添加第三个全连接层，有512个神经元，使用ReLU激活函数，并添加L2正则化
+    model_dense.add(Dense(512, activation='relu', kernel_regularizer=regularizers.l2(0.005)))
+    # 再次添加批量归一化层
     model_dense.add(BatchNormalization())
+    # 再次添加Dropout层，随机丢弃30%的神经元
     model_dense.add(Dropout(0.3))
+    # 添加第四个全连接层，有256个神经元，使用ReLU激活函数，并使用较小的L2正则化系数
     model_dense.add(Dense(256, activation='relu', kernel_regularizer=regularizers.l2(0.001)))
+    # 再次添加批量归一化层
     model_dense.add(BatchNormalization())
+    # 再次添加Dropout层，随机丢弃20%的神经元
     model_dense.add(Dropout(0.2))
-    model_dense.add(Dense(20, activation='softmax')) # 输出层：20个units输出20个类的概率
-    # 编译模型，设置损失函数，优化方法以及评价标准
+    # 添加输出层，有20个神经元，使用Softmax激活函数，适用于多分类问题的输出
+    model_dense.add(Dense(20, activation='softmax')) 
+
+    # 编译模型，设置优化器为Adam，损失函数为分类交叉熵，评价指标为准确率
     optimizer = optimizers.Adam(learning_rate=0.001)
-    model_dense.compile(optimizer = optimizer, loss = 'categorical_crossentropy', metrics = ['accuracy'], )
+    model_dense.compile(optimizer = optimizer, loss = 'categorical_crossentropy', metrics = ['accuracy'])
+
+    # 返回编译好的模型实例
     return model_dense
 
+# 创建一个ModelCheckpoint回调，用于在验证集准确率最高时保存模型
 checkpoint = ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max', period=1)
-reduce_lr = ReduceLROnPlateau(monitor='val_accuracy', patience=20, mode='auto', factor=0.8 )
+# 创建一个ReduceLROnPlateau回调，当验证集准确率在一定epoch数内没有提升时，减少学习率
+reduce_lr = ReduceLROnPlateau(monitor='val_accuracy', patience=20, mode='auto', factor=0.8)
+# 创建一个EarlyStopping回调，当验证集准确率在一定epoch数内没有提升时，停止训练
 EarlyStop = EarlyStopping(monitor='val_accuracy', patience=200, verbose=1, mode='max')
 ```
+
+在这段代码中，`filepath`、`regularizers`、`optimizers`和`BatchNormalization`等都是Keras库中的类或函数，用于模型的构建和训练过程中。`filepath`是保存模型的文件路径，需要在实际使用时指定。`regularizers.l2`是L2正则化的一种，用于防止模型过拟合。`optimizers.Adam`是Adam优化算法，用于更新模型的权重。`BatchNormalization`是批量归一化，有助于提高模型训练的稳定性和效率。`ModelCheckpoint`、`ReduceLROnPlateau`和`EarlyStopping`是Keras提供的回调函数，用于在训练过程中自动保存模型、调整学习率和提前终止训练。
+
 这里的早停等策略感觉还能设置得更极端点，因为我感觉这数据其实泛化性挺好的。
 ##### 详细介绍
 上述代码是一个使用Python编写的深度学习模型构建和训练过程的示例。这个模型使用了Keras库中的`Sequential`模型，这是一种线性堆叠的模型，可以逐层添加网络层。代码中定义了一个名为`built_model`的函数，用于创建和编译一个具有多个全连接层（Dense layers）的神经网络。此外，还设置了模型训练过程中的两个回调函数，用于在训练过程中保存最佳模型和减少学习率。下面是对代码的详细介绍：
@@ -492,8 +515,22 @@ EarlyStop = EarlyStopping(monitor='val_accuracy', patience=200, verbose=1, mode=
    - `ReduceLROnPlateau`: 当`monitor`指定的指标在一定数量的epoch（`patience`）内没有改善时，自动减小学习率。`factor`参数表示学习率减少的比例。
    - `EarlyStopping`: 当`monitor`指定的指标在一定数量的epoch（`patience`）内没有改善时，停止训练。这也是一种防止过拟合的策略。
 
-这段代码是深度学习模型构建和训练的一个典型例子，通过堆叠多个全连接层和使用正则化技术来构建一个能够进行多分类的神经网络，并使用回调函数来优化训练过程。
+上面这段代码是深度学习模型构建和训练的一个典型例子，通过堆叠多个全连接层和使用正则化技术来构建一个能够进行多分类的神经网络，并使用回调函数来优化训练过程。
+###### 具体介绍
+以下面这行代码为例介绍：
+```python
+model_dense.add(Dense(128, activation='relu', kernel_regularizer=regularizers.l2(0.005)))
+```
+上面这行代码是在使用Keras库构建神经网络模型时添加的一个全连接层（Dense layer），并对其进行了特定的配置。下面是对这行代码的详细解释：
 
+- `model_dense.add(...)`: 这是`Sequential`模型的方法，用于向模型中添加一个新的层。在这个上下文中，`model_dense`是已经创建的`Sequential`模型实例。
+
+- `Dense(128, activation='relu', kernel_regularizer=regularizers.l2(0.005))`: 这是`Dense`层的构造函数调用，用于创建一个全连接层，并设置了以下参数：
+  - `128`: 这是层中的神经元数量。在这个层中，每个输入样本将会与128个神经元相连接。
+  - `activation='relu'`: 指定了激活函数为ReLU（Rectified Linear Unit）。ReLU激活函数是一种非线性函数，其公式为`f(x) = max(0, x)`，它在正区间内保持线性，而在负区间内输出为0。ReLU激活函数在深度学习中非常流行，因为它相对于其他激活函数（如Sigmoid或Tanh）在反向传播时能够更快地计算梯度，从而加速训练过程，并且有助于缓解梯度消失问题。
+  - `kernel_regularizer=regularizers.l2(0.005)`: 这是L2正则化的一种形式，用于防止模型过拟合。在这个设置中，正则化强度由参数`0.005`指定。L2正则化通过在损失函数中添加一个与权重平方成正比的惩罚项来实现，这会鼓励模型学习到更小的权重，从而减少模型复杂度。
+
+总的来说，这行代码创建了一个具有128个神经元的全连接层，使用ReLU作为激活函数，并应用了L2正则化来控制模型的复杂度，以减少过拟合的风险。
 
 
 
