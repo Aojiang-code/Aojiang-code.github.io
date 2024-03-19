@@ -600,7 +600,85 @@ def lgb_model(x_train, y_train, x_test):
     lgb_train, lgb_test = cv_model(lgb, x_train, y_train, x_test, "lgb")
     return lgb_train, lgb_test
 ```
+##### 添加注释
+```python
+# 定义交叉验证模型函数
+def cv_model(clf, train_x, train_y, test_x, clf_name):
+    # 设置交叉验证折数和随机种子
+    folds = 10
+    seed = 2020
+    kf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=seed)
+
+    # 初始化训练集和测试集预测结果数组
+    train = np.zeros(train_x.shape[0])
+    test = np.zeros((700, 20))
+    
+    cv_scores = []  # 存储每折的验证集得分
+    
+    print(train_y.shape)  # 打印训练标签的形状
+    for i, (train_index, valid_index) in enumerate(kf.split(train_x, train_y)):
+        print('************************************ {} ************************************'.format(str(i+1)))  # 打印当前交叉验证折数
+        trn_x, trn_y, val_x, val_y = train_x[train_index], train_y[train_index], train_x[valid_index], train_y[valid_index]  # 划分训练集和验证集
+        
+        if clf_name == "lgb":  # 如果分类器名称是lgb
+            
+            # 设定训练数据和验证数据
+            train_matrix = clf.Dataset(trn_x, label=trn_y)
+            valid_matrix = clf.Dataset(val_x, label=val_y)
+            
+
+            # 设置模型参数
+            params = {
+                'boosting_type': 'gbdt',  # 采用梯度提升决策树作为基分类器
+                'objective': 'multiclass',  # 多分类任务
+                'metric': 'multi_error',  # 评价指标为多分类错误率
+                'min_child_weight': 5,  # 每个叶子的最小样本权重和，用于避免过拟合
+                'num_leaves': 2 ** 4,  # 每棵树的叶子节点数
+                'lambda_l2': 13,  # L2 正则化权重
+                'feature_fraction': 0.6,  # 随机特征选择比例
+                'bagging_fraction': 0.7,  # 训练每棵树使用的数据比例
+                'bagging_freq': 2,  # bagging 的频率
+                'learning_rate': 0.1,  # 学习率
+                'seed': 2020,  # 随机种子
+                'nthread': 24,  # 线程数
+                'n_jobs': 24,  # CPU 使用的线程数
+                'silent': True,  # 是否静默模式
+                'verbose': -1,  # 控制台打印
+                'num_class': 20,  # 分类类别数
+            }
+
+
+            # 训练模型，50000代，设置早停参数
+            model = clf.train(params, train_matrix, 50000, valid_sets=[train_matrix, valid_matrix], verbose_eval=200,early_stopping_rounds=200)
+            val_pred = model.predict(val_x, num_iteration=model.best_iteration)  # 预测验证集
+            test_pred = model.predict(test_x, num_iteration=model.best_iteration)  # 预测测试集
+            
+        test += test_pred / kf.n_splits  # 对测试集预测结果取平均
+        cv_scores.append(accuracy_score(val_y, np.argmax(val_pred, axis=1)))  # 计算并保存验证集得分
+        
+    print("%s_scotrainre_list:" % clf_name, cv_scores)  # 打印所有验证集得分
+    print("%s_score_mean:" % clf_name, np.mean(cv_scores))  # 打印平均验证集得分
+    print("%s_score_std:" % clf_name, np.std(cv_scores))  # 打印验证集得分的标准差
+    return train, test  # 返回训练集和测试集预测结果数组
+
+# 定义LightGBM模型函数
+def lgb_model(x_train, y_train, x_test):
+    lgb_train, lgb_test = cv_model(lgb, x_train, y_train, x_test, "lgb")  # 调用cv_model函数进行训练和预测
+    return lgb_train, lgb_test  # 返回训练和测试集预测结果数组
+```
+
 ##### 详细介绍
+
+
+
+
+
+
+
+
+
+
+
 
 
 
