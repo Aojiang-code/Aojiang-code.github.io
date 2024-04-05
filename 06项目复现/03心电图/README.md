@@ -5,6 +5,13 @@
 
 ## 目录
 
+
+### [心电图合集](06项目复现\03心电图\00心电图合集\02心电图分类/)
+
+
+
+### 文献
+
 * 第一篇：[Phonocardiogram_Classification_Using_1-Dimensional_Inception_Time_Convolutional_Neural_Networks](06项目复现\03心电图\01通过一维Inception_Time卷积神经网络进行心音图分类/)
 * 2. 
 

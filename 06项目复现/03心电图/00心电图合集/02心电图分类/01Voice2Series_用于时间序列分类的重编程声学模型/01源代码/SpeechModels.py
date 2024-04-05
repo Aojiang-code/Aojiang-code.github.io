@@ -10,7 +10,7 @@ from kapre.time_frequency import Melspectrogram, Spectrogram
 from kapre.utils import Normalization2D
 
 def AttRNNSpeechModel(nCategories, samplingrate=16000,
-                      inputLength=16000, unet = False, rnn_func=L.LSTM):
+                        inputLength=16000, unet = False, rnn_func=L.LSTM):
     # simple LSTM
     sr = samplingrate
     iLen = inputLength
