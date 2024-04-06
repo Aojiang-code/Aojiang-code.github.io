@@ -1348,7 +1348,10 @@ data.loc[:, 'N5'] = 0
 # 筛选出皮肤厚度小于等于20的记录，并将这些记录的'N5'列赋值为1
 # 这里使用布尔索引来找出 'SkinThickness' 列中值小于等于20的行，并将这些行对应的 'N5' 列的值设置为1，表示这些记录满足特定条件。
 data.loc[(data['SkinThickness'] <= 20), 'N5'] = 1
+```
+#### 4.5.1. 直方图
 
+```python
 # 调用barplot函数，传入'N5'作为变量选择，以及字符串':SkinThickness <= 20'作为子标题
 # 此行代码调用barplot函数来生成条形图，展示 'N5' 列的分布情况，其中 'N5' 列代表的是满足条件 '皮肤厚度小于等于20' 的记录。
 barplot('N5', ':SkinThickness <= 20')
@@ -1356,6 +1359,11 @@ barplot('N5', ':SkinThickness <= 20')
 
 这段代码首先设置了一个新的列'N5'，并为其赋予了初始值0。然后，它更新了那些皮肤厚度小于等于20的记录，将这些记录的'N5'列的值设置为1。最后，通过调用`barplot`函数，根据'N5'列的值绘制条形图，以可视化满足特定条件的数据分布情况。子标题':SkinThickness <= 20'提供了对图表内容的额外说明，指出了'N5'列所表示的具体条件。
 
+
+![4.5.1. 直方图](<01图片/4.5.1. 直方图.png>)
+
+
+#### 4.5.2. 饼图
 ```python
 plot_pie('N5', 'SkinThickness <= 20')
 # 调用plot_pie函数，传入'N5'作为要分析的变量名，传入'SkinThickness <= 20'作为子标题，
@@ -1364,7 +1372,12 @@ plot_pie('N5', 'SkinThickness <= 20')
 
 这段代码调用了一个名为`plot_pie`的函数，用于生成饼图以展示数据集中'N5'列的分布情况。'N5'列是一个二元特征，可能代表某种分类结果或条件的满足情况。函数的第二个参数是一个字符串，它作为饼图的子标题，提供了关于数据集特定子集的额外信息。这个子标题表明我们关注的是那些皮肤厚度小于等于20的记录。函数内部将根据'N5'列的值计算各类别的百分比，并创建一个饼图来直观展示这些信息。
 
+![4.5.2. 饼图](<01图片/4.5.2. 饼图.png>)
+
+
 ### **4.6. SkinThickness and BMI**
+
+#### 4.6.1. 散点图
 ```python
 plot_feat1_feat2('SkinThickness','BMI')
 # 调用plot_feat1_feat2函数，传入'SkinThickness'和'BMI'作为参数，
@@ -1432,7 +1445,7 @@ plt.show()
 
 
 
-
+#### 4.6.2. 直方图
 ```python
 barplot('N6', ': BMI < 30 and SkinThickness <= 20')
 # 调用barplot函数，传入'N6'作为变量选择，以及字符串': BMI < 30 and SkinThickness <= 20'作为子标题，
@@ -1443,7 +1456,7 @@ barplot('N6', ': BMI < 30 and SkinThickness <= 20')
 
 
 
-
+#### 4.6.3. 饼图
 
 ```python
 plot_pie('N6', 'BMI < 30 and SkinThickness <= 20')
@@ -1455,7 +1468,7 @@ plot_pie('N6', 'BMI < 30 and SkinThickness <= 20')
 
 ### **4.7. Glucose and BMI**
 
-
+#### 4.7.1. 散点图
 ```python
 plot_feat1_feat2('Glucose','BMI')
 # 调用plot_feat1_feat2函数，传入'Glucose'和'BMI'作为参数，
@@ -1518,7 +1531,11 @@ data.loc[:, 'N7'] = 0
 # 筛选出葡萄糖水平小于等于105且BMI小于等于30的记录，并将这些记录的'N7'列赋值为1
 # 这里使用布尔索引来找出 'Glucose' 列中值小于等于105且 'BMI' 列中值小于等于30的行，并将这些行对应的 'N7' 列的值设置为1，表示这些记录满足特定条件。
 data.loc[(data['Glucose'] <= 105) & (data['BMI'] <= 30), 'N7'] = 1
+```
 
+
+#### 4.7.2. 直方图
+```python
 # 调用barplot函数，传入'N7'作为变量选择，以及字符串': Glucose <= 105 and BMI <= 30'作为子标题
 # 此行代码调用barplot函数来生成条形图，展示 'N7' 列的分布情况，其中 'N7' 列代表的是满足条件 '葡萄糖水平小于等于105且BMI小于等于30' 的记录。
 barplot('N7', ': Glucose <= 105 and BMI <= 30')
@@ -1533,7 +1550,7 @@ barplot('N7', ': Glucose <= 105 and BMI <= 30')
 
 
 
-
+#### 4.7.3. 饼图
 ```python
 plot_pie('N7', 'Glucose <= 105 and BMI <= 30')
 # 调用plot_pie函数，传入'N7'作为要分析的变量名，传入'Glucose <= 105 and BMI <= 30'作为子标题，
@@ -1550,7 +1567,7 @@ plot_pie('N7', 'Glucose <= 105 and BMI <= 30')
 
 
 ### **4.8. Insulin**
-
+#### 4.8.1. 核密度曲线
 ```python
 plot_distribution('Insulin', 0)
 ```
@@ -1563,11 +1580,15 @@ data.loc[(data['Insulin']<200),'N9']=1
 ```
 
 
-
+#### 4.8.2. 直方图
 ```python
 barplot('N9', ': Insulin < 200')
 ```
 
+
+
+
+#### 4.8.3. 饼图
 ```python
 plot_pie('N9', 'Insulin < 200')
 ```
@@ -1588,13 +1609,13 @@ data.loc[(data['BloodPressure']<80),'N10']=1
 ```
 
 
-
+#### 4.9.1. 直方图
 ```python
 barplot('N10', ': BloodPressure < 80')
 ```
 
 
-
+#### 4.9.2. 饼图
 ```python
 plot_pie('N10', 'BloodPressure < 80')
 ```
@@ -1603,7 +1624,7 @@ plot_pie('N10', 'BloodPressure < 80')
 
 
 ### **4.10. Pregnancies**
-
+#### 4.10.1. 核密度曲线
 ```python
 plot_distribution('Pregnancies', 0)
 ```
@@ -1616,12 +1637,12 @@ data.loc[(data['Pregnancies']<4) & (data['Pregnancies']!=0) ,'N11']=1
 ```
 
 
-
+#### 4.10.2. 直方图
 ```python
 barplot('N11', ': Pregnancies > 0 and < 4')
 ```
 
-
+#### 4.10.3. 饼图
 ```python
 plot_pie('N11', 'Pregnancies > 0 and < 4')
 ```
@@ -1670,7 +1691,7 @@ H = data[(data['Outcome'] == 0)]
 
 **Did you watch Inception ?** Here is the same! It's not a dream in a dream but a new feature extract from a new feature
 
-
+#### 4.11.1. 核密度曲线
 ```python
 plot_distribution('N0', 0)
 # 调用plot_distribution函数，传入'N0'作为变量名和0作为bins的数量，
@@ -1691,14 +1712,16 @@ data.loc[:, 'N15'] = 0
 # 筛选出'N0'列中值小于1034的记录，并将这些记录的'N15'列赋值为1
 # 这里使用布尔索引来找出 'N0' 列中值小于1034的行，并将这些行对应的 'N15' 列的值设置为1，表示这些记录满足特定条件。
 data.loc[(data['N0'] < 1034), 'N15'] = 1
+```
+这段代码首先设置了一个新的列'N15'，并为其赋予了初始值0。然后，它更新了那些'N0'列中值小于1034的记录，将这些记录的'N15'列的值设置为1。'N0'是之前通过BMI和皮肤厚度相乘得到的新变量。
 
+#### 4.6.2. 直方图
+```python
 # 调用barplot函数，传入'N15'作为变量选择，以及字符串': N0 < 1034'作为子标题
 # 此行代码调用barplot函数来生成条形图，展示 'N15' 列的分布情况，其中 'N15' 列代表的是满足条件 'N0 小于 1034' 的记录。
 barplot('N15', ': N0 < 1034')
 ```
-
-这段代码首先设置了一个新的列'N15'，并为其赋予了初始值0。然后，它更新了那些'N0'列中值小于1034的记录，将这些记录的'N15'列的值设置为1。'N0'是之前通过BMI和皮肤厚度相乘得到的新变量。最后，通过调用`barplot`函数，根据'N15'列的值绘制条形图，以可视化满足特定条件的数据分布情况。子标题': N0 < 1034'提供了对图表内容的额外说明，指出了'N15'列所表示的具体条件。
-
+最后，通过调用`barplot`函数，根据'N15'列的值绘制条形图，以可视化满足特定条件的数据分布情况。子标题': N0 < 1034'提供了对图表内容的额外说明，指出了'N15'列所表示的具体条件。
 
 
 
@@ -1707,6 +1730,7 @@ barplot('N15', ': N0 < 1034')
 
 
 
+#### 4.11.3. 饼图
 ```python
 plot_pie('N15', 'N0 < 1034')
 # 调用plot_pie函数，传入'N15'作为要分析的变量名，传入'N0 < 1034'作为子标题，
