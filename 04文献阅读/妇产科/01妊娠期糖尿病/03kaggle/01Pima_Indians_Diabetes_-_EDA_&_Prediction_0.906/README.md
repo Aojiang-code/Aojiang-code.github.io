@@ -1029,27 +1029,409 @@ def plot_pie(var_select, sub) :
 
 ### **Glucose and Age**
 
+```python
+# plot_feat1_feat2('Glucose','Age')
+# 调用plot_feat1_feat2函数，传入'Glucose'和'Age'作为参数，
+# 目的是在散点图中展示'Glucose'（葡萄糖水平）和'Age'（年龄）两个特征之间的关系。
+```
 
+通过调用`plot_feat1_feat2`函数并传入两个特征列名`'Glucose'`和`'Age'`，这段代码将生成一个散点图，用于可视化这两个特征在数据集中的关系。这个可视化有助于理解年龄和葡萄糖水平之间是否存在某种相关性，这对于分析糖尿病风险因素是非常有用的。在散点图中，每个点代表一个观察值，横坐标表示年龄，纵坐标表示葡萄糖水平，颜色和模式将根据糖尿病状态（健康或糖尿病）进行区分。
+
+![Glucose vs Age](<01图片/4.1.1Glucose vs Age.png>)
+
+Healthy persons are concentrate with an age <= 30 and glucose <= 120
+
+
+```python
+# 定义颜色字典，用于根据Outcome列的值（0或1）给点着色
+palette = {0: 'lightblue', 1: 'gold'}
+# 设置边缘颜色为黑色
+edgecolor = 'black'
+
+# 创建一个大小为12x8英寸的图形
+fig = plt.figure(figsize=(12, 8))
+
+# 使用Seaborn的scatterplot函数绘制散点图
+# x轴为'Glucose'列，y轴为'Age'列，根据'Outcome'列的值着色
+# 数据来源为data DataFrame，使用定义的颜色palette
+ax1 = sns.scatterplot(x=data['Glucose'], y=data['Age'], hue="Outcome",
+                        data=data, palette=palette, edgecolor=edgecolor)
+
+# 添加注释'N1'，位置在(80, 30)，文本大小为25
+plt.annotate('N1', size=25, color='black', xy=(80, 30), xytext=(60, 35),
+            # 定义注释的箭头样式
+            arrowprops=dict(facecolor='black', shrink=0.05),
+            )
+
+# 绘制红色的直线和箭头，形成对角线
+plt.plot([50, 120], [30, 30], linewidth=2, color='red')
+plt.plot([120, 120], [20, 30], linewidth=2, color='red')
+plt.plot([50, 120], [20, 20], linewidth=2, color='red')
+plt.plot([50, 50], [20, 30], linewidth=2, color='red')
+
+# 设置图表标题为'Glucose vs Age'
+plt.title('Glucose vs Age')
+
+# 显示图表
+plt.show()
+```
+
+这段代码首先定义了一个颜色字典`palette`，用于区分图表中的两种不同类别（例如，健康和糖尿病患者），其中0和1分别对应不同的颜色。然后，设置了图形的大小，并使用Seaborn的`scatterplot`函数绘制了一个散点图，其中点的颜色根据`Outcome`列的值变化。接着，使用`annotate`函数在图表中添加了一个注释，并绘制了红色的对角线。最后，设置了图表的标题并显示了图表。这个散点图有助于观察年龄与葡萄糖水平之间的关系，并区分糖尿病患者和健康人的数据点。
+
+
+![N1](01图片/4.1.2N1.png)
+
+```python
+# 将data中所有的'N1'列赋值为0
+data.loc[:, 'N1'] = 0
+# 筛选出年龄小于等于30岁且葡萄糖水平小于等于120的记录，并将这些记录的'N1'列赋值为1
+data.loc[(data['Age'] <= 30) & (data['Glucose'] <= 120), 'N1'] = 1
+```
+
+这段代码首先将`data` DataFrame中的'N1'列的所有值设置为0。接下来，使用布尔索引和逻辑运算符`&`来组合两个条件：年龄（'Age'列）小于等于30岁，以及葡萄糖水平（'Glucose'列）小于等于120。然后，对于满足这两个条件的所有记录，将'N1'列的值设置为1。这样的操作可以在数据集中创建一个新的特征列'N1'，用于标识特定的记录子集。
+
+
+```python
+barplot('N1', ':Glucose <= 120 and Age <= 30')
+# 调用barplot函数，传入'N1'作为变量选择，以及字符串'Glucose <= 120 and Age <= 30'作为子标题，
+# 目的是根据'N1'列的值绘制条形图，并展示满足特定条件（葡萄糖水平小于等于120且年龄小于等于30）的数据分布。
+```
+
+这段代码调用了一个名为`barplot`的函数，传入了两个参数。第一个参数`'N1'`是数据集中的一个列名，它代表了我们想要可视化的数据特征。第二个参数`':Glucose <= 120 and Age <= 30'`是一个字符串，它将作为条形图的子标题，提供了关于数据集特定子集的额外信息。这个子标题表明我们关注的是那些葡萄糖水平不超过120且年龄不超过30岁的记录。函数内部将根据`'N1'`列的值分布创建一个条形图，并通过子标题提供数据集的上下文信息。
+
+![barplot](01图片/4.1.3barplot.png)
+
+
+```python
+plot_pie('N1', '(Glucose <= 120 and Age <= 30)')
+# 调用plot_pie函数，传入'N1'作为要分析的变量名，传入'(Glucose <= 120 and Age <= 30)'作为子标题，
+# 目的是根据'N1'列的值绘制饼图，并展示满足条件（葡萄糖水平小于等于120且年龄小于等于30）的分布情况。
+```
+
+这段代码调用了一个名为`plot_pie`的函数，用于生成饼图以展示数据集中'N1'列的分布情况。'N1'列是一个二元特征，可能代表某种分类结果或条件的满足情况。函数的第二个参数是一个字符串，它作为饼图的子标题，提供了关于数据集特定子集的额外信息。这个子标题表明我们关注的是那些满足特定条件（葡萄糖水平小于等于120且年龄小于等于30）的记录。函数内部将根据'N1'列的值计算各类别的百分比，并创建一个饼图来直观展示这些信息。
+
+![plot_pie](01图片/4.1.4plot_pie.png)
 
 
 ### **BMI**
+
+According to wikipedia "The body mass index (BMI) or Quetelet index is a value derived from the mass (weight) and height of an individual. The BMI is defined as the body mass divided by the square of the body height, and is universally expressed in units of $kg/m^{2}$, resulting from mass in kilograms and height in metres."
+
+30 $kg/m^{2}$ is the limit to obesity
+
+
+```python
+# 将data中所有的'N2'列赋值为0
+# 此行代码将DataFrame 'data' 中 'N2' 列的所有行设置为0，初始化该列为默认值0。
+data.loc[:, 'N2'] = 0
+
+# 筛选出BMI小于等于30的记录，并将这些记录的'N2'列赋值为1
+# 这里使用布尔索引来找出 'BMI' 列中值小于等于30的行，并将这些行对应的 'N2' 列的值设置为1，表示这些记录满足特定条件。
+data.loc[(data['BMI'] <= 30), 'N2'] = 1
+
+# 调用barplot函数，传入'N2'作为变量选择，以及字符串': BMI <= 30'作为子标题
+# 此行代码调用barplot函数来生成条形图，展示 'N2' 列的分布情况，其中 'N2' 列代表的是满足条件 'BMI小于等于30' 的记录。
+barplot('N2', ': BMI <= 30')
+```
+
+这段代码首先设置了一个新的列'N2'，并为其赋予了初始值0。然后，它更新了那些BMI值小于等于30的记录，将这些记录的'N2'列的值设置为1。最后，通过调用`barplot`函数，根据'N2'列的值绘制条形图，以可视化满足特定BMI条件的数据分布情况。子标题': BMI <= 30'提供了对图表内容的额外说明，指出了'N2'列所表示的具体条件。
+
+
+
+![4.2.1barplot](01图片/4.2.1barplot.png)
+
+
+
+
+```python
+plot_pie('N2', 'BMI <= 30')
+```
+
+
+
+
 
 
 ### **Pregnancies and Age**
 
 
+```python
+plot_feat1_feat2('Pregnancies','Age')
+```
+
+```python
+# 定义颜色字典，用于根据Outcome列的值（0或1）给点着色
+palette = {0: 'lightblue', 1: 'gold'}
+# 设置边缘颜色为黑色
+edgecolor = 'black'
+
+# 创建一个大小为12x8英寸的图形
+fig = plt.figure(figsize=(12, 8))
+
+# 使用Seaborn的scatterplot函数绘制散点图
+# x轴为'Pregnancies'列，y轴为'Age'列，根据'Outcome'列的值着色
+# 数据来源为data DataFrame，使用定义的颜色palette，边缘颜色设置为edgecolor
+ax1 = sns.scatterplot(x=data['Pregnancies'], y=data['Age'], hue="Outcome",
+                        data=data, palette=palette, edgecolor=edgecolor)
+
+# 添加注释'N3'，位置在(6, 25)，文本大小为25，箭头指向点
+plt.annotate('N3', size=25, color='black', xy=(6, 25), xytext=(10, 25),
+            # 定义注释的箭头样式
+            arrowprops=dict(facecolor='black', shrink=0.05),
+            )
+
+# 绘制红色的直线和箭头，形成对角线
+plt.plot([0, 6], [30, 30], linewidth=2, color='red')  # 从(0, 30)到(6, 30)
+plt.plot([6, 6], [20, 30], linewidth=2, color='red')  # 从(6, 20)到(6, 30)
+plt.plot([0, 6], [20, 20], linewidth=2, color='red')  # 从(0, 20)到(6, 20)
+plt.plot([0, 0], [20, 30], linewidth=2, color='red')  # 从(0, 20)到(0, 30)
+
+# 设置图表标题为'Pregnancies vs Age'
+plt.title('Pregnancies vs Age')
+
+# 显示图表
+plt.show()
+```
+
+这段代码首先定义了一个颜色字典`palette`，用于区分图表中的两种不同类别（例如，健康和糖尿病患者），其中0和1分别对应不同的颜色。然后，设置了图形的大小，并使用Seaborn的`scatterplot`函数绘制了一个散点图，其中点的颜色根据`Outcome`列的值变化。接着，使用`annotate`函数在图表中添加了一个注释，并绘制了红色的对角线。最后，设置了图表的标题并显示了图表。这个散点图有助于观察怀孕次数与年龄之间的关系，并区分糖尿病患者和健康人的数据点。
+
+
+
+
+
+```python
+# 将data中所有的'N3'列赋值为0
+# 这行代码将DataFrame 'data' 中 'N3' 列的所有行设置为0，初始化该列为默认值0。
+data.loc[:, 'N3'] = 0
+
+# 筛选出年龄小于等于30且怀孕次数小于等于6的记录，并将这些记录的'N3'列赋值为1
+# 这里使用布尔索引来找出 'Age' 列中值小于等于30且 'Pregnancies' 列中值小于等于6的行，并将这些行对应的 'N3' 列的值设置为1，表示这些记录满足特定条件。
+data.loc[(data['Age'] <= 30) & (data['Pregnancies'] <= 6), 'N3'] = 1
+
+# 调用barplot函数，传入'N3'作为变量选择，以及字符串': Age <= 30 and Pregnancies <= 6'作为子标题
+# 此行代码调用barplot函数来生成条形图，展示 'N3' 列的分布情况，其中 'N3' 列代表的是满足条件 '年龄小于等于30且怀孕次数小于等于6' 的记录。
+barplot('N3', ': Age <= 30 and Pregnancies <= 6')
+```
+
+这段代码首先设置了一个新的列'N3'，并为其赋予了初始值0。然后，它更新了那些年龄小于等于30且怀孕次数小于等于6的记录，将这些记录的'N3'列的值设置为1。最后，通过调用`barplot`函数，根据'N3'列的值绘制条形图，以可视化满足特定条件的数据分布情况。子标题': Age <= 30 and Pregnancies <= 6'提供了对图表内容的额外说明，指出了'N3'列所表示的具体条件。
+
+
+
+
+```python
+plot_pie('N3', 'Age <= 30 and Pregnancies <= 6')
+```
 
 
 ### **Glucose and BloodPressure**
 
+```python
+plot_feat1_feat2('Glucose','BloodPressure')
+```
+Healthy persons are concentrate with an blood pressure <= 80 and glucose <= 105
+
+```python
+# 定义颜色字典，用于根据Outcome列的值（0或1）给点着色
+# 这里创建了一个名为palette的字典，用于为散点图中的点设置颜色，其中0对应浅蓝色，1对应金色。
+palette = {0: 'lightblue', 1: 'gold'}
+# 设置边缘颜色为黑色
+# 这行代码设置了散点图中点的边缘颜色为黑色。
+edgecolor = 'black'
+
+# 创建一个大小为12x8英寸的图形
+# 这行代码创建了一个图形对象fig，其大小设置为宽12英寸、高8英寸。
+fig = plt.figure(figsize=(12, 8))
+
+# 使用Seaborn的scatterplot函数绘制散点图
+# 这行代码使用Seaborn库的scatterplot函数，根据'Glucose'列作为x轴，'BloodPressure'列作为y轴，'Outcome'列的值作为颜色的依据，绘制散点图。
+ax1 = sns.scatterplot(x=data['Glucose'], y=data['BloodPressure'], hue="Outcome",
+                        data=data, palette=palette, edgecolor=edgecolor)
+
+# 添加注释'N4'，位置在(70, 80)，文本大小为25，箭头指向点
+# 这行代码在图形中添加了一个注释，标签为'N4'，位置在点(70, 80)，文本大小为25。箭头的起点是注释点，终点是文本点。
+plt.annotate('N4', size=25, color='black', xy=(70, 80), xytext=(50, 110),
+            arrowprops=dict(facecolor='black', shrink=0.05),
+            )
+
+# 绘制红色的直线和箭头，形成对角线
+# 这四行代码绘制了四条红色的直线，它们共同形成一个矩形的对角线，用于突出显示某个特定的数据区域。
+plt.plot([40, 105], [80, 80], linewidth=2, color='red')
+plt.plot([40, 40], [20, 80], linewidth=2, color='red')
+plt.plot([40, 105], [20, 20], linewidth=2, color='red')
+plt.plot([105, 105], [20, 80], linewidth=2, color='red')
+
+# 设置图表标题为'Glucose vs BloodPressure'
+# 这行代码设置了图表的标题，标题内容为'Glucose vs BloodPressure'。
+plt.title('Glucose vs BloodPressure')
+
+# 显示图表
+# 这行代码显示了包含上述所有设置和图形的图表。
+plt.show()
+```
+
+这段代码首先定义了一个颜色字典`palette`，用于区分散点图中不同类别的点。然后，设置了图形的大小，并使用Seaborn的`scatterplot`函数绘制了一个散点图，其中点的颜色根据`Outcome`列的值变化。接着，使用`annotate`函数在图表中添加了一个注释，并绘制了红色的对角线。最后，设置了图表的标题并显示了图表。这个散点图有助于观察葡萄糖水平与血压之间的关系，并区分糖尿病患者和健康人的数据点。
+
+
+
+```python
+# 将data中所有的'N4'列赋值为0
+# 这行代码将DataFrame 'data' 中 'N4' 列的所有行设置为0，初始化该列为默认值0。
+data.loc[:, 'N4'] = 0
+
+# 筛选出葡萄糖水平小于等于105且血压小于等于80的记录，并将这些记录的'N4'列赋值为1
+# 这里使用布尔索引来找出 'Glucose' 列中值小于等于105且 'BloodPressure' 列中值小于等于80的行，并将这些行对应的 'N4' 列的值设置为1，表示这些记录满足特定条件。
+data.loc[(data['Glucose'] <= 105) & (data['BloodPressure'] <= 80), 'N4'] = 1
+
+# 调用barplot函数，传入'N4'作为变量选择，以及字符串': Glucose <= 105 and BloodPressure <= 80'作为子标题
+# 此行代码调用barplot函数来生成条形图，展示 'N4' 列的分布情况，其中 'N4' 列代表的是满足条件 '葡萄糖水平小于等于105且血压小于等于80' 的记录。
+barplot('N4', ': Glucose <= 105 and BloodPressure <= 80')
+```
+
+这段代码首先设置了一个新的列'N4'，并为其赋予了初始值0。然后，它更新了那些葡萄糖水平小于等于105且血压小于等于80的记录，将这些记录的'N4'列的值设置为1。最后，通过调用`barplot`函数，根据'N4'列的值绘制条形图，以可视化满足特定条件的数据分布情况。子标题': Glucose <= 105 and BloodPressure <= 80'提供了对图表内容的额外说明，指出了'N4'列所表示的具体条件。
+
+
+```python
+plot_pie('N4', 'Glucose <= 105 and BloodPressure <= 80')
+# 调用plot_pie函数，传入'N4'作为要分析的变量名，传入'Glucose <= 105 and BloodPressure <= 80'作为子标题，
+# 目的是根据'N4'列的值绘制饼图，并展示满足条件（葡萄糖水平小于等于105且血压小于等于80）的分布情况。
+```
+
+这段代码调用了一个名为`plot_pie`的函数，用于生成饼图以展示数据集中'N4'列的分布情况。'N4'列是一个二元特征，可能代表某种分类结果或条件的满足情况。函数的第二个参数是一个字符串，它作为饼图的子标题，提供了关于数据集特定子集的额外信息。这个子标题表明我们关注的是那些葡萄糖水平小于等于105且血压小于等于80的记录。函数内部将根据'N4'列的值计算各类别的百分比，并创建一个饼图来直观展示这些信息。
 
 ### **SkinThickness**
 
+```python
+# 将data中所有的'N5'列赋值为0
+# 这行代码将DataFrame 'data' 中 'N5' 列的所有行设置为0，初始化该列为默认值0。
+data.loc[:, 'N5'] = 0
+
+# 筛选出皮肤厚度小于等于20的记录，并将这些记录的'N5'列赋值为1
+# 这里使用布尔索引来找出 'SkinThickness' 列中值小于等于20的行，并将这些行对应的 'N5' 列的值设置为1，表示这些记录满足特定条件。
+data.loc[(data['SkinThickness'] <= 20), 'N5'] = 1
+
+# 调用barplot函数，传入'N5'作为变量选择，以及字符串':SkinThickness <= 20'作为子标题
+# 此行代码调用barplot函数来生成条形图，展示 'N5' 列的分布情况，其中 'N5' 列代表的是满足条件 '皮肤厚度小于等于20' 的记录。
+barplot('N5', ':SkinThickness <= 20')
+```
+
+这段代码首先设置了一个新的列'N5'，并为其赋予了初始值0。然后，它更新了那些皮肤厚度小于等于20的记录，将这些记录的'N5'列的值设置为1。最后，通过调用`barplot`函数，根据'N5'列的值绘制条形图，以可视化满足特定条件的数据分布情况。子标题':SkinThickness <= 20'提供了对图表内容的额外说明，指出了'N5'列所表示的具体条件。
+
+```python
+plot_pie('N5', 'SkinThickness <= 20')
+# 调用plot_pie函数，传入'N5'作为要分析的变量名，传入'SkinThickness <= 20'作为子标题，
+# 目的是根据'N5'列的值绘制饼图，并展示满足条件（皮肤厚度小于等于20）的分布情况。
+```
+
+这段代码调用了一个名为`plot_pie`的函数，用于生成饼图以展示数据集中'N5'列的分布情况。'N5'列是一个二元特征，可能代表某种分类结果或条件的满足情况。函数的第二个参数是一个字符串，它作为饼图的子标题，提供了关于数据集特定子集的额外信息。这个子标题表明我们关注的是那些皮肤厚度小于等于20的记录。函数内部将根据'N5'列的值计算各类别的百分比，并创建一个饼图来直观展示这些信息。
 
 ### **SkinThickness and BMI**
+```python
+plot_feat1_feat2('SkinThickness','BMI')
+# 调用plot_feat1_feat2函数，传入'SkinThickness'和'BMI'作为参数，
+# 目的是在散点图中展示'SkinThickness'（皮肤厚度）和'BMI'（身体质量指数）两个特征之间的关系。
+```
 
+这段代码调用了一个名为`plot_feat1_feat2`的函数，该函数用于创建一个散点图，以可视化数据集中两个选定特征之间的关系。在这个特定的例子中，我们关注的特征是'SkinThickness'和'BMI'，分别代表皮肤厚度和身体质量指数。通过这个散点图，我们可以探索和分析这两个健康指标之间是否存在某种相关性或模式。
+
+Healthy persons are concentrate with a BMI < 30 and skin thickness <= 20
+
+
+```python
+# 将data中所有的'N6'列赋值为0
+# 这行代码将DataFrame 'data' 中 'N6' 列的所有行设置为0，初始化该列为默认值0。
+data.loc[:, 'N6'] = 0
+
+# 筛选出BMI小于30且皮肤厚度小于等于20的记录，并将这些记录的'N6'列赋值为1
+# 这里使用布尔索引来找出 'BMI' 列中值小于30且 'SkinThickness' 列中值小于等于20的行，并将这些行对应的 'N6' 列的值设置为1，表示这些记录满足特定条件。
+data.loc[(data['BMI'] < 30) & (data['SkinThickness'] <= 20), 'N6'] = 1
+```
+
+这段代码首先设置了一个新的列'N6'，并为其赋予了初始值0。然后，它更新了那些BMI小于30且皮肤厚度小于等于20的记录，将这些记录的'N6'列的值设置为1。这样的操作创建了一个新的特征列'N6'，用于标识满足特定健康指标的个体。这可能是为了后续的数据分析或可视化，其中'N6'列可以代表一个特定的健康或风险指标。
+
+
+```python
+# 定义颜色字典，用于根据Outcome列的值（0或1）给点着色
+# 这里创建了一个名为palette的字典，用于为散点图中的点设置颜色，其中0对应浅蓝色，1对应金色。
+palette = {0: 'lightblue', 1: 'gold'}
+# 设置边缘颜色为黑色
+# 这行代码设置了散点图中点的边缘颜色为黑色。
+edgecolor = 'black'
+
+# 创建一个大小为12x8英寸的图形
+# 这行代码创建了一个图形对象fig，其大小设置为宽12英寸、高8英寸。
+fig = plt.figure(figsize=(12, 8))
+
+# 使用Seaborn的scatterplot函数绘制散点图
+# 这行代码使用Seaborn库的scatterplot函数，根据'SkinThickness'列作为x轴，'BMI'列作为y轴，'Outcome'列的值作为颜色的依据，绘制散点图。
+ax1 = sns.scatterplot(x=data['SkinThickness'], y=data['BMI'], hue="Outcome",
+                        data=data, palette=palette, edgecolor=edgecolor)
+
+# 添加注释'N6'，位置在(20, 20)，文本大小为25，箭头指向点
+# 这行代码在图形中添加了一个注释，标签为'N6'，位置在点(20, 20)，文本大小为25。箭头的起点是注释点，终点是文本点。
+plt.annotate('N6', size=25, color='black', xy=(20, 20), xytext=(50, 25),
+            arrowprops=dict(facecolor='black', shrink=0.05),
+            )
+
+# 绘制红色的直线和箭头，形成对角线
+# 这四行代码绘制了四条红色的直线，它们共同形成一个矩形的对角线，用于突出显示某个特定的数据区域。
+plt.plot([0, 20], [30, 30], linewidth=2, color='red')  # 从(0, 30)到(20, 30)
+plt.plot([0, 0], [16, 30], linewidth=2, color='red')  # 从(0, 16)到(0, 30)
+plt.plot([0, 20], [16, 16], linewidth=2, color='red')  # 从(0, 16)到(20, 16)
+plt.plot([20, 20], [16, 30], linewidth=2, color='red')  # 从(20, 16)到(20, 30)
+
+# 设置图表标题为'SkinThickness vs BMI'
+# 这行代码设置了图表的标题，标题内容为'SkinThickness vs BMI'。
+plt.title('SkinThickness vs BMI')
+
+# 显示图表
+# 这行代码显示了包含上述所有设置和图形的图表。
+plt.show()
+```
+
+这段代码首先定义了一个颜色字典`palette`，用于区分散点图中不同类别的点。然后，设置了图形的大小，并使用Seaborn的`scatterplot`函数绘制了一个散点图，其中点的颜色根据`Outcome`列的值变化。接着，使用`annotate`函数在图表中添加了一个注释，并绘制了红色的对角线。最后，设置了图表的标题并显示了图表。这个散点图有助于观察皮肤厚度与身体质量指数之间的关系，并区分糖尿病患者和健康人的数据点。
+
+
+
+
+```python
+barplot('N6', ': BMI < 30 and SkinThickness <= 20')
+# 调用barplot函数，传入'N6'作为变量选择，以及字符串': BMI < 30 and SkinThickness <= 20'作为子标题，
+# 目的是根据'N6'列的值绘制条形图，并展示满足条件（BMI小于30且皮肤厚度小于等于20）的数据分布。
+```
+
+这段代码调用了一个名为`barplot`的函数，用于生成条形图以展示数据集中'N6'列的分布情况。'N6'列是一个二元特征，可能代表某种分类结果或条件的满足情况。函数的第二个参数是一个字符串，它作为条形图的子标题，提供了关于数据集特定子集的额外信息。这个子标题表明我们关注的是那些BMI小于30且皮肤厚度小于等于20的记录。函数内部将根据'N6'列的值计算各类别的计数，并创建一个条形图来直观展示这些信息。
+
+
+
+
+
+```python
+plot_pie('N6', 'BMI < 30 and SkinThickness <= 20')
+# 调用plot_pie函数，传入'N6'作为要分析的变量名，传入'BMI < 30 and SkinThickness <= 20'作为子标题，
+# 目的是根据'N6'列的值绘制饼图，并展示满足条件（BMI小于30且皮肤厚度小于等于20）的分布情况。
+```
+
+这段代码调用了一个名为`plot_pie`的函数，用于生成饼图以展示数据集中'N6'列的分布情况。'N6'列是一个二元特征，可能代表某种分类结果或条件的满足情况。函数的第二个参数是一个字符串，它作为饼图的子标题，提供了关于数据集特定子集的额外信息。这个子标题表明我们关注的是那些BMI小于30且皮肤厚度小于等于20的记录。函数内部将根据'N6'列的值计算各类别的百分比，并创建一个饼图来直观展示这些信息。
 
 ### **Glucose and BMI**
+
+
+```python
+plot_feat1_feat2('Glucose','BMI')
+# 调用plot_feat1_feat2函数，传入'Glucose'和'BMI'作为参数，
+# 目的是在散点图中展示葡萄糖水平（'Glucose'）与身体质量指数（'BMI'）之间的关系。
+```
+
+这段代码调用了一个名为`plot_feat1_feat2`的函数，该函数用于创建一个散点图，以可视化数据集中两个选定特征之间的关系。在这个特定的例子中，我们关注的特征是'Glucose'（葡萄糖水平）和'BMI'（身体质量指数）。通过这个散点图，我们可以探索和分析这两个健康指标之间是否存在某种相关性或模式。
+
+
+
+
+
+
+
+
+
 
 
 ### **Insulin**
