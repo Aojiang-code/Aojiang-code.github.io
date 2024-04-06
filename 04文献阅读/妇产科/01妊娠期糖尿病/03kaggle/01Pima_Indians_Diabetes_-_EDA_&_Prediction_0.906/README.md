@@ -585,35 +585,218 @@ def plot_distribution(data_select, size_bin):
     # 定义两组数据的颜色
     colors = ['#FFD700', '#7EC0EE']
 
-    # 使用Plotly的figure_factory创建一个分布图
+    ## 利用Plotly的figure_factory模块创建一个分布图
+    # hist_data: 包含要绘制的数据的列表
+    # group_labels: 各个数据组的标签
+    # colors: 各个数据组的颜色
+    # show_hist: 是否显示直方图
+    # bin_size: 直方图的bin大小
+    # curve_type: 曲线类型，这里使用核密度估计(KDE)
     fig = ff.create_distplot(hist_data, group_labels, colors=colors, show_hist=True, bin_size=size_bin, curve_type='kde')
-    
+    #上面这段代码使用Plotly库中的`figure_factory`模块来创建一个分布图，该图结合了直方图和核密度估计（KDE）曲线，以展示不同数据组在指定变量上的分布情况。`hist_data`是要绘制的数据列表，`group_labels`是各个数据组的标签，`colors`定义了各个数据组的颜色。`show_hist`参数设置为True表示同时显示直方图，`bin_size`参数设置了直方图的bin大小，`curve_type`设置为'kde'表示使用核密度估计曲线。
+
+
     # 更新图表的布局，设置标题为指定的列名
-    fig['layout'].update(title=data_select)
-    
+    fig['layout'].update(title=str(data_select))#创建完分布图后，通过`update`方法设置图表的标题为`data_select`，即指定的变量名。
+    #上面这行代码的作用是将创建的图表的标题设置为`data_select`变量所表示的列名。`fig['layout']`访问了图表对象的布局部分，`update`方法用于更新布局的属性。`title`属性设置了图表的标题，这里将`data_select`转换为字符串，以确保即使它是一个非字符串类型的变量也能正确地被转换为标题文本。
+
+
     # 使用Plotly的iplot函数在Jupyter Notebook中绘制图表，并保存为'Density plot'
     py.iplot(fig, filename='Density plot')
+
 # 调用函数，绘制'Insulin'列的分布图，bins的尺寸为0
 plot_distribution('Insulin', 0)
+#上面这行代码调用了之前定义的`plot_distribution`函数，用于绘制名为`'Insulin'`的列的分布图。`0`作为参数传递给`size_bin`，表示在创建直方图时不使用固定的bin大小，而是让Plotly自动选择最佳的bin数量来展示数据分布。这通常适用于连续数据，可以更准确地反映数据的分布情况。
 ```
 
 这段代码定义了一个名为`plot_distribution`的函数，用于生成并展示糖尿病组（`D`）和健康组（`H`）在指定变量（`data_select`）上的分布图。函数首先从两个数据集中选取指定的列，并创建一个包含这两组数据的列表。然后，定义了两组数据的标签和颜色。接下来，使用Plotly的`figure_factory`模块中的`create_distplot`函数创建一个分布图，其中包含了直方图和核密度估计（KDE）曲线。最后，更新图表的布局以设置标题，并使用`iplot`函数在Jupyter Notebook中展示图表。通过调用`plot_distribution`函数并传入列名和bins尺寸，可以生成对应的分布图。
 
+**结果展示**
 
 ![Insulin](01图片/3.1_Insulin.png)
 
+```python
+# 调用median_target函数，计算并返回'Insulin'列的中位数值
+median_target('Insulin')
+```
 
+上面这行代码调用了`median_target`函数，传入了字符串`'Insulin'`作为参数。这个函数将计算并返回数据集`data`中`'Insulin'`列的中位数值。中位数是将数据集分为两个相等部分的值，其中一半的数据值位于中位数之上，另一半位于中位数之下。这是一个常用的统计度量，可以帮助了解数据的中心位置，特别是对于偏斜分布的数据。
+
+**结果展示**
+
+![median_target](01图片/3.1_median_target.png)
+
+
+Insulin's medians by the target are really different ! 102.5 for a healthy person and 169.5 for a diabetic person
+
+
+```python
+# 将'Outcome'为0且'Insulin'为空值的记录的'Insulin'列填充为102.5
+data.loc[(data['Outcome'] == 0) & (data['Insulin'].isnull()), 'Insulin'] = 102.5
+# 将'Outcome'为1且'Insulin'为空值的记录的'Insulin'列填充为169.5
+data.loc[(data['Outcome'] == 1) & (data['Insulin'].isnull()), 'Insulin'] = 169.5
+```
+
+这两行代码使用Pandas的`loc`方法来更新数据集`data`中的`'Insulin'`列。具体来说，第一行代码查找所有`'Outcome'`值为0且`'Insulin'`列中数据为空（即`NaN`）的记录，并将这些记录的`'Insulin'`列的值填充为102.5。第二行代码执行类似的操作，但是针对的是`'Outcome'`值为1的记录，并将`'Insulin'`列的值填充为169.5。这种填充方法可以作为一种处理缺失数据的策略，特别是在没有足够的信息来确定确切值时，可以使用这种方法为缺失值提供一个参考值。
 
 ### 3.2. Glucose
+* **Glucose** : Plasma glucose concentration a 2 hours in an oral glucose tolerance test
 
+> "Glucose"：在口服葡萄糖耐量测试中，血浆葡萄糖浓度是在测试开始后2小时进行测量的指标。
+
+> 口服葡萄糖耐量测试（OGTT）是一种医学检测方法，用来评估人体对葡萄糖的处理能力。在这项测试中，受试者在空腹状态下首先被给予一定量的葡萄糖溶液（通常是75克葡萄糖）饮用。在饮用葡萄糖溶液后的1小时和2小时，医务人员会通过抽血来测量受试者血液中的葡萄糖浓度。2小时后的血浆葡萄糖浓度是一个重要的指标，它可以帮助医生判断受试者是否存在糖尿病或糖尿病前期（也称为糖耐量受损）。根据世界卫生组织的标准，如果2小时后的血糖水平超过11.1 mmol/L（200 mg/dL），则可能表明受试者患有糖尿病。
+
+```python
+# 调用plot_distribution函数，绘制'Glucose'列的分布图，bins的尺寸不固定
+plot_distribution('Glucose', 0)
+```
+
+这行代码调用了`plot_distribution`函数，并传入了`'Glucose'`作为参数，表示要绘制的数据集中的`'Glucose'`列（即葡萄糖耐量测试结果）的分布图。第二个参数传入了`0`，这意味着在创建直方图时不指定固定的bin大小，而是让Plotly根据数据的分布自动选择合适的bin数量。这样可以更准确地展示数据的分布情况。
+
+**结果展示**
+
+![Glucose](01图片/3.2_Glucose.png)
+
+```python
+# 调用median_target函数，计算并返回'Glucose'列的中位数值
+median_target('Glucose')
+```
+
+这行代码调用了`median_target`函数，并传入了`'Glucose'`作为参数。这个函数的目的是计算并返回数据集`data`中`'Glucose'`列（代表口服葡萄糖耐量测试2小时后的血浆葡萄糖浓度）的中位数值。中位数是将数据集分为两个相等部分的数值，其中一半的数据值位于中位数之上，另一半位于中位数之下。这个统计度量有助于了解数据的中心趋势，尤其是在数据分布不均时。
+
+**结果展示**
+
+![median_target](01图片/3.2median_target.png)
+
+
+```python
+# 将'Outcome'为0且'Glucose'为空值的记录的'Glucose'列填充为107
+data.loc[(data['Outcome'] == 0) & (data['Glucose'].isnull()), 'Glucose'] = 107
+# 将'Outcome'为1且'Glucose'为空值的记录的'Glucose'列填充为140
+data.loc[(data['Outcome'] == 1) & (data['Glucose']..isnull()), 'Glucose'] = 140
+```
+
+这两行代码使用Pandas的`loc`方法来更新数据集`data`中的`'Glucose'`列。具体来说，第一行代码查找所有`'Outcome'`值为0且`'Glucose'`列中数据为空（即`NaN`）的记录，并将这些记录的`'Glucose'`列的值填充为107。第二行代码执行类似的操作，但是针对的是`'Outcome'`值为1的记录，并将`'Glucose'`列的值填充为140。这种填充方法可以作为一种处理缺失数据的策略，特别是在没有足够的信息来确定确切值时，可以使用这种方法为缺失值提供一个参考值。
+
+
+107 for a healthy person and 140 for a diabetic person
 
 ### 3.3. SkinThickness
+* SkinThickness : Triceps skin fold thickness (mm)
 
+> "SkinThickness"：三头肌皮褶厚度（单位：毫米）
+
+> 三头肌皮褶厚度是通过测量皮肤和皮下脂肪的厚度来得到的一个指标，通常使用专门的卡尺进行测量。这个指标反映了个体的体脂分布情况，有时候也用来评估一个人的肥胖程度或者身体组成。
+
+> 在妊娠期糖尿病（Gestational Diabetes Mellitus, GDM）的诊断中，三头肌皮褶厚度可能会被考虑作为一个风险因素。研究表明，较高的体脂比例可能与胰岛素抵抗有关，而胰岛素抵抗是妊娠期糖尿病的一个重要因素。因此，皮褶厚度的测量可以帮助医生评估孕妇发展为妊娠期糖尿病的风险，以及制定相应的预防和治疗措施。然而，需要注意的是，皮褶厚度只是多种评估工具中的一种，通常需要结合其他临床指标和测试结果来综合判断。
+
+```python
+# 调用plot_distribution函数，绘制'SkinThickness'列的分布图，bins的尺寸设置为10
+plot_distribution('SkinThickness', 10)
+```
+
+这行代码调用了`plot_distribution`函数，并传入了`'SkinThickness'`作为参数，表示要绘制的数据集中的`'SkinThickness'`列（即三头肌皮褶厚度）的分布图。第二个参数传入了`10`，这意味着在创建直方图时，数据将被分成10个等宽的bin（区间）。这样可以更直观地展示数据的分布情况，尤其是在分析三头肌皮褶厚度与妊娠期糖尿病或其他健康状况之间关系时。
+
+
+
+**结果展示**
+
+![SkinThickness](01图片/3.3SkinThickness.png)
+
+```python
+# 调用median_target函数，计算并返回'SkinThickness'列的中位数值
+median_target('SkinThickness')
+```
+
+这行代码调用了`median_target`函数，并传入了`'SkinThickness'`作为参数。这个函数的目的是计算并返回数据集`data`中`'SkinThickness'`列（代表三头肌皮褶厚度）的中位数值。中位数是将数据集分为两个相等部分的数值，其中一半的数据值位于中位数之上，另一半位于中位数之下。在分析三头肌皮褶厚度与妊娠期糖尿病风险的关系时，中位数可以作为一个重要的统计参考点。
+
+**结果展示**
+![median_target](01图片/3.3median_target.png)
+
+```python
+# 将'Outcome'为0且'SkinThickness'为空值的记录的'SkinThickness'列填充为27
+data.loc[(data['Outcome'] == 0) & (data['SkinThickness'].isnull()), 'SkinThickness'] = 27
+# 将'Outcome'为1且'SkinThickness'为空值的记录的'SkinThickness'列填充为32
+data.loc[(data['Outcome'] == 1) & (data['SkinThickness'].isnull()), 'SkinThickness'] = 32
+```
+
+这两行代码使用Pandas库中的`loc`方法来为数据集`data`中的缺失值（`NaN`）赋予特定的数值。具体来说，第一行代码查找`Outcome`列值为0（可能表示非糖尿病患者）且`SkinThickness`列值为空的记录，并将这些记录的`SkinThickness`列的值填充为27毫米。第二行代码执行类似的操作，但是针对的是`Outcome`列值为1的记录（可能表示糖尿病患者），并将`SkinThickness`列的值填充为32毫米。这种填充方法可以帮助在数据分析中处理缺失值，尤其是在原始数据中某些观测值缺失的情况下。填充值的选择可能基于领域知识或者预先进行的统计分析。
+
+27 for a healthy person and 32 for a diabetic person
 
 ### 3.4. BloodPressure
+* BloodPressure : Diastolic blood pressure (mm Hg)
+
+```python
+plot_distribution('BloodPressure', 5)
+# 调用plot_distribution函数，传入'BloodPressure'作为变量名和数字5作为bins的数量，
+# 目的是绘制血压数据的分布情况，其中数据被分为5个区间进行可视化分析。
+```
+**结果展示**
+![BloodPressure](01图片/3.4BloodPressure.png)
+
+```python
+median_target('BloodPressure')
+```
+
+**结果展示**
+
+![alt text](01图片/3.4median_target.png)
+
+```python
+data.loc[(data['Outcome'] == 0 ) & (data['BloodPressure'].isnull()), 'BloodPressure'] = 70
+data.loc[(data['Outcome'] == 1 ) & (data['BloodPressure'].isnull()), 'BloodPressure'] = 74.5
+```
+
+
 
 
 ### 3.5. BMI
+* BMI : Body mass index (weight in kg/(height in m)^2)
+
+```python
+plot_distribution('BMI', 0)
+```
+![BMI](01图片/3.5BMI.png)
+
+```python
+median_target('BMI')
+```
+![median_target](01图片/3.5median_target.png)
+
+```python
+data.loc[(data['Outcome'] == 0 ) & (data['BMI'].isnull()), 'BMI'] = 30.1
+data.loc[(data['Outcome'] == 1 ) & (data['BMI'].isnull()), 'BMI'] = 34.3
+```
+### 3.6. Age、DiabetesPedigreeFunction、Pregnancies
+* **Age** : Age (years)
+* **DiabetesPedigreeFunction** : Diabetes pedigree function
+* **Pregnancies** : Number of times pregnant
+
+- **Age**: 年龄（岁）  
+  年龄是衡量个体健康的一个基本指标，对于妊娠期糖尿病的诊断来说，年龄是一个重要的风险因素。通常，随着年龄的增长，患有糖尿病的风险也会增加。年长的女性可能会有更高的胰岛素抵抗性，这使得她们在怀孕期间更容易发展成妊娠期糖尿病。
+
+- **DiabetesPedigreeFunction**: 糖尿病家族史函数  
+  糖尿病家族史函数是一个计算得到的指标，它考虑了一个人的家族中患有糖尿病的亲属数量和关系亲密程度。这个函数的值越高，表示个体的糖尿病家族史越丰富，从而患糖尿病的风险也越高。在妊娠期糖尿病的诊断中，家族史是一个重要的考虑因素，因为它可以帮助医生评估孕妇发展为妊娠期糖尿病的潜在风险。
+
+- **Pregnancies**: 怀孕次数  
+  怀孕次数指的是一个女性在她的生育史中怀孕的次数。在妊娠期糖尿病的诊断中，怀孕次数也是一个重要的风险因素。多次怀孕可能会增加女性患妊娠期糖尿病的风险，因为每一次怀孕都可能会对身体的代谢系统造成额外的压力，导致胰岛素抵抗性增加。医生会考虑这一因素来评估孕妇的健康状况，并提供适当的监测和管理建议。
+
+
+
+
+```python
+#plot distribution 
+plot_distribution('Age', 0)
+plot_distribution('Pregnancies', 0)
+plot_distribution('DiabetesPedigreeFunction', 0)
+```
+
+![Age](01图片/3.6Age.png)
+
+![Pregnancies](01图片/3.6Pregnancies.png)
+
+![DiabetesPedigreeFunction](01图片/3.6DiabetesPedigreeFunction.png)
 
 
 
