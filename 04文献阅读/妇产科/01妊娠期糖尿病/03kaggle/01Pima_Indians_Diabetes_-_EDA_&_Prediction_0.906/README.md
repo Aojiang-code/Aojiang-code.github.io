@@ -814,7 +814,7 @@ All features are complete ! Now, we can create new features
 ## 4. New features (16) and EDA
 Here, we define 3 plots functions
 
-### first plot function
+### first plot function:**plot_feat1_feat2**
 ```python
 # plot_feat1_feat2(feat1, feat2)
 # 定义一个函数用于绘制两个特征之间的关系图，其中feat1和feat2分别代表两个不同的特征列名。
@@ -863,7 +863,7 @@ def plot_feat1_feat2(feat1, feat2) :
 
 上述代码定义了一个名为`plot_feat1_feat2`的函数，用于生成并展示两个指定特征（`feat1`和`feat2`）之间的关系图。函数首先从数据集中筛选出糖尿病患者（`D`）和健康人（`H`）的数据。然后，为每组数据创建一个散点图对象，分别用不同的颜色表示。接着，设置图表的布局，包括标题和坐标轴标签。最后，将两个散点图对象组合成一个图表列表，并使用Plotly的`iplot`函数在Jupyter Notebook中展示图表。通过调用`plot_feat1_feat2`函数并传入两个特征列名，可以生成并展示这两个特征之间的关系图。
 
-### second plot function
+### second plot function:**bar plot**
 
 ```python
 # barplot(var_select, sub)
@@ -959,7 +959,7 @@ def barplot(var_select, sub) :
 
 这段代码定义了一个名为`barplot`的函数，用于生成并展示指定变量（`var_select`）的条形图，同时在子标题（`sub`）中展示糖尿病和非糖尿病的比例。函数首先筛选出糖尿病患者和健康人的数据，然后计算变量在两组中的交叉表，并计算百分比。接着，创建两个条形图对象和一个散点图对象，分别用于展示糖尿病患者、健康人的数据和糖尿病的百分比。最后，设置图表布局并使用Plotly的`iplot`函数在Jupyter Notebook中展示图表。通过调用`barplot`函数并传入变量名和子标题，可以生成并展示相关的条形图。
 
-### third plot function
+### third plot function:**pie plot**
 ```python
 # Define pie plot to visualize each variable repartition vs target modalities : Survived or Died (train)
 # 定义一个用于可视化每个变量相对于目标类别（训练集中的Survived或Died）的重新分布的饼图函数
@@ -1029,6 +1029,8 @@ def plot_pie(var_select, sub) :
 
 ### **4.1. Glucose and Age**
 
+#### 4.1.1. 散点图
+
 ```python
 plot_feat1_feat2('Glucose','Age')
 # 调用plot_feat1_feat2函数，传入'Glucose'和'Age'作为参数，
@@ -1087,6 +1089,9 @@ plt.show()
 
 ![N1](01图片/4.1.2N1.png)
 
+
+#### 4.1.2. 直方图
+
 ```python
 # 将data中所有的'N1'列赋值为0
 data.loc[:, 'N1'] = 0
@@ -1108,6 +1113,8 @@ barplot('N1', ':Glucose <= 120 and Age <= 30')
 ![barplot](01图片/4.1.3barplot.png)
 
 
+#### 4.1.3. 饼图
+
 ```python
 plot_pie('N1', '(Glucose <= 120 and Age <= 30)')
 # 调用plot_pie函数，传入'N1'作为要分析的变量名，传入'(Glucose <= 120 and Age <= 30)'作为子标题，
@@ -1126,6 +1133,7 @@ According to wikipedia "The body mass index (BMI) or Quetelet index is a value d
 30 $kg/m^{2}$ is the limit to obesity
 
 
+
 ```python
 # 将data中所有的'N2'列赋值为0
 # 此行代码将DataFrame 'data' 中 'N2' 列的所有行设置为0，初始化该列为默认值0。
@@ -1134,7 +1142,9 @@ data.loc[:, 'N2'] = 0
 # 筛选出BMI小于等于30的记录，并将这些记录的'N2'列赋值为1
 # 这里使用布尔索引来找出 'BMI' 列中值小于等于30的行，并将这些行对应的 'N2' 列的值设置为1，表示这些记录满足特定条件。
 data.loc[(data['BMI'] <= 30), 'N2'] = 1
-
+```
+#### 4.2.1. 直方图
+```python
 # 调用barplot函数，传入'N2'作为变量选择，以及字符串': BMI <= 30'作为子标题
 # 此行代码调用barplot函数来生成条形图，展示 'N2' 列的分布情况，其中 'N2' 列代表的是满足条件 'BMI小于等于30' 的记录。
 barplot('N2', ': BMI <= 30')
@@ -1147,23 +1157,27 @@ barplot('N2', ': BMI <= 30')
 ![4.2.1barplot](01图片/4.2.1barplot.png)
 
 
-
+#### 4.2.2. 饼图
 
 ```python
 plot_pie('N2', 'BMI <= 30')
 ```
 
-
+![饼图](<01图片/4.2.2. 饼图.png>)
 
 
 
 
 ### **4.3. Pregnancies and Age**
 
-
+#### 4.3.1 散点图
 ```python
 plot_feat1_feat2('Pregnancies','Age')
 ```
+
+
+![4.3.1 散点图](<01图片/4.3.1 散点图.png>)
+
 
 ```python
 # 定义颜色字典，用于根据Outcome列的值（0或1）给点着色
@@ -1202,7 +1216,7 @@ plt.show()
 这段代码首先定义了一个颜色字典`palette`，用于区分图表中的两种不同类别（例如，健康和糖尿病患者），其中0和1分别对应不同的颜色。然后，设置了图形的大小，并使用Seaborn的`scatterplot`函数绘制了一个散点图，其中点的颜色根据`Outcome`列的值变化。接着，使用`annotate`函数在图表中添加了一个注释，并绘制了红色的对角线。最后，设置了图表的标题并显示了图表。这个散点图有助于观察怀孕次数与年龄之间的关系，并区分糖尿病患者和健康人的数据点。
 
 
-
+![4.3.1散点图标注](01图片/4.3.1散点图标注.png)
 
 
 ```python
@@ -1213,27 +1227,37 @@ data.loc[:, 'N3'] = 0
 # 筛选出年龄小于等于30且怀孕次数小于等于6的记录，并将这些记录的'N3'列赋值为1
 # 这里使用布尔索引来找出 'Age' 列中值小于等于30且 'Pregnancies' 列中值小于等于6的行，并将这些行对应的 'N3' 列的值设置为1，表示这些记录满足特定条件。
 data.loc[(data['Age'] <= 30) & (data['Pregnancies'] <= 6), 'N3'] = 1
-
+```
+这段代码首先设置了一个新的列'N3'，并为其赋予了初始值0。然后，它更新了那些年龄小于等于30且怀孕次数小于等于6的记录，将这些记录的'N3'列的值设置为1。
+#### 4.3.2. 直方图
+```python
 # 调用barplot函数，传入'N3'作为变量选择，以及字符串': Age <= 30 and Pregnancies <= 6'作为子标题
 # 此行代码调用barplot函数来生成条形图，展示 'N3' 列的分布情况，其中 'N3' 列代表的是满足条件 '年龄小于等于30且怀孕次数小于等于6' 的记录。
 barplot('N3', ': Age <= 30 and Pregnancies <= 6')
 ```
 
-这段代码首先设置了一个新的列'N3'，并为其赋予了初始值0。然后，它更新了那些年龄小于等于30且怀孕次数小于等于6的记录，将这些记录的'N3'列的值设置为1。最后，通过调用`barplot`函数，根据'N3'列的值绘制条形图，以可视化满足特定条件的数据分布情况。子标题': Age <= 30 and Pregnancies <= 6'提供了对图表内容的额外说明，指出了'N3'列所表示的具体条件。
+最后，通过调用`barplot`函数，根据'N3'列的值绘制条形图，以可视化满足特定条件的数据分布情况。子标题': Age <= 30 and Pregnancies <= 6'提供了对图表内容的额外说明，指出了'N3'列所表示的具体条件。
+
+![4.3.2. 直方图](<01图片/4.3.2. 直方图.png>)
 
 
+#### 4.3.3. 饼图
 
 
 ```python
 plot_pie('N3', 'Age <= 30 and Pregnancies <= 6')
 ```
-
+![4.3.3. 饼图](<01图片/4.3.3. 饼图.png>)
 
 ### **4.4. Glucose and BloodPressure**
-
+#### 4.4.1. 散点图
 ```python
 plot_feat1_feat2('Glucose','BloodPressure')
 ```
+
+![4.4.1. 散点图](<01图片/4.4.1. 散点图.png>)
+
+
 Healthy persons are concentrate with an blood pressure <= 80 and glucose <= 105
 
 ```python
@@ -1277,7 +1301,7 @@ plt.show()
 
 这段代码首先定义了一个颜色字典`palette`，用于区分散点图中不同类别的点。然后，设置了图形的大小，并使用Seaborn的`scatterplot`函数绘制了一个散点图，其中点的颜色根据`Outcome`列的值变化。接着，使用`annotate`函数在图表中添加了一个注释，并绘制了红色的对角线。最后，设置了图表的标题并显示了图表。这个散点图有助于观察葡萄糖水平与血压之间的关系，并区分糖尿病患者和健康人的数据点。
 
-
+![4.4.1. 散点图标注](<01图片/4.4.1. 散点图标注.png>)
 
 ```python
 # 将data中所有的'N4'列赋值为0
@@ -1287,15 +1311,21 @@ data.loc[:, 'N4'] = 0
 # 筛选出葡萄糖水平小于等于105且血压小于等于80的记录，并将这些记录的'N4'列赋值为1
 # 这里使用布尔索引来找出 'Glucose' 列中值小于等于105且 'BloodPressure' 列中值小于等于80的行，并将这些行对应的 'N4' 列的值设置为1，表示这些记录满足特定条件。
 data.loc[(data['Glucose'] <= 105) & (data['BloodPressure'] <= 80), 'N4'] = 1
-
+```
+这段代码首先设置了一个新的列'N4'，并为其赋予了初始值0。然后，它更新了那些葡萄糖水平小于等于105且血压小于等于80的记录，将这些记录的'N4'列的值设置为1。
+#### 4.4.2. 直方图
+```python
 # 调用barplot函数，传入'N4'作为变量选择，以及字符串': Glucose <= 105 and BloodPressure <= 80'作为子标题
 # 此行代码调用barplot函数来生成条形图，展示 'N4' 列的分布情况，其中 'N4' 列代表的是满足条件 '葡萄糖水平小于等于105且血压小于等于80' 的记录。
 barplot('N4', ': Glucose <= 105 and BloodPressure <= 80')
 ```
+最后，通过调用`barplot`函数，根据'N4'列的值绘制条形图，以可视化满足特定条件的数据分布情况。子标题': Glucose <= 105 and BloodPressure <= 80'提供了对图表内容的额外说明，指出了'N4'列所表示的具体条件。
 
-这段代码首先设置了一个新的列'N4'，并为其赋予了初始值0。然后，它更新了那些葡萄糖水平小于等于105且血压小于等于80的记录，将这些记录的'N4'列的值设置为1。最后，通过调用`barplot`函数，根据'N4'列的值绘制条形图，以可视化满足特定条件的数据分布情况。子标题': Glucose <= 105 and BloodPressure <= 80'提供了对图表内容的额外说明，指出了'N4'列所表示的具体条件。
+
+![4.4.2. 直方图](<01图片/4.4.2. 直方图.png>)
 
 
+#### 4.4.3. 饼图
 ```python
 plot_pie('N4', 'Glucose <= 105 and BloodPressure <= 80')
 # 调用plot_pie函数，传入'N4'作为要分析的变量名，传入'Glucose <= 105 and BloodPressure <= 80'作为子标题，
@@ -1303,6 +1333,10 @@ plot_pie('N4', 'Glucose <= 105 and BloodPressure <= 80')
 ```
 
 这段代码调用了一个名为`plot_pie`的函数，用于生成饼图以展示数据集中'N4'列的分布情况。'N4'列是一个二元特征，可能代表某种分类结果或条件的满足情况。函数的第二个参数是一个字符串，它作为饼图的子标题，提供了关于数据集特定子集的额外信息。这个子标题表明我们关注的是那些葡萄糖水平小于等于105且血压小于等于80的记录。函数内部将根据'N4'列的值计算各类别的百分比，并创建一个饼图来直观展示这些信息。
+
+
+![4.4.3. 饼图](<01图片/4.4.3. 饼图.png>)
+
 
 ### **4.5. SkinThickness**
 
