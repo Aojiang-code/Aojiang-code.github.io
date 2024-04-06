@@ -1030,7 +1030,7 @@ def plot_pie(var_select, sub) :
 ### **4.1. Glucose and Age**
 
 ```python
-# plot_feat1_feat2('Glucose','Age')
+plot_feat1_feat2('Glucose','Age')
 # 调用plot_feat1_feat2函数，传入'Glucose'和'Age'作为参数，
 # 目的是在散点图中展示'Glucose'（葡萄糖水平）和'Age'（年龄）两个特征之间的关系。
 ```
@@ -1051,23 +1051,29 @@ edgecolor = 'black'
 # 创建一个大小为12x8英寸的图形
 fig = plt.figure(figsize=(12, 8))
 
-# 使用Seaborn的scatterplot函数绘制散点图
-# x轴为'Glucose'列，y轴为'Age'列，根据'Outcome'列的值着色
-# 数据来源为data DataFrame，使用定义的颜色palette
-ax1 = sns.scatterplot(x=data['Glucose'], y=data['Age'], hue="Outcome",
-                        data=data, palette=palette, edgecolor=edgecolor)
+# 使用Seaborn库中的scatterplot函数创建一个散点图
+# 该散点图以'Glucose'列作为水平轴（x轴）的数据，'Age'列作为垂直轴（y轴）的数据
+# 根据'Outcome'列的值对点进行着色，以区分不同的类别，例如糖尿病与非糖尿病
+# 'palette'参数用于定义不同类别的颜色映射，'edgecolor'设置点的边缘颜色
+ax1 = sns.scatterplot(x=data['Glucose'], y=data['Age'], hue="Outcome",  # 指定x轴、y轴和颜色映射的数据来源
+                        data=data, palette=palette, edgecolor=edgecolor)  # 使用data DataFrame中的数据绘制散点图
+#这段代码使用Seaborn库的`scatterplot`函数来创建一个散点图，其中点的位置由`'Glucose'`和`'Age'`列的值决定，点的颜色由`'Outcome'`列的值决定。`palette`参数定义了不同`'Outcome'`值的颜色，而`edgecolor`参数设置了点的边缘颜色。这样的可视化有助于观察不同类别之间的分布差异。
 
-# 添加注释'N1'，位置在(80, 30)，文本大小为25
+# 在图表中添加注释'N1'，位置在点(80, 30)，文本大小设置为25
 plt.annotate('N1', size=25, color='black', xy=(80, 30), xytext=(60, 35),
-            # 定义注释的箭头样式
+            # 设置注释箭头的样式
             arrowprops=dict(facecolor='black', shrink=0.05),
             )
+#这段代码使用`plt.annotate`函数在图表中添加一个文本注释'N1'。注释的位置由`xy`参数指定为`(80, 30)`，这是数据点的坐标。`xytext`参数指定了文本注释的实际位置，这里设置为`(60, 35)`，使得注释文本显示在数据点的上方或旁边。`size`参数设置了文本的大小，`color`参数设置了文本的颜色。`arrowprops`参数用于定义箭头的样式，包括颜色和大小。`facecolor`设置了箭头的颜色，`shrink`参数设置了箭头的大小，其值越小，箭头越小。这样的注释通常用于突出图表中的特定点或区域。
 
 # 绘制红色的直线和箭头，形成对角线
-plt.plot([50, 120], [30, 30], linewidth=2, color='red')
-plt.plot([120, 120], [20, 30], linewidth=2, color='red')
-plt.plot([50, 120], [20, 20], linewidth=2, color='red')
-plt.plot([50, 50], [20, 30], linewidth=2, color='red')
+# 这四行代码使用plt.plot函数在图表中绘制红色的直线，这些直线共同形成一个矩形的对角线。
+# 每条直线的起点和终点坐标分别由plt.plot中的两个列表指定，linewidth设置线的宽度，color设置线的颜色。
+plt.plot([50, 120], [30, 30], linewidth=2, color='red')  # 从(50, 30)到(120, 30)的直线
+plt.plot([120, 120], [20, 30], linewidth=2, color='red')  # 从(120, 20)到(120, 30)的直线
+plt.plot([50, 120], [20, 20], linewidth=2, color='red')  # 从(50, 20)到(120, 20)的直线
+plt.plot([50, 50], [20, 30], linewidth=2, color='red')  # 从(50, 20)到(50, 30)的直线
+#这段代码使用`plt.plot`函数在图表中绘制红色的直线，这些直线共同形成一个矩形的对角线。每条直线的起点和终点坐标分别由`plt.plot`中的两个列表指定，`linewidth`参数设置线的宽度，`color`参数设置线的颜色。这样的对角线通常用于图表中突出显示特定的区域或数据范围。
 
 # 设置图表标题为'Glucose vs Age'
 plt.title('Glucose vs Age')
