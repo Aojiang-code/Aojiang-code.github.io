@@ -868,72 +868,93 @@ def plot_feat1_feat2(feat1, feat2) :
 ```python
 # barplot(var_select, sub)
 # 定义一个函数用于绘制指定变量（var_select）的条形图，并在子标题（sub）中展示糖尿病和非糖尿病的比例。
+# 这个函数的目的是创建一个条形图，用于可视化特定变量在糖尿病患者和非糖尿病患者中的分布情况及比例。
 def barplot(var_select, sub) :
     # 从数据集中筛选出糖尿病患者的数据（Outcome列不为0）
+    # 这里创建了一个临时DataFrame tmp1，包含所有Outcome列值不为0的记录，即糖尿病患者的数据。
     tmp1 = data[(data['Outcome'] != 0)]
     # 从数据集中筛选出健康人的数据（Outcome列为0）
+    # 这里创建了一个临时DataFrame tmp2，包含所有Outcome列值等于0的记录，即健康人的数据。
     tmp2 = data[(data['Outcome'] == 0)]
     # 计算变量var_select在糖尿病和非糖尿病组中的交叉表，并计算每一类的百分比
+    # 使用pandas的crosstab函数计算var_select变量和Outcome列的交叉表，并将其转换为DataFrame tmp3。
+    # 然后计算每一类的百分比，存储在新的列'% diabetic'中。
     tmp3 = pd.DataFrame(pd.crosstab(data[var_select], data['Outcome']), )
     tmp3['% diabetic'] = tmp3[1] / (tmp3[1] + tmp3[0]) * 100
+    #这段代码定义了一个名为`barplot`的函数，它接受一个变量名`var_select`和一个子标题`sub`作为参数。函数的目的是生成一个条形图，展示在糖尿病患者和非糖尿病患者中，`var_select`变量的分布情况及其占比。首先，代码通过筛选`data` DataFrame中的`Outcome`列来创建两个临时DataFrame：`tmp1`包含所有糖尿病患者的数据，`tmp2`包含所有健康人的数据。然后，使用`pd.crosstab`函数计算`var_select`变量和`Outcome`列的交叉表，得到一个DataFrame `tmp3`。接下来，计算每个类别的百分比，并将这些百分比存储在`tmp3`的新列`% diabetic`中。这个交叉表和百分比将用于后续的条形图绘制。
 
     # 定义两种颜色，用于区分糖尿病和非糖尿病的数据
+    # 这里设置了一个颜色列表，包含天蓝色和金色，分别用于表示非糖尿病患者和糖尿病患者的数据，以便于在条形图中进行区分。
     color = ['lightskyblue', 'gold']
+
     # 创建一个条形图对象，用于展示糖尿病患者的数据
+    # 这一行代码创建了一个条形图对象trace1，它将用于在条形图中展示糖尿病患者在选定变量var_select上的分布情况。
     trace1 = go.Bar(
-        x=tmp1[var_select].value_counts().keys().tolist(),  # x轴为变量var_select的不同类别
-        y=tmp1[var_select].value_counts().values.tolist(),  # y轴为各类别的计数
-        text=tmp1[var_select].value_counts().values.tolist(),  # 文本显示为各类别的计数
-        textposition='auto',  # 文本位置自动调整
-        name='diabetic',  # 图例名称为'diabetic'
-        opacity=0.8,  # 图形的不透明度为0.8
-        marker=dict(  # 标记的样式设置
-            color='gold',  # 标记颜色为金色
-            line=dict(color='#000000', width=1)  # 标记边框颜色为黑色，宽度为1
+        x=tmp1[var_select].value_counts().keys().tolist(),  # 设置x轴的数据，即变量var_select的所有不同类别
+        y=tmp1[var_select].value_counts().values.tolist(),  # 设置y轴的数据，即每个类别在糖尿病患者中的计数
+        text=tmp1[var_select].value_counts().values.tolist(),  # 设置条形图上显示的文本，即每个类别的计数
+        textposition='auto',  # 设置文本的显示位置，'auto'表示自动调整以适应图表
+        name='diabetic',  # 设置图例名称为'diabetic'，表示此条形图代表糖尿病患者的数据
+        opacity=0.8,  # 设置图形的不透明度为0.8，使得图形看起来更为透明
+        marker=dict(  # 设置标记的样式
+            color='gold',  # 设置标记的填充颜色为金色
+            line=dict(color='#000000', width=1)  # 设置标记边框的颜色为黑色，宽度为1
         ))
+    #在这段代码中，首先定义了一个颜色列表`color`，包含两种颜色，分别用于表示非糖尿病患者（天蓝色）和糖尿病患者（金色）的数据。然后，使用Plotly库中的`go.Bar`函数创建了一个条形图对象`trace1`。这个对象的`x`属性被设置为`tmp1` DataFrame中`var_select`列的类别，`y`属性被设置为这些类别在糖尿病患者中的计数。`text`属性也被设置为这些计数，以便在条形图上显示具体的数值。`textposition`属性设置为'auto'，意味着文本位置将自动调整以适应图表。`name`属性设置为'diabetic'，这样在图例中可以通过这个名字识别这个条形图代表的是糖尿病患者的数据。`opacity`属性设置为0.8，给予图形一定的透明度，使其看起来更为透明。最后，`marker`属性中的`color`和`line`分别设置了条形的填充颜色和边框样式。
 
     # 创建一个条形图对象，用于展示健康人的数据
+    # 此代码行创建了一个条形图对象trace2，它将用于在条形图中展示健康人在选定变量var_select上的分布情况。
     trace2 = go.Bar(
-        x=tmp2[var_select].value_counts().keys().tolist(),  # x轴为变量var_select的不同类别
-        y=tmp2[var_select].value_counts().values.tolist(),  # y轴为各类别的计数
-        text=tmp2[var_select].value_counts().values.tolist(),  # 文本显示为各类别的计数
-        textposition='auto',  # 文本位置自动调整
-        name='healthy',  # 图例名称为'healthy'
-        opacity=0.8,  # 图形的不透明度为0.8
-        marker=dict(  # 标记的样式设置
-            color='lightskyblue',  # 标记颜色为天蓝色
-            line=dict(color='#000000', width=1)  # 标记边框颜色为黑色，宽度为1
+        x=tmp2[var_select].value_counts().keys().tolist(),  # 设置x轴的数据，即变量var_select的所有不同类别
+        y=tmp2[var_select].value_counts().values.tolist(),  # 设置y轴的数据，即每个类别在健康人群中的计数
+        text=tmp2[var_select].value_counts().values.tolist(),  # 设置条形图上显示的文本，即每个类别的计数
+        textposition='auto',  # 设置文本的显示位置，'auto'表示文本位置将根据图表的布局自动调整
+        name='healthy',  # 设置图例名称为'healthy'，表示此条形图代表健康人群的数据
+        opacity=0.8,  # 设置图形的不透明度为0.8，使得图形看起来更为透明，有助于与其他图形区分
+        marker=dict(  # 设置标记的样式
+            color='lightskyblue',  # 设置标记的填充颜色为天蓝色，以区分于糖尿病患者的数据颜色
+            line=dict(color='#000000', width=1)  # 设置标记边框的颜色为黑色，宽度为1
         ))
+    #这段代码创建了一个新的条形图对象`trace2`，用于在条形图中表示健康人群在选定变量`var_select`上的分布。`x`属性设置了条形图的x轴类别，来源于`tmp2` DataFrame中`var_select`列的类别。`y`属性设置了每个类别在健康人群中的计数。`text`属性同样显示每个类别的计数，直接展示在条形图的上方或旁边。`textposition`设置为'auto'，使得文本位置根据图表布局自动优化。`name`属性设置为'healthy'，这样在图例中可以通过这个名字识别这个条形图代表的是健康人群的数据。`opacity`设置为0.8，给予图形一定的透明度，增加视觉效果。`marker`属性中的`color`设置了条形的填充颜色为天蓝色，与代表糖尿病患者的金色条形形成对比。`line`属性设置了条形边框的颜色和宽度。
 
     # 创建一个散点图对象，用于展示糖尿病的百分比
+    # 此代码行创建了一个散点图对象trace3，它将用于在图表中展示每个类别在糖尿病患者中的百分比。
     trace3 = go.Scatter(
-        x=tmp3.index,  # x轴为变量var_select的不同类别
-        y=tmp3['% diabetic'],  # y轴为糖尿病的百分比
-        yaxis='y2',  # 使用第二个y轴
-        name='% diabetic',  # 图例名称为'% diabetic'
-        opacity=0.6,  # 图形的不透明度为0.6
-        marker=dict(  # 标记的样式设置
-            color='black',  # 标记颜色为黑色
-            line=dict(color='#000000', width=0.5)  # 标记边框颜色为黑色，宽度为0.5
+        x=tmp3.index,  # 设置x轴数据，即变量var_select的所有不同类别的索引
+        y=tmp3['% diabetic'],  # 设置y轴数据，即每个类别对应的糖尿病百分比
+        yaxis='y2',  # 指定使用图表中的第二个y轴（右侧y轴），用于展示百分比数据
+        name='% diabetic',  # 设置图例名称为'% diabetic'，表示此散点图代表糖尿病的百分比
+        opacity=0.6,  # 设置图形的不透明度为0.6，使得图形看起来更为透明，便于与其他图形区分
+        marker=dict(  # 设置标记的样式
+            color='black',  # 设置标记的颜色为黑色
+            line=dict(color='#000000', width=0.5)  # 设置标记边框的颜色为黑色，宽度为0.5
         ))
+    #这段代码创建了一个散点图对象`trace3`，用于在图表中展示每个类别在糖尿病患者中的百分比。`x`属性设置了散点图的x轴类别，来源于`tmp3` DataFrame的索引。`y`属性设置了每个类别对应的糖尿病百分比。`yaxis`属性设置为'y2'，表示将使用图表中的第二个y轴（通常位于图表的右侧），这样可以将百分比数据与计数数据分开展示，使得图表更加清晰易读。`name`属性设置为'% diabetic'，这样在图例中可以通过这个名字识别这个散点图代表的是糖尿病的百分比。`opacity`设置为0.6，给予图形一定的透明度，增加视觉效果。`marker`属性中的`color`设置了散点的颜色为黑色，`line`属性设置了散点边框的颜色和宽度。
 
     # 设置图表布局，包括标题、x轴和y轴的配置
-    layout = dict(title=str(var_select)+' '+(sub),  # 图表标题为变量名和子标题的组合
-                  xaxis=dict(),  # x轴的配置
-                  yaxis=dict(title='Count'),  # y轴的标题设置为'Count'
-                  yaxis2=dict(range=[-0, 75],  # 第二个y轴的配置
-                              overlaying='y',  # 第二个y轴与第一个y轴重叠
-                              anchor='x',  # 第二个y轴的锚点为x轴
-                              side='right',  # 第二个y轴在右侧
-                              zeroline=False,  # 不显示零线
-                              showgrid=False,  # 不显示网格
-                              title='% diabetic'  # 第二个y轴的标题设置为'% diabetic'
+    # 此代码段用于定义图表的整体布局，包括标题、x轴和两个y轴的配置。
+    layout = dict(title=str(var_select)+' '+(sub),  # 设置图表的标题，由变量名var_select和子标题sub组成
+                  xaxis=dict(),  # 定义x轴的配置，这里没有具体设置，使用默认配置
+                  yaxis=dict(title='Count'),  # 定义第一个y轴的配置，设置标题为'Count'
+                  yaxis2=dict(range=[-0, 75],  # 定义第二个y轴的配置
+                              overlaying='y',  # 设置第二个y轴与第一个y轴重叠显示
+                              anchor='x',  # 设置第二个y轴的锚点为x轴，共享x轴刻度
+                              side='right',  # 设置第二个y轴显示在图表的右侧
+                              zeroline=False,  # 设置第二个y轴不显示零线
+                              showgrid=False,  # 设置第二个y轴不显示网格线
+                              title='% diabetic'  # 设置第二个y轴的标题为'% diabetic'
                          ))
 
     # 创建图表对象，包含数据和布局
+    # 此代码行创建了一个图表对象，包含之前定义的三个追踪对象（trace1, trace2, trace3）和当前的布局配置。
     fig = go.Figure(data=[trace1, trace2, trace3], layout=layout)
+
     # 使用Plotly的iplot函数在Jupyter Notebook中绘制图表
+    # 此代码行使用Plotly库的iplot函数在Jupyter Notebook中渲染并展示前面创建的图表对象fig。
     py.iplot(fig)
+    #在这段代码中，我们首先定义了一个字典`layout`来设置图表的布局。这个字典包含了图表的标题、x轴和两个y轴的配置。标题由变量`var_select`和`sub`的值组合而成。第一个y轴（`yaxis`）的标题被设置为'Count'，表示计数。第二个y轴（`yaxis2`）的配置更为详细，它与第一个y轴重叠显示，并且设置在图表的右侧。它的范围被限定在[-0, 75]之间，不显示零线和网格线，标题被设置为'% diabetic'。
+    #接下来，我们使用`go.Figure`函数创建了一个图表对象`fig`，它包含了之前定义的三个追踪对象（`trace1`, `trace2`, `trace3`）以及当前的布局配置。最后，我们使用`py.iplot`函数在Jupyter Notebook中渲染并展示这个图表对象。这样，我们就能够直观地看到不同类别在糖尿病患者和健康人群中的分布情况，以及糖尿病患者中各类别占比的百分比。
+
 ```
 
 这段代码定义了一个名为`barplot`的函数，用于生成并展示指定变量（`var_select`）的条形图，同时在子标题（`sub`）中展示糖尿病和非糖尿病的比例。函数首先筛选出糖尿病患者和健康人的数据，然后计算变量在两组中的交叉表，并计算百分比。接着，创建两个条形图对象和一个散点图对象，分别用于展示糖尿病患者、健康人的数据和糖尿病的百分比。最后，设置图表布局并使用Plotly的`iplot`函数在Jupyter Notebook中展示图表。通过调用`barplot`函数并传入变量名和子标题，可以生成并展示相关的条形图。
@@ -967,52 +988,83 @@ def plot_pie(var_select, sub) :
     #这段代码使用Plotly库中的`go.Pie`函数创建了一个饼图对象`trace1`，它代表了糖尿病患者在某个特定变量（由`var_select`指定）下的分布情况。通过`value_counts()`方法计算各类别的数量，并将其转换为列表以作为饼图的值。同时，各类别的名称作为饼图的标签。`textfont`属性设置了文本的字体大小，`opacity`属性控制了饼图的不透明度，而`hole`属性则设置了每个扇区的空心比例。`hoverinfo`属性定义了鼠标悬停时显示的信息类型，包括标签、百分比和名称。`domain`属性指定了饼图在图表中的显示位置。`name`属性为饼图命名，这里命名为"Diabetic"。最后，`marker`属性中的`colors`和`line`分别设置了扇区的颜色和边框宽度。
 
     # 创建另一个饼图对象，用于展示健康人的数据
-    trace2 = go.Pie(values=H[var_select].value_counts().values.tolist(),  # 饼图的值，即各类别的数量
-                    labels=H[var_select].value_counts().keys().tolist(),  # 饼图的标签，即各类别的名称
-                    textfont=dict(size=15),  # 文本字体大小
-                    opacity=0.8,  # 饼图的不透明度
-                    hole=0.5,  # 饼图中每个扇区的空心比例
-                    hoverinfo="label+percent+name",  # 鼠标悬停时显示的信息
-                    marker=dict(line=dict(width=1.5)),  # 标记的边框宽度
-                    domain=dict(x=[.52,1]),  # 饼图在图表中的显示区域
-                    name="Healthy")  # 饼图的名称
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    # 此代码行创建了一个用于展示健康人在某个特定变量（var_select）下各类别分布情况的饼图对象。
+    trace2 = go.Pie(values=H[var_select].value_counts().values.tolist(),  # 饼图的值，即各类别的数量，通过计算健康人群（H）中var_select变量的值计数得到
+                    labels=H[var_select].value_counts().keys().tolist(),  # 饼图的标签，即各类别的名称，对应于健康人群中var_select变量的不同类别
+                    textfont=dict(size=15),  # 设置饼图中文本的字体大小为15
+                    opacity=0.8,  # 设置饼图的不透明度为0.8，使得图形看起来更为柔和
+                    hole=0.5,  # 设置饼图中每个扇区的空心比例为0.5，即扇区中间是半透明的
+                    hoverinfo="label+percent+name",  # 设置鼠标悬停时显示的信息类型，包括标签、百分比和名称
+                    marker=dict(line=dict(width=1.5)),  # 设置饼图中每个扇区的标记边框宽度为1.5
+                    domain=dict(x=[.52,1]),  # 设置饼图在图表中的显示区域，从x轴的0.52到1的位置，使得饼图显示在图表的右侧部分
+                    name="Healthy")  # 为饼图设置名称，此处为"Healthy"，表示健康人群的分布
+    #这段代码使用Plotly库中的`go.Pie`函数创建了另一个饼图对象`trace2`，它代表了健康人在某个特定变量（由`var_select`指定）下的分布情况。`values`属性通过`value_counts()`方法计算健康人群中`var_select`变量的各类别数量，并将其转换为列表作为饼图的值。`labels`属性则包含了这些类别的名称。`textfont`属性设置了文本的字体大小，`opacity`属性控制了饼图的不透明度，`hole`属性则设置了每个扇区的空心比例。`hoverinfo`属性定义了鼠标悬停时显示的信息类型，包括标签、百分比和名称。`marker`属性中的`line`设置了扇区的边框宽度。`domain`属性指定了饼图在图表中的显示位置，这里设置为从x轴的0.52到1的位置，使得饼图显示在图表的右侧部分。`name`属性为饼图命名，这里命名为"Healthy"，表示健康人群的分布。
 
 
 
     # 设置图表布局，包括标题和注释
-    layout = go.Layout(dict(title=var_select + " 分布情况，按目标分类 <br>"+(sub),
-                        annotations=[dict(text="糖尿病患者：268",
-                                        font=dict(size=13),
-                                        showarrow=False,
-                                        x=.22, y=-0.1),
-                                    dict(text="健康人：500",
-                                        font=dict(size=13),
-                                        showarrow=False,
-                                        x=.8, y=-.1)]))
+    # 此代码行配置了图表的整体布局，包括设置标题和添加注释信息。
+    layout = go.Layout(dict(title=var_select + " 分布情况，按目标分类 <br>"+(sub),  # 设置图表的标题，标题中包含变量名var_select和附加的子标题sub
+                        annotations=[dict(text="糖尿病患者：268",  # 添加注释信息，文本内容为“糖尿病患者：268”
+                                        font=dict(size=13),  # 设置注释文本的字体大小为13
+                                        showarrow=False,  # 设置注释不显示箭头
+                                        x=.22, y=-0.1),  # 设置注释在图表中的位置（水平位置为0.22，垂直位置为-0.1）
+                                    dict(text="健康人：500",  # 添加注释信息，文本内容为“健康人：500”
+                                        font=dict(size=13),  # 设置注释文本的字体大小为13
+                                        showarrow=False,  # 设置注释不显示箭头
+                                        x=.8, y=-0.1)]  # 设置注释在图表中的位置（水平位置为0.8，垂直位置为-0.1）]))
 
     # 创建图表对象，包含数据和布局
+    # 此代码行创建了一个图表对象，包含了之前定义的两个饼图数据对象trace1和trace2，以及配置好的布局layout。
     fig  = go.Figure(data=[trace1, trace2], layout=layout)
+
     # 使用Plotly的iplot函数在Jupyter Notebook中绘制图表
+    # 此代码行使用Plotly库的iplot函数在Jupyter Notebook中渲染并展示图表对象fig。
     py.iplot(fig)
+    #这段代码完成了饼图的布局设置和图表对象的创建，并使用Plotly库的`iplot`函数在Jupyter Notebook中展示图表。布局中设置了图表的标题，并添加了两个注释，分别显示糖尿病患者和健康人的数量。这些注释有助于图表的阅读者快速理解图表所表示的信息。通过`go.Figure`函数，我们将数据和布局组合成一个完整的图表对象。最后，`py.iplot`函数用于在Jupyter Notebook中显示这个图表对象。
+
 ```
 
 这段代码定义了一个名为`plot_pie`的函数，用于生成并展示指定变量（`var_select`）在糖尿病患者（`Diabetic`）和健康人（`Healthy`）中的分布情况的饼图。函数首先筛选出糖尿病患者和健康人的数据，然后为每组数据创建一个饼图对象，并设置颜色、不透明度等属性。接着，设置图表布局，包括标题和注释信息。最后，创建图表对象并使用Plotly的`iplot`函数在Jupyter Notebook中展示图表。通过调用`plot_pie`函数并传入变量名和子标题，可以生成并展示相关的饼图。
+
+### **Glucose and Age**
+
+
+
+
+### **BMI**
+
+
+### **Pregnancies and Age**
+
+
+
+
+### **Glucose and BloodPressure**
+
+
+### **SkinThickness**
+
+
+### **SkinThickness and BMI**
+
+
+### **Glucose and BMI**
+
+
+### **Insulin**
+
+
+### **BloodPressure**
+
+### **Pregnancies**
+
+
+
+### **Others**
+
+
+
 
 
 
