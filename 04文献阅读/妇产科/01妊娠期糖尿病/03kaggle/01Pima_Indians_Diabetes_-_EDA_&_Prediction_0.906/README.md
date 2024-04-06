@@ -429,31 +429,35 @@ Now, we can look at where are missing values :
 
 
 ```python
-# Define missing plot to detect all missing values in dataset
 # 定义一个函数用于绘制数据集中所有缺失值的图表
 def missing_plot(dataset, key) :
-    # 计算每一列非空值的数量，并创建一个DataFrame来存储这些计数
-    null_feat = pd.DataFrame(len(dataset[key]) - dataset.isnull().sum(), columns = ['Count'])
-    # 计算每一列缺失值的比例，并创建一个DataFrame来存储这些比例
-    percentage_null = pd.DataFrame((len(dataset[key]) - (len(dataset[key]) - dataset.isnull().sum()))/len(dataset[key]) * 100, columns = ['Count'])
-    # 将比例四舍五入到小数点后两位
+    # 从传入的数据集dataset中选取指定的列key，并计算非空值的数量
+    # 然后通过计算总长度减去非空值的数量得到缺失值的数量，创建一个DataFrame来存储这些计数
+    null_feat = pd.DataFrame(len(dataset[key]) - dataset[key].notnull().sum(), columns = ['Count'])
+    # 计算每一列缺失值的比例，创建一个DataFrame来存储这些比例
+    # 计算方法是：(总长度 - 非缺失值的数量) / 总长度 * 100，得到缺失值的百分比
+    percentage_null = pd.DataFrame((len(dataset[key]) - (len(dataset[key]) - dataset[key].notnull().sum())) / len(dataset[key]) * 100, columns = ['Percentage'])
+    # 将计算出的百分比四舍五入到小数点后两位
     percentage_null = percentage_null.round(2)
 
-    # 创建一个条形图对象，x轴为列名，y轴为缺失值的计数，文本显示为缺失值的比例
-    trace = go.Bar(x = null_feat.index, y = null_feat['Count'] ,opacity = 0.8, text = percentage_null['Count'], 
-                  textposition = 'auto', marker=dict(color = '#7EC0EE',  # 设置条形图颜色为浅蓝色
-                      line=dict(color='#000000', width=1.5)))  # 设置条形图边框为黑色，宽度为1.5
+    # 创建一个条形图对象，x轴为列名，y轴为缺失值的计数，文本显示为缺失值的百分比
+    # opacity设置为0.8表示图形的不透明度，color设置为浅蓝色，边框颜色设置为黑色，宽度为1.5
+    trace = go.Bar(x = null_feat.index, y = null_feat['Count'], opacity = 0.8, 
+                   text = percentage_null['Percentage'], 
+                   textposition = 'auto', 
+                   marker=dict(color = '#7EC0EE', line=dict(color='#000000', width=1.5)))
 
     # 设置图表布局，包括标题
-    layout = dict(title =  "缺失值（计数 & 百分比）")
+    layout = dict(title = "缺失值（计数 & 百分比）")  # 设置图表标题为“缺失值（计数 & 百分比）”
 
     # 创建图表对象并包含数据和布局
-    fig = dict(data = [trace], layout=layout)
+    fig = dict(data = [trace], layout=layout)  # fig是一个字典，包含数据和布局信息
+
     # 使用Plotly的iplot函数在Jupyter Notebook中绘制图表
-    py.iplot(fig)
+    py.iplot(fig)  # 调用iplot函数展示图表
 ```
 
-这段代码定义了一个名为`missing_plot`的函数，用于生成并展示一个条形图，该图表显示了数据集中每一列的缺失值数量及其占比。函数接收两个参数：`dataset`表示数据集，`key`表示要检查的列名。首先，计算每一列的非空值数量和缺失值比例，并将这些信息存储在两个DataFrame中。然后，创建一个条形图对象，其中x轴为列名，y轴为缺失值的计数，文本显示为缺失值的比例。最后，使用Plotly的`iplot`函数在Jupyter Notebook中展示图表。
+这段代码定义了一个名为`missing_plot`的函数，用于生成并展示数据集中每一列的缺失值数量及其占比。函数接收两个参数：`dataset`表示数据集，`key`表示要检查的列名。首先，计算每一列的非空值数量和缺失值比例，并将这些信息存储在两个DataFrame中。然后，创建一个条形图对象，其中x轴为列名，y轴为缺失值的计数，文本显示为缺失值的比例。最后，使用Plotly的`iplot`函数在Jupyter Notebook中展示图表。通过调用`missing_plot`函数并传入数据集和目标列名，可以生成并展示目标列的缺失值情况。
 
 ```python
 # Plotting 
@@ -798,10 +802,219 @@ plot_distribution('DiabetesPedigreeFunction', 0)
 
 ![DiabetesPedigreeFunction](01图片/3.6DiabetesPedigreeFunction.png)
 
+```python
+missing_plot(data, 'Outcome')
+# 调用missing_plot函数，传入名为data的数据集和字符串'Outcome'作为参数，
+# 目的是绘制并分析'Outcome'这一列中的缺失值情况。
+```
+![Missing Values](<01图片/3.7Missing Values.png>)
 
-
+All features are complete ! Now, we can create new features
 
 ## 4. New features (16) and EDA
+Here, we define 3 plots functions
+
+### first plot function
+```python
+# plot_feat1_feat2(feat1, feat2)
+# 定义一个函数用于绘制两个特征之间的关系图，其中feat1和feat2分别代表两个不同的特征列名。
+def plot_feat1_feat2(feat1, feat2) :  
+    # 从数据集中筛选出糖尿病患者的数据（Outcome列不为0）
+    D = data[(data['Outcome'] != 0)]
+    # 从数据集中筛选出健康人的数据（Outcome列为0）
+    H = data[(data['Outcome'] == 0)]
+
+    # 创建一个用于绘制糖尿病患者特征的散点图对象
+    trace0 = go.Scatter(
+        x = D[feat1],  # 特征1的数据
+        y = D[feat2],  # 特征2的数据
+        name = 'diabetic',  # 图例名称为'diabetic'
+        mode = 'markers',  # 模式设置为'markers'，表示用标记点表示数据
+        marker = dict(color = '#FFD700',  # 标记点颜色设置为金黄色
+            line = dict(
+                width = 1)  # 标记点边框宽度设置为1
+        ))
+
+    # 创建一个用于绘制健康人特征的散点图对象
+    trace1 = go.Scatter(
+        x = H[feat1],  # 特征1的数据
+        y = H[feat2],  # 特征2的数据
+        name = 'healthy',  # 图例名称为'healthy'
+        mode = 'markers',  # 模式设置为'markers'，表示用标记点表示数据
+        marker = dict(color = '#7EC0EE',  # 标记点颜色设置为浅蓝色
+            line = dict(
+                width = 1)  # 标记点边框宽度设置为1
+        ))
+
+    # 设置图表布局，包括标题、y轴和x轴的标签以及是否显示零线
+    layout = dict(title = feat1 +" "+"vs"+" "+ feat2,  # 图表标题设置为特征1和特征2的组合
+                  yaxis = dict(title = feat2, zeroline = False),  # y轴标签设置为特征2，不显示零线
+                  xaxis = dict(title = feat1, zeroline = False)  # x轴标签设置为特征1，不显示零线
+                 )
+
+    # 将两个散点图对象组合成一个图表列表
+    plots = [trace0, trace1]
+
+    # 创建图表对象，包含数据和布局
+    fig = dict(data = plots, layout=layout)
+    # 使用Plotly的iplot函数在Jupyter Notebook中绘制图表
+    py.iplot(fig)
+```
+
+上述代码定义了一个名为`plot_feat1_feat2`的函数，用于生成并展示两个指定特征（`feat1`和`feat2`）之间的关系图。函数首先从数据集中筛选出糖尿病患者（`D`）和健康人（`H`）的数据。然后，为每组数据创建一个散点图对象，分别用不同的颜色表示。接着，设置图表的布局，包括标题和坐标轴标签。最后，将两个散点图对象组合成一个图表列表，并使用Plotly的`iplot`函数在Jupyter Notebook中展示图表。通过调用`plot_feat1_feat2`函数并传入两个特征列名，可以生成并展示这两个特征之间的关系图。
+
+### second plot function
+
+```python
+# barplot(var_select, sub)
+# 定义一个函数用于绘制指定变量（var_select）的条形图，并在子标题（sub）中展示糖尿病和非糖尿病的比例。
+def barplot(var_select, sub) :
+    # 从数据集中筛选出糖尿病患者的数据（Outcome列不为0）
+    tmp1 = data[(data['Outcome'] != 0)]
+    # 从数据集中筛选出健康人的数据（Outcome列为0）
+    tmp2 = data[(data['Outcome'] == 0)]
+    # 计算变量var_select在糖尿病和非糖尿病组中的交叉表，并计算每一类的百分比
+    tmp3 = pd.DataFrame(pd.crosstab(data[var_select], data['Outcome']), )
+    tmp3['% diabetic'] = tmp3[1] / (tmp3[1] + tmp3[0]) * 100
+
+    # 定义两种颜色，用于区分糖尿病和非糖尿病的数据
+    color = ['lightskyblue', 'gold']
+    # 创建一个条形图对象，用于展示糖尿病患者的数据
+    trace1 = go.Bar(
+        x=tmp1[var_select].value_counts().keys().tolist(),  # x轴为变量var_select的不同类别
+        y=tmp1[var_select].value_counts().values.tolist(),  # y轴为各类别的计数
+        text=tmp1[var_select].value_counts().values.tolist(),  # 文本显示为各类别的计数
+        textposition='auto',  # 文本位置自动调整
+        name='diabetic',  # 图例名称为'diabetic'
+        opacity=0.8,  # 图形的不透明度为0.8
+        marker=dict(  # 标记的样式设置
+            color='gold',  # 标记颜色为金色
+            line=dict(color='#000000', width=1)  # 标记边框颜色为黑色，宽度为1
+        ))
+
+    # 创建一个条形图对象，用于展示健康人的数据
+    trace2 = go.Bar(
+        x=tmp2[var_select].value_counts().keys().tolist(),  # x轴为变量var_select的不同类别
+        y=tmp2[var_select].value_counts().values.tolist(),  # y轴为各类别的计数
+        text=tmp2[var_select].value_counts().values.tolist(),  # 文本显示为各类别的计数
+        textposition='auto',  # 文本位置自动调整
+        name='healthy',  # 图例名称为'healthy'
+        opacity=0.8,  # 图形的不透明度为0.8
+        marker=dict(  # 标记的样式设置
+            color='lightskyblue',  # 标记颜色为天蓝色
+            line=dict(color='#000000', width=1)  # 标记边框颜色为黑色，宽度为1
+        ))
+
+    # 创建一个散点图对象，用于展示糖尿病的百分比
+    trace3 = go.Scatter(
+        x=tmp3.index,  # x轴为变量var_select的不同类别
+        y=tmp3['% diabetic'],  # y轴为糖尿病的百分比
+        yaxis='y2',  # 使用第二个y轴
+        name='% diabetic',  # 图例名称为'% diabetic'
+        opacity=0.6,  # 图形的不透明度为0.6
+        marker=dict(  # 标记的样式设置
+            color='black',  # 标记颜色为黑色
+            line=dict(color='#000000', width=0.5)  # 标记边框颜色为黑色，宽度为0.5
+        ))
+
+    # 设置图表布局，包括标题、x轴和y轴的配置
+    layout = dict(title=str(var_select)+' '+(sub),  # 图表标题为变量名和子标题的组合
+                  xaxis=dict(),  # x轴的配置
+                  yaxis=dict(title='Count'),  # y轴的标题设置为'Count'
+                  yaxis2=dict(range=[-0, 75],  # 第二个y轴的配置
+                              overlaying='y',  # 第二个y轴与第一个y轴重叠
+                              anchor='x',  # 第二个y轴的锚点为x轴
+                              side='right',  # 第二个y轴在右侧
+                              zeroline=False,  # 不显示零线
+                              showgrid=False,  # 不显示网格
+                              title='% diabetic'  # 第二个y轴的标题设置为'% diabetic'
+                         ))
+
+    # 创建图表对象，包含数据和布局
+    fig = go.Figure(data=[trace1, trace2, trace3], layout=layout)
+    # 使用Plotly的iplot函数在Jupyter Notebook中绘制图表
+    py.iplot(fig)
+```
+
+这段代码定义了一个名为`barplot`的函数，用于生成并展示指定变量（`var_select`）的条形图，同时在子标题（`sub`）中展示糖尿病和非糖尿病的比例。函数首先筛选出糖尿病患者和健康人的数据，然后计算变量在两组中的交叉表，并计算百分比。接着，创建两个条形图对象和一个散点图对象，分别用于展示糖尿病患者、健康人的数据和糖尿病的百分比。最后，设置图表布局并使用Plotly的`iplot`函数在Jupyter Notebook中展示图表。通过调用`barplot`函数并传入变量名和子标题，可以生成并展示相关的条形图。
+
+### third plot function
+```python
+# Define pie plot to visualize each variable repartition vs target modalities : Survived or Died (train)
+# 定义一个用于可视化每个变量相对于目标类别（训练集中的Survived或Died）的重新分布的饼图函数
+def plot_pie(var_select, sub) :
+    # 从数据集中筛选出Outcome列不为0的记录，即糖尿病患者的数据
+    D = data[(data['Outcome'] != 0)]
+    # 从数据集中筛选出Outcome列为0的记录，即健康人的记录
+    H = data[(data['Outcome'] == 0)]
+
+    # 定义一个颜色列表，用于不同类别的标记
+    # 这里创建了一个包含多种颜色值的列表，用于在后续的图表中为不同的数据类别着色。
+    col = ['Silver', 'mediumturquoise', '#CF5C36', 'lightblue', 'magenta', '#FF5D73', '#F2D7EE', 'mediumturquoise']
+    #在这段代码中，定义了一个名为`col`的列表，其中包含了一系列的颜色名称和颜色代码。这些颜色将用于区分饼图中不同的数据类别，使得每个类别在视觉上都有所区分，便于观察和分析数据。列表中的颜色包括银色（Silver）、中等蓝绿色（mediumturquoise）、一种浅红色（#CF5C36）、浅蓝色（lightblue）、洋红色（magenta）、另一种浅红色（#FF5D73）、粉色（#F2D7EE）以及中等蓝绿色（mediumturquoise）的重复。这些颜色的选择旨在提供足够的对比度，同时保持整体图表的视觉美观。
+    
+    # 创建一个饼图对象，用于展示糖尿病患者的数据
+    # 该代码行创建了一个用于展示糖尿病患者在某个特定变量（var_select）下各类别分布情况的饼图对象。
+    trace1 = go.Pie(values=D[var_select].value_counts().values.tolist(),  # 饼图的值，即各类别的数量
+                    labels=D[var_select].value_counts().keys().tolist(),  # 饼图的标签，即各类别的名称
+                    textfont=dict(size=15),  # 设置饼图中文本的字体大小为15
+                    opacity=0.8,  # 设置饼图的不透明度为0.8，使得图形看起来更为柔和
+                    hole=0.5,  # 设置饼图中每个扇区的空心比例为0.5，即扇区中间是半透明的
+                    hoverinfo="label+percent+name",  # 设置鼠标悬停时显示的信息，包括标签、百分比和名称
+                    domain=dict(x=[.0,.48]),  # 设置饼图在图表中的显示区域，从x轴的0到0.48的位置
+                    name="Diabetic",  # 为饼图设置名称，此处为"Diabetic"，表示糖尿病患者的分布
+                    marker=dict(colors=col, line=dict(width=1.5)))  # 设置饼图中每个扇区的颜色和边框宽度，颜色使用之前定义的col列表，边框宽度为1.5
+    #这段代码使用Plotly库中的`go.Pie`函数创建了一个饼图对象`trace1`，它代表了糖尿病患者在某个特定变量（由`var_select`指定）下的分布情况。通过`value_counts()`方法计算各类别的数量，并将其转换为列表以作为饼图的值。同时，各类别的名称作为饼图的标签。`textfont`属性设置了文本的字体大小，`opacity`属性控制了饼图的不透明度，而`hole`属性则设置了每个扇区的空心比例。`hoverinfo`属性定义了鼠标悬停时显示的信息类型，包括标签、百分比和名称。`domain`属性指定了饼图在图表中的显示位置。`name`属性为饼图命名，这里命名为"Diabetic"。最后，`marker`属性中的`colors`和`line`分别设置了扇区的颜色和边框宽度。
+
+    # 创建另一个饼图对象，用于展示健康人的数据
+    trace2 = go.Pie(values=H[var_select].value_counts().values.tolist(),  # 饼图的值，即各类别的数量
+                    labels=H[var_select].value_counts().keys().tolist(),  # 饼图的标签，即各类别的名称
+                    textfont=dict(size=15),  # 文本字体大小
+                    opacity=0.8,  # 饼图的不透明度
+                    hole=0.5,  # 饼图中每个扇区的空心比例
+                    hoverinfo="label+percent+name",  # 鼠标悬停时显示的信息
+                    marker=dict(line=dict(width=1.5)),  # 标记的边框宽度
+                    domain=dict(x=[.52,1]),  # 饼图在图表中的显示区域
+                    name="Healthy")  # 饼图的名称
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # 设置图表布局，包括标题和注释
+    layout = go.Layout(dict(title=var_select + " 分布情况，按目标分类 <br>"+(sub),
+                        annotations=[dict(text="糖尿病患者：268",
+                                        font=dict(size=13),
+                                        showarrow=False,
+                                        x=.22, y=-0.1),
+                                    dict(text="健康人：500",
+                                        font=dict(size=13),
+                                        showarrow=False,
+                                        x=.8, y=-.1)]))
+
+    # 创建图表对象，包含数据和布局
+    fig  = go.Figure(data=[trace1, trace2], layout=layout)
+    # 使用Plotly的iplot函数在Jupyter Notebook中绘制图表
+    py.iplot(fig)
+```
+
+这段代码定义了一个名为`plot_pie`的函数，用于生成并展示指定变量（`var_select`）在糖尿病患者（`Diabetic`）和健康人（`Healthy`）中的分布情况的饼图。函数首先筛选出糖尿病患者和健康人的数据，然后为每组数据创建一个饼图对象，并设置颜色、不透明度等属性。接着，设置图表布局，包括标题和注释信息。最后，创建图表对象并使用Plotly的`iplot`函数在Jupyter Notebook中展示图表。通过调用`plot_pie`函数并传入变量名和子标题，可以生成并展示相关的饼图。
+
+
 
 
 
