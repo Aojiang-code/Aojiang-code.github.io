@@ -251,6 +251,9 @@ None
 `RangeIndex: 768 entries, 0 to 767`表明数据集共有768行数据，索引范围从0到767。这通常意味着数据集没有缺失行。
 
 
+![前五行数据](01图片/2.1_head.png)
+
+
 The datasets consist of several medical predictor (independent) variables and one target (dependent) variable, Outcome. Independent variables include the number of pregnancies the patient has had, their BMI, insulin level, age, and so on.
 
 #### What is diabetes ?
@@ -404,10 +407,12 @@ target_percent()  # 调用target_percent函数绘制目标变量的分布饼图
 
 上述代码中，首先定义了两个数据集`D`和`H`，分别代表糖尿病患者和健康人的数据。然后定义了两个函数`target_count()`和`target_percent()`，用于绘制目标变量（糖尿病Outcome）的计数直方图和分布饼图。最后调用这两个函数来展示糖尿病患者和健康人的分布情况。
 
+#### 结果展示
+
+![Count of Outcome variable](<01图片/2.2_Count of Outcome variable.png>)
 
 
-
-
+![Distribution of Outcome variable](<01图片/2.2_Distribution of Outcome variable.png>)
 
 
 ### 2.3. Missing values
@@ -458,9 +463,145 @@ missing_plot(data, 'Outcome')
 
 这行代码调用了`missing_plot`函数，用于绘制数据集`data`中`'Outcome'`列的缺失值情况。这个函数将展示该列中缺失值的数量和所占的百分比，以条形图的形式表现。这样的可视化有助于了解目标变量`'Outcome'`的完整性，从而评估数据集的质量和进行后续的数据处理决策。
 
-## 3. Replace missing values and EDA
+**结果展示**
 
+![Missing Values (count & %)](<01图片/2.3_Missing Values (count & %).png>)
+
+Missing values :
+
+* Insulin = 48.7% - 374
+* SkinThickness = 29.56% - 227
+* BloodPressure = 4.56% - 35
+* BMI = 1.43% - 11
+* Glucose = 0.65% - 5
+
+```python
+# 使用ggplot风格的视觉样式
+plt.style.use('ggplot')  
+
+# 创建一个子图，设置图形大小为宽11英寸、高15英寸
+f, ax = plt.subplots(figsize=(11, 15))
+
+# 设置坐标轴背景颜色为浅灰色
+ax.set_facecolor('#fafafa')
+# 设置x轴的范围，从-0.05到200
+ax.set(xlim=(-.05, 200))
+# 设置y轴的标签为'Variables'
+plt.ylabel('Variables')
+# 设置图表标题为'Overview Data Set'
+plt.title("Overview Data Set")
+# 使用Seaborn的箱形图功能，绘制水平方向的箱形图，颜色方案使用'Set2'
+ax = sns.boxplot(data = data, 
+  orient = 'h', 
+  palette = 'Set2')
+```
+
+这段代码使用Matplotlib和Seaborn库来创建一个箱形图，该图展示了数据集`data`中各个变量的分布情况。首先，设置了绘图风格为`ggplot`，这是一种流行的绘图风格，以其美观和易于阅读而闻名。然后，创建了一个子图，并设置了图形的大小。接着，设置了坐标轴的背景颜色、x轴的范围，并添加了y轴标签和图表标题。最后，使用Seaborn的`boxplot`函数绘制了水平方向的箱形图，其中`palette = 'Set2'`指定了颜色方案，使得图表更加直观和美观。
+
+**结果展示**
+
+![Overview Data Set](<01图片/2.3_Overview Data Set.png>)
+
+OK, all missing values are encoded with NaN value
+
+
+**To fill these Nan values the data distribution needs to be understood against the target.**
+
+```python
+def correlation_plot():
+    # 计算数据集中各个变量之间的相关系数
+    correlation = data.corr()
+    # 获取相关系数矩阵的列名
+    matrix_cols = correlation.columns.tolist()
+    # 将相关系数矩阵转换为数组
+    corr_array = np.array(correlation)
+    # 创建一个热力图对象，展示相关系数矩阵
+    trace = go.Heatmap(z=corr_array,  # 热力图的数据源
+                       x=matrix_cols,  # x轴的标签
+                       y=matrix_cols,  # y轴的标签
+                       colorscale='Viridis',  # 热力图的颜色方案
+                       colorbar=dict(),  # 热力图的色标
+                      )
+    # 设置图表布局
+    layout = go.Layout(dict(title='变量的相关系数矩阵',  # 图表的标题#Correlation Matrix for variables
+                           margin=dict(r=0, l=100,  # 图表边缘的空白设置
+                                       t=0, b=100,
+                                      ),  # 这里的r,l,t,b分别代表右、左、上、下的空白距离
+                           yaxis=dict(tickfont=dict(size=9)),  # y轴刻度标签的字体大小
+                           xaxis=dict(tickfont=dict(size=9))  # x轴刻度标签的字体大小
+                          )
+                      )
+    # 创建图表对象，包含数据和布局
+    fig = go.Figure(data=[trace], layout=layout)
+    # 使用Plotly的iplot函数在Jupyter Notebook中绘制图表
+    py.iplot(fig)
+```
+
+这段代码定义了一个名为`correlation_plot`的函数，用于生成并展示数据集`data`中各个变量之间的相关系数热力图。首先，计算相关系数矩阵并获取其列名。然后，创建一个热力图对象，使用`colorscale='Viridis'`设置热力图的颜色方案。接下来，设置图表布局，包括标题、边缘空白、y轴和x轴刻度标签的字体大小。最后，创建一个包含热力图数据和布局的图表对象，并使用Plotly的`iplot`函数在Jupyter Notebook中展示图表。
+
+A **correlation matrix** is a table showing correlation coefficients between sets of variables. Each random variable (Xi) in the table is correlated with each of the other values in the table (Xj). This allows you to see which pairs have the highest correlation.
+
+```python
+correlation_plot()
+```
+
+
+![Correlation Matrix for variables](<01图片/2.3_Correlation Matrix for variables.png>)
+
+
+Below, you can see the accuracy of LGBM with replacement of the NaN values by the variable's mean (same results with the median)
+
+
+To replace missing values, we'll use median by target (Outcome)
+
+
+## 3. Replace missing values and EDA
+```python
+def median_target(var):   
+    # 从原始数据集中筛选出指定变量var中非空值的记录
+    temp = data[data[var].notnull()]
+    # 进一步筛选出包含'Outcome'列的记录，并按'Outcome'列的值进行分组
+    temp = temp[[var, 'Outcome']].groupby(['Outcome'])[[var]].median().reset_index()
+    # 计算每个'Outcome'分组中指定变量var的中位数，并重置索引
+    # 最后返回计算得到的中位数数据框
+    return temp
+```
+
+这段代码定义了一个名为`median_target`的函数，用于计算数据集`data`中指定变量`var`针对不同`Outcome`值的中位数。函数首先筛选出变量`var`中非空的记录，然后在这个子集上按照`Outcome`列的值进行分组，并计算每个分组的中位数。最后，函数返回包含`Outcome`值和对应中位数的数据框。这个函数可以用来分析不同结果（例如疾病有无）下某个变量的中心趋势。
 ### 3.1. Insulin
+* **Insulin** : 2-Hour serum insulin (mu U/ml)
+
+
+```python
+def plot_distribution(data_select, size_bin):  
+    # 从糖尿病和健康数据集中分别选择指定的列
+    tmp1 = D[data_select]
+    tmp2 = H[data_select]
+    # 将两个选择后的列组成一个列表
+    hist_data = [tmp1, tmp2]
+    
+    # 定义两组数据的标签
+    group_labels = ['diabetic', 'healthy']
+    # 定义两组数据的颜色
+    colors = ['#FFD700', '#7EC0EE']
+
+    # 使用Plotly的figure_factory创建一个分布图
+    fig = ff.create_distplot(hist_data, group_labels, colors=colors, show_hist=True, bin_size=size_bin, curve_type='kde')
+    
+    # 更新图表的布局，设置标题为指定的列名
+    fig['layout'].update(title=data_select)
+    
+    # 使用Plotly的iplot函数在Jupyter Notebook中绘制图表，并保存为'Density plot'
+    py.iplot(fig, filename='Density plot')
+# 调用函数，绘制'Insulin'列的分布图，bins的尺寸为0
+plot_distribution('Insulin', 0)
+```
+
+这段代码定义了一个名为`plot_distribution`的函数，用于生成并展示糖尿病组（`D`）和健康组（`H`）在指定变量（`data_select`）上的分布图。函数首先从两个数据集中选取指定的列，并创建一个包含这两组数据的列表。然后，定义了两组数据的标签和颜色。接下来，使用Plotly的`figure_factory`模块中的`create_distplot`函数创建一个分布图，其中包含了直方图和核密度估计（KDE）曲线。最后，更新图表的布局以设置标题，并使用`iplot`函数在Jupyter Notebook中展示图表。通过调用`plot_distribution`函数并传入列名和bins尺寸，可以生成对应的分布图。
+
+
+![Insulin](01图片/3.1_Insulin.png)
+
 
 
 ### 3.2. Glucose
