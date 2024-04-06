@@ -2146,42 +2146,6 @@ VotingClassifier : VotingClassifier is a meta-classifier for combining similar o
 
 With GridSearch CV we search the best "n_neighbors" to optimize accuracy of Voting Classifier
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```python
-Best Score:0.90625
-Best Parameters: {'knn__n_neighbors': 25}
-```
-
-With n_neighbors = 25, the accuracy increase to 90.625 ! Bellow the model performance report
-
 ```python
 # 创建K近邻分类器实例
 knn_clf = KNeighborsClassifier()
