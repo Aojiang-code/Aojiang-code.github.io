@@ -1027,7 +1027,7 @@ def plot_pie(var_select, sub) :
 
 这段代码定义了一个名为`plot_pie`的函数，用于生成并展示指定变量（`var_select`）在糖尿病患者（`Diabetic`）和健康人（`Healthy`）中的分布情况的饼图。函数首先筛选出糖尿病患者和健康人的数据，然后为每组数据创建一个饼图对象，并设置颜色、不透明度等属性。接着，设置图表布局，包括标题和注释信息。最后，创建图表对象并使用Plotly的`iplot`函数在Jupyter Notebook中展示图表。通过调用`plot_pie`函数并传入变量名和子标题，可以生成并展示相关的饼图。
 
-### **Glucose and Age**
+### **4.1. Glucose and Age**
 
 ```python
 # plot_feat1_feat2('Glucose','Age')
@@ -1113,7 +1113,7 @@ plot_pie('N1', '(Glucose <= 120 and Age <= 30)')
 ![plot_pie](01图片/4.1.4plot_pie.png)
 
 
-### **BMI**
+### **4.2. BMI**
 
 According to wikipedia "The body mass index (BMI) or Quetelet index is a value derived from the mass (weight) and height of an individual. The BMI is defined as the body mass divided by the square of the body height, and is universally expressed in units of $kg/m^{2}$, resulting from mass in kilograms and height in metres."
 
@@ -1152,7 +1152,7 @@ plot_pie('N2', 'BMI <= 30')
 
 
 
-### **Pregnancies and Age**
+### **4.3. Pregnancies and Age**
 
 
 ```python
@@ -1223,7 +1223,7 @@ plot_pie('N3', 'Age <= 30 and Pregnancies <= 6')
 ```
 
 
-### **Glucose and BloodPressure**
+### **4.4. Glucose and BloodPressure**
 
 ```python
 plot_feat1_feat2('Glucose','BloodPressure')
@@ -1298,7 +1298,7 @@ plot_pie('N4', 'Glucose <= 105 and BloodPressure <= 80')
 
 这段代码调用了一个名为`plot_pie`的函数，用于生成饼图以展示数据集中'N4'列的分布情况。'N4'列是一个二元特征，可能代表某种分类结果或条件的满足情况。函数的第二个参数是一个字符串，它作为饼图的子标题，提供了关于数据集特定子集的额外信息。这个子标题表明我们关注的是那些葡萄糖水平小于等于105且血压小于等于80的记录。函数内部将根据'N4'列的值计算各类别的百分比，并创建一个饼图来直观展示这些信息。
 
-### **SkinThickness**
+### **4.5. SkinThickness**
 
 ```python
 # 将data中所有的'N5'列赋值为0
@@ -1324,7 +1324,7 @@ plot_pie('N5', 'SkinThickness <= 20')
 
 这段代码调用了一个名为`plot_pie`的函数，用于生成饼图以展示数据集中'N5'列的分布情况。'N5'列是一个二元特征，可能代表某种分类结果或条件的满足情况。函数的第二个参数是一个字符串，它作为饼图的子标题，提供了关于数据集特定子集的额外信息。这个子标题表明我们关注的是那些皮肤厚度小于等于20的记录。函数内部将根据'N5'列的值计算各类别的百分比，并创建一个饼图来直观展示这些信息。
 
-### **SkinThickness and BMI**
+### **4.6. SkinThickness and BMI**
 ```python
 plot_feat1_feat2('SkinThickness','BMI')
 # 调用plot_feat1_feat2函数，传入'SkinThickness'和'BMI'作为参数，
@@ -1413,7 +1413,7 @@ plot_pie('N6', 'BMI < 30 and SkinThickness <= 20')
 
 这段代码调用了一个名为`plot_pie`的函数，用于生成饼图以展示数据集中'N6'列的分布情况。'N6'列是一个二元特征，可能代表某种分类结果或条件的满足情况。函数的第二个参数是一个字符串，它作为饼图的子标题，提供了关于数据集特定子集的额外信息。这个子标题表明我们关注的是那些BMI小于30且皮肤厚度小于等于20的记录。函数内部将根据'N6'列的值计算各类别的百分比，并创建一个饼图来直观展示这些信息。
 
-### **Glucose and BMI**
+### **4.7. Glucose and BMI**
 
 
 ```python
@@ -1509,7 +1509,7 @@ plot_pie('N7', 'Glucose <= 105 and BMI <= 30')
 
 
 
-### **Insulin**
+### **4.8. Insulin**
 
 ```python
 plot_distribution('Insulin', 0)
@@ -1541,7 +1541,7 @@ plot_pie('N9', 'Insulin < 200')
 
 
 
-### **BloodPressure**
+### **4.9. BloodPressure**
 ```python
 data.loc[:,'N10']=0
 data.loc[(data['BloodPressure']<80),'N10']=1
@@ -1562,7 +1562,7 @@ plot_pie('N10', 'BloodPressure < 80')
 
 
 
-### **Pregnancies**
+### **4.10. Pregnancies**
 
 ```python
 plot_distribution('Pregnancies', 0)
@@ -1587,24 +1587,98 @@ plot_pie('N11', 'Pregnancies > 0 and < 4')
 ```
 
 
-### **Others**
+### **4.11. Others**
+```python
+# 计算新的变量'N0'，为BMI和皮肤厚度的乘积
+# 这行代码创建了一个新的列'N0'，其值为'BMI'列和'SkinThickness'列的乘积，可能用于探索两个指标的联合影响。
+data['N0'] = data['BMI'] * data['SkinThickness']
+
+# 计算新的变量'N8'，为怀孕次数和年龄的比值
+# 这行代码创建了一个新的列'N8'，其值为'Pregnancies'列（怀孕次数）除以'Age'列（年龄），可能用于评估生育史与年龄的关系。
+data['N8'] = data['Pregnancies'] / data['Age']
+
+# 计算新的变量'N13'，为葡萄糖水平和糖尿病家族史的比值
+# 这行代码创建了一个新的列'N13'，其值为'Glucose'列（葡萄糖水平）除以'DiabetesPedigreeFunction'列（糖尿病家族史的一个指标），可能用于评估个体的糖尿病风险。
+data['N13'] = data['Glucose'] / data['DiabetesPedigreeFunction']
+
+# 计算新的变量'N12'，为年龄和糖尿病家族史的乘积
+# 这行代码创建了一个新的列'N12'，其值为'Age'列（年龄）和'DiabetesPedigreeFunction'列（糖尿病家族史的一个指标）的乘积，可能用于分析年龄与家族史对糖尿病风险的联合影响。
+data['N12'] = data['Age'] * data['DiabetesPedigreeFunction']
+
+# 计算新的变量'N14'，为年龄和胰岛素水平的比值
+# 这行代码创建了一个新的列'N14'，其值为'Age'列（年龄）除以'Insulin'列（胰岛素水平），可能用于探索年龄与胰岛素水平之间的关系。
+data['N14'] = data['Age'] / data['Insulin']
+```
+
+这段代码通过计算和组合现有的数据列，创建了几个新的变量。这些新变量可能用于进一步的数据分析，例如探索不同健康指标之间的关系，或创建新的预测模型的特征。每个新变量都是通过数学运算生成的，旨在捕捉和表示数据中的某些特定信息或模式。
+
 
 
 ```python
+# 从数据集中筛选出Outcome列不为0的记录，即糖尿病患者的数据
+# 这行代码使用布尔索引从原始数据集'data'中选择了所有'Outcome'列值不等于0的行，这些行代表糖尿病患者的信息。
+D = data[(data['Outcome'] != 0)]
 
+# 从数据集中筛选出Outcome列为0的记录，即健康人的记录
+# 这行代码使用布尔索引从原始数据集'data'中选择了所有'Outcome'列值等于0的行，这些行代表健康人的信息。
+H = data[(data['Outcome'] == 0)]
 ```
+
+这两行代码分别创建了两个新的DataFrame：'D'代表糖尿病患者的数据，而'H'代表健康人的数据。这是通过在原始数据集'data'中进行条件筛选实现的，条件是基于'Outcome'列的值。'Outcome'列可能代表糖尿病的存在与否，其中0表示健康状态，非0值表示糖尿病状态。通过这种方式，我们可以分别对糖尿病患者和健康人的数据进行进一步的分析和可视化。
+
+
+
+**Did you watch Inception ?** Here is the same! It's not a dream in a dream but a new feature extract from a new feature
+
+
+```python
+plot_distribution('N0', 0)
+# 调用plot_distribution函数，传入'N0'作为变量名和0作为bins的数量，
+# 目的是绘制'N0'变量（BMI和皮肤厚度的乘积）的分布图。
+```
+
+这段代码调用了一个名为`plot_distribution`的函数，该函数用于生成指定变量的分布图。在这个例子中，我们关注的变量是'N0'，它是通过BMI和皮肤厚度相乘得到的新变量。通过传入0作为bins的数量，我们告诉函数使用默认的bin数量来展示'N0'的分布情况。这个分布图可以帮助我们理解这个新变量在数据集中的分布特征，以及它可能对糖尿病风险的影响。
+
+
 
 
 
 ```python
+# 将data中所有的'N15'列赋值为0
+# 这行代码将DataFrame 'data' 中 'N15' 列的所有行设置为0，初始化该列为默认值0。
+data.loc[:, 'N15'] = 0
 
+# 筛选出'N0'列中值小于1034的记录，并将这些记录的'N15'列赋值为1
+# 这里使用布尔索引来找出 'N0' 列中值小于1034的行，并将这些行对应的 'N15' 列的值设置为1，表示这些记录满足特定条件。
+data.loc[(data['N0'] < 1034), 'N15'] = 1
+
+# 调用barplot函数，传入'N15'作为变量选择，以及字符串': N0 < 1034'作为子标题
+# 此行代码调用barplot函数来生成条形图，展示 'N15' 列的分布情况，其中 'N15' 列代表的是满足条件 'N0 小于 1034' 的记录。
+barplot('N15', ': N0 < 1034')
 ```
+
+这段代码首先设置了一个新的列'N15'，并为其赋予了初始值0。然后，它更新了那些'N0'列中值小于1034的记录，将这些记录的'N15'列的值设置为1。'N0'是之前通过BMI和皮肤厚度相乘得到的新变量。最后，通过调用`barplot`函数，根据'N15'列的值绘制条形图，以可视化满足特定条件的数据分布情况。子标题': N0 < 1034'提供了对图表内容的额外说明，指出了'N15'列所表示的具体条件。
+
+
+
+
+
+
 
 
 
 ```python
-
+plot_pie('N15', 'N0 < 1034')
+# 调用plot_pie函数，传入'N15'作为要分析的变量名，传入'N0 < 1034'作为子标题，
+# 目的是根据'N15'列的值绘制饼图，并展示满足条件（N0小于1034）的分布情况。
 ```
+
+这段代码调用了一个名为`plot_pie`的函数，用于生成饼图以展示数据集中'N15'列的分布情况。'N15'列是一个二元特征，可能代表某种分类结果或条件的满足情况。函数的第二个参数是一个字符串，它作为饼图的子标题，提供了关于数据集特定子集的额外信息。这个子标题表明我们关注的是那些'N0'列中值小于1034的记录。函数内部将根据'N15'列的值计算各类别的百分比，并创建一个饼图来直观展示这些信息。
+
+
+
+
+
 
 
 
@@ -1620,24 +1694,387 @@ plot_pie('N11', 'Pregnancies > 0 and < 4')
 
 ### 5.1. StandardScaler and LabelEncoder
 
+* **StandardScaler** :
+Standardize features by removing the mean and scaling to unit variance :
 
+
+
+Centering and scaling happen independently on each feature by computing the relevant statistics on the samples in the set. Mean and standard deviation are then stored to be used on later data using the transform method.
+
+Standardization of a dataset is a common requirement for many machine learning estimators: they might behave badly if the individual features do not more or less look like standard normally distributed data (e.g. Gaussian with 0 mean and unit variance).
+
+* **LabelEncoder** : Encode labels with value between 0 and n_classes-1.
+Bellow we encode the data to feed properly to our algorithm
+
+```python
+# 定义目标列
+target_col = ["Outcome"]
+
+# 找出数据中唯一值数量小于12的列，这些通常是分类列
+cat_cols = data.nunique()[data.nunique() < 12].keys().tolist()
+# 确保cat_cols不包含目标列
+cat_cols = [x for x in cat_cols if x not in target_col]
+
+# 找出数值型列，即不包含在cat_cols和target_col中的列
+num_cols = [x for x in data.columns if x not in cat_cols + target_col]
+
+# 找出二元列，即唯一值数量为2的列
+bin_cols = data.nunique()[data.nunique() == 2].keys().tolist()
+
+# 找出有多于两个唯一值的列
+multi_cols = [i for i in cat_cols if i not in bin_cols]
+
+# 对二元列进行标签编码
+le = LabelEncoder()
+for i in bin_cols:
+    data[i] = le.fit_transform(data[i])
+
+# 对多值列进行独热编码
+data = pd.get_dummies(data=data, columns=multi_cols)
+
+# 对数值型列进行标准化
+std = StandardScaler()
+scaled = std.fit_transform(data[num_cols])
+scaled = pd.DataFrame(scaled, columns=num_cols)
+
+# 保留原始数据，并将标准化后的数值型列合并回数据
+df_data_og = data.copy()
+data = data.drop(columns=num_cols, axis=1)
+data = data.merge(scaled, left_index=True, right_index=True, how="left")
+```
+
+这段代码首先定义了目标列`target_col`，然后通过计算数据集中每个列的唯一值数量来区分分类列（`cat_cols`）和数值型列（`num_cols`）。对于分类列，代码进一步区分了二元列（`bin_cols`）和多值列（`multi_cols`）。接着，对二元列进行标签编码，对多值列进行独热编码，对数值型列进行标准化处理。最后，将标准化后的数值型列合并回原始数据集，以便后续的建模或分析工作。这个过程是数据预处理的重要步骤，可以帮助改善机器学习模型的性能。
+
+
+Now, we can compute correlation matrix
 
 ### 5.2. Correlation Matrix
+A correlation matrix is a table showing correlation coefficients between sets of variables. Each random variable (Xi) in the table is correlated with each of the other values in the table (Xj). This allows you to see which pairs have the highest correlation.
+
+```python
+def correlation_plot():
+    # 计算数据集中各个变量之间的相关系数
+    # 这行代码使用pandas库的corr函数计算数据集'data'中所有列的相关系数矩阵。
+    correlation = data.corr()
+    # 获取相关系数矩阵的列名
+    # 这行代码将相关系数矩阵的列名转换为一个列表。
+    matrix_cols = correlation.columns.tolist()
+    # 将相关系数矩阵转换为数组
+    # 这行代码使用numpy库的array函数将相关系数矩阵转换为一个NumPy数组。
+    corr_array = np.array(correlation)
+    # 创建一个热力图对象
+    # 这行代码使用Plotly库的Heatmap函数创建一个热力图对象，其中z属性为相关系数矩阵，x和y属性为列名列表。
+    trace = go.Heatmap(z=corr_array,
+                       x=matrix_cols,
+                       y=matrix_cols,
+                       colorscale='Viridis',  # 设置热力图的颜色映射为'Viridis'
+                       colorbar=dict(),  # 定义色标属性
+                      )
+    # 设置图表布局
+    # 这行代码使用Plotly库的Layout函数设置热力图的布局，包括标题、边距、坐标轴等。
+    layout = go.Layout(dict(title='变量的相关系数矩阵',  # 设置图表标题
+                            # 以下是布局的具体设置
+                            margin=dict(r=0, l=100, t=0, b=100),  # 设置图表的边距
+                            yaxis=dict(tickfont=dict(size=9)),  # 设置y轴刻度标签的字体大小
+                            xaxis=dict(tickfont=dict(size=9))  # 设置x轴刻度标签的字体大小
+                           )
+                      )
+    # 创建图表对象，包含数据和布局
+    # 这行代码使用Plotly库的Figure函数创建一个图表对象，包含热力图数据和布局。
+    fig = go.Figure(data=[trace], layout=layout)
+    # 使用Plotly的iplot函数在Jupyter Notebook中绘制图表
+    # 这行代码使用Plotly的iplot函数在Jupyter Notebook中渲染并展示图表对象。
+    py.iplot(fig)
+
+# 调用函数绘制相关系数热力图
+correlation_plot()
+```
+
+这段代码定义了一个名为`correlation_plot`的函数，用于生成并展示数据集中各个变量之间的相关系数热力图。函数首先计算相关系数矩阵，然后创建一个热力图对象，并通过设置布局来调整图表的样式。最后，使用Plotly的`iplot`函数在Jupyter Notebook中展示图表。通过调用`correlation_plot`函数，可以生成并展示相关系数热力图，帮助分析数据集中变量之间的关系。
+
+
+
+
+
+
 
 
 ### 5.3. X and y
+We define X and y :
 
+```python
+# 定义特征集X和目标变量y
+# 这段代码用于从数据集'data'中分离出特征变量和目标变量。
+# 'Outcome'列被视为目标变量，其余列作为特征变量。
+X = data.drop('Outcome', 1)  # 删除'Outcome'列，剩余的列作为特征集X
+y = data['Outcome']  # 'Outcome'列作为目标变量y
+```
+
+这段代码首先通过`data.drop('Outcome', 1)`删除了数据集`data`中名为`'Outcome'`的列，剩下的所有列构成了特征集`X`。然后，将`'Outcome'`列单独提取出来作为目标变量`y`。这样的分离是为了在机器学习模型中使用，其中`X`通常用于模型的训练和预测，而`y`是我们希望模型能够预测的目标结果。
 
 ### 5.4. Model Performance
+To measure the performance of a model, we need several elements :
+
+This part is essential
+
+* **Confusion matrix** : also known as the error matrix, allows visualization of the performance of an algorithm :
+
+    * true positive (TP) : Diabetic correctly identified as diabetic
+    * true negative (TN) : Healthy correctly identified as healthy
+    * false positive (FP) : Healthy incorrectly identified as diabetic
+    * false negative (FN) : Diabetic incorrectly identified as healthy
+
+
+Metrics :
+
+Accuracy : (TP +TN) / (TP + TN + FP +FN)
+Precision : TP / (TP + FP)
+Recall : TP / (TP + FN)
+F1 score : 2 x ((Precision x Recall) / (Precision + Recall))
+Roc Curve : The ROC curve is created by plotting the true positive rate (TPR) against the false positive rate (FPR) at various threshold settings.
+
+
+
+Precision Recall Curve : shows the tradeoff between precision and recall for different threshold
+To train and test our algorithm we'll use cross validation K-Fold
+
+
+
+In k-fold cross-validation, the original sample is randomly partitioned into k equal sized subsamples. Of the k subsamples, a single subsample is retained as the validation data for testing the model, and the remaining k − 1 subsamples are used as training data. The cross-validation process is then repeated k times, with each of the k subsamples used exactly once as the validation data. The k results can then be averaged to produce a single estimation. The advantage of this method over repeated random sub-sampling is that all observations are used for both training and validation, and each observation is used for validation exactly once.
+
+Bellow we define a stylized report with Plotly
+
+```python
+def model_performance(model, subtitle) :   
+    # K折交叉验证
+    cv = KFold(n_splits=5, shuffle=False, random_state=42)  # 创建5折交叉验证的KFold对象
+    y_real = []  # 真实标签列表
+    y_proba = []  # 预测概率列表
+    tprs = []  # 每折的True Positive Rate列表
+    aucs = []  # 每折的Area Under the Curve (AUC)列表
+    mean_fpr = np.linspace(0, 1, 100)  # 平均False Positive Rate
+    i = 1
+    
+    # 遍历每一折进行模型训练和评估
+    for train, test in cv.split(X, y):
+        model.fit(X.iloc[train], y.iloc[train])  # 训练模型
+        pred_proba = model.predict_proba(X.iloc[test])  # 预测概率
+        # 计算当前折的Precision和Recall曲线
+        precision, recall, _ = precision_recall_curve(y.iloc[test], pred_proba[:, 1])
+        y_real.append(y.iloc[test])  # 真实标签
+        y_proba.append(pred_proba[:, 1])  # 预测概率
+        # 计算当前折的ROC曲线和AUC
+        fpr, tpr, t = roc_curve(y[test], pred_proba[:, 1])
+        tprs.append(interp(mean_fpr, fpr, tpr))  # 插值计算平均TPR
+        roc_auc = auc(fpr, tpr)  # 计算AUC
+        aucs.append(roc_auc)
+    
+    # 混淆矩阵
+    y_pred = cross_val_predict(model, X, y, cv=5)  # 5折交叉验证预测
+    conf_matrix = confusion_matrix(y, y_pred)  # 计算混淆矩阵
+    # 绘制混淆矩阵热力图
+    trace1 = go.Heatmap(z=conf_matrix, x=["0 (pred)", "1 (pred)"],
+                        y=["0 (true)", "1 (true)"],
+                        xgap=2, ygap=2,
+                        colorscale='Viridis', showscale=False)
+    
+    # 显示指标
+    tp = conf_matrix[1, 1]  # 真正例
+    fn = conf_matrix[1, 0]  # 假负例
+    fp = conf_matrix[0, 1]  # 假正例
+    tn = conf_matrix[0, 0]  # 真负例
+    # 计算准确率、精确率、召回率和F1分数
+    Accuracy = (tp + tn) / (tp + tn + fp + fn)
+    Precision = tp / (tp + fp)
+    Recall = tp / (tp + fn)
+    F1_score = 2 * ((Precision * Recall) / (Precision + Recall))
+    
+    show_metrics = pd.DataFrame(data=[[Accuracy, Precision, Recall, F1_score]])  # 指标DataFrame
+    show_metrics = show_metrics.T  # 转置DataFrame
+    
+    colors = ['gold', 'lightgreen', 'lightcoral', 'lightskyblue']  # 指标颜色列表
+    # 绘制指标条形图
+    trace2 = go.Bar(x=show_metrics[0].values,
+                    y=['Accuracy', 'Precision', 'Recall', 'F1_score'],
+                    text=np.round_(show_metrics[0].values, 4),
+                    textposition='auto', textfont=dict(color='black'),
+                    orientation='h', opacity=1, marker=dict(
+                        color=colors,
+                        line=dict(color='#000000', width=1.5)))
+    
+    # ROC曲线
+    mean_tpr = np.mean(tprs, axis=0)  # 平均TPR
+    mean_auc = auc(mean_fpr, mean_tpr)  # 计算平均AUC
+    
+    # 绘制ROC曲线
+    trace3 = go.Scatter(x=mean_fpr, y=mean_tpr,
+                      name="ROC : ",  # 曲线名称
+                      line=dict(color=('rgb(22, 96, 167)'), width=2), fill='tozeroy')
+    trace4 = go.Scatter(x=[0, 1], y=[0, 1],  # 绘制对角线
+                      line=dict(color='black', width=1.5, dash='dot'))
+    
+    # 精确率-召回率曲线
+    y_real = y  # 真实标签
+    y_proba = np.concatenate(y_proba)  # 预测概率
+    # 计算精确率和召回率曲线
+    precision, recall, _ = precision_recall_curve(y_real, y_proba)
+    
+    # 绘制精确率-召回率曲线
+    trace5 = go.Scatter(x=recall, y=precision,
+                      name="Precision" + str(precision),
+                      line=dict(color='lightcoral', width=2), fill='tozeroy')
+    
+    mean_auc = round(mean_auc, 3)  # 四舍五入AUC到3位小数
+    
+    # 子图设置
+    fig = tls.make_subplots(rows=2, cols=2, print_grid=False,
+                          specs=[[{}, {}], 
+                                 [{}, {}]],
+                          subplot_titles=('Confusion Matrix',
+                                          'Metrics',
+                                          'ROC curve' + " " + '(' + str(mean_auc) + ')',
+                                          'Precision - Recall curve',
+                                          ))
+    
+    # 添加追踪到子图
+    fig.append_trace(trace1, 1, 1)
+    fig.append_trace(trace2, 1, 2)
+    fig.append_trace(trace3, 2, 1)
+    fig.append_trace(trace4, 2, 1)
+    fig.append_trace(trace5, 2, 2)
+    
+    # 更新布局
+    fig['layout'].update(showlegend=False, title='<b>Model performance report (5 folds)</b><br>' + subtitle,
+                        autosize=False, height=830, width=830,
+                        plot_bgcolor='black',
+                        paper_bgcolor='black',
+                        margin=dict(b=195), font=dict(color='white'))
+    fig["layout"]["xaxis1"].update(color='white')
+    fig["layout"]["yaxis1"].update(color='white')
+    fig["layout"]["xaxis2"].update((dict(range=[0, 1], color='white')))
+    fig["layout"]["yaxis2"].update(color='white')
+    fig["layout"]["xaxis3"].update(dict(title="false positive rate"), color='white')
+    fig["layout"]["yaxis3"].update(dict(title="true positive rate"), color='white')
+    fig["layout"]["xaxis4"].update(dict(title="recall"), range=[0, 1.05], color='white')
+    fig["layout"]["yaxis4"].update(dict(title="precision"), range=[0, 1.05], color='white')
+    for i in fig['layout']['annotations']:
+        i['font'] = titlefont=dict(color='white', size=14)
+    # 展示图表
+    py.iplot(fig)
+```
+
+这段代码定义了一个名为`model_performance`的函数，用于评估和展示机器学习模型的性能。函数首先设置了5折交叉验证，然后对每一折数据进行模型训练和预测，计算了精确率、召回率、ROC曲线和AUC等性能指标。接着，函数绘制了混淆矩阵、指标条形图、ROC曲线和精确率-召回率曲线，并使用Plotly库将这些图表组合成一个子图矩阵进行展示。最后，函数通过`py.iplot`在Jupyter Notebook中渲染并展示最终的图表。通过这个函数，我们可以直观地了解模型在给定数据集上的性能表现。
+
+
 
 
 ### 5.5. Scores Table
+We can complete model performance report with a table contain all results by fold
+```python
+def scores_table(model, subtitle):
+    # 定义要计算的性能指标列表
+    scores = ['accuracy', 'precision', 'recall', 'f1', 'roc_auc']
+    # 初始化结果列表
+    res = []
+    # 对每个指标进行交叉验证并计算得分，将得分添加到结果列表中
+    for sc in scores:
+        scores = cross_val_score(model, X, y, cv=5, scoring=sc)  # 5折交叉验证
+        res.append(scores)
+    # 将结果列表转换为DataFrame，并计算每列的平均值和标准差
+    df = pd.DataFrame(res).T
+    df.loc['mean'] = df.mean()  # 添加平均值行
+    df.loc['std'] = df.std()  # 添加标准差行
+    # 重命名DataFrame的列，使其与指标名称对应
+    df = df.rename(columns={0: 'accuracy', 1: 'precision', 2: 'recall', 3: 'f1', 4: 'roc_auc'})
+
+    # 创建表格可视化对象
+    trace = go.Table(
+        header=dict(values=['<b>Fold', '<b>Accuracy', '<b>Precision', '<b>Recall', '<b>F1 score', '<b>Roc auc'],
+                    line=dict(color='#7D7F80'),  # 表头线条颜色
+                    fill=dict(color='#a1c3d1'),  # 表头背景颜色
+                    align=['center'],  # 表头内容对齐方式
+                    font=dict(size=15)),  # 表头字体大小
+        cells=dict(values=[('1','2','3','4','5','mean', 'std'),  # 单元格内容
+                           np.round(df['accuracy'], 3),  # 准确率，保留3位小数
+                           np.round(df['precision'], 3),  # 精确率，保留3位小数
+                           np.round(df['recall'], 3),  # 召回率，保留3位小数
+                           np.round(df['f1'], 3),  # F1分数，保留3位小数
+                           np.round(df['roc_auc'], 3)]),  # ROC AUC，保留3位小数
+        line=dict(color='#7D7F80'),  # 单元格线条颜色
+        fill=dict(color='#EDFAFF'),  # 单元格背景颜色
+        align=['center'],  # 单元格内容对齐方式
+        font=dict(size=15))  # 单元格字体大小
+
+    # 设置表格的布局
+    layout = dict(width=800, height=400, title='<b>Cross Validation - 5 folds</b><br>'+subtitle,  # 布局标题
+                  font=dict(size=15))  # 布局字体大小
+
+    # 创建图表对象，包含表格和布局
+    fig = dict(data=[trace], layout=layout)
+
+    # 在Jupyter Notebook中展示表格图表
+    py.iplot(fig, filename='styled_table')
+```
+
+这段代码定义了一个名为`scores_table`的函数，用于计算并展示机器学习模型在5折交叉验证下的性能指标。函数首先定义了一个性能指标列表`scores`，然后通过循环对每个指标进行5折交叉验证，并将得分保存到结果列表`res`中。接着，将结果列表转换为DataFrame，并计算每列的平均值和标准差。之后，创建了一个表格可视化对象`trace`，并设置了表格的标题、列名、单元格内容等。最后，设置了表格的布局，并创建了一个图表对象`fig`，使用`py.iplot`函数在Jupyter Notebook中展示这个表格图表。通过这个函数，我们可以直观地看到模型在不同指标下的性能表现。
 
 
 ### 6.Machine Learning
 
 ### 6.1. RandomSearch + LightGBM - Accuracy = 89.8%
+LightGBM is a gradient boosting framework that uses tree based learning algorithms. It is designed to be distributed and efficient with the following advantages:
 
+Faster training speed and higher efficiency.
+Lower memory usage.
+Better accuracy.
+Support of parallel and GPU learning.
+Capable of handling large-scale data.
+To find the best hyperparameters, we'll use Random Search CV.
+
+Random search is a technique where random combinations of the hyperparameters are used to find the best solution for the built model. Generally RS is more faster and accurate than GridSearchCV who calculate all possible combinations. With Random Grid we specify the number of combinations that we want
+
+LightGBM : Hyperparameters :
+
+learning_rate : This determines the impact of each tree on the final outcome. GBM works by starting with an initial estimate which is updated using the output of each tree. The learning parameter controls the magnitude of this change in the estimates
+n_estimators : number of trees (or rounds)
+num_leaves : number of leaves in full tree, default: 31
+min_child_samples : minimal number of data in one leaf. Can be used to deal with over-fitting
+min_child_weight : minimal sum hessian in one leaf.
+subsample : randomly select part of data without resampling
+max_depth : It describes the maximum depth of tree. This parameter is used to handle model overfitting.
+colsample_bytree : LightGBM will randomly select part of features on each iteration if colsample_bytree smaller than 1.0. For example, if you set it to 0.8, LightGBM will select 80% of features before training each tree
+reg_alpha : regularization
+reg_lambda : regularization
+
+early_stopping_rounds : This parameter can help you speed up your analysis. Model will stop training if one metric of one validation data doesn’t improve in last early_stopping_round rounds. This will reduce excessive iterations
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fitting 5 folds for each of 300 candidates, totalling 1500 fits
+[Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
+[Parallel(n_jobs=1)]: Done 1500 out of 1500 | elapsed:  2.2min finished
 
 ### 6.2. LightGBM - Discrimination Threshold
 
