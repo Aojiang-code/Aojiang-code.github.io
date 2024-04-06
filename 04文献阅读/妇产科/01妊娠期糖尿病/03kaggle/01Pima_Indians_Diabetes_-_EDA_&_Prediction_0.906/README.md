@@ -1895,8 +1895,9 @@ Accuracy : (TP +TN) / (TP + TN + FP +FN)
 Precision : TP / (TP + FP)
 Recall : TP / (TP + FN)
 F1 score : 2 x ((Precision x Recall) / (Precision + Recall))
-Roc Curve : The ROC curve is created by plotting the true positive rate (TPR) against the false positive rate (FPR) at various threshold settings.
 
+
+Roc Curve : The ROC curve is created by plotting the true positive rate (TPR) against the false positive rate (FPR) at various threshold settings.
 
 
 Precision Recall Curve : shows the tradeoff between precision and recall for different threshold
@@ -2166,9 +2167,23 @@ lgbm_clf = lgbm.LGBMClassifier(**opt_parameters)
 
 这段代码首先设置了随机种子以确保结果的可重复性。然后，定义了LightGBM模型的参数`fit_params`，这些参数将用于交叉验证过程中的模型训练。接着，定义了超参数搜索空间`param_test`，包括学习率、树的数量、树的最大叶子节点数等。设置随机搜索的迭代次数`n_iter`，并初始化LightGBM分类器`lgbm_clf`。使用`RandomizedSearchCV`进行随机搜索，其中`estimator`为估计器，`param_distributions`为超参数分布，`n_iter`为迭代次数，`scoring`为评分方法，`cv`为交叉验证的折数，`refit`为True表示重新拟合最佳模型，`random_state`为随机种子，`verbose`为True表示打印详细信息。最后，使用`fit`方法在训练数据上拟合模型，并通过`best_params_`属性获取最佳超参数，然后使用这些最佳超参数重新初始化LightGBM分类器。
 
+
+```python
+# 正在进行1500次拟合，每次拟合包含5折交叉验证，总共评估300个候选模型
+# 这句话表示正在进行模型参数的搜索，每个模型参数组合都会进行5次交叉验证来评估其性能
 Fitting 5 folds for each of 300 candidates, totalling 1500 fits
+
+# 使用SequentialBackend后端进行串行处理，共有1个并发工作进程
+# 这句话表示并行计算的后端设置为串行执行，因为设置了n_jobs=1，意味着同时只有一个任务在运行
 [Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
+
+# 已经完成了1500次拟合中的1500次，总共耗时2.2分钟
+# 这句话表示所有的模型参数组合拟合任务已经完成，总共耗时2.2分钟
 [Parallel(n_jobs=1)]: Done 1500 out of 1500 | elapsed:  2.2min finished
+```
+
+这段输出来自于使用`RandomizedSearchCV`或`GridSearchCV`等工具进行大规模模型参数搜索时的控制台输出。它显示了搜索过程中的一些关键信息，包括正在进行的拟合次数、使用的并行计算后端以及完成搜索所花费的时间。这些信息对于了解搜索进度和性能非常重要。
+
 
 ```python
 # 使用训练好的LightGBM模型进行性能评估，并展示结果
