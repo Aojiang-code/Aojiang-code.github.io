@@ -1427,6 +1427,81 @@ plot_feat1_feat2('Glucose','BMI')
 
 
 
+```python
+# 定义颜色字典，用于根据Outcome列的值（0或1）给点着色
+# 这里创建了一个名为palette的字典，用于为散点图中的点设置颜色，其中0对应浅蓝色，1对应金色。
+palette = {0: 'lightblue', 1: 'gold'}
+# 设置边缘颜色为黑色
+# 这行代码设置了散点图中点的边缘颜色为黑色。
+edgecolor = 'black'
+
+# 创建一个大小为12x8英寸的图形
+# 这行代码创建了一个图形对象fig，其大小设置为宽12英寸、高8英寸。
+fig = plt.figure(figsize=(12, 8))
+
+# 使用Seaborn的scatterplot函数绘制散点图
+# 这行代码使用Seaborn库的scatterplot函数，根据'Glucose'列作为x轴，'BMI'列作为y轴，'Outcome'列的值作为颜色的依据，绘制散点图。
+ax1 = sns.scatterplot(x=data['Glucose'], y=data['BMI'], hue="Outcome",
+                        data=data, palette=palette, edgecolor=edgecolor)
+
+# 添加注释'N7'，位置在(70, 35)，文本大小为25，箭头指向点
+# 这行代码在图形中添加了一个注释，标签为'N7'，位置在点(70, 35)，文本大小为25。箭头的起点是注释点，终点是文本点。
+plt.annotate('N7', size=25, color='black', xy=(70, 35), xytext=(40, 60),
+            arrowprops=dict(facecolor='black', shrink=0.05),
+            )
+
+# 绘制红色的直线和箭头，形成对角线
+# 这四行代码绘制了四条红色的直线，它们共同形成一个矩形的对角线，用于突出显示某个特定的数据区域。
+plt.plot([105, 105], [16, 30], linewidth=2, color='red')  # 从(105, 16)到(105, 30)
+plt.plot([40, 40], [16, 30], linewidth=2, color='red')  # 从(40, 16)到(40, 30)
+plt.plot([40, 105], [16, 16], linewidth=2, color='red')  # 从(40, 16)到(105, 16)
+plt.plot([40, 105], [30, 30], linewidth=2, color='red')  # 从(40, 30)到(105, 30)
+
+# 设置图表标题为'Glucose vs BMI'
+# 这行代码设置了图表的标题，标题内容为'Glucose vs BMI'。
+plt.title('Glucose vs BMI')
+
+# 显示图表
+# 这行代码显示了包含上述所有设置和图形的图表。
+plt.show()
+```
+
+这段代码首先定义了一个颜色字典`palette`，用于区分散点图中不同类别的点。然后，设置了图形的大小，并使用Seaborn的`scatterplot`函数绘制了一个散点图，其中点的颜色根据`Outcome`列的值变化。接着，使用`annotate`函数在图表中添加了一个注释，并绘制了红色的对角线。最后，设置了图表的标题并显示了图表。这个散点图有助于观察葡萄糖水平与身体质量指数之间的关系，并区分糖尿病患者和健康人的数据点。
+
+
+
+```python
+# 将data中所有的'N7'列赋值为0
+# 这行代码将DataFrame 'data' 中 'N7' 列的所有行设置为0，初始化该列为默认值0。
+data.loc[:, 'N7'] = 0
+
+# 筛选出葡萄糖水平小于等于105且BMI小于等于30的记录，并将这些记录的'N7'列赋值为1
+# 这里使用布尔索引来找出 'Glucose' 列中值小于等于105且 'BMI' 列中值小于等于30的行，并将这些行对应的 'N7' 列的值设置为1，表示这些记录满足特定条件。
+data.loc[(data['Glucose'] <= 105) & (data['BMI'] <= 30), 'N7'] = 1
+
+# 调用barplot函数，传入'N7'作为变量选择，以及字符串': Glucose <= 105 and BMI <= 30'作为子标题
+# 此行代码调用barplot函数来生成条形图，展示 'N7' 列的分布情况，其中 'N7' 列代表的是满足条件 '葡萄糖水平小于等于105且BMI小于等于30' 的记录。
+barplot('N7', ': Glucose <= 105 and BMI <= 30')
+```
+
+这段代码首先设置了一个新的列'N7'，并为其赋予了初始值0。然后，它更新了那些葡萄糖水平小于等于105且BMI小于等于30的记录，将这些记录的'N7'列的值设置为1。最后，通过调用`barplot`函数，根据'N7'列的值绘制条形图，以可视化满足特定条件的数据分布情况。子标题': Glucose <= 105 and BMI <= 30'提供了对图表内容的额外说明，指出了'N7'列所表示的具体条件。
+
+
+
+
+
+
+
+
+
+```python
+plot_pie('N7', 'Glucose <= 105 and BMI <= 30')
+# 调用plot_pie函数，传入'N7'作为要分析的变量名，传入'Glucose <= 105 and BMI <= 30'作为子标题，
+# 目的是根据'N7'列的值绘制饼图，并展示满足条件（葡萄糖水平小于等于105且BMI小于等于30）的分布情况。
+```
+
+这段代码调用了一个名为`plot_pie`的函数，用于生成饼图以展示数据集中'N7'列的分布情况。'N7'列是一个二元特征，可能代表某种分类结果或条件的满足情况。函数的第二个参数是一个字符串，它作为饼图的子标题，提供了关于数据集特定子集的额外信息。这个子标题表明我们关注的是那些葡萄糖水平小于等于105且BMI小于等于30的记录。函数内部将根据'N7'列的值计算各类别的百分比，并创建一个饼图来直观展示这些信息。
+
 
 
 
@@ -1436,14 +1511,101 @@ plot_feat1_feat2('Glucose','BMI')
 
 ### **Insulin**
 
+```python
+plot_distribution('Insulin', 0)
+```
+
+
+
+```python
+data.loc[:,'N9']=0
+data.loc[(data['Insulin']<200),'N9']=1
+```
+
+
+
+```python
+barplot('N9', ': Insulin < 200')
+```
+
+```python
+plot_pie('N9', 'Insulin < 200')
+```
+
+
+
+
+
+
+
+
+
 
 ### **BloodPressure**
+```python
+data.loc[:,'N10']=0
+data.loc[(data['BloodPressure']<80),'N10']=1
+```
+
+
+
+```python
+barplot('N10', ': BloodPressure < 80')
+```
+
+
+
+```python
+plot_pie('N10', 'BloodPressure < 80')
+```
+
+
+
 
 ### **Pregnancies**
 
+```python
+plot_distribution('Pregnancies', 0)
+```
+
+
+
+```python
+data.loc[:,'N11']=0
+data.loc[(data['Pregnancies']<4) & (data['Pregnancies']!=0) ,'N11']=1
+```
+
+
+
+```python
+barplot('N11', ': Pregnancies > 0 and < 4')
+```
+
+
+```python
+plot_pie('N11', 'Pregnancies > 0 and < 4')
+```
 
 
 ### **Others**
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
+
+
+```python
+
+```
+
 
 
 
