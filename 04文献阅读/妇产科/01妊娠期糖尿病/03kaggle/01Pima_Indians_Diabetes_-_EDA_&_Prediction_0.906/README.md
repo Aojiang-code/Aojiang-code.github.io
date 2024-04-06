@@ -2048,43 +2048,265 @@ reg_lambda : regularization
 
 early_stopping_rounds : This parameter can help you speed up your analysis. Model will stop training if one metric of one validation data doesn’t improve in last early_stopping_round rounds. This will reduce excessive iterations
 
+```python
+# 设置随机种子以确保结果的可重复性
+random_state = 42
 
+# 设置LightGBM模型的参数，用于交叉验证过程中的模型训练
+fit_params = {
+    "early_stopping_rounds": 100,  # 早期停止机制的轮数
+    "eval_metric": 'auc',  # 交叉验证使用的评估指标
+    "eval_set": [(X, y)],  # 交叉验证的数据集
+    'eval_names': ['valid'],  # 交叉验证数据集的名称
+    'verbose': 0,  # 是否打印额外的日志信息
+    'categorical_feature': 'auto'  # 自动识别分类特征
+}
 
+# 定义LightGBM模型的超参数搜索空间
+param_test = {
+    'learning_rate': [0.01, 0.02, 0.03, 0.04, 0.05, 0.08, 0.1, 0.2, 0.3, 0.4],  # 学习率
+    'n_estimators': [100, 200, 300, 400, 500, 600, 800, 1000, 1500, 2000],  # 树的数量
+    'num_leaves': sp_randint(6, 50),  # 树的最大叶子节点数
+    'min_child_samples': sp_randint(100, 500),  # 分割节点所需的最小样本数
+    'min_child_weight': [1e-5, 1e-3, 1e-2, 1e-1, 1, 1e1, 1e2, 1e3, 1e4],  # 分割节点的最小权重
+    'subsample': sp_uniform(loc=0.2, scale=0.8),  # 训练每棵树时的样本采样比例
+    'max_depth': [-1, 1, 2, 3, 4, 5, 6, 7],  # 树的最大深度
+    'colsample_bytree': sp_uniform(loc=0.4, scale=0.6),  # 构建树时的列采样比例
+    'reg_alpha': [0, 1e-1, 1, 2, 5, 7, 10, 50, 100],  # L1正则化项的权重
+    'reg_lambda': [0, 1e-1, 1, 5, 10, 20, 50, 100]  # L2正则化项的权重
+}
 
+# 设置随机搜索的迭代次数
+n_iter = 300
 
+# 初始化LightGBM分类器并启动随机搜索
+lgbm_clf = lgbm.LGBMClassifier(random_state=random_state, silent=True, metric='None', n_jobs=4)
+grid_search = RandomizedSearchCV(
+    estimator=lgbm_clf,  # 估计器
+    param_distributions=param_test,  # 超参数分布
+    n_iter=n_iter,  # 迭代次数
+    scoring='accuracy',  # 评分方法
+    cv=5,  # 交叉验证的折数
+    refit=True,  # 重新拟合最佳模型
+    random_state=random_state,  # 随机种子
+    verbose=True  # 打印详细信息
+)
 
+# 在训练数据上拟合模型
+grid_search.fit(X, y, **fit_params)
+# 获取最佳超参数
+opt_parameters = grid_search.best_params_
+# 使用最佳超参数初始化LightGBM分类器
+lgbm_clf = lgbm.LGBMClassifier(**opt_parameters)
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+这段代码首先设置了随机种子以确保结果的可重复性。然后，定义了LightGBM模型的参数`fit_params`，这些参数将用于交叉验证过程中的模型训练。接着，定义了超参数搜索空间`param_test`，包括学习率、树的数量、树的最大叶子节点数等。设置随机搜索的迭代次数`n_iter`，并初始化LightGBM分类器`lgbm_clf`。使用`RandomizedSearchCV`进行随机搜索，其中`estimator`为估计器，`param_distributions`为超参数分布，`n_iter`为迭代次数，`scoring`为评分方法，`cv`为交叉验证的折数，`refit`为True表示重新拟合最佳模型，`random_state`为随机种子，`verbose`为True表示打印详细信息。最后，使用`fit`方法在训练数据上拟合模型，并通过`best_params_`属性获取最佳超参数，然后使用这些最佳超参数重新初始化LightGBM分类器。
 
 Fitting 5 folds for each of 300 candidates, totalling 1500 fits
 [Parallel(n_jobs=1)]: Using backend SequentialBackend with 1 concurrent workers.
 [Parallel(n_jobs=1)]: Done 1500 out of 1500 | elapsed:  2.2min finished
 
-### 6.2. LightGBM - Discrimination Threshold
+```python
+# 使用训练好的LightGBM模型进行性能评估，并展示结果
+model_performance(lgbm_clf, 'LightGBM'):   
+    # 调用model_performance函数，传入训练好的LightGBM模型lgbm_clf和子标题'LightGBM'
+    # 该函数将计算并展示模型的交叉验证性能，包括混淆矩阵、精确率、召回率、ROC曲线等指标。
+    # 这些指标有助于评估模型的预测能力和泛化能力。
 
+# 利用训练好的LightGBM模型生成性能指标的分数表，并展示结果
+scores_table(lgbm_clf, 'LightGBM'):
+    # 调用scores_table函数，传入训练好的LightGBM模型lgbm_clf和子标题'LightGBM'
+    # 该函数将计算模型在多个性能指标上的分数，并通过表格形式展示出来。
+    # 这些分数可以帮助我们直观地比较不同性能指标下的模型表现。
+```
+
+这两行代码分别调用了`model_performance`和`scores_table`函数，传入了训练好的LightGBM模型`lgbm_clf`和子标题`'LightGBM'`。`model_performance`函数用于评估和展示模型的性能，包括混淆矩阵、精确率、召回率、ROC曲线等指标，而`scores_table`函数则用于生成一个包含多个性能指标分数的表格。这些函数的输出将帮助我们理解和评估LightGBM模型在给定数据集上的表现。
+
+### 6.2. LightGBM - Discrimination Threshold
+Discrimination Threshold : A visualization of precision, recall, f1 score, and queue rate with respect to the discrimination threshold of a binary classifier. The discrimination threshold is the probability or score at which the positive class is chosen over the negative class
+
+```python
+# 创建一个Yellowbrick的DiscriminationThreshold可视化对象
+visualizer = DiscriminationThreshold(lgbm_clf)
+
+# 使用训练好的模型和数据拟合可视化对象
+visualizer.fit(X, y)  
+# 调用poof()方法生成并展示可视化图表
+visualizer.poof()
+```
+
+这段代码使用了Yellowbrick库中的`DiscriminationThreshold`类来创建一个可视化对象`visualizer`，用于评估分类模型的判别阈值。首先，通过传入训练好的LightGBM模型`lgbm_clf`来初始化`DiscriminationThreshold`对象。然后，使用`fit`方法将模型和数据集`X`、`y`传入可视化对象，使其拟合数据。最后，调用`poof`方法生成并展示一个图表，该图表展示了模型预测概率与实际标签之间的关系，以及判别阈值的影响。这有助于理解模型在不同概率阈值下的性能表现。
 
 ### 6.3. GridSearch + LightGBM & KNN- Accuracy = 90.6%
+We obtain a really good result but we can beat 90% with adding a KNeighborsClassifier to LightGBM (Voting Classifier)
+
+KNeighborsClassifier : KNeighborsClassifier implements learning based on the k nearest neighbors of each query point, where k is an integer value specified by the user.
+
+VotingClassifier : VotingClassifier is a meta-classifier for combining similar or conceptually different machine learning classifiers for classification via majority or plurality voting
+
+With GridSearch CV we search the best "n_neighbors" to optimize accuracy of Voting Classifier
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```python
+Best Score:0.90625
+Best Parameters: {'knn__n_neighbors': 25}
+```
+
+With n_neighbors = 25, the accuracy increase to 90.625 ! Bellow the model performance report
+
+```python
+# 创建K近邻分类器实例
+knn_clf = KNeighborsClassifier()
+
+# 创建投票分类器实例，结合LightGBM和K近邻分类器
+voting_clf = VotingClassifier(
+    estimators=[('lgbm_clf', lgbm_clf), ('knn', KNeighborsClassifier())],  # 定义投票分类器中使用的估计器
+    voting='soft',  # 投票策略，'soft'表示使用概率平均进行投票
+    weights=[1, 1]  # 为每个估计器设置权重，这里设置为相等
+)
+
+# 定义K近邻分类器的参数网格
+params = {
+    'knn__n_neighbors': np.arange(1, 30)  # 设置K近邻算法中的邻居数参数范围
+}
+
+# 创建网格搜索对象，用于寻找最优的K值
+grid = GridSearchCV(
+    estimator=voting_clf,  # 定义使用的估计器
+    param_grid=params,  # 定义参数网格
+    cv=5  # 交叉验证的折数
+)
+
+# 在训练数据上拟合网格搜索对象
+grid.fit(X, y)
+
+# 打印最佳得分和对应的参数
+print("Best Score:" + str(grid.best_score_))
+print("Best Parameters: " + str(grid.best_params_))
+```
+
+这段代码首先创建了一个K近邻分类器`knn_clf`的实例。然后，定义了一个投票分类器`voting_clf`，它结合了之前训练好的LightGBM分类器`lgbm_clf`和新创建的K近邻分类器`knn`。投票策略设置为'soft'，表示分类器将通过概率平均来进行投票，而不是简单的多数投票。每个分类器的权重被设置为1，表示它们的权重相等。
+
+接下来，定义了一个参数网格`params`，其中包含了K近邻分类器的`n_neighbors`参数的不同可能值。然后，创建了一个`GridSearchCV`对象`grid`，它将使用这个参数网格来寻找最佳的K值。`GridSearchCV`对象在训练数据`X`和标签`y`上进行拟合，通过交叉验证来评估不同参数下的性能。
+
+最后，代码打印出了通过网格搜索找到的最佳得分`grid.best_score_`和对应的最佳参数`grid.best_params_`。这些信息有助于我们理解在当前数据集上哪个K值使得模型的性能最佳。
+
+```python
+Best Score:0.90625
+Best Parameters: {'knn__n_neighbors': 25}
+```
+With n_neighbors = 25, the accuracy increase to 90.625 ! Bellow the model performance report
+
+```python
+# 创建K近邻分类器实例，设置邻居数为25
+knn_clf = KNeighborsClassifier(n_neighbors=25)
+
+# 创建投票分类器实例，结合K近邻和LightGBM分类器
+voting_clf = VotingClassifier(
+    estimators=[('knn', knn_clf), ('lgbm', lgbm_clf)],  # 定义投票分类器中使用的估计器列表
+    voting='soft',  # 投票策略，'soft'表示使用概率平均进行投票
+    weights=[1, 1]  # 为每个估计器设置权重，这里设置为相等
+)
+```
+
+这段代码首先实例化了一个K近邻分类器`knn_clf`，并设置了邻居数`n_neighbors`为25。接着，创建了一个投票分类器`voting_clf`，它结合了K近邻分类器和之前训练好的LightGBM分类器`lgbm_clf`。在投票分类器中，每个分类器的预测结果会根据其权重进行加权平均，这里给两个分类器设置了相同的权重。`voting='soft'`参数指定了投票策略为软投票，即根据分类器的预测概率进行投票，而不是简单的多数投票。这样的组合可以提高模型的泛化能力和预测性能。
+
+
+```python
+# 使用训练好的投票分类器（结合LightGBM和KNN）进行性能评估，并展示结果
+model_performance(voting_clf, 'LightGBM & KNN'):
+    # 调用model_performance函数，传入结合了LightGBM和KNN的投票分类器voting_clf和子标题'LightGBM & KNN'
+    # 该函数将计算并展示模型的交叉验证性能，包括混淆矩阵、精确率、召回率、ROC曲线等指标。
+    # 这些指标有助于评估模型的预测能力和泛化能力。
+
+# 利用训练好的投票分类器（结合LightGBM和KNN）生成性能指标的分数表，并展示结果
+scores_table(voting_clf, 'LightGBM & KNN'):
+    # 调用scores_table函数，传入结合了LightGBM和KN的投票分类器voting_clf和子标题'LightGBM & KNN'
+    # 该函数将计算模型在多个性能指标上的分数，并通过表格形式展示出来。
+    # 这些分数可以帮助我们直观地比较不同性能指标下的模型表现。
+```
+
+这两行代码分别调用了`model_performance`和`scores_table`函数，传入了结合了LightGBM和KNN的投票分类器`voting_clf`和子标题`'LightGBM & KNN'`。`model_performance`函数用于评估和展示模型的性能，包括混淆矩阵、精确率、召回率、ROC曲线等指标，而`scores_table`函数则用于生成一个包含多个性能指标分数的表格。这些函数的输出将帮助我们理解和评估结合了两种分类器的投票分类器在给定数据集上的表现。
 
 
 ### 6.4. LightGBM & KNN - Discrimination Threshold
+```python
+# 创建一个Yellowbrick的DiscriminationThreshold可视化对象，用于评估投票分类器的判别阈值
+visualizer = DiscriminationThreshold(voting_clf)
 
+# 使用训练数据拟合可视化对象
+visualizer.fit(X, y)  
+# 展示可视化图表，该图表展示了模型预测概率与实际标签之间的关系，以及判别阈值的影响
+visualizer.poof()  
+```
+
+这段代码使用了Yellowbrick库中的`DiscriminationThreshold`类来创建一个可视化对象`visualizer`，用于评估投票分类器`voting_clf`的判别阈值。首先，通过传入投票分类器来初始化`DiscriminationThreshold`对象。然后，使用`fit`方法将训练数据集`X`和标签`y`传入可视化对象，使其拟合数据。最后，调用`poof`方法生成并展示一个图表，该图表有助于理解模型在不同概率阈值下的性能表现。
 
 
 ## 7. Credits
+Credits :
 
+https://medium.com/@pushkarmandot/
+
+https-medium-com-pushkarmandot-what-is-lightgbm-how-to-implement-it-how-to-fine-tune-the-parameters-60347819b7fc
+
+https://en.wikipedia.org/wiki/Body_mass_index
+
+http://rasbt.github.io/mlxtend/user_guide/classifier/EnsembleVoteClassifier/
+
+https://www.news-medical.net/health/What-is-Diabetes.aspx
+
+https://lightgbm.readthedocs.io/en/latest/Parameters-Tuning.html
+
+http://ogrisel.github.io/scikit-learn.org/sklearn-tutorial/modules/generated/sklearn.neighbors.KNeighborsClassifier.html
+
+https://www.scikit-yb.org/en/latest/api/classifier/threshold.html
+
+https://www.analyticsindiamag.com/why-is-random-search-better-than-grid-search-for-machine-learning/
+
+https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html
+
+https://scikit-learn.org/stable/modules/preprocessing_targets.html#preprocessing-targets
+
+https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html
+
+https://twitter.com/bearda24
+
+https://www.slideshare.net/DhianaDevaRocha/qcon-rio-machine-learning-for-everyone
+
+https://medium.com/@sebastiannorena/some-model-tuning-methods-bfef3e6544f0
+
+https://www.niddk.nih.gov/health-information/diabetes/overview/what-is-diabetes
+
+https://en.wikipedia.org/wiki/Pima_people
+
+
+Thank you all ! 
