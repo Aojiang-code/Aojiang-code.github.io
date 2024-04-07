@@ -12,15 +12,116 @@
 
 # 检索结果
 
+## 01Pima_Indians_Diabetes_-_EDA_&_Prediction_0.906
+
 * [01Pima_Indians_Diabetes_-_EDA_&_Prediction_0.906](04文献阅读\妇产科\01妊娠期糖尿病\03kaggle\01Pima_Indians_Diabetes_-_EDA_&_Prediction_0.906/)
-
-
 
 > 网址：[Pima Indians Diabetes - EDA & Prediction (0.906)](https://www.kaggle.com/code/vincentlugat/pima-indians-diabetes-eda-prediction-0-906)
 
 369个支持
 
-1604个人cope
+1,604个人cope
+
+
+
+
+## 02Gestational_Diabetes
+
+* [02Gestational_Diabetes](04文献阅读\妇产科\01妊娠期糖尿病\03kaggle\02Gestational_Diabetes/)
+
+> [网址](https://www.kaggle.com/code/medahmedkrichen/gestational-diabetes/notebook)
+
+6个支持
+
+62个人cope
+
+1,945次浏览
+
+## 03🍬Diabetes : EDA |🌲Random Forest🌲 + HP⚙️
+
+* [03🍬Diabetes_EDA_~🌲Random_Forest🌲_+_HP⚙️](04文献阅读\妇产科\01妊娠期糖尿病\03kaggle\03🍬Diabetes_EDA_~🌲Random_Forest🌲_+_HP⚙️/)
+
+> [网址](https://www.kaggle.com/code/tumpanjawat/diabetes-eda-random-forest-hp)
+
+139个支持
+
+448个人cope
+
+22,461次浏览
+
+
+
+
+
+
+
+
 
 * []()
+
+
+
+
+
+
+
+
+
+
+
+
+
+* []()
+
+
+
+
+
+
+
+
+
+
+
+
+
+* []()
+
+
+
+
+
+
+
+
+
+
+
+
+
+* []()
+
+
+
+
+
+
+
+
+
+
+
+
+
+* []()
+
+
+
+
+
+
+
+
+
+
 
