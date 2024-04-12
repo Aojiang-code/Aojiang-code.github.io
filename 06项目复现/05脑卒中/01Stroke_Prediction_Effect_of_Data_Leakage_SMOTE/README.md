@@ -758,33 +758,298 @@ plt.show()
 ![2.3.1ditribution](01图片/2.3.1ditribution.png)
 
 
-* Data distribution for age has dominant values around : 10, 60 & 80.
-* avg_glucose_level has 2 peaks of uneven heights present at values around : 100 & 200.
-* bmi has a near about normal distribution but it has values in low numbers towards the right side!
+* Data distribution for **age** has dominant values around : **10**, **60** & **80**.
+* **avg_glucose_level** has 2 peaks of uneven heights present at values around : **100** & **200**.
+* **bmi** has a near about **normal distribution** but it has values in low numbers towards the right side!
 
 ### 2.4. Discrete Features w.r.t Target Variable (stroke) :
 
 
+这段代码用于创建一个包含三个子图的图形，每个子图使用Seaborn库的`countplot`函数来展示`discrete_features`列表中每个离散特征与中风情况（'stroke'）之间的关系。下面是对每行代码的详细中文注释：
+
+```python
+# 使用 Matplotlib 的 subplots 函数创建一个包含三个子图的图形对象 fig 和轴对象 ax。
+# nrows = 3 表示子图将垂直排列成3个，ncols = 1 表示只有一个子图并排，figsize = (15,15) 设置了图形的大小为15x15英寸。
+fig, ax = plt.subplots(nrows=3, ncols=1, figsize=(15,15))
+
+# 遍历离散特征列表 discrete_features 中的每个特征。
+for i in range(len(discrete_features)):
+    # 激活对应的子图，位置由 i+1 确定，因为子图的索引从1开始。
+    plt.subplot(3, 1, i+1)
+    
+    # 使用 Seaborn 的 countplot 函数在当前子图上绘制 df1 中第 i 个离散特征的计数图。
+    # discrete_features[i] 表示当前正在绘图的特征名称。
+    # data = df1 表示数据来源于DataFrame df1。
+    # hue = "stroke" 表示根据 'stroke' 列的值来分颜色显示，以区分中风和未中风的情况。
+    # palette = colors 使用之前定义的颜色列表来设置条形的颜色。
+    # edgecolor = 'black' 设置条形边缘的颜色。
+    sns.countplot(discrete_features[i], data=df1, hue="stroke", palette=colors, edgecolor='black')
+    
+    # 添加图例，显示 'No Stroke Suffered' 和 'Stroke Suffered' 两个类别。
+    plt.legend(['No Stroke Suffered', 'Stroke Suffered'], loc='upper right')
+    
+    # 构造子图的标题，表示当前特征与中风情况的关系。
+    title = discrete_features[i] + ' w.r.t stroke'
+    
+    # 设置当前子图的标题。
+    plt.title(title)
+```
+
+这段代码的主要作用是可视化数据集中的离散特征与中风事件之间的关系。通过`countplot`函数，我们可以观察每个离散特征在中风和未中风情况下的计数，从而分析特征与中风之间的潜在关联。这对于理解特征的重要性和构建预测模型是非常有帮助的。此外，通过在同一个图形中垂直排列三个子图，我们可以直观地比较不同特征与中风情况之间的关系。每个子图的标题清晰地表明了正在展示的特征，而图例则帮助我们区分了中风和未中风的情况。
+
+![2.4.1discribe](01图片/2.4.1discribe.png)
+
+
+* Because of too many unique data points in the discrete_features, it is difficult to gain any type of insight. Thus, we will convert these features into categorical features for visualizations.
+* We scale the data points of these features to a constant value that represents a range of values.(like mean)
+* Here, we divide the data points by a constant value and assign it's quotient value as the representative constant. The scaling constants are decided by looking into the data & intuition.
+
+
+这段代码用于创建新的列，将`df1` DataFrame中的`age`（年龄）、`avg_glucose_level`（平均血糖水平）和`bmi`（身体质量指数）特征的值分别进行分箱（binning）处理，并将其结果存储在新的列`age_group`、`avg_glucose_level_group`和`bmi_group`中。下面是对每行代码的详细中文注释：
+
+```python
+# 为DataFrame df1创建一个名为'age_group'的新列。
+# 使用列表推导式，遍历df1中'age'列的每个值i。
+# 将每个年龄值i除以5，并向下取整得到分组结果，然后将这个结果放入新的'age_group'列中。
+# 例如，如果年龄是30，则分组后的结果为6（因为30除以5等于6）。
+df1['age_group'] = [int(i / 5) for i in df1['age']]
+
+# 为DataFrame df1创建一个名为'avg_glucose_level_group'的新列。
+# 使用列表推导式，遍历df1中'avg_glucose_level'列的每个值i。
+# 将每个平均血糖水平值i除以20，并向下取整得到分组结果，然后将这个结果放入新的'avg_glucose_level_group'列中。
+# 例如，如果平均血糖水平是150，则分组后的结果为7（因为150除以20等于7.5，向下取整为7）。
+df1['avg_glucose_level_group'] = [int(i / 20) for i in df1['avg_glucose_level']]
+
+# 为DataFrame df1创建一个名为'bmi_group'的新列。
+# 使用列表推导式，遍历df1中'bmi'列的每个值i。
+# 将每个BMI值i除以5，并向下取整得到分组结果，然后将这个结果放入新的'bmi_group'列中。
+# 例如，如果BMI是22，则分组后的结果为4（因为22除以5等于4.4，向下取整为4）。
+df1['bmi_group'] = [int(i / 5) for i in df1['bmi']]
+```
+
+这段代码通过分箱技术将连续变量离散化，这在数据分析和机器学习中是一种常见的数据预处理步骤。分箱可以帮助简化数据的复杂性，减少噪声的影响，有时还能提高模型的性能。通过将年龄、平均血糖水平和BMI分为几个组，我们可以更容易地分析这些特征与目标变量（如中风）之间的关系。例如，我们可以比较不同年龄组或BMI组中中风发生的比例，以识别可能的风险因素。
 
 
 
 
 
+这段代码用于创建一个包含三个子图的图形，每个子图使用Seaborn库的`countplot`函数来展示`df1` DataFrame中新创建的数值型分组特征（`age_group`、`avg_glucose_level_group`和`bmi_group`）与中风情况（'stroke'）之间的关系。下面是对每行代码的详细中文注释：
+
+```python
+# 使用 Matplotlib 的 subplots 函数创建一个包含三个子图的图形对象 fig 和轴对象 ax。
+# nrows = 3 表示子图将垂直排列成3个，ncols = 1 表示只有一个子图并排，figsize = (15,15) 设置了图形的大小为15x15英寸。
+fig, ax = plt.subplots(nrows=3, ncols=1, figsize=(15,15))
+
+# 定义一个列表 group_numerical_features，包含三个新的数值型分组特征的名称。
+# 使用列表推导式，将原始的数值型特征名称（'age', 'avg_glucose_level', 'bmi'）转换为分组后的特征名称（'age_group', 'avg_glucose_level_group', 'bmi_group'）。
+group_numerical_features = [i + '_group' for i in ['age', 'avg_glucose_level', 'bmi']]
+
+# 遍历 group_numerical_features 列表中的每个分组特征名称。
+for i in range(len(group_numerical_features)):
+    # 激活对应的子图，位置由 i+1 确定，因为子图的索引从1开始。
+    plt.subplot(3, 1, i+1)
+    
+    # 使用 Seaborn 的 countplot 函数在当前子图上绘制 df1 中第 i 个分组特征的计数图。
+    # group_numerical_features[i] 表示当前正在绘图的特征名称。
+    # data = df1 表示数据来源于DataFrame df1。
+    # hue = "stroke" 表示根据 'stroke' 列的值来分颜色显示，以区分中风和未中风的情况。
+    # palette = colors 使用之前定义的颜色列表来设置条形的颜色。
+    # edgecolor = 'black' 设置条形边缘的颜色。
+    sns.countplot(group_numerical_features[i], data=df1, hue="stroke", palette=colors, edgecolor='black')
+    
+    # 添加图例，显示 'No Stroke Suffered' 和 'Stroke Suffered' 两个类别。
+    plt.legend(['No Stroke Suffered', 'Stroke Suffered'], loc='upper right')
+    
+    # 构造子图的标题，表示当前分组特征与中风情况的关系。
+    title = group_numerical_features[i] + ' w.r.t stroke'
+    
+    # 设置当前子图的标题。
+    plt.title(title)
+```
+
+这段代码的主要作用是可视化数据集中的数值型分组特征与中风事件之间的关系。通过`countplot`函数，我们可以观察每个分组特征在中风和未中风情况下的计数，从而分析特征分组与中风之间的潜在关联。这对于理解特征分组的重要性和构建预测模型是非常有帮助的。此外，通过在同一个图形中垂直排列三个子图，我们可以直观地比较不同分组特征与中风情况之间的关系。每个子图的标题清晰地表明了正在展示的特征分组，而图例则帮助我们区分了中风和未中风的情况。
 
 
 
+![2.4.2discrete](01图片/2.4.2discrete.png)
 
 
+* For age, cases of stroke suffered can be observed for the values between 35(7x5) - 80(16x5). It is not a dominant patch due to the imbalance nature of the dataset.
+* For avg_glucose_level, 2 groups can be found : 60(3x20) - 100(5x20) & 180(9x20) - 220(11x20). Patients with avg_glucose_level present in the 1st group are more prone to suffering stroke than group 2.
+* bmi values from 15(3x5) - 40(8x5) have displayed more cases of stroke.
 
 
+### 2.5. Categorical Features :
+
+#### 2.5.1. Distribution of Categorical Features :
 
 
+这行代码的作用是从`categorical_features`列表中移除一个特定的元素。下面是对这行代码的详细中文注释：
+
+```python
+# 移除列表 categorical_features 中的 'stroke' 元素。
+# 'stroke' 是列表中的一个元素，它可能是之前添加到该列表中的特征名称。
+# remove() 方法会查找列表中的 'stroke' 并将其删除，如果 'stroke' 存在多次，只会删除第一个匹配项。
+categorical_features.remove('stroke')
+```
+
+这段代码通常用于数据预处理阶段，当我们需要对列表中的元素进行清理或更新时。在这个例子中，可能是因为`'stroke'`特征已经被处理完毕，或者在后续的分析中不再需要将其作为分类特征来考虑。需要注意的是，`remove`方法会直接修改原始列表`categorical_features`，而不是创建一个新的列表。如果在代码的其他部分依赖了这个列表，那么这些部分可能也需要相应地进行更新。
+
+We remove the stroke feature from the list of categorical features as it is the target variable and we will treat it separately!
 
 
+这段代码用于创建两个图形，每个图形包含多个子图，使用Seaborn库的`distplot`函数来展示`categorical_features`列表中前四个分类特征的分布情况。下面是对每行代码的详细中文注释：
+
+第一部分的代码块：
+
+```python
+# 使用 Matplotlib 的 subplots 函数创建一个包含四个子图的图形对象 fig 和轴对象 ax。
+# nrows = 2 表示子图将垂直排列成2个，ncols = 2 表示有2个子图并排，figsize = (7,9) 设置了图形的大小。
+fig, ax = plt.subplots(nrows=2, ncols=2, figsize=(7,9))
+
+# 遍历列表 categorical_features 中的前四个元素（索引从0到3）。
+for i in range(len(categorical_features[:4])):
+    # 激活对应的子图，位置由 i+1 确定，因为子图的索引从1开始。
+    plt.subplot(2, 2, i+1)
+    
+    # 使用 Seaborn 的 distplot 函数在当前子图上绘制 df1 中第 i 个分类特征的分布图。
+    # df1[categorical_features[i]] 表示当前正在绘图的特征列。
+    # kde_kws = {'bw' : 1} 是传递给核密度估计图的关键字参数，bw 表示带宽，这里设置为1。
+    # color = colors[0] 设置图表的颜色，这里使用了之前定义的颜色列表中的第一个颜色。
+    sns.distplot(df1[categorical_features[i]], kde_kws={'bw': 1}, color=colors[0])
+    
+    # 构造子图的标题，包括 "Distribution : " 和当前特征的名称。
+    title = 'Distribution : ' + categorical_features[i]
+    
+    # 设置当前子图的标题。
+    plt.title(title)
+```
+
+第二部分的代码块：
+
+```python
+# 使用 Matplotlib 的 subplots 函数创建一个包含三个子图的图形对象 fig 和轴对象 ax。
+# nrows = 1 表示子图将垂直排列成1个，ncols = 3 表示有3个子图并排，figsize = (15,3) 设置了图形的大小。
+fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(15,3))
+
+# 遍历列表 categorical_features 中的后三个元素（索引从-1到-4，逆序）。
+for i in range(-1, -4, -1):
+    # 激活对应的子图，位置由 -i 确定，因为子图的索引从1开始，逆序遍历。
+    plt.subplot(1, 3, -i)
+    
+    # 使用 Seaborn 的 distplot 函数在当前子图上绘制 df1 中第 i 个分类特征的分布图。
+    # df1[categorical_features[i]] 表示当前正在绘图的特征列。
+    # kde_kws = {'bw' : 1} 是传递给核密度估计图的关键字参数，bw 表示带宽，这里设置为1。
+    # color = colors[0] 设置图表的颜色，这里使用了之前定义的颜色列表中的第一个颜色。
+    sns.distplot(df1[categorical_features[i]], kde_kws={'bw': 1}, color=colors[0])
+    
+    # 构造子图的标题，包括 "Distribution : " 和当前特征的名称。
+    title = 'Distribution : ' + categorical_features[i]
+    
+    # 设置当前子图的标题。
+    plt.title(title)
+```
+
+这两部分代码的主要作用是可视化数据集中的分类特征的分布情况。通过`distplot`函数，我们可以观察每个分类特征的频率分布，了解数据的分布形状，是否有异常值等信息。这对于数据分析和特征工程来说是非常重要的步骤，因为它可以帮助我们理解数据的特性，为后续的数据预处理和模型选择提供依据。此外，通过在同一个图形中展示多个特征的分布，我们可以直观地比较它们之间的差异。每个子图的标题清晰地表明了正在展示的特征，有助于我们理解每个特征的分布情况。
 
 
+![2.5.1categorical](01图片/2.5.1categorical.png)
 
 
+![2.5.2categorical](01图片/2.5.2categorical.png)
+
+All the categorical features are **Normally Distributed**.
+
+
+### 2.6. Categorical Features w.r.t Target Variable (stroke) :
+
+这段代码分为两部分，每部分都创建了一个包含多个子图的图形，使用Seaborn库的`countplot`函数来展示`categorical_features`列表中的分类特征与中风情况（'stroke'）之间的关系。每个子图都通过`countplot`函数绘制了特定分类特征的计数图，并通过文本标签和图例增强了可读性。下面是对每行代码的详细中文注释：
+
+第一部分的代码块：
+
+```python
+# 创建一个包含四个子图的图形对象fig。
+# nrows = 2 表示垂直排列2个子图，ncols = 2 表示水平排列2个子图，figsize = (15,10) 设置了图形的大小。
+fig = plt.subplots(nrows=2, ncols=2, figsize=(15,10))
+
+# 遍历0到3的整数，对应categorical_features列表中的前四个特征。
+for i in range(4):
+    # 激活对应的子图，位置由i+1确定。
+    plt.subplot(2, 2, i+1)
+    
+    # 使用Seaborn的countplot函数在当前子图上绘制df1中第i个分类特征的计数图。
+    # categorical_features[i]表示当前正在绘图的特征名称。
+    # data = df1 表示数据来源于DataFrame df1。
+    # hue = "stroke" 表示根据 'stroke' 列的值来分颜色显示，以区分中风和未中风的情况。
+    # palette = colors 使用之前定义的颜色列表来设置条形的颜色。
+    # edgecolor = 'black' 设置条形边缘的颜色。
+    ax = sns.countplot(categorical_features[i], data=df1, hue="stroke", palette=colors, edgecolor='black')
+    
+    # 在每个条形的中心位置添加文本标签，显示计数。
+    for rect in ax.patches:
+        ax.text(rect.get_x() + rect.get_width() / 2, rect.get_height() + 2, rect.get_height(), horizontalalignment='center', fontsize=11)
+    
+    # 设置x轴刻度标签，使用tf1字典将编码值映射回原始文本标签，并按字典序排序。
+    ax.set_xticklabels([tf1[categorical_features[i]][j] for j in sorted(df1[categorical_features[i]].unique())])
+    
+    # 添加图例，显示 'No Stroke Suffered' 和 'Stroke Suffered' 两个类别。
+    plt.legend(['No Stroke Suffered', 'Stroke Suffered'], loc='upper right')
+    
+    # 构造子图的标题，表示当前特征与中风情况的关系。
+    title = categorical_features[i] + ' w.r.t stroke'
+    
+    # 设置当前子图的标题。
+    plt.title(title)
+```
+
+第二部分的代码块：
+
+```python
+# 创建一个包含三个子图的图形对象fig。
+# nrows = 1 表示垂直排列1个子图，ncols = 3 表示水平排列3个子图，figsize = (15,5) 设置了图形的大小。
+fig = plt.subplots(nrows=1, ncols=3, figsize=(15,5))
+
+# 遍历-1到-4的整数，对应categorical_features列表中的后三个特征（逆序）。
+for i in range(-1, -4, -1):
+    # 激活对应的子图，位置由-i确定。
+    plt.subplot(1, 3, -i)
+    
+    # 使用Seaborn的countplot函数在当前子图上绘制df1中第i个分类特征的计数图。
+    # 其余参数设置同上。
+    ax = sns.countplot(categorical_features[i], data=df1, hue="stroke", palette=colors, edgecolor='black')
+    
+    # 在每个条形的中心位置添加文本标签，显示计数。
+    # 其余代码设置同上。
+    for rect in ax.patches:
+        ax.text(rect.get_x() + rect.get_width() / 2, rect.get_height() + 2, rect.get_height(), horizontalalignment='center', fontsize=11)
+    
+    # 设置x轴刻度标签，使用tf1字典将编码值映射回原始文本标签，并按字典序排序。
+    ax.set_xticklabels([tf1[categorical_features[i]][j] for j in sorted(df1[categorical_features[i]].unique())])
+    
+    # 添加图例，显示 'No Stroke Suffered' 和 'Stroke Suffered' 两个类别。
+    plt.legend(['No Stroke Suffered', 'Stroke Suffered'], loc='upper right')
+    
+    # 构造子图的标题，表示当前特征与中风情况的关系。
+    title = categorical_features[i] + ' w.r.t stroke'
+    
+    # 设置当前子图的标题。
+    plt.title(title)
+```
+
+这两部分代码的主要作用是可视化数据集中的分类特征与中风事件之间的关系。通过`countplot`函数，我们可以观察每个分类特征在中风和未中风情况下的计数，从而分析特征与中风之间的潜在关联。这对于理解特征的重要性和构建预测模型是非常有帮助的。此外，通过在同一个图形中展示多个特征的分布，我们可以直观地比较它们之间的差异。每个子图的标题清晰地表明了正在展示的特征，而图例则帮助我们区分了中风和未中风的情况。通过在条形图上添加文本标签，我们可以清楚地看到每个类别的计数，增强了图表的信息传递能力。
+
+![2.6.1离散VS目标](01图片/2.6.1离散VS目标.png)
+
+
+![2.6.2离散VS目标](01图片/2.6.2离散VS目标.png)
+
+
+* All the graphs near about share the same pattern i.e displaying low number of stroke cases and no clear cut reason to point towards.
+* Female population has recorded more cases of stroke than male.
+* Interestingly, people with no hypertension & no heart disease have displayed to be more prone to suffering stroke than people that have these medical conditions.
+* According to the dataset, people that have been married have suffered stroke more than those people who have never married.
+* When it comes to smoking_status, people that have never smoked have topped the numbers with formerly smoked people coming at the 2nd position to record stroke cases.
+* Not much info can be gained from Residence_type & work_type, however Private workers suffered stroke cases more than any other worker.
 
 
 
