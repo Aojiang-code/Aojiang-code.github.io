@@ -247,7 +247,7 @@ data.describe()
 
 当你执行`data.describe()`方法时，Pandas会输出一个表格，其中列出了DataFrame的每一列数值型数据的统计摘要。默认情况下，`describe()`方法只对数值型列进行统计分析，不包括分类数据（如字符串类型）。这个功能对于快速分析数据集的数值特征非常有用，可以帮助你了解数据的集中趋势、离散程度以及潜在的异常值。如果你需要对非数值型数据进行描述性统计分析，你可能需要使用其他方法或自定义函数来实现。
 
-![1.3数据摘要](01图片/1.3数据摘要.png)
+![1.2.2数据摘要](01图片/1.2.2数据摘要.png)
 
 根据提供的`data.describe()`方法的输出结果，我们可以对数据集`data`中的数值型列进行以下详细分析：
 
@@ -371,25 +371,402 @@ fig.tight_layout(pad = 0)
 
 这段代码通过创建两个热图来比较有中风病史和无中风病史患者的统计数据。通过这种可视化方式，可以直观地看出两组数据在各个数值特征上的差异，例如平均年龄、血糖水平、BMI等。这对于分析中风与其他健康指标之间的关联非常有用。此外，通过设置不同的颜色和格式化选项，热图的可读性和美观性得到了增强。
 
-![1.4不同变量的均值](01图片/1.4不同变量的均值.png)
+![1.2.3不同变量的均值](01图片/1.2.3不同变量的均值.png)
 
 
-## 2. Data Balancing using SMOTE
+* **Mean** values of all the features for cases of **stroke suffered** and **no stroke suffered**.
+* **age** and **avg_glucose_level** can be solid 1st hand indicators to identify a stroke.
+* Mean **age** values of patients that suffered a stroke, **67.73**,is much higher than those did not suffer a stroke, **41.97**.
+* Similarly, **avg_glucose_level** value of **132.54** can indicate a higher chance of suffering from stroke than the **avg_glucose_level** value of **104.80** that has been found in patients that did not suffer a stroke.
+
+### 1.3. Fill Missing Values :
+
+这段代码使用了Python的列表推导式和`tqdm`库来查找并计算DataFrame `data`中`bmi`特征的缺失值数量。下面是对每行代码的详细中文注释：
+
+```python
+# 使用列表推导式创建一个新列表l1。这个列表将包含所有在'bmi'特征列中缺失值的索引。
+# tqdm(range(len(data.isnull()['bmi'])))是一个进度条，用于显示循环的进度。range函数的参数是'bmi'特征列中缺失值的数量。
+# data.isnull()['bmi']生成一个布尔序列，表示'bmi'列中每个值是否为缺失值。
+# loc[i,'bmi']是Pandas的.loc索引器，用于根据索引i访问'bmi'列的值。
+l1 = [i for i in tqdm(range(len(data.isnull()['bmi'])))) if data.isnull().loc[i,'bmi'] == True]
+
+# 打印'bmi'特征中缺失值的总数。
+# len(l1)计算列表l1的长度，即缺失值的数量。
+print('Total Number of Missing Values in bmi feature :', len(l1))
+```
+
+这段代码的作用是找出'bmi'这一特征列中所有缺失值的索引，并计算这些缺失值的总数。通过使用`tqdm`库，代码在执行时会显示一个进度条，使得循环的执行进度可视化，这在处理大量数据时特别有用。最后，打印出的缺失值总数有助于了解数据集的完整性，为后续的数据清洗和预处理提供重要信息。
+
+```python
+100%|██████████| 5110/5110 [00:07<00:00, 715.67it/s]
+Total Number of Missing Values in bmi feature : 201
+```
+
+根据提供的代码执行结果，我们可以进行以下分析：
+
+1. **进度条输出**:
+   - 代码中的`tqdm`库用于显示一个进度条，它显示了当前进度和已经处理的迭代次数。在这个例子中，进度条显示了100%的完成度，表示代码已经处理了所有的5110个数据点。
+   - `715.67it/s`表示每秒迭代次数，即代码每秒可以检查715.67个数据点。这个速度相对较快，表明计算机处理这段代码的效率很高。
+
+2. **缺失值统计**:
+   - `print`函数输出了`bmi`特征中缺失值的总数，结果显示为201个缺失值。
+   - 这意味着在原始的`data` DataFrame中，有201个记录的`bmi`值是空的，没有提供具体的数值。
+   - 缺失值的存在可能会对数据分析和建模产生影响，因为大多数统计方法和机器学习算法都假设数据是完整的。因此，在进行进一步的分析之前，通常需要对这些缺失值进行处理，例如通过删除含有缺失值的记录、使用其他已知数据进行插值或者基于某种策略进行估计等。
+
+3. **数据清洗的重要性**:
+   - 了解数据集中缺失值的情况是数据清洗和预处理的重要步骤。在这个例子中，我们已经知道了`bmi`特征有201个缺失值，这是数据清洗过程中需要特别关注的问题。
+   - 根据数据集的具体情况和分析目标，我们需要选择合适的方法来处理这些缺失值，以确保后续分析的准确性和可靠性。
+
+总的来说，这段代码及其结果向我们展示了如何有效地识别和统计数据集中的缺失值，这是进行高质量数据分析的基础。在实际应用中，我们需要根据具体情况选择合适的方法来处理这些缺失值，以提高数据集的质量。
+
+* From the table of descriptive statistics, we observe that mean and median values of **bmi** are very close to each other.
+* Hence, we will fill the missing values with the **mean values**.
+
+
+下面这段代码使用了Pandas库来填充DataFrame `data`中的`bmi`列的缺失值，并使用Seaborn库来创建一个热图来可视化整个数据集中的缺失值情况。下面是对每行代码的详细中文注释：
+
+```python
+# 这行代码使用Pandas的fillna方法来填充DataFrame 'data'中的'bmi'列的缺失值。
+# fillna方法的第一个参数是要用来填充缺失值的值，这里使用了'bmi'列的平均值。
+# inplace=True参数表示直接在原始DataFrame上进行修改，而不是创建一个新的DataFrame。
+# 这样，所有的'bmi'列中的缺失值都会被其平均值所替代。
+data['bmi'].fillna(data['bmi'].mean(), inplace=True)
+
+# 导入Seaborn库，并使用别名sns。Seaborn是一个基于Matplotlib的高级数据可视化库，提供了丰富的绘图类型和美观的默认主题。
+import seaborn as sns
+
+# 使用Seaborn的heatmap函数创建一个热图，输入参数为原始DataFrame 'data'的isnull方法的结果。
+# isnull方法会返回一个与原DataFrame形状相同的布尔型DataFrame，其中的值表示原DataFrame对应位置的值是否为空（True表示缺失，False表示非空）。
+# cmap='magma'参数指定了热图的颜色映射方案，'magma'是一种颜色渐变，从紫色到黄色。
+# cbar=False参数表示不显示颜色条，颜色条是热图旁边用于表示颜色深浅对应数值大小的图例。
+# 执行这行代码后，会在Python的绘图环境中生成一个热图，其中颜色越深（如紫色）表示数据越缺失，颜色越浅（如黄色）表示数据越完整。
+sns.heatmap(data.isnull(), cmap='magma', cbar=False);
+```
+
+这段代码首先通过填充`bmi`列的缺失值来清洗数据集，然后使用热图来可视化整个数据集的缺失值情况。通过这种方式，我们可以直观地了解数据集中每一列的缺失值分布，从而为进一步的数据分析和处理提供依据。
+
+![1.3.1缺失值](01图片/1.3.1缺失值.png)
+
+## 2. Exploratory Data Analysis
+### 2.1. Dividing features into Discrete and Categorical :
+
+
+这段代码主要用于处理Pandas DataFrame `data`中的数据列，通过删除不需要的列、转换数据类型、识别分类（离散）和数值（连续）特征，并创建DataFrame的一个深拷贝。下面是对每行代码的详细中文注释：
+
+```python
+# 这行代码使用Pandas的drop方法从DataFrame 'data'中删除名为'id'的列。
+# columns=['id']参数指定了要删除的列名。
+# inplace=True参数表示直接在原始DataFrame上进行修改，而不是创建一个新的DataFrame。
+# 这样，'id'列将从原始数据集中被移除。
+data.drop(columns=['id'], inplace=True)
+
+# 将DataFrame 'data'的列名转换为Python列表，并赋值给变量col。
+col = list(data.columns)
+
+# 初始化一个空列表categorical_features，用于存储分类特征的列名。
+categorical_features = []
+
+# 初始化一个空列表discrete_features，用于存储离散（数值型）特征的列名。
+discrete_features = []
+
+# 遍历列表col中的每个元素，即DataFrame 'data'的每一列。
+for i in col:
+    # 检查列i中唯一值的数量。
+    # 如果唯一值的数量大于6，则认为该列是离散（数值型）特征，并将其名字添加到discrete_features列表中。
+    if len(data[i].unique()) > 6:
+        discrete_features.append(i)
+    # 否则，认为该列是分类特征，并将其名字添加到categorical_features列表中。
+    else:
+        categorical_features.append(i)
+
+# 打印分类特征的列表，使用*操作符将列表中的元素解包为独立的参数。
+print('Categorical Features :', *categorical_features)
+
+# 打印离散（数值型）特征的列表，使用*操作符将列表中的元素解包为独立的参数。
+print('Discrete Features :', *discrete_features)
+
+# 将DataFrame 'data'中的'age'列的数据类型转换为整数类型。
+data['age'] = data['age'].astype(int)
+
+# 使用copy方法创建DataFrame 'data'的一个深拷贝，并赋值给变量df1。
+# deep=True参数表示进行深拷贝，即复制所有的数据和索引，创建一个新的DataFrame。
+df1 = data.copy(deep=True)
+```
+
+这段代码通过一系列的数据处理步骤，帮助我们为后续的数据分析和机器学习任务做好准备。首先，它删除了不需要的`id`列，然后根据列中唯一值的数量区分了分类和离散特征。接着，它将`age`列的数据类型转换为整数，这通常是数值分析中的一个重要步骤。最后，它创建了原始DataFrame的一个深拷贝，这样我们就可以在不影响原始数据的情况下进行进一步的探索和实验。
+
+
+```python
+Categorical Features : gender hypertension heart_disease ever_married work_type Residence_type smoking_status stroke
+Discrete Features : age avg_glucose_level bmi
+```
+
+* We drop the id column as it is just a unique identifier.
+* Here, categorical features are defined if the the attribute has less than 6 unique elements else it is a discrete feature.
+* Typical approach for this division of features can also be based on the datatypes of the elements of the respective attribute.
+
+**Eg** : datatype = integer, attribute = discrete feature ; datatype = string, attribute = categorical feature
+
+* Creating a deep copy of the orginal dataset for experimenting with data, visualization and modeling.
+* Modifications in the original dataset will not be highlighted in this deep copy.
+* We now Label Encode the data categorical text data features.
+
+
+这段代码使用了`LabelEncoder`类来对DataFrame `df1`中的文本数据特征进行编码，将文本标签转换为范围从0到n_classes-1的整数。下面是对每行代码的详细中文注释：
+
+```python
+# 创建一个LabelEncoder对象，用于将文本标签转换为整数编码。
+le = LabelEncoder()
+
+# 定义一个列表text_data_features，包含需要进行编码的特征列名。
+text_data_features = ['gender', 'ever_married', 'work_type', 'Residence_type', 'smoking_status']
+
+# 初始化两个空列表l3和l4，用于存储每列转换后的唯一值和对应的原始文本标签。
+l3 = []; l4 = [];
+
+# 打印当前正在进行的操作，用于标识接下来的输出内容。
+print('Label Encoder Transformation')
+
+# 使用tqdm库创建一个进度条，用于显示循环的进度。
+# 遍历text_data_features列表中的每个特征列名。
+for i in tqdm(text_data_features):
+    # 使用fit_transform方法对DataFrame 'df1'中名为i的列进行编码。
+    # 转换后的编码值将替换原来的文本标签。
+    df1[i] = le.fit_transform(df1[i])
+    
+    # 获取转换后的列中所有唯一值的列表，并将其添加到列表l3中。
+    l3.append(list(df1[i].unique()))
+    
+    # 使用inverse_transform方法将编码值转换回原始的文本标签，并将其添加到列表l4中。
+    l4.append(list(le.inverse_transform(df1[i].unique())))
+    
+    # 打印特征列名、转换后的唯一值列表以及对应的原始文本标签列表。
+    print(i, ' : ', df1[i].unique(), ' = ', le.inverse_transform(df1[i].unique()))
+```
+
+这段代码的主要作用是将DataFrame `df1`中的文本数据特征转换为数值型数据，以便于后续的数据分析和机器学习模型处理。`LabelEncoder`是处理分类数据的常用工具，它通过学习每个唯一文本标签的整数映射，使得原本的文本数据可以被模型识别和处理。通过打印转换后的唯一值和对应的原始文本标签，我们可以验证编码过程是否正确，并确保数据转换的透明度和可解释性。此外，使用`tqdm`库可以提高代码的可读性，通过显示进度条来反映代码执行的状态。
+
+
+```python
+Label Encoder Transformation
+100%|██████████| 5/5 [00:00<00:00, 326.74it/s]
+gender  :  [1 0 2]  =  ['Male' 'Female' 'Other']
+ever_married  :  [1 0]  =  ['Yes' 'No']
+work_type  :  [2 3 0 4 1]  =  ['Private' 'Self-employed' 'Govt_job' 'children' 'Never_worked']
+Residence_type  :  [1 0]  =  ['Urban' 'Rural']
+smoking_status  :  [1 2 3 0]  =  ['formerly smoked' 'never smoked' 'smokes' 'Unknown']
+```
+
+根据提供的代码执行结果，我们可以进行以下分析：
+
+1. **性别（gender）**:
+   - 原始数据中的性别特征有三个类别：'Male'（男性）、'Female'（女性）和'Other'（其他）。
+   - 使用Label Encoder进行编码后，'Male'被分配了数值1，'Female'被分配了数值2，'Other'被分配了数值0。
+   - 这些数值表示了性别的有序关系，但在实际应用中，通常性别不被视为有序类别，因此可能需要使用One-Hot编码或其他方法来避免引入这种有序关系。
+
+2. **婚姻状况（ever_married）**:
+   - 原始数据中的婚姻状况特征有两个类别：'Yes'（已婚）和'No'（未婚）。
+   - 编码后，'Yes'被分配了数值1，'No'被分配了数值0。
+   - 这种编码方式简单直接，反映了已婚与否的二元关系。
+
+3. **工作类型（work_type）**:
+   - 原始数据中的工作类型特征包含多个类别，分别是'Private'（私营部门）、'Self-employed'（自雇）、'Govt_job'（政府工作）、'children'（在家带孩子）、'Never_worked'（从未工作过）。
+   - 编码后，这些类别被分配了不同的数值，但顺序与原始类别的字母顺序不同。
+   - 需要注意的是，这种编码方式引入了一个潜在的有序关系，尽管这些类别本质上是无序的。在某些情况下，这可能会影响模型的性能，因此可能需要重新考虑编码策略。
+
+4. **居住类型（Residence_type）**:
+   - 原始数据中的居住类型特征有两个类别：'Urban'（城市）和'Rural'（农村）。
+   - 编码后，'Urban'被分配了数值1，'Rural'被分配了数值0。
+   - 这种编码方式同样简单直接，反映了居住地类型的二元关系。
+
+5. **吸烟状况（smoking_status）**:
+   - 原始数据中的吸烟状况特征包含四个类别：'formerly smoked'（以前吸烟）、'never smoked'（从未吸烟）、'smokes'（现在吸烟）和'Unknown'（未知）。
+   - 编码后，这些类别被分配了不同的数值，'formerly smoked'被分配了数值1，'never smoked'被分配了数值2，'smokes'被分配了数值3，'Unknown'被分配了数值0。
+   - 这种编码方式为每个吸烟状况类别分配了一个唯一的数值，但同样可能引入了一种潜在的有序关系，尽管这些类别在实际中是无序的。
+
+总结来说，Label Encoder提供了一种简单的方式来将文本类别标签转换为数值型数据，使得这些特征可以被用于机器学习模型。然而，这种转换可能会引入有序关系，这在某些情况下可能不适当。因此，在实际应用中，我们需要根据特征的性质和模型的要求来选择合适的编码方法。
+
+* We store the label encoded transformations inside a dictionary that gives us the information about the encoded value and it's original value!
+* We add the remaining 2 features manually i.e **heart_disease** & **hypertension**!
+
+
+
+这段代码创建了一个Python字典`tf1`，用于存储文本数据特征与其编码后的唯一值之间的映射关系，以及特定列的特定编码映射。下面是对每行代码的详细中文注释：
+
+```python
+# 初始化一个空字典tf1，用于存储特征名称与它们的编码映射之间的对应关系。
+tf1 = {}
+
+# 遍历text_data_features列表的长度，即特征的数量。
+for i in range(len(text_data_features)):
+    # 为字典tf1中的每个特征创建一个新的嵌套字典。
+    # 特征名称作为键，其对应的空字典作为值。
+    tf1[text_data_features[i]] = {}
+
+    # 遍历列表l3和l4中的对应元素，这两个列表分别存储了编码后的唯一值和原始文本标签。
+    # l3[i]包含了编码后的唯一值，l4[i]包含了对应的原始文本标签。
+    for j, k in zip(l3[i], l4[i]):
+        # 在嵌套字典中，将编码后的唯一值作为键，原始文本标签作为值。
+        # 这样，我们就可以通过编码值快速找到对应的文本标签。
+        tf1[text_data_features[i]][j] = k
+
+# 为字典tf1中的'hypertension'和'heart_disease'这两个特定的特征手动添加编码映射。
+# 这里假设'hypertension'和'heart_disease'的特征值只有0和1，分别代表“没有高血压”和“有高血压”，“没有心脏病”和“有心脏病”。
+tf1['hypertension'] = {0: 'No Hypertension', 1: 'Hypertension'}
+tf1['heart_disease'] = {0: 'No Heart Disease', 1: 'Heart Disease'}
+
+# 打印字典tf1的内容，展示所有的编码映射关系。
+# 这将输出字典tf1中的所有键值对，包括文本数据特征与其编码后的唯一值和原始文本标签之间的映射。
+tf1
+```
+
+这段代码的主要作用是建立一个映射表，用于在数据预处理和机器学习任务中快速查找特征的编码和文本标签之间的对应关系。通过这种方式，我们可以确保在数据转换过程中不会丢失原始数据的含义，同时也方便了后续的数据解释和模型评估工作。
+
+```python
+{'gender': {1: 'Male', 0: 'Female', 2: 'Other'},
+ 'ever_married': {1: 'Yes', 0: 'No'},
+ 'work_type': {2: 'Private',
+  3: 'Self-employed',
+  0: 'Govt_job',
+  4: 'children',
+  1: 'Never_worked'},
+ 'Residence_type': {1: 'Urban', 0: 'Rural'},
+ 'smoking_status': {1: 'formerly smoked',
+  2: 'never smoked',
+  3: 'smokes',
+  0: 'Unknown'},
+ 'hypertension': {0: 'No Hypertension', 1: 'Hypertension'},
+ 'heart_disease': {0: 'No Heart Disease', 1: 'Heart Disease'}}
+```
+
+根据提供的代码执行结果，我们可以进行以下分析：
+
+1. **性别（gender）**:
+   - 编码映射表显示，性别特征的编码为1对应'Male'（男性），编码为0对应'Female'（女性），编码为2对应'Other'（其他）。
+   - 这种映射关系是基于Label Encoder的转换结果，其中'Other'可能是除了男性和女性之外的其他性别类别。
+
+2. **婚姻状况（ever_married）**:
+   - 编码映射表显示，婚姻状况特征的编码为1对应'Yes'（已婚），编码为0对应'No'（未婚）。
+   - 这是一个简单的二元分类映射，直接反映了个体的婚姻状态。
+
+3. **工作类型（work_type）**:
+   - 编码映射表显示，工作类型特征的编码为2对应'Private'（私营部门），编码为3对应'Self-employed'（自雇），编码为0对应'Govt_job'（政府工作），编码为4对应'children'（在家带孩子），编码为1对应'Never_worked'（从未工作过）。
+   - 这个特征的编码顺序与原始类别的字母顺序不同，这可能是根据Label Encoder的内部算法确定的。
+
+4. **居住类型（Residence_type）**:
+   - 编码映射表显示，居住类型特征的编码为1对应'Urban'（城市），编码为0对应'Rural'（农村）。
+   - 这个映射反映了个体的居住地类型，是一个简单的二元分类。
+
+5. **吸烟状况（smoking_status）**:
+   - 编码映射表显示，吸烟状况特征的编码为1对应'formerly smoked'（以前吸烟），编码为2对应'never smoked'（从未吸烟），编码为3对应'smokes'（现在吸烟），编码为0对应'Unknown'（未知）。
+   - 这个映射表提供了吸烟状况的四个不同类别，包括未知情况。
+
+6. **高血压状况（hypertension）**:
+   - 编码映射表手动添加了高血压状况特征的编码，其中0对应'No Hypertension'（没有高血压），1对应'Hypertension'（有高血压）。
+   - 这是一个典型的二元分类映射，用于表示个体是否有高血压的健康状况。
+
+7. **心脏病状况（heart_disease）**:
+   - 编码映射表手动添加了心脏病状况特征的编码，其中0对应'No Heart Disease'（没有心脏病），1对应'Heart Disease'（有心脏病）。
+   - 与高血压状况类似，这也是一个二元分类映射，用于表示个体是否有心脏病的健康状况。
+
+总结来说，`tf1`字典提供了一个清晰的映射关系，将每个特征的编码值与其原始的文本标签相对应。这对于理解数据的特征和后续的数据分析非常有用。通过这种方式，我们可以确保在使用数值型数据进行机器学习建模时，不会丢失原始数据的含义。同时，这也有助于在模型训练和评估过程中进行特征解释。
+
+
+### 2.2. Target Variable Visualization (stroke) :
+
+这段代码用于创建两个图表来展示DataFrame `df1` 中 `stroke` 列的统计情况。一个饼图用于显示患有中风和未患中风的百分比，另一个条形图用于展示具体的计数。下面是对每行代码的详细中文注释：
+
+```python
+# 从DataFrame 'df1' 中获取 'stroke' 列的值计数，并将其转换为列表形式。
+# value_counts() 方法返回一个序列，其中包含每个唯一值及其出现次数。
+l = list(df1['stroke'].value_counts())
+
+# 计算 'stroke' 列中值为1（表示患有中风）和值为0（表示未患中风）的记录所占的百分比。
+# 这些百分比值存储在列表 circle 中。
+circle = [l[0] / sum(l) * 100, l[1] / sum(l) * 100]
+
+# 使用 Matplotlib 的 subplots 函数创建一个包含两个子图的图形对象 fig 和轴对象。
+# nrows = 1 表示子图将垂直排列，ncols = 2 表示有两个子图并排排列，figsize = (20,5) 设置了图形的大小。
+fig = plt.subplots(nrows=1, ncols=2, figsize=(20,5))
+
+# 激活第一个子图（位置为1,2的第一个位置），并使用 Matplotlib 的 pie 函数创建一个饼图。
+# circle 列表包含每个部分的大小，labels 参数设置饼图的标签，autopct='%1.1f%%' 设置百分比的显示格式。
+# startangle = 90 设置饼图的起始角度，explode = (0.1,0) 使得第一个扇区（未患中风）稍微突出，以区分显示。
+# colors 参数设置扇区颜色，wedgeprops 设置扇区的边缘属性。
+plt.subplot(1, 2, 1)
+plt.pie(circle, labels=['No Stroke Suffered', 'Stroke Suffered'], autopct='%1.1f%%', startangle=90, explode=(0.1, 0), colors=colors,
+       wedgeprops={'edgecolor': 'black', 'linewidth': 1, 'antialiased': True})
+# 设置饼图的标题。
+plt.title('Stroke Events (%)');
+
+# 激活第二个子图（位置为1,2的第二个位置），并使用 Seaborn 的 countplot 函数创建一个计数条形图。
+plt.subplot(1, 2, 2)
+# 计数条形图显示 'stroke' 列的每个类别的计数，palette 参数设置条形的颜色，edgecolor 设置条形边缘的颜色。
+ax = sns.countplot('stroke', data=df1, palette=colors, edgecolor='black')
+# 循环遍历条形图的每个矩形区域，并在矩形上方添加文本标签，显示每个类别的计数。
+for rect in ax.patches:
+    ax.text(rect.get_x() + rect.get_width() / 2, rect.get_height() + 2, rect.get_height(), horizontalalignment='center', fontsize=11)
+# 设置条形图的x轴刻度标签。
+ax.set_xticklabels(['No Stroke Suffered', 'Stroke Suffered'])
+# 设置条形图的标题。
+plt.title('Number of Stroke Events');
+
+# 使用 Matplotlib 的 show 函数显示所有子图。
+plt.show()
+```
+
+这段代码通过两种不同的图表类型展示了`stroke`列的数据分布情况，使得我们可以直观地看到患有中风和未患中风的个体数量及其占比。饼图提供了一个视觉上的百分比比较，而条形图则直接显示了具体的计数，两者结合提供了丰富的数据信息。通过这种方式，我们可以更好地理解数据集中中风事件的分布情况，这对于数据分析和决策制定非常有帮助。
+
+
+![2.2.1stroke](01图片/2.2.1stroke.png)
+
+* Clearly, the dataset is **unbalanced** in the favour of no stroke.
+* **19 : 1** ratio is observed for **No Stroke : Stroke**!
+* Thus, due to such heavy bias towards cases of **No Stroke**, predictions cannot be trusted!
+
+### 2.3. Discrete Features :
+#### 2.3.1. Distribution of Discrete Features :
+
+这段代码用于创建一个包含三个子图的图形，每个子图使用Seaborn库的`distplot`函数来展示`discrete_features`列表中每个离散特征的分布情况。下面是对每行代码的详细中文注释：
+
+```python
+# 使用 Matplotlib 的 subplots 函数创建一个包含三个子图的图形对象 fig 和轴对象 ax。
+# nrows = 1 表示子图将垂直排列，ncols = 3 表示有三个子图并排排列，figsize = (20,5) 设置了图形的大小。
+fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(20,5))
+
+# 遍历离散特征列表 discrete_features 中的每个特征。
+for i in range(len(discrete_features)):
+    # 激活对应的子图，位置由 i+1 确定，因为子图的索引从1开始。
+    plt.subplot(1, 3, i+1)
+    
+    # 使用 Seaborn 的 distplot 函数在当前子图上绘制 df1 中第 i 个离散特征的分布图。
+    # color = colors[0] 设置图表的颜色，这里使用了之前定义的颜色列表中的第一个颜色。
+    sns.distplot(df1[discrete_features[i]], color=colors[0])
+    
+    # 构造子图的标题，包括 "Distribution : " 和当前特征的名称。
+    title = 'Distribution : ' + discrete_features[i]
+    
+    # 设置当前子图的标题。
+    plt.title(title)
+
+# 使用 Matplotlib 的 show 函数显示所有子图。
+plt.show()
+```
+
+这段代码的主要作用是可视化数据集中的离散特征分布情况。通过`distplot`函数，我们可以观察每个离散特征的频率分布，了解数据的分布形状，是否有异常值等信息。这对于数据分析和特征工程来说是非常重要的步骤，因为它可以帮助我们理解数据的特性，为后续的数据预处理和模型选择提供依据。此外，通过在同一个图形中并排展示三个特征的分布，我们可以直观地比较它们之间的差异。
+
+![2.3.1ditribution](01图片/2.3.1ditribution.png)
+
+
+* Data distribution for age has dominant values around : 10, 60 & 80.
+* avg_glucose_level has 2 peaks of uneven heights present at values around : 100 & 200.
+* bmi has a near about normal distribution but it has values in low numbers towards the right side!
+
+### 2.4. Discrete Features w.r.t Target Variable (stroke) :
 
 
 
 
-## 3. Data Leakage
-
-
-
-
-## 4. Statistical Tests for Feature Selection
-
-
-
-
-## 5. Modeling and visualization of results for algorithms
 
 
 
