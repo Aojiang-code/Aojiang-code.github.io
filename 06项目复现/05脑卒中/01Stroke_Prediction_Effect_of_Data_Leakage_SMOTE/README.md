@@ -1051,6 +1051,590 @@ for i in range(-1, -4, -1):
 * When it comes to smoking_status, people that have never smoked have topped the numbers with formerly smoked people coming at the 2nd position to record stroke cases.
 * Not much info can be gained from Residence_type & work_type, however Private workers suffered stroke cases more than any other worker.
 
+### 2.7. Categorical Features w.r.t Positive Cases of stroke :
 
 
+这段代码用于计算并存储DataFrame `df1` 中与中风情况（'stroke'）相关的多个分类特征的百分比分布。下面是对每行代码的详细中文注释：
+
+```python
+# 计算中风患者（'stroke' == 1）的性别（'gender'）分布，并转换为百分比形式。
+# 首先使用df1[df1['stroke'] == 1]['gender']选择中风患者中的性别数据。
+# 然后使用value_counts()方法计算每个性别类别的数量。
+# 最后，将每个性别类别的数量除以总数并乘以100得到百分比，存储在列表gender中。
+gender = df1[df1['stroke'] == 1]['gender'].value_counts()
+gender = [gender[0] / sum(gender) * 100, gender[1] / sum(gender) * 100]
+
+# 计算中风患者的高血压情况（'hypertension'）分布，并转换为百分比形式。
+# 同样地，使用df1[df1['stroke'] == 1]['hypertension']选择中风患者的高血压数据。
+# 使用value_counts()方法计算每个类别的数量。
+# 将每个类别的数量除以总数并乘以100得到百分比，存储在列表hypertension中。
+hypertension = df1[df1['stroke'] == 1]['hypertension'].value_counts()
+hypertension = [hypertension[0] / sum(hypertension) * 100, hypertension[1] / sum(hypertension) * 100]
+
+# 计算中风患者的心脏病情况（'heart_disease'）分布，并转换为百分比形式。
+# 使用df1[df1['stroke'] == 1]['heart_disease']选择中风患者的心脏病数据。
+# 计算每个类别的数量，并转换为百分比，存储在列表heart_disease中。
+heart_disease = df1[df1['stroke'] == 1]['heart_disease'].value_counts()
+heart_disease = [heart_disease[0] / sum(heart_disease) * 100, heart_disease[1] / sum(heart_disease) * 100]
+
+# 计算中风患者的婚史（'ever_married'）分布，并转换为百分比形式。
+# 使用df1[df1['stroke'] == 1]['ever_married']选择中风患者的婚史数据。
+# 计算每个类别的数量，并转换为百分比，存储在列表ever_married中。
+ever_married = df1[df1['stroke'] == 1]['ever_married'].value_counts()
+ever_married = [ever_married[0] / sum(ever_married) * 100, ever_married[1] / sum(ever_married) * 100]
+
+# 计算中风患者的工作类型（'work_type'）分布，并转换为百分比形式。
+# 使用df1[df1['stroke'] == 1]['work_type']选择中风患者的工作类型数据。
+# 由于'work_type'可能有多个类别，这里列出了所有类别的百分比计算。
+work_type = df1[df1['stroke'] == 1]['work_type'].value_counts()
+work_type = [work_type[0] / sum(work_type) * 100, work_type[2] / sum(work_type) * 100,
+             work_type[3] / sum(work_type) * 100, work_type[4] / sum(work_type) * 100]
+
+# 计算中风患者的居住类型（'Residence_type'）分布，并转换为百分比形式。
+# 使用df1[df1['stroke'] == 1]['Residence_type']选择中风患者的居住类型数据。
+# 计算每个类别的数量，并转换为百分比，存储在列表Residence_type中。
+Residence_type = df1[df1['stroke'] == 1]['Residence_type'].value_counts()
+Residence_type = [Residence_type[0] / sum(Residence_type) * 100, Residence_type[1] / sum(Residence_type) * 100]
+
+# 计算中风患者的吸烟状况（'smoking_status'）分布，并转换为百分比形式。
+# 使用df1[df1['stroke'] == 1]['smoking_status']选择中风患者的吸烟状况数据。
+# 由于'smoking_status'可能有多个类别，这里列出了所有类别的百分比计算。
+smoking_status = df1[df1['stroke'] == 1]['smoking_status'].value_counts()
+smoking_status = [smoking_status[0] / sum(smoking_status) * 100, smoking_status[1] / sum(smoking_status) * 100,
+                  smoking_status[2] / sum(smoking_status) * 100, smoking_status[3] / sum(smoking_status) * 100]
+```
+
+这段代码的主要作用是分析中风患者的特征分布情况，以便更好地理解中风与这些特征之间的潜在关联。通过计算每个特征在中风患者中的百分比，我们可以得到关于患者背景的重要信息，这可能有助于医疗专业人员识别中风的高风险因素。这些百分比值可以用于报告、演示或进一步的统计分析中。
+
+
+
+
+这段代码用于创建两个包含多个子图的图形，分别展示中风患者（'stroke' == 1）在不同分类特征下的分布情况。它使用Matplotlib的`pie`函数来绘制饼图，并使用`subplot`函数来组织子图的布局。下面是对每行代码的详细中文注释：
+
+第一部分的代码块：
+
+```python
+# 创建一个包含四个分类特征分布的列表l1。
+l1 = [gender, hypertension, heart_disease, ever_married, work_type, Residence_type, smoking_status]
+
+# 创建一个包含四个子图的图形对象fig和轴对象ax。
+# nrows = 2 表示垂直排列2个子图，ncols = 2 表示水平排列2个子图，figsize = (10,10) 设置了图形的大小。
+ax, fig = plt.subplots(nrows=2, ncols=2, figsize=(10,10))
+
+# 遍历0到3的整数，对应l1列表中的前四个特征。
+for i in range(4):
+    # 检查当前特征的类别数量是否为2。
+    if len(l1[i]) == 2:
+        # 激活对应的子图，位置由i+1确定。
+        plt.subplot(2, 2, i+1)
+        
+        # 绘制饼图，展示第i个特征的分布情况。
+        # l1[i] 表示当前特征的分布数据。
+        # labels 为每个扇区设置标签，使用tf1字典将编码值映射回原始文本标签，并按字典序排序。
+        # autopct='%1.1f%%' 显示百分比格式。
+        # startangle = 90 设置饼图的起始角度。
+        # explode = (0.1, 0) 使第一个扇区突出显示。
+        # colors = colors 使用之前定义的颜色列表。
+        # wedgeprops 设置扇区的边缘属性。
+        plt.pie(l1[i], labels=[tf1[categorical_features[i]][j] for j in sorted(df1[df1['stroke'] == 1][categorical_features[i]].unique())], autopct='%1.1f%%', startangle=90, explode=(0.1, 0), colors=colors,
+                   wedgeprops={'edgecolor': 'black', 'linewidth': 1, 'antialiased': True})
+        
+        # 设置子图的标题。
+        plt.title(categorical_features[i])
+    else:
+        # 如果当前特征的类别数量不为2，则绘制饼图，但explode参数包含额外的0以保持扇区在同一平面上。
+        plt.subplot(2, 2, i+1)
+        plt.pie(l1[i], labels=[tf1[categorical_features[i]][j] for j in sorted(df1[df1['stroke'] == 1][categorical_features[i]].unique())], autopct='%1.1f%%', startangle=90, explode=(0.1, 0, 0.1, 0), colors=colors,
+                   wedgeprops={'edgecolor': 'black', 'linewidth': 1, 'antialiased': True})
+        plt.title(categorical_features[i])
+```
+
+第二部分的代码块：
+
+```python
+# 创建一个新的图形对象fig和轴对象ax，用于绘制剩余的三个分类特征分布。
+# nrows = 1 表示垂直排列1个子图，ncols = 3 表示水平排列3个子图，figsize = (15,5) 设置了图形的大小。
+ax, fig = plt.subplots(nrows=1, ncols=3, figsize=(15,5))
+
+# 遍历-1到-4的整数，对应l1列表中的后三个特征（逆序）。
+for i in range(-1, -4, -1):
+    # 检查当前特征的类别数量是否为2。
+    if len(l1[i]) == 2:
+        # 激活对应的子图，位置由-i确定。
+        plt.subplot(1, 3, -i)
+        
+        # 绘制饼图，展示第i个特征的分布情况。
+        # 其余参数设置同上。
+        plt.pie(l1[i], labels=[tf1[categorical_features[i]][j] for j in sorted(df1[df1['stroke'] == 1][categorical_features[i]].unique())], autopct='%1.1f%%', startangle=90, explode=(0.1, 0), colors=colors,
+                   wedgeprops={'edgecolor': 'black', 'linewidth': 1, 'antialiased': True})
+        
+        # 设置子图的标题。
+        plt.title(categorical_features[i])
+    else:
+        # 如果当前特征的类别数量不为2，则绘制饼图，但explode参数包含额外的0以保持扇区在同一平面上。
+        plt.subplot(1, 3, -i)
+        plt.pie(l1[i], labels=[tf1[categorical_features[i]][j] for j in sorted(df1[df1['stroke'] == 1][categorical_features[i]].unique())], autopct='%1.1f%%', startangle=90, explode=(0.1, 0, 0.1, 0), colors=colors,
+                   wedgeprops={'edgecolor': 'black', 'linewidth': 1, 'antialiased': True})
+        plt.title(categorical_features[i])
+```
+
+这两部分代码的主要作用是可视化中风患者中不同分类特征的分布情况。通过饼图，我们可以直观地看到每个特征的各个类别在中风患者中所占的比例。这对于理解数据特征与中风之间的关联非常有帮助。通过突出显示某个类别（例如，通过explode参数），我们可以更容易地识别出最常见的类别。每个饼图的标题清晰地表明了正在展示的特征，有助于我们理解每个特征的分布情况。这种可视化方法可以用于报告或演示，以便向其他人展示数据分析的结果。
+
+
+
+
+![2.7.1](01图片/2.7.1.png)
+
+
+![2.7.2](01图片/2.7.2.png)
+
+
+* According to the data, female population is more susceptible to suffering stroke.
+* From the above visuals, surprisingly, stroke cases were found more in patients that did not have any medical conditions like heart_disease or hypertension!
+* People that have been married have the highest probability of suffering from stroke.
+* When it comes to stroke & smoking_status, people that have never smoked are most susceptible. They are followed by formerly smoked. Surprisingly, people that smokes have the lowest chances of suffering from stroke.
+* People living in Urban Residence Type have edged the people living in Rural Residence Type in terms of stroke cases.
+* When it comes to work_type, people working in Private have recorded more than 50%+ of stroke cases. It is followed by Self-employed & Govt_job that record half and quarter of the cases that Private recorderd respectively.
+
+
+
+
+### 2.8. Categorical features vs Discrete features w.r.t Target variable (stroke) :
+#### 2.8.1. gender vs Discrete Features :
+
+
+
+这段代码用于创建一个包含三个子图的图形，每个子图使用Seaborn库的`boxplot`函数来展示`discrete_features`列表中的离散（数值型）特征与性别（'gender'）之间的分布情况。下面是对每行代码的详细中文注释：
+
+```python
+# 创建一个包含三个子图的图形对象fig。
+# nrows = 1 表示子图将垂直排列1个，ncols = 3 表示有三个子图并排排列，figsize = (25,5) 设置了图形的宽度和高度。
+fig = plt.subplots(nrows=1, ncols=3, figsize=(25,5))
+
+# 遍历离散特征列表discrete_features中的每个特征。
+for i in range(len(discrete_features)):
+    # 激活对应的子图，位置由i+1确定，因为子图的索引从1开始。
+    plt.subplot(1, 3, i+1)
+    
+    # 使用Seaborn的boxplot函数在当前子图上绘制箱线图。
+    # x = 'gender' 指定箱线图的x轴是性别特征。
+    # y = discrete_features[i] 指定箱线图的y轴是当前遍历到的离散特征。
+    # data = df1 表示数据来源于DataFrame df1。
+    # hue = 'stroke' 表示根据 'stroke' 列的值来分颜色显示，以区分中风和未中风的情况。
+    # palette = colors 使用之前定义的颜色列表来设置图形的颜色。
+    ax = sns.boxplot(x='gender', y=discrete_features[i], data=df1, hue='stroke', palette=colors)
+    
+    # 设置x轴的刻度标签，使用tf1字典将编码值映射回原始文本标签，并按字典序排序。
+    ax.set_xticklabels([tf1['gender'][j] for j in sorted(df1['gender'].unique())])
+    
+    # 构造子图的标题，表示当前离散特征与性别的比较。
+    title = discrete_features[i] + ' vs gender'
+    
+    # 添加图例，显示 'No Stroke' 和 'Stroke' 两个类别。
+    plt.legend(['No Stroke', 'Stroke'], loc='upper right')
+    
+    # 设置当前子图的标题。
+    plt.title(title)
+```
+
+这段代码的主要作用是可视化数据集中的离散特征与性别之间的分布差异。通过箱线图，我们可以观察每个离散特征在不同性别中的分布情况，包括中位数、四分位数以及异常值等统计信息。这对于理解性别如何影响这些特征的分布非常有帮助。同时，通过使用颜色来区分中风和未中风的情况，我们可以进一步分析中风状态是否对这些特征的分布有显著影响。每个子图的标题清晰地表明了正在展示的特征和比较的维度，而图例则帮助我们区分了中风和未中风的情况。这种可视化方法可以用于报告或演示，以便向其他人展示数据分析的结果。
+
+
+
+![2.8.1](01图片/2.8.1.png)
+
+
+* For both male & female population, age of those suffering from stroke is 60+.
+* For majority of the avg_glucose_level values, both gender have recorded significant cases of stroke.
+* For male population, the lower limit of bmi values is slightly higher than the female. Overall, both the gender overlap the same bmi values for cases of stroke.
+
+#### 2.8.2. hypertension vs Discrete Features :
+
+
+
+
+这段代码用于创建一个包含三个子图的图形，每个子图使用Seaborn库的`boxplot`函数来展示`discrete_features`列表中的离散（数值型）特征与高血压状况（'hypertension'）之间的关系。下面是对每行代码的详细中文注释：
+
+```python
+# 创建一个包含三个子图的图形对象fig。
+# nrows = 1 表示子图将垂直排列1个，ncols = 3 表示有三个子图并排排列，figsize = (25,5) 设置了图形的宽度和高度。
+fig = plt.subplots(nrows=1, ncols=3, figsize=(25,5))
+
+# 遍历离散特征列表discrete_features中的每个特征。
+for i in range(len(discrete_features)):
+    # 激活对应的子图，位置由i+1确定，因为子图的索引从1开始。
+    plt.subplot(1, 3, i+1)
+    
+    # 使用Seaborn的boxplot函数在当前子图上绘制箱线图。
+    # x = 'hypertension' 指定箱线图的x轴是高血压状况特征。
+    # y = discrete_features[i] 指定箱线图的y轴是当前遍历到的离散特征。
+    # data = df1 表示数据来源于DataFrame df1。
+    # hue = 'stroke' 表示根据 'stroke' 列的值来分颜色显示，以区分中风和未中风的情况。
+    # palette = colors 使用之前定义的颜色列表来设置图形的颜色。
+    ax = sns.boxplot(x='hypertension', y=discrete_features[i], data=df1, hue='stroke', palette=colors)
+    
+    # 设置x轴的刻度标签，使用tf1字典将编码值映射回原始文本标签，并按字典序排序。
+    ax.set_xticklabels([tf1['hypertension'][j] for j in sorted(df1['hypertension'].unique())])
+    
+    # 构造子图的标题，表示当前离散特征与高血压状况的比较。
+    title = discrete_features[i] + ' vs hypertension'
+    
+    # 添加图例，显示 'No Stroke' 和 'Stroke' 两个类别。
+    plt.legend(['No Stroke', 'Stroke'], loc='upper right')
+    
+    # 设置当前子图的标题。
+    plt.title(title)
+```
+
+这段代码的主要作用是可视化数据集中的离散特征与高血压状况之间的关系。通过箱线图，我们可以观察每个离散特征在不同高血压状况中的分布情况，包括中位数、四分位数以及异常值等统计信息。这对于理解高血压状况如何影响这些特征的分布非常有帮助。同时，通过使用颜色来区分中风和未中风的情况，我们可以进一步分析中风状态是否对这些特征的分布有显著影响。每个子图的标题清晰地表明了正在展示的特征和比较的维度，而图例则帮助我们区分了中风和未中风的情况。这种可视化方法可以用于报告或演示，以便向其他人展示数据分析的结果。
+
+
+
+![2.8.2](01图片/2.8.2.png)
+
+
+
+* Wierdly, cases of stroke found in people having hypertension have a high lower limit of the age 60+ than those who do not suffer from hypertension.
+* When it comes to hypertension & avg_glucose_level, cases of stroke & no stroke near about share the same values.
+* Due to hypertension, lower limits of bmi values are slightly reduced making people prone to stroke.
+
+
+#### 2.8.3. heart_disease vs Discrete Features :
+
+
+这段代码用于创建一个包含三个子图的图形，每个子图使用Seaborn库的`boxplot`函数来展示`discrete_features`列表中的离散（数值型）特征与心脏病状况（'heart_disease'）之间的关系。下面是对每行代码的详细中文注释：
+
+```python
+# 创建一个包含三个子图的图形对象fig。
+# nrows = 1 表示子图将垂直排列1个，ncols = 3 表示有三个子图并排排列，figsize = (25,5) 设置了图形的宽度和高度。
+fig = plt.subplots(nrows=1, ncols=3, figsize=(25,5))
+
+# 遍历离散特征列表discrete_features中的每个特征。
+for i in range(len(discrete_features)):
+    # 激活对应的子图，位置由i+1确定，因为子图的索引从1开始。
+    plt.subplot(1, 3, i+1)
+    
+    # 使用Seaborn的boxplot函数在当前子图上绘制箱线图。
+    # x = 'heart_disease' 指定箱线图的x轴是心脏病状况特征。
+    # y = discrete_features[i] 指定箱线图的y轴是当前遍历到的离散特征。
+    # data = df1 表示数据来源于DataFrame df1。
+    # hue = 'stroke' 表示根据 'stroke' 列的值来分颜色显示，以区分中风和未中风的情况。
+    # palette = colors 使用之前定义的颜色列表来设置图形的颜色。
+    ax = sns.boxplot(x='heart_disease', y=discrete_features[i], data=df1, hue='stroke', palette=colors)
+    
+    # 设置x轴的刻度标签，使用tf1字典将编码值映射回原始文本标签，并按字典序排序。
+    ax.set_xticklabels([tf1['heart_disease'][j] for j in sorted(df1['heart_disease'].unique())])
+    
+    # 构造子图的标题，表示当前离散特征与心脏病状况的比较。
+    title = discrete_features[i] + ' vs heart_disease'
+    
+    # 添加图例，显示 'No Stroke' 和 'Stroke' 两个类别。
+    plt.legend(['No Stroke', 'Stroke'], loc='upper right')
+    
+    # 设置当前子图的标题。
+    plt.title(title)
+```
+
+这段代码的主要作用是可视化数据集中的离散特征与心脏病状况之间的关系。通过箱线图，我们可以观察每个离散特征在不同心脏病状况中的分布情况，包括中位数、四分位数以及异常值等统计信息。这对于理解心脏病状况如何影响这些特征的分布非常有帮助。同时，通过使用颜色来区分中风和未中风的情况，我们可以进一步分析中风状态是否对这些特征的分布有显著影响。每个子图的标题清晰地表明了正在展示的特征和比较的维度，而图例则帮助我们区分了中风和未中风的情况。这种可视化方法可以用于报告或演示，以便向其他人展示数据分析的结果。
+
+
+
+![2.8.3](01图片/2.8.3.png)
+
+
+* Graphs of hypertension & heart_disease against discrete features are very similar with slight differences.
+* They share the same effects on stroke.
+
+
+#### 2.8.4. ever_married vs Discrete Features :
+
+
+
+这段代码用于创建一个包含三个子图的图形，每个子图使用Seaborn库的`boxplot`函数来展示`discrete_features`列表中的离散（数值型）特征与婚姻状况（'ever_married'）之间的关系。下面是对每行代码的详细中文注释：
+
+```python
+# 创建一个包含三个子图的图形对象fig。
+# nrows = 1 表示子图将垂直排列1个，ncols = 3 表示有三个子图并排排列，figsize = (25,5) 设置了图形的宽度和高度。
+fig = plt.subplots(nrows=1, ncols=3, figsize=(25,5))
+
+# 遍历离散特征列表discrete_features中的每个特征。
+for i in range(len(discrete_features)):
+    # 激活对应的子图，位置由i+1确定，因为子图的索引从1开始。
+    plt.subplot(1, 3, i+1)
+    
+    # 使用Seaborn的boxplot函数在当前子图上绘制箱线图。
+    # x = 'ever_married' 指定箱线图的x轴是婚姻状况特征。
+    # y = discrete_features[i] 指定箱线图的y轴是当前遍历到的离散特征。
+    # data = df1 表示数据来源于DataFrame df1。
+    # hue = 'stroke' 表示根据 'stroke' 列的值来分颜色显示，以区分中风和未中风的情况。
+    # palette = colors 使用之前定义的颜色列表来设置图形的颜色。
+    ax = sns.boxplot(x='ever_married', y=discrete_features[i], data=df1, hue='stroke', palette=colors)
+    
+    # 设置x轴的刻度标签，使用tf1字典将编码值映射回原始文本标签，并按字典序排序。
+    ax.set_xticklabels([tf1['ever_married'][j] for j in sorted(df1['ever_married'].unique())])
+    
+    # 构造子图的标题，表示当前离散特征与婚姻状况的比较。
+    title = discrete_features[i] + ' vs ever_married'
+    
+    # 添加图例，显示 'No Stroke' 和 'Stroke' 两个类别。
+    plt.legend(['No Stroke', 'Stroke'], loc='upper right')
+    
+    # 设置当前子图的标题。
+    plt.title(title)
+```
+
+这段代码的主要作用是可视化数据集中的离散特征与婚姻状况之间的关系。通过箱线图，我们可以观察每个离散特征在不同婚姻状况中的分布情况，包括中位数、四分位数以及异常值等统计信息。这对于理解婚姻状况如何影响这些特征的分布非常有帮助。同时，通过使用颜色来区分中风和未中风的情况，我们可以进一步分析中风状态是否对这些特征的分布有显著影响。每个子图的标题清晰地表明了正在展示的特征和比较的维度，而图例则帮助我们区分了中风和未中风的情况。这种可视化方法可以用于报告或演示，以便向其他人展示数据分析的结果。
+
+
+![2.8.4](01图片/2.8.4.png)
+
+
+* For ever_married vs discrete features, repeated insights can be found.
+* People that have been married have displayed cases of stroke for near about all the values of avg_glucose_level.
+
+
+#### 2.8.5. work_type vs Discrete Features :
+
+
+
+这段代码用于创建一个包含三个子图的图形，每个子图使用Seaborn库的`boxplot`函数来展示`discrete_features`列表中的离散（数值型）特征与工作类型（'work_type'）之间的关系。下面是对每行代码的详细中文注释：
+
+```python
+# 创建一个包含三个子图的图形对象fig。
+# nrows = 1 表示子图将垂直排列1个，ncols = 3 表示有三个子图并排排列，figsize = (25,5) 设置了图形的宽度和高度。
+fig = plt.subplots(nrows=1, ncols=3, figsize=(25,5))
+
+# 遍历离散特征列表discrete_features中的每个特征。
+for i in range(len(discrete_features)):
+    # 激活对应的子图，位置由i+1确定，因为子图的索引从1开始。
+    plt.subplot(1, 3, i+1)
+    
+    # 使用Seaborn的boxplot函数在当前子图上绘制箱线图。
+    # x = 'work_type' 指定箱线图的x轴是工作类型特征。
+    # y = discrete_features[i] 指定箱线图的y轴是当前遍历到的离散特征。
+    # data = df1 表示数据来源于DataFrame df1。
+    # hue = 'stroke' 表示根据 'stroke' 列的值来分颜色显示，以区分中风和未中风的情况。
+    # palette = colors 使用之前定义的颜色列表来设置图形的颜色。
+    ax = sns.boxplot(x='work_type', y=discrete_features[i], data=df1, hue='stroke', palette=colors)
+    
+    # 设置x轴的刻度标签，使用tf1字典将编码值映射回原始文本标签，并按字典序排序。
+    ax.set_xticklabels([tf1['work_type'][j] for j in sorted(df1['work_type'].unique())])
+    
+    # 构造子图的标题，表示当前离散特征与工作类型的比较。
+    title = discrete_features[i] + ' vs work_type'
+    
+    # 添加图例，显示 'No Stroke' 和 'Stroke' 两个类别。
+    plt.legend(['No Stroke', 'Stroke'], loc='upper right')
+    
+    # 设置当前子图的标题。
+    plt.title(title)
+```
+
+这段代码的主要作用是可视化数据集中的离散特征与工作类型之间的关系。通过箱线图，我们可以观察每个离散特征在不同工作类型中的分布情况，包括中位数、四分位数以及异常值等统计信息。这对于理解工作类型如何影响这些特征的分布非常有帮助。同时，通过使用颜色来区分中风和未中风的情况，我们可以进一步分析中风状态是否对这些特征的分布有显著影响。每个子图的标题清晰地表明了正在展示的特征和比较的维度，而图例则帮助我们区分了中风和未中风的情况。这种可视化方法可以用于报告或演示，以便向其他人展示数据分析的结果。
+
+
+
+![2.8.5](01图片/2.8.5.png)
+
+
+* Irrespective of the work_type, stroke cases have been found for age of 60+ except for children.
+* Clearly, people that have worked to earn a living have suffered from stroke.
+* Stroke cases have been found more in people working in a job i.e Govt_job & Private than those who are Self-employed.
+
+#### 2.8.6. Residence_type vs Discrete Features :
+
+
+
+这段代码用于创建一个包含三个子图的图形，每个子图使用Seaborn库的`boxplot`函数来展示`discrete_features`列表中的离散（数值型）特征与居住类型（'Residence_type'）之间的关系。下面是对每行代码的详细中文注释：
+
+```python
+# 创建一个包含三个子图的图形对象fig。
+# nrows = 1 表示子图将垂直排列1个，ncols = 3 表示有三个子图并排排列，figsize = (25,5) 设置了图形的宽度和高度。
+fig = plt.subplots(nrows=1, ncols=3, figsize=(25,5))
+
+# 遍历离散特征列表discrete_features中的每个特征。
+for i in range(len(discrete_features)):
+    # 激活对应的子图，位置由i+1确定，因为子图的索引从1开始。
+    plt.subplot(1, 3, i+1)
+    
+    # 使用Seaborn的boxplot函数在当前子图上绘制箱线图。
+    # x = 'Residence_type' 指定箱线图的x轴是居住类型特征。
+    # y = discrete_features[i] 指定箱线图的y轴是当前遍历到的离散特征。
+    # data = df1 表示数据来源于DataFrame df1。
+    # hue = 'stroke' 表示根据 'stroke' 列的值来分颜色显示，以区分中风和未中风的情况。
+    # palette = colors 使用之前定义的颜色列表来设置图形的颜色。
+    ax = sns.boxplot(x='Residence_type', y=discrete_features[i], data=df1, hue='stroke', palette=colors)
+    
+    # 设置x轴的刻度标签，使用tf1字典将编码值映射回原始文本标签，并按字典序排序。
+    ax.set_xticklabels([tf1['Residence_type'][j] for j in sorted(df1['Residence_type'].unique())])
+    
+    # 构造子图的标题，表示当前离散特征与居住类型的比较。
+    title = discrete_features[i] + ' vs Residence_type'
+    
+    # 添加图例，显示 'No Stroke' 和 'Stroke' 两个类别。
+    plt.legend(['No Stroke', 'Stroke'], loc='upper right')
+    
+    # 设置当前子图的标题。
+    plt.title(title)
+```
+
+这段代码的主要作用是可视化数据集中的离散特征与居住类型之间的关系。通过箱线图，我们可以观察每个离散特征在不同居住类型中的分布情况，包括中位数、四分位数以及异常值等统计信息。这对于理解居住类型如何影响这些特征的分布非常有帮助。同时，通过使用颜色来区分中风和未中风的情况，我们可以进一步分析中风状态是否对这些特征的分布有显著影响。每个子图的标题清晰地表明了正在展示的特征和比较的维度，而图例则帮助我们区分了中风和未中风的情况。这种可视化方法可以用于报告或演示，以便向其他人展示数据分析的结果。
+
+
+
+![2.8.6](01图片/2.8.6.png)
+
+
+* The graphs of Rural Residence_type & Urban Residence_type against discrete features w.r.t stroke are identical.
+* They cannot be separated from each other. They repeat the insights that have been highlighted uptill now.
+
+#### 2.8.7. smoking_status vs Discrete Features :
+
+
+这段代码用于创建一个包含三个子图的图形，每个子图使用Seaborn库的`boxplot`函数来展示`discrete_features`列表中的离散（数值型）特征与吸烟状态（'smoking_status'）之间的关系。下面是对每行代码的详细中文注释：
+
+```python
+# 创建一个包含三个子图的图形对象fig。
+# nrows = 1 表示子图将垂直排列1个，ncols = 3 表示有三个子图并排排列，figsize = (25,5) 设置了图形的宽度和高度。
+fig = plt.subplots(nrows=1, ncols=3, figsize=(25,5))
+
+# 遍历离散特征列表discrete_features中的每个特征。
+for i in range(len(discrete_features)):
+    # 激活对应的子图，位置由i+1确定，因为子图的索引从1开始。
+    plt.subplot(1, 3, i+1)
+    
+    # 使用Seaborn的boxplot函数在当前子图上绘制箱线图。
+    # x = 'smoking_status' 指定箱线图的x轴是吸烟状态特征。
+    # y = discrete_features[i] 指定箱线图的y轴是当前遍历到的离散特征。
+    # data = df1 表示数据来源于DataFrame df1。
+    # hue = 'stroke' 表示根据 'stroke' 列的值来分颜色显示，以区分中风和未中风的情况。
+    # palette = colors 使用之前定义的颜色列表来设置图形的颜色。
+    ax = sns.boxplot(x='smoking_status', y=discrete_features[i], data=df1, hue='stroke', palette=colors)
+    
+    # 设置x轴的刻度标签，使用tf1字典将编码值映射回原始文本标签，并按字典序排序。
+    ax.set_xticklabels([tf1['smoking_status'][j] for j in sorted(df1['smoking_status'].unique())])
+    
+    # 构造子图的标题，表示当前离散特征与吸烟状态的比较。
+    title = discrete_features[i] + ' vs smoking_status'
+    
+    # 添加图例，显示 'No Stroke' 和 'Stroke' 两个类别。
+    plt.legend(['No Stroke', 'Stroke'], loc='upper right')
+    
+    # 设置当前子图的标题。
+    plt.title(title)
+```
+
+这段代码的主要作用是可视化数据集中的离散特征与吸烟状态之间的关系。通过箱线图，我们可以观察每个离散特征在不同吸烟状态中的分布情况，包括中位数、四分位数以及异常值等统计信息。这对于理解吸烟状态如何影响这些特征的分布非常有帮助。同时，通过使用颜色来区分中风和未中风的情况，我们可以进一步分析中风状态是否对这些特征的分布有显著影响。每个子图的标题清晰地表明了正在展示的特征和比较的维度，而图例则帮助我们区分了中风和未中风的情况。这种可视化方法可以用于报告或演示，以便向其他人展示数据分析的结果。
+
+
+
+![2.8.7](01图片/2.8.7.png)
+
+
+* Irrespective of smoking_status, people suffering from stroke have been detected at age around 60.
+* Similar to age, same values of avg_glucose_level have been found in stroke cases irrespective of smoking_status.
+* However, because of the smoking_status, range of values for which cases of stroke differ. Range of values of people that smokes is slightly higher than everyone else.
+
+### 2.9. Discrete features vs Discrete features w.r.t Target variable (stroke) :
+
+
+这段代码用于创建一个包含散点图的图形，用于展示`discrete_features`列表中离散特征之间的二维关系，同时根据'stroke'列的值（中风情况）使用不同颜色进行区分。下面是对每行代码的详细中文注释：
+
+```python
+# 初始化变量a，用于跟踪当前子图的位置。
+a = 0
+
+# 创建一个包含三个子图的图形对象fig和轴对象ax。
+# nrows = 1 表示子图将垂直排列1个，ncols = 3 表示有三个子图并排排列，figsize = (15,5) 设置了图形的大小。
+# squeeze = False 表示返回的是二维的轴对象数组，而不是一维的。
+fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(15,5), squeeze=False)
+
+# 遍历离散特征列表discrete_features中的特征索引。
+for i in range(len(discrete_features) - 1):
+    # 再次遍历离散特征列表中的特征索引，但排除与外层循环相同的索引，并且内层循环的索引j必须大于外层循环的索引i。
+    for j in range(len(discrete_features)):
+        if i != j and j > i:
+            # 增加子图位置计数器a。
+            a += 1
+            
+            # 激活对应的子图，位置由a确定。
+            plt.subplot(1, 3, a)
+            
+            # 使用Seaborn的scatterplot函数在当前子图上绘制散点图。
+            # x = discrete_features[i] 指定散点图的x轴是外层循环的特征。
+            # y = discrete_features[j] 指定散点图的y轴是内层循环的特征。
+            # data = df1 表示数据来源于DataFrame df1。
+            # hue = 'stroke' 表示根据 'stroke' 列的值来分颜色显示，以区分中风和未中风的情况。
+            # palette = colors 使用之前定义的颜色列表来设置图形的颜色。
+            # edgecolor = 'black' 设置点的边缘颜色。
+            sns.scatterplot(x=discrete_features[i], y=discrete_features[j], data=df1, hue='stroke', palette=colors, edgecolor='black');
+            
+            # 构造子图的标题，表示当前展示的两个特征的比较。
+            title = discrete_features[i] + ' vs ' + discrete_features[j]
+            
+            # 添加图例，显示 'No Stroke' 和 'Stroke' 两个类别。
+            plt.legend(['No Stroke', 'Stroke'], loc='upper right')
+            
+            # 设置当前子图的标题。
+            plt.title(title)
+```
+
+这段代码的主要作用是可视化数据集中的离散特征之间的二维关系。通过散点图，我们可以观察两个特征之间的分布模式，以及中风情况是否影响这些特征之间的关系。这对于理解特征之间的相互作用和中风状态的潜在影响非常有帮助。每个子图的标题清晰地表明了正在展示的特征组合，而图例则帮助我们区分了中风和未中风的情况。这种可视化方法可以用于报告或演示，以便向其他人展示数据分析的结果。需要注意的是，由于散点图的数量可能非常多（组合数为C(n,2)，其中n为特征数量），因此可能需要对图形进行适当的调整以确保每个子图的可读性。
+
+
+![2.9.1](01图片/2.9.1.png)
+
+
+* Due to the imbalance nature of the data, cases of stroke & no stroke cannot be separated.
+* No insights can be interpreted from the above graphs.
+
+
+## 3. Summary of EDA
+
+Order / Values of features for positive cases of stroke :
+
+* Categorical Features (Order) :
+
+* * gender : female > male
+* * hypertension : no hypertension > hypertension
+* * heart_disease : no heart disease > heart disease
+* * ever_married : married > no married
+* * working_type : Private > Self-employed > Govt_job > children
+* * Residence_type : Urban > Rural
+* * smoking_status : never smoked > formerly smoked > smokes
+
+* Discrete Features (Range) :
+
+* * age : 55 - 80
+* * avg_glucose_level : 80 - 200
+* * bmi : 20 - 40
+
+* According to the data, these order / range of values leads to heart failures.
+
+
+## 4. Domain Information
+
+
+
+
+
+
+
+
+
+
+
+## 5. Feature Engineering
+
+
+
+
+
+
+
+
+
+
+
+## 6. Modeling
 
