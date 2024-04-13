@@ -514,73 +514,204 @@ normal_file = INPUT_DIR + "/set_a/normal__201106111136.wav"
 
 
 
+下面这段代码用于在Jupyter Notebook中播放指定路径的音频文件。以下是对每行代码的详细中文注释：
 
+```python
+# 导入IPython.display模块，并使用别名ipd。
+# IPython.display模块包含一些用于在IPython环境中显示多媒体内容的函数。
+import IPython.display as ipd
 
+# 使用ipd.Audio函数播放位于normal_file路径的音频文件。
+# normal_file是一个字符串变量，包含了音频文件的完整路径。
+# 这个函数会在Jupyter Notebook中创建一个音频播放器，用户可以通过它来控制音频的播放、暂停和停止。
+ipd.Audio(normal_file)
+```
 
+执行这段代码后，如果你正在使用Jupyter Notebook，音频文件将被嵌入到Notebook的输出单元中并自动播放。`IPython.display.Audio`函数是IPython.display模块提供的一个便捷工具，它使得在Notebook中直接播放音频文件变得非常简单。这对于快速预览音频数据非常有用，尤其是在进行音频分析、处理或特征提取时，可以直观地了解音频内容。
 
 
 
 
+下面这段代码使用Python的`wave`模块来打开并读取一个WAV格式的音频文件，然后打印出音频文件的采样率、总样本数（帧数）和持续时间。以下是对每行代码的详细中文注释：
 
+```python
+# 导入Python的wave模块，它提供了读取和写入WAV文件的功能。
+import wave
 
+# 使用wave模块的open函数打开指定路径的WAV文件，并返回一个wave对象。
+# 这个对象包含了音频文件的各种属性和方法，可以用来访问和操作音频数据。
+wav = wave.open(normal_file)
 
+# 打印音频文件的采样率，即每秒钟采样的次数。
+# 使用wav对象的getframerate方法获取采样率，并打印出来。
+print("Sampling (frame) rate = ", wav.getframerate())
 
+# 打印音频文件中的总样本数（帧数）。
+# 使用wav对象的getnframes方法获取音频文件中的总帧数，并打印出来。
+print("Total samples (frames) = ", wav.getnframes())
 
+# 计算并打印音频文件的持续时间。
+# 持续时间是通过总样本数除以采样率得到的，结果是以秒为单位的音频长度。
+print("Duration = ", wav.getnframes()/wav.getframerate())
+```
 
+执行这段代码后，会在Python环境中输出音频文件的相关音频属性。这些信息对于理解音频文件的基本特性非常重要，例如采样率决定了音频的频率范围和可能的质量，总样本数和持续时间则提供了音频长度的信息。这些数据对于音频分析、处理和特征提取等任务是非常有用的。通过了解这些基本属性，可以更好地进行后续的音频操作和分析。
 
 
 
+结果：
 
+```python
+Sampling (frame) rate =  44100
+Total samples (frames) =  218903
+Duration =  4.963786848072562
+```
 
 
+这段输出结果显示了执行上述代码后得到的音频文件的基本属性。以下是对输出结果的详细解读：
 
+1. `Sampling (frame) rate = 44100`: 这表示音频文件的采样率为44,100赫兹（Hz），即每秒钟采样44,100次。这是一个常见的CD质量音频的采样率，能够覆盖人耳可听范围内的声音频率。
 
+2. `Total samples (frames) = 218903`: 这表示音频文件总共有218,903个采样点或帧。音频文件的长度可以通过将总样本数除以采样率来计算，这里没有直接显示，但可以从第三行输出中得到。
 
+3. `Duration = 4.963786848072562`: 这是根据采样率和总样本数计算出的音频文件的持续时间，大约为4.96秒。这个值是通过将总样本数（218,903）除以采样率（44,100）得到的，结果以秒为单位。
 
+从这些结果可以看出，音频文件是一个短暂的录音，大约5秒钟长。了解音频文件的采样率、总样本数和持续时间对于音频分析和处理非常重要，因为这些信息可以帮助确定如何处理音频数据，以及可能需要的存储空间和处理时间。例如，较高的采样率意味着音频质量较好，但同时也意味着文件大小更大，处理起来可能需要更多的计算资源。在进行音频特征提取或声音分析时，这些基本信息是必不可少的。
 
 
+下面这段代码使用Python的`scipy.io`模块中的`wavfile`函数来读取WAV格式的音频文件，并打印出音频文件的采样率和音频数据的形状。以下是对每行代码的详细中文注释：
 
+```python
+# 从scipy.io模块导入wavfile函数。
+# scipy是一个用于科学计算的Python库，它提供了许多用于处理音频文件的函数。
+from scipy.io import wavfile
 
+# 使用wavfile.read函数读取指定路径的WAV文件。
+# 这个函数返回两个值：采样率（rate）和音频数据（data）。
+# 采样率是每秒钟采样的次数，音频数据是一个二维数组，其中包含了音频样本的数值。
+rate, data = wavfile.read(normal_file)
 
+# 打印音频文件的采样率。
+# 这可以帮助了解音频的质量以及如何处理音频数据。
+print("Sampling (frame) rate = ", rate)
 
+# 打印音频数据的形状，即音频数据的维度。
+# data.shape是一个包含两个元素的元组，第一个元素是音频数据的样本数，第二个元素是每个样本的通道数。
+# 对于单声道音频，通道数通常是1；对于立体声音频，通道数通常是2。
+print("Total samples (frames) = ", data.shape)
 
+# 打印音频数据的内容。
+# 由于音频数据可能非常大，直接打印可能不会显示所有内容，但这个操作可以确保音频数据被成功加载。
+print(data)
+```
 
+执行这段代码后，会在Python环境中输出音频文件的采样率和音频数据的形状。这有助于用户了解音频文件的基本特性，例如采样率和音频长度。音频数据通常以二进制形式存储，因此直接打印可能不会得到有意义的输出。然而，这些信息对于后续的音频处理和分析非常重要，例如进行频谱分析、特征提取或音频合成等任务。通过`scipy.io.wavfile`读取的音频数据可以直接用于这些科学计算任务，因为`scipy`是一个广泛用于科学计算的库，提供了许多用于数据处理的函数和工具。
 
 
+```python
+Sampling (frame) rate =  44100
+Total samples (frames) =  (218903,)
+[-22835 -22726 -22595 ...   -474   -450   -439]
+```
 
 
+这段输出结果显示了执行上述代码后得到的音频文件的基本属性和音频数据的一部分。以下是对输出结果的详细解读：
 
+1. `Sampling (frame) rate = 44100`: 这表示音频文件的采样率为44,100赫兹（Hz），即每秒钟采样44,100次。这是一个常见的CD质量音频的采样率，能够覆盖人耳可听范围内的声音频率。
 
+2. `Total samples (frames) = (218903,)`: 这表示音频文件总共有218,903个采样点或帧。`data.shape`返回的元组中只有一个元素，这意味着音频数据是单声道的（只有一个通道）。如果音频是立体声的，那么这里会显示两个数字，例如`(218903, 2)`。
 
+3. `[-22835 -22726 -22595 ...   -474   -450   -439]`: 这是音频数据`data`的一部分，显示了音频文件中的一些采样值。这些值是整数，表示音频信号在各个采样点的振幅。由于这里只显示了一小部分数据，所以使用了省略号`...`来表示中间的值。这些数值是原始的采样数据，可以用于进一步的音频分析和处理。
 
+从这些结果可以看出，音频文件是一个单声道、CD质量的音频，持续时间大约为5秒（根据之前的计算，218,903个样本除以44,100Hz的采样率）。音频数据的振幅范围从负数到零，这表明音频信号是有效的，并且可能包含人的声音或其他声音。了解这些基本信息对于后续的音频分析和处理非常重要，例如进行频谱分析、特征提取或声音合成等任务。通过`scipy.io.wavfile`读取的音频数据可以直接用于这些科学计算任务，因为`scipy`是一个广泛用于科学计算的库，提供了许多用于数据处理的函数和工具。
 
 
+下面这段代码使用`matplotlib.pyplot`模块来创建一个图形，并绘制音频数据的波形图。以下是对每行代码的详细中文注释：
 
+```python
+# 创建一个新的图形对象，设置图形的大小为宽16英寸、高3英寸。
+# figsize参数用于指定图形的尺寸，这有助于调整图形的大小以便更好地查看波形细节。
+plt.figure(figsize=(16, 3))
 
+# 使用plt.plot函数绘制音频数据的波形图。
+# data是之前从音频文件中读取的音频样本数据。
+# '-' 是线型参数，指定绘制连续的线段。
+# 由于音频数据可能非常大，这里没有指定x轴的刻度，因此x轴将默认显示数据的索引。
+# 注意，分号';'在Python中用于结束语句，但在Jupyter Notebook中，它也用于防止图形显示阻挡代码执行的输出。
+plt.plot(data, '-', );
+```
 
+执行这段代码后，会在Python环境中显示一个包含音频波形的图形。这个波形图可以帮助用户直观地了解音频信号的形状和变化，对于分析音频内容非常有用。例如，通过观察波形图，可以识别音频中的静音部分、响度变化和可能的噪声等特征。在音频处理和分析任务中，波形图是一种常用的可视化工具，它提供了音频信号的直观表示，有助于进一步的信号分析和特征提取。
 
+![6波形图](01图片/6波形图.png)
 
 
+下面这段代码使用`librosa`库来加载音频文件，并获取其持续时间和采样率，然后打印出音频数据的形状和采样率。以下是对每行代码的详细中文注释：
 
+```python
+# 使用librosa库的load函数加载指定路径的音频文件。
+# normal_file是音频文件的路径。
+# duration=5参数指定了加载音频的持续时间，单位为秒。
+# 默认情况下，librosa以22,000赫兹（Hz）的采样率加载音频。
+# 这个函数返回两个值：音频数据y和采样率sr。
+y, sr = librosa.load(normal_file, duration=5)   #default sampling rate is 22 HZ
 
+# 使用librosa库的get_duration函数计算已加载音频的持续时间。
+# 这个函数接受音频数据y作为输入，并返回其持续时间，单位为秒。
+# 这可以用来验证load函数加载的音频长度是否正确。
+dur = librosa.get_duration(y)
 
+# 打印音频的持续时间。
+# 这可以帮助了解音频的长度，并用于进一步的音频处理或分析。
+print("duration:", dur)
 
+# 打印音频数据y的形状和采样率sr。
+# y.shape是一个元组，包含音频数据的维度信息。
+# sr是音频的采样率，表示每秒钟采样的次数。
+print(y.shape, sr)
+```
 
+执行这段代码后，会在Python环境中输出音频文件的持续时间和音频数据的形状及采样率。这些信息对于理解音频文件的基本特性非常重要。例如，持续时间可以帮助确定音频的长度，而采样率则影响音频的频率范围和质量。音频数据的形状（y.shape）提供了音频数据的维度信息，通常对于单声道音频，形状将是`(样本数,)`，而对于立体声音频，则可能是`(样本数, 通道数)`。这些信息对于后续的音频处理和分析任务非常有用，例如进行频谱分析、特征提取或声音合成等。通过`librosa.load`函数加载的音频数据可以直接用于这些任务，因为`librosa`是一个专门用于音频和音乐分析的Python库，提供了许多用于音频处理的功能和工具。
 
 
+```python
+duration: 4.963809523809524
+(109452,) 22050
+```
 
+这段输出结果显示了执行上述代码后得到的音频数据的持续时间和采样率信息。以下是对输出结果的详细解读：
 
+1. `duration: 4.963809523809524`: 这表示加载的音频片段的实际持续时间大约为4.96秒。这个值是根据音频数据的样本数和采样率计算得出的，与之前使用`wave`模块计算的结果相近。
 
+2. `(109452,) 22050`: 这是音频数据`y`的形状和采样率`sr`的输出。
+   - `(109452,)`表示音频数据`y`是一个一维数组，包含109,452个样本。由于这是一个一维数组，这意味着音频数据是单声道的。
+   - `22050`表示音频数据的采样率被调整到了22,050赫兹（Hz）。这是`librosa.load`函数的默认采样率，除非在调用函数时指定了不同的采样率。
 
+从这些结果可以看出，原始音频文件被加载并转换为了一个单声道的音频数组，采样率被设置为22,050 Hz。这个采样率低于原始音频文件的采样率（44,100 Hz），这可能是由于`librosa.load`函数在加载时对音频进行了重采样。重采样是音频处理中的一个常见步骤，它可以改变音频的数据量和质量。在这个例子中，重采样可能导致音频的频率范围和质量与原始文件有所不同。了解这些基本信息对于后续的音频分析和处理非常重要，例如进行频谱分析、特征提取或声音合成等任务。通过`librosa`库加载的音频数据可以直接用于这些科学计算任务，因为`librosa`是一个专门用于音频和音乐分析的Python库，提供了许多用于音频处理的功能和工具。
 
 
 
+下面这段代码使用`matplotlib.pyplot`模块和`librosa.display`模块来创建一个图形，并绘制音频数据的波形图。以下是对每行代码的详细中文注释：
 
+```python
+# 创建一个新的图形对象，并设置图形的大小为宽16英寸、高3英寸。
+# figsize参数用于指定图形的尺寸，这有助于调整图形的大小以便更好地查看波形细节。
+plt.figure(figsize=(16, 3))
 
+# 使用librosa.display模块的waveplot函数绘制音频数据的波形图。
+# y是之前从音频文件中读取的音频样本数据。
+# sr是音频数据的采样率，表示每秒钟采样的次数。
+# waveplot函数会自动处理x轴和y轴的刻度，以便清晰地展示音频波形。
+librosa.display.waveplot(y, sr=sr)
+```
 
+执行这段代码后，会在Python环境中显示一个包含音频波形的图形。这个波形图可以帮助用户直观地了解音频信号的形状和变化，对于分析音频内容非常有用。例如，通过观察波形图，可以识别音频中的静音部分、响度变化和可能的噪声等特征。在音频处理和分析任务中，波形图是一种常用的可视化工具，它提供了音频信号的直观表示，有助于进一步的信号分析和特征提取。`librosa.display.waveplot`函数是一个专门用于音频波形可视化的函数，它利用`matplotlib`库来生成高质量的图形。
 
+![7波形图](01图片/7波形图.png)
 
 
+#### 2. Murmur
+Heart murmurs sound as though there is a “whooshing, roaring, rumbling, or turbulent fluid” noise in one of two temporal locations: (1) between “lub” and “dub”, or (2) between “dub” and “lub”. They can be a symptom of many heart disorders, some serious. There will still be a “lub” and a “dub”. One of the things that confuses non-medically trained people is that murmurs happen between lub and dub or between dub and lub; not on lub and not on dub.(source: Rita Getz)
 
 
 
@@ -588,6 +719,8 @@ normal_file = INPUT_DIR + "/set_a/normal__201106111136.wav"
 
 
 
+#### 3. Extrasystole
+Extrasystole sounds may appear occasionally and can be identified because there is a heart sound that is out of rhythm involving extra or skipped heartbeats, e.g. a “lub-lub dub” or a “lub dub-dub”. (This is not the same as an extra heart sound as the event is not regularly occuring.) An extrasystole may not be a sign of disease. It can happen normally in an adult and can be very common in children. However, in some situations extrasystoles can be caused by heart diseases. If these diseases are detected earlier, then treatment is likely to be more effective. (source: Rita Getz)
 
 
 
@@ -595,6 +728,8 @@ normal_file = INPUT_DIR + "/set_a/normal__201106111136.wav"
 
 
 
+#### 4. Artifact
+In the Artifact category there are a wide range of different sounds, including feedback squeals and echoes, speech, music and noise. There are usually no discernable heart sounds, and thus little or no temporal periodicity at frequencies below 195 Hz. This category is the most different from the others. It is important to be able to distinguish this category from the other three categories, so that someone gathering the data can be instructed to try again.(source: Rita Getz)
 
 
 
@@ -602,19 +737,38 @@ normal_file = INPUT_DIR + "/set_a/normal__201106111136.wav"
 
 
 
+#### 5. Extra Heart Sound
+In the Artifact category there are a wide range of different sounds, including feedback squeals and echoes, speech, music and noise. There are usually no discernable heart sounds, and thus little or no temporal periodicity at frequencies below 195 Hz. This category is the most different from the others. It is important to be able to distinguish this category from the other three categories, so that someone gathering the data can be instructed to try again.(source: Rita Getz)
 
 
 
 
+### Audio Length
+the lengths of the audio files in the dataset varies from 1 to 30 seconds long. for training purpose we use first 5 seconds of the audio. padd missing lenght for file smaller than 5 seconds.
 
+## Data Handling in Audio domain
+As with all unstructured data formats, audio data has a couple of preprocessing steps which have to be followed before it is presented for analysis. Another way of representing audio data is by converting it into a different domain of data representation, namely the frequency domain.
 
+![frequency domain] https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/08/23212155/time_freq.png
 
+There are a few more ways in which audio data can be represented. example. using MFCs (Mel-Frequency cepstrums)
 
+General Audio Features
 
+Time Domain features (eg. RMSE of waveform)
+Frequency domain features (eg. Amplitude of individual freuencies)
+Perceptual features (eg. MFCC)
+Windowing features (eg. Hamming distances of windows)
+After extracting these features, it is then sent to the machine learning model for further analysis.
 
+## Sound Feature: MFCC
+Mel Frequency Cepstral Coefficient (MFCC) is by far the most successful feature used in the field of Speech Processing. Speech is a non-stationary signal. As such, normal signal processing techniques cannot be directly applied to it.
 
+Mel-frequency cepstral coefficients (MFCCs) are coefficients that collectively make up an MFC. They are derived from a type of cepstral representation of the audio clip (a nonlinear "spectrum-of-a-spectrum"). The difference between the cepstrum and the mel-frequency cepstrum is that in the MFC, the frequency bands are equally spaced on the mel scale, which approximates the human auditory system's response more closely than the linearly-spaced frequency bands used in the normal cepstrum. This frequency warping can allow for better representation of sound, for example, in audio compression.
 
+MFCCs are commonly derived as follows: -Take the Fourier transform of (a windowed excerpt of) a signal. -Map the powers of the spectrum obtained above onto the mel scale, using triangular overlapping windows. -Take the logs of the powers at each of the mel frequencies. -Take the discrete cosine transform of the list of mel log powers, as if it were a signal. The MFCCs are the amplitudes of the resulting spectrum.
 
+In general, a 39-dimensional feature vector is used which is composed of first 13 MFCCs and their corresponding 13 delta and 13 delta-delta.
 
 
 
@@ -623,6 +777,9 @@ normal_file = INPUT_DIR + "/set_a/normal__201106111136.wav"
 
 
 
+## Sound Feature: Onset
+onset detector
+Basic onset detector. Locate note onset events by picking peaks in an onset strength envelope. The peak_pick parameters were chosen by large-scale hyper-parameter optimization over the dataset provided
 
 
 
@@ -639,25 +796,65 @@ normal_file = INPUT_DIR + "/set_a/normal__201106111136.wav"
 
 
 
+## Loading Data
 
 
 
 
+## Deep learning RNN (Recurrent Neural Networks)-LSTM (Long Short-Term Memory)
 
 
 
 
 
 
+### Build Model
 
 
 
 
+### Train Model
 
 
 
 
 
+
+
+### Model Evaluation
+
+
+
+
+
+
+
+### Prediction Test
+
+
+
+
+
+
+## Loading a saved training model
+
+
+
+
+
+## Test loaded model
+
+
+
+
+
+# TODO - more optimization, keep improving the model.
+
+
+
+
+> Reference:
+> Classifying Heart Sounds Challenge http://www.peterjbentley.com/heartchallenge/
 
 
 

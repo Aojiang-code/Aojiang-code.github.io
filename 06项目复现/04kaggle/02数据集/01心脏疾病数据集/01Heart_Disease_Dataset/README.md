@@ -29,6 +29,10 @@
 * 577次复现
 
 
+#### [03Heartbeat_Sound_LSTM_Classification](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01Heart_Disease_Dataset\03Heartbeat_Sound_LSTM_Classification/)
+
+> 网址：[Heartbeat_Sound_LSTM_Classification](https://www.kaggle.com/code/abdallahaboelkhair/heartbeat-sound-lstm-classification)
+
 
 ### About Dataset
 #### Context
