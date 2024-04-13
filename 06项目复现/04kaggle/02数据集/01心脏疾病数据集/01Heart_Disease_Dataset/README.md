@@ -9,6 +9,29 @@
 21,200 downloads
 
 
+### 相关代码(按vote排序)
+
+#### [01Loading_and_Manipulating_Heartbeat_Audio](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01Heart_Disease_Dataset\01Loading_and_Manipulating_Heartbeat_Audio/)
+
+> 网址 [Loading_and_Manipulating_Heartbeat_Audio](https://www.kaggle.com/code/kinguistics/loading-and-manipulating-heartbeat-audio)
+* 2017年发布
+* 16，316次浏览
+* 60人认可
+* 196次复现
+
+
+* []()
+* []()
+* []()
+* []()
+* []()
+* []()
+* []()
+* []()
+* []()
+
+
+
 ### About Dataset
 #### Context
 This dataset was originally for a machine learning challenge to classify heart beat sounds. The data was gathered from two sources: (A) from the general public via the iStethoscope Pro iPhone app, and (B) from a clinic trial in hospitals using the digital stethoscope DigiScope. There were two challenges associated with this competition:
@@ -39,30 +62,6 @@ Try your hand at automatically separating normal heartbeats from abnormal heartb
 The goal of the task was to first (1) identify the locations of heart sounds from the audio, and (2) to classify the heart sounds into one of several categories (normal v. various non-normal heartbeat sounds).
 
 
-### 相关代码(按vote排序)
-
-#### [Loading_and_Manipulating_Heartbeat_Audio](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01Heart_Disease_Dataset\01Loading_and_Manipulating_Heartbeat_Audio/)
-
-> 网址 [Loading_and_Manipulating_Heartbeat_Audio](https://www.kaggle.com/code/kinguistics/loading-and-manipulating-heartbeat-audio)
-
-2017年发布
-
-16，316次浏览
-
-60人认可
-
-196次复现
-
-
-* []()
-* []()
-* []()
-* []()
-* []()
-* []()
-* []()
-* []()
-* []()
 
 ### 下载链接
 【超级会员V4】通过百度网盘分享的文件：archive(....zip
