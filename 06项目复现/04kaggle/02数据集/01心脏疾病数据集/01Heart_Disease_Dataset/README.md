@@ -13,22 +13,20 @@
 
 #### [01Loading_and_Manipulating_Heartbeat_Audio](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01Heart_Disease_Dataset\01Loading_and_Manipulating_Heartbeat_Audio/)
 
-> 网址 [Loading_and_Manipulating_Heartbeat_Audio](https://www.kaggle.com/code/kinguistics/loading-and-manipulating-heartbeat-audio)
+> 网址：[Loading_and_Manipulating_Heartbeat_Audio](https://www.kaggle.com/code/kinguistics/loading-and-manipulating-heartbeat-audio)
 * 2017年发布
 * 16，316次浏览
 * 60人认可
 * 196次复现
 
+#### [02Heart_sounds_analysis_and_classification_with_LSTM](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01Heart_Disease_Dataset\02Heart_sounds_analysis_and_classification_with_LSTM/)
 
-* []()
-* []()
-* []()
-* []()
-* []()
-* []()
-* []()
-* []()
-* []()
+> 网址：[Heart_sounds_analysis_and_classification_with_LSTM](https://www.kaggle.com/code/mychen76/heart-sounds-analysis-and-classification-with-lstm)
+
+* 2019年发布
+* 29，532次浏览
+* 54人认可
+* 577次复现
 
 
 
