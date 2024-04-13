@@ -1,8 +1,12 @@
 # 心脏疾病数据集
 
-## Heart Disease Dataset
 
-网址：[Heart Disease Dataset](https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset)
+
+## 目录
+
+### [01Heart Disease Dataset](06项目复现\04kaggle\02数据集\01心脏疾病数据集/)
+
+> 网址：[Heart Disease Dataset](https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset)
 
 2017年创建
 
@@ -10,53 +14,8 @@
 
 21,200 downloads
 
-### About Dataset
-#### Context
-This dataset was originally for a machine learning challenge to classify heart beat sounds. The data was gathered from two sources: (A) from the general public via the iStethoscope Pro iPhone app, and (B) from a clinic trial in hospitals using the digital stethoscope DigiScope. There were two challenges associated with this competition:
 
-##### 1. Heart Sound Segmentation
-The first challenge is to produce a method that can locate S1(lub) and S2(dub) sounds within audio data, segmenting the Normal audio files in both datasets.
-
-##### 2. Heart Sound Classification
-The task is to produce a method that can classify real heart audio (also known as “beat classification”) into one of four categories.
-
-#### Content
-The dataset is split into two sources, **A** and **B**:
-
-* **set_a.csv** - Labels and metadata for heart beats collected from the general public via an iPhone app
-
-* **set_a_timing.csv** - contains gold-standard timing information for the "normal" recordings from Set A.
-
-* **set_b.csv** - Labels and metadata for heart beats collected from a clinical trial in hospitals using a digital stethoscope
-
-* **audio files** - Varying lengths, between 1 second and 30 seconds. (some have been clipped to reduce excessive noise and provide the salient fragment of the sound).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### 下载链接
-【超级会员V4】通过百度网盘分享的文件：archive(....zip
-链接：https://pan.baidu.com/s/1Bk1VBrHRMi0iP0mRDIGT-w 
-提取码：698B 
-复制这段内容打开「百度网盘APP 即可获取」
-
-
-
+### 
 
 
 
