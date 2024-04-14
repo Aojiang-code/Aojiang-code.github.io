@@ -39,7 +39,7 @@
 
 ## 03🍬Diabetes : EDA |🌲Random Forest🌲 + HP⚙️
 
-* [03🍬Diabetes_EDA_~🌲Random_Forest🌲_+_HP⚙️](04文献阅读\妇产科\01妊娠期糖尿病\03kaggle\03🍬Diabetes_EDA_~🌲Random_Forest🌲_+_HP⚙️/)
+* [03🍬Diabetes_EDA_~🌲Random_Forest🌲_+_HP⚙️](04文献阅读\妇产科\01妊娠期糖尿病\03kaggle\03Diabetes_EDA_~Random_Forest_+_HP\README.md)
 
 > [网址](https://www.kaggle.com/code/tumpanjawat/diabetes-eda-random-forest-hp)
 
