@@ -332,6 +332,12 @@ for col in ['hypertension', 'heart_disease', 'diabetes']:
 
 
 
+![2.4.1hypertension.png](<01图片/2.4.1hypertension.png>)
+
+![2.4.1hypertension.png](01图片/2.4.1hypertension.png)
+
+![2.4.1hypertension](01图片/2.4.1hypertension.png)
+
 ![2.4.1hypertension.png](01图片/2.4.1hypertension.png)
 
 
