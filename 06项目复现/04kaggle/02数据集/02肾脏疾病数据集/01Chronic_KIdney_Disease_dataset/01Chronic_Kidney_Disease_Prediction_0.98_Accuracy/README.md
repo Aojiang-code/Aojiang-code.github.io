@@ -798,75 +798,861 @@ Index(['age', 'blood_pressure', 'specific_gravity', 'albumin', 'sugar',
 
 ## 1. Exploratory Data Analysis (EDA)
 
+下面这段代码定义了三个函数，用于创建不同类型的数据可视化图表。以下是对每行代码的详细中文注释：
 
+```python
+# 定义函数以创建图表
 
+# 定义一个名为violin的函数，接受一个参数col。
+# 这个函数用于创建小提琴图，它可以展示数据分布的同时，还能够显示出数据的中位数、四分位数和异常值。
+def violin(col):
+    # 创建一个Plotly表达式对象，用于绘制小提琴图。
+    # df是数据源DataFrame，y=col指定小提琴图在y轴上展示的列，x="class"指定x轴的标签，color="class"表示根据'class'列的类别来着色。
+    # box=True表示在小提琴图上方显示箱线图，template='plotly_dark'指定使用深色背景的模板。
+    fig = px.violin(df, y=col, x="class", color="class", box=True, template='plotly_dark')
+    # 调用show方法显示图表。
+    return fig.show()
 
+# 定义一个名为kde的函数，不接受参数。
+# 这个函数用于创建核密度估计图（KDE），它可以展示数据的分布密度。
+def kde(col):
+    # 创建一个Seaborn的FacetGrid对象，用于绘制多个图表的网格。
+    # df是数据源DataFrame，hue="class"表示根据'class'列的类别来着色。
+    # height=6和aspect=2指定了每个图表的尺寸。
+    grid = sns.FacetGrid(df, hue="class", height=6, aspect=2)
+    # 使用grid.map方法在每个子图上应用kdeplot函数，绘制核密度估计图。
+    # col指定了要在x轴上展示的列。
+    grid.map(sns.kdeplot, col)
+    # 添加图例。
+    grid.add_legend()
 
+# 定义一个名为scatter的函数，接受两个参数col1和col2。
+# 这个函数用于创建散点图，它可以展示两个数值型特征之间的关系。
+def scatter(col1, col2):
+    # 创建一个Plotly表达式对象，用于绘制散点图。
+    # df是数据源DataFrame，x=col1和y=col2分别指定x轴和y轴上展示的列。
+    # color="class"表示根据'class'列的类别来着色，template='plotly_dark'指定使用深色背景的模板。
+    fig = px.scatter(df, x=col1, y=col2, color="class", template='plotly_dark')
+    # 调用show方法显示图表。
+    return fig.show()
+```
 
+这些函数使得用户可以通过传递不同的参数来生成特定特征的图表，从而更好地理解数据的分布和特征之间的关系。例如，`violin`函数可以用于比较不同类别下某个数值型特征的分布情况；`kde`函数可以用于查看某个特征的分布密度；`scatter`函数可以用于探索两个数值型特征之间的关系。这些可视化工具在数据分析和机器学习中非常有用，因为它们可以帮助我们识别数据中的模式、异常值和潜在的关联。
 
 
 
+下面这行代码调用了之前定义的`violin`函数，传入了字符串参数`'red_blood_cell_count'`，用于创建DataFrame `df`中`'red_blood_cell_count'`列的小提琴图。以下是对这行代码的详细中文注释：
 
+```python
+# 调用violin函数并传入'red_blood_cell_count'列的名称
 
+# 'red_blood_cell_count'是DataFrame df中的一个列名，代表红细胞计数。
+# 通过调用violin函数并传入该列名作为参数，我们可以生成一个小提琴图，该图将展示不同类别（由'class'列定义）的红细胞计数的分布情况。
+violin('red_blood_cell_count')
+```
 
+执行这段代码后，将使用Plotly表达式创建并显示一个小提琴图，其中`'red_blood_cell_count'`列的数值数据将在y轴上展示，而`'class'`列的类别将在x轴上展示，并用于着色。这个图表有助于我们理解不同类别中红细胞计数的分布差异，包括中位数、四分位数、异常值等统计信息。这对于分析和解释医疗数据中的模式和差异非常有用。小提琴图是一种直观的数据可视化工具，可以揭示数据的分布特征和潜在的异常情况。
 
 
 
 
 
+![0.7violin](01图片/0.7violin.png)
 
 
 
 
+下面这行代码调用了之前定义的`kde`函数，传入了字符串参数`'white_blood_cell_count'`，用于创建DataFrame `df`中`'white_blood_cell_count'`列的核密度估计（KDE）图。以下是对这行代码的详细中文注释：
 
+```python
+# 调用kde函数并传入'white_blood_cell_count'列的名称
 
+# 'white_blood_cell_count'是DataFrame df中的一个列名，代表白细胞计数。
+# 通过调用kde函数并传入该列名作为参数，我们可以生成一个核密度估计图，该图将展示不同类别（由'class'列定义）的白细胞计数的分布密度。
+kde('white_blood_cell_count')
+```
 
+执行这段代码后，将使用Seaborn库创建一个包含多个子图的网格，每个子图对应一个类别，展示该类别下`'white_blood_cell_count'`列的核密度估计。这个图表有助于我们理解不同类别中白细胞计数的分布形状和密度，尤其是数据的集中趋势和分散程度。核密度估计图是一种用于展示连续变量分布的图形工具，它可以提供关于数据分布的平滑估计，而不会像直方图那样受到“块状”划分的限制。这对于数据分析和统计推断非常有用，尤其是在探索性数据分析阶段。
 
 
 
 
+![0.8kde](01图片/0.8kde.png)
 
 
+下面这行代码调用了之前定义的`violin`函数，传入了字符串参数`'packed_cell_volume'`，用于创建DataFrame `df`中`'packed_cell_volume'`列的小提琴图。以下是对这行代码的详细中文注释：
 
+```python
+# 调用violin函数并传入'packed_cell_volume'列的名称
 
+# 'packed_cell_volume'是DataFrame df中的一个列名，代表红细胞压积（也称为红细胞比容）。
+# 通过调用violin函数并传入该列名作为参数，我们可以生成一个小提琴图，该图将展示不同类别（由'class'列定义）的红细胞压积的分布情况。
+# 小提琴图是一种统计图表，可以同时显示数据的分布形状、中位数、四分位数以及异常值等信息。
+violin('packed_cell_volume')
+```
 
+执行这段代码后，将使用Plotly表达式创建并显示一个小提琴图，其中`'packed_cell_volume'`列的数值数据将在y轴上展示，而`'class'`列的类别将在x轴上展示，并用于着色。这个图表有助于我们理解不同类别中红细胞压积的分布差异，包括中位数、四分位数、异常值等统计信息。这对于分析和解释医疗数据中的模式和差异非常有用。小提琴图是一种直观的数据可视化工具，可以揭示数据的分布特征和潜在的异常情况。
 
 
 
 
 
+![0.9violin](01图片/0.9violin.png)
 
 
+下面这行代码调用了之前定义的`kde`函数，传入了字符串参数`'white_blood_cell_count'`，用于创建DataFrame `df`中`'white_blood_cell_count'`列的核密度估计（KDE）图。以下是对这行代码的详细中文注释：
 
+```python
+# 调用kde函数并传入'white_blood_cell_count'列的名称
 
+# 'white_blood_cell_count'是DataFrame df中的一个列名，代表白细胞计数。
+# 通过调用kde函数并传入该列名作为参数，我们可以生成一个核密度估计图，该图将展示不同类别（由'class'列定义）的白细胞计数的分布密度。
+# 核密度估计图是一种用于展示连续变量分布的图形工具，它可以提供关于数据分布的平滑估计，而不会像直方图那样受到“块状”划分的限制。
+kde('white_blood_cell_count')
+```
 
+执行这段代码后，将使用Seaborn库创建一个包含多个子图的网格，每个子图对应一个类别，展示该类别下`'white_blood_cell_count'`列的核密度估计。这个图表有助于我们理解不同类别中白细胞计数的分布形状和密度，尤其是数据的集中趋势和分散程度。核密度估计图是一种用于探索性数据分析的有用工具，它可以揭示数据的潜在分布特征，帮助我们更好地理解数据集中的模式和趋势。
 
+![0.10kde](01图片/0.10kde.png)
 
 
+下面这行代码调用了之前定义的`violin`函数，传入了字符串参数`'packed_cell_volume'`，用于创建DataFrame `df`中`'packed_cell_volume'`列的小提琴图。以下是对这行代码的详细中文注释：
 
+```python
+# 调用violin函数并传入'packed_cell_volume'列的名称
 
+# 'packed_cell_volume'是DataFrame df中的一个列名，代表红细胞压积（PCV），是血液检查中的一个重要指标。
+# 通过调用violin函数并传入该列名作为参数，我们可以生成一个小提琴图，该图将展示不同类别（由'class'列定义）的红细胞压积的分布情况。
+# 小提琴图是一种数据可视化图表，它结合了箱线图和核密度估计图的特点，能够展示数据的分布形状、中位数、四分位数以及异常值等信息。
+violin('packed_cell_volume')
+```
 
+执行这段代码后，将使用Plotly表达式创建并显示一个小提琴图，其中`'packed_cell_volume'`列的数值数据将在y轴上展示，而`'class'`列的类别将在x轴上展示，并用于着色。这个图表有助于我们理解不同类别中红细胞压积的分布差异，包括中位数、四分位数、异常值等统计信息。这对于分析和解释医疗数据中的模式和差异非常有用。小提琴图是一种直观的数据可视化工具，可以揭示数据的分布特征和潜在的异常情况。
 
+![0.11violin](01图片/0.11vioin.png)
 
 
 
+```python
+kde('packed_cell_volume')
+```
 
+![0.12kde](01图片/0.12kde.png)
 
 
 
+```python
+violin('haemoglobin')
+```
 
 
+![0.13violin](0.13violin.png)
 
 
 
+```python
+kde('haemoglobin')
+```
 
 
+```python
+violin('albumin')
+```
 
 
 
+```python
+kde('albumin')
+```
 
 
+```python
+violin('blood_glucose_random')
+```
 
+
+
+```python
+kde('blood_glucose_random')
+```
+
+
+
+
+```python
+violin('sodium')
+```
+
+
+
+
+
+```python
+kde('sodium')
+```
+
+
+
+```python
+violin('blood_urea')
+```
+
+
+
+```python
+kde('blood_urea')
+```
+
+
+
+
+```python
+violin('specific_gravity')
+```
+
+
+
+
+
+```python
+kde('specific_gravity')
+```
+
+
+```python
+scatter('haemoglobin', 'packed_cell_volume')
+```
+
+
+```python
+scatter('red_blood_cell_count', 'packed_cell_volume')
+```
+
+
+
+
+
+```python
+scatter('red_blood_cell_count', 'albumin')
+```
+
+
+```python
+scatter('sugar', 'blood_glucose_random')
+```
+
+
+```python
+scatter('packed_cell_volume','blood_urea')
+```
+
+
+
+
+
+```python
+px.bar(df, x="specific_gravity", y="packed_cell_volume", color='class', barmode='group', template = 'plotly_dark', height = 400)
+```
+
+
+```python
+px.bar(df, x="specific_gravity", y="albumin", color='class', barmode='group', template = 'plotly_dark', height = 400)
+
+```
+
+
+```python
+px.bar(df, x="blood_pressure", y="packed_cell_volume", color='class', barmode='group', template = 'plotly_dark', height = 400)
+```
+
+
+
+
+
+```python
+px.bar(df, x="blood_pressure", y="haemoglobin", color='class', barmode='group', template = 'plotly_dark', height = 400)
+```
+
+## 2. Data Pre Processing
+
+下面这段代码用于检查DataFrame `df`中的缺失值（null values），并按缺失值的数量进行排序。以下是对每行代码的详细中文注释：
+
+```python
+# 检查缺失值
+
+# 使用DataFrame的isna方法生成一个与df形状相同的布尔型DataFrame，其中的值表示df中对应位置的值是否为缺失值（True表示缺失，False表示非缺失）。
+# 然后使用sum方法沿着列的方向（axis=0）对布尔型DataFrame进行求和，得到每一行的缺失值计数。
+df.isna().sum()
+
+# 使用sort_values方法对上一步得到的缺失值计数进行排序。
+# ascending=False表示按降序排序，即缺失值数量最多的列将排在最前面。
+# 这样我们可以快速识别出数据集中缺失值最多的列，这对于后续的数据清洗和预处理非常重要。
+.sort_values(ascending=False)
+```
+
+执行这段代码后，会在Python环境中输出一个Series，其中包含了DataFrame `df`中每一列的缺失值数量，并按照缺失值数量从多到少进行了排序。这有助于数据分析师快速定位数据集中可能存在的问题，例如，如果某个列的缺失值数量特别多，可能需要考虑是否删除该列或者用某种方法填充这些缺失值。了解数据集中缺失值的分布情况是进行有效数据分析和机器学习建模的关键步骤。
+
+
+
+```python
+red_blood_cells            152
+red_blood_cell_count       131
+white_blood_cell_count     106
+potassium                   88
+sodium                      87
+packed_cell_volume          71
+pus_cell                    65
+haemoglobin                 52
+sugar                       49
+specific_gravity            47
+albumin                     46
+blood_glucose_random        44
+blood_urea                  19
+serum_creatinine            17
+blood_pressure              12
+age                          9
+bacteria                     4
+pus_cell_clumps              4
+hypertension                 2
+diabetes_mellitus            2
+coronary_artery_disease      2
+appetite                     1
+peda_edema                   1
+aanemia                      1
+class                        0
+dtype: int64
+```
+
+执行上述代码后，得到的结果显示了DataFrame `df`中每一列的缺失值数量，并按照缺失值数量从多到少进行了排序。以下是对结果的详细分析：
+
+1. **red_blood_cells**:
+   - 缺失值数量最多，为152个。这表明红细胞的分类结果有超过三分之一的数据缺失，可能需要特别关注。
+
+2. **red_blood_cell_count**:
+   - 缺失值数量为131个。红细胞计数的缺失值也相对较多，这可能影响相关的血液疾病分析。
+
+3. **white_blood_cell_count**:
+   - 缺失值数量为106个。白细胞计数的缺失值数量相对较多，可能需要进一步的数据清洗或处理。
+
+4. **potassium** 和 **sodium**:
+   - 这两个列分别代表血液中的钾和钠水平，缺失值数量分别为88和87个。这些缺失值可能需要通过适当的方法进行处理。
+
+5. **packed_cell_volume**:
+   - 缺失值数量为71个。红细胞压积的缺失值数量相对较多，可能需要特别注意。
+
+6. **其他列**:
+   - 其他列的缺失值数量逐渐减少，有些列如`class`没有缺失值。
+
+7. **数据完整性**:
+   - 从结果可以看出，数据集中的某些列存在较多的缺失值，这可能对数据分析和机器学习模型的性能产生影响。
+   - 在进行后续分析之前，需要考虑如何处理这些缺失值，例如通过删除含有缺失值的行、使用中位数或均值进行填充、或者应用更复杂的插值方法。
+
+了解数据集中缺失值的分布情况对于数据预处理和提高模型的准确性非常重要。缺失值的处理方法应根据数据的特点和分析目标来选择。
+
+
+
+下面这行代码用于计算DataFrame `df`中数值型特征列的缺失值数量。以下是对这行代码的详细中文注释：
+
+```python
+# 计算数值型特征列的缺失值数量
+
+# df[num_cols]通过选择DataFrame df中数值型特征列的名称，创建一个新的DataFrame，只包含数值型列。
+# num_cols是一个包含所有数值型列名的列表，这些列通常应该是包含数值数据的列。
+# 然后使用isnull方法生成一个布尔型DataFrame，其中的值表示相应位置的数值是否为缺失值（True表示缺失，False表示非缺失）。
+# 最后，使用sum方法沿着列的方向（axis=0）对布尔型DataFrame进行求和，得到每一列的缺失值计数。
+df[num_cols].isnull().sum()
+```
+
+执行这段代码后，将得到一个Series，其中包含了DataFrame `df`中每一数值型特征列的缺失值数量。这有助于我们了解数据集中数值型特征的完整性，特别是在准备数据进行机器学习或其他统计分析之前，了解缺失值的情况是非常重要的。如果某些数值型特征列有很多缺失值，我们可能需要考虑如何处理这些缺失值，例如通过删除、填充或其他数据插补技术。
+
+
+
+```python
+age                         9
+blood_pressure             12
+specific_gravity           47
+albumin                    46
+sugar                      49
+blood_glucose_random       44
+blood_urea                 19
+serum_creatinine           17
+sodium                     87
+potassium                  88
+haemoglobin                52
+packed_cell_volume         71
+white_blood_cell_count    106
+red_blood_cell_count      131
+dtype: int64
+```
+
+
+执行上述代码后，得到的结果显示了DataFrame `df`中每一数值型特征列的缺失值数量。以下是对结果的详细分析：
+
+1. **age**:
+   - 缺失值数量为9个，表明年龄数据中有少量缺失。
+
+2. **blood_pressure**:
+   - 缺失值数量为12个，意味着血压数据中有轻微的缺失。
+
+3. **specific_gravity**:
+   - 缺失值数量为47个，这是一个相对较多缺失值的特征，可能需要特别关注。
+
+4. **albumin**:
+   - 缺失值数量为46个，白蛋白水平数据中也有相对较多的缺失。
+
+5. **sugar**:
+   - 缺失值数量为49个，血糖水平数据中的缺失值相对较多。
+
+6. **blood_glucose_random**:
+   - 缺失值数量为44个，随机血糖水平数据中的缺失值数量略少于血糖水平数据。
+
+7. **blood_urea**:
+   - 缺失值数量为19个，血尿素水平数据中有少量缺失。
+
+8. **serum_creatinine**:
+   - 缺失值数量为17个，血清肌酐水平数据中有少量缺失。
+
+9. **sodium**:
+   - 缺失值数量为87个，钠水平数据中有一定数量的缺失。
+
+10. **potassium**:
+    - 缺失值数量为88个，钾水平数据中的缺失值数量较多。
+
+11. **haemoglobin**:
+    - 缺失值数量为52个，血红蛋白水平数据中有中等数量的缺失。
+
+12. **packed_cell_volume**:
+    - 缺失值数量为71个，红细胞压积数据中有中等数量的缺失。
+
+13. **white_blood_cell_count**:
+    - 缺失值数量为106个，白细胞计数数据中有较多缺失。
+
+14. **red_blood_cell_count**:
+    - 缺失值数量为131个，红细胞计数数据中缺失值数量最多。
+
+这些结果表明，数据集中的某些数值型特征存在不同程度的缺失值问题。在进行数据分析或机器学习建模之前，需要对这些缺失值进行适当的处理，例如通过数据插补、删除含有缺失值的记录或使用其他方法来减少缺失值对分析结果的影响。处理缺失值是数据预处理的重要步骤，对于提高模型的准确性和可靠性至关重要。
+
+
+
+
+下面这行代码用于计算DataFrame `df`中分类特征列的缺失值数量。以下是对这行代码的详细中文注释：
+
+```python
+# 计算分类特征列的缺失值数量
+
+# df[cat_cols]通过选择DataFrame df中分类特征列的名称，创建一个新的DataFrame，只包含分类特征列。
+# cat_cols是一个包含所有分类特征列名的列表，这些列通常应该是包含分类数据的列。
+# 然后使用isnull方法生成一个布尔型DataFrame，其中的值表示相应位置的数值是否为缺失值（True表示缺失，False表示非缺失）。
+# 最后，使用sum方法沿着列的方向（axis=0）对布尔型DataFrame进行求和，得到每一列的缺失值计数。
+df[cat_cols].isnull().sum()
+```
+
+执行这段代码后，将得到一个Series，其中包含了DataFrame `df`中每一分类特征列的缺失值数量。这有助于我们了解数据集中分类特征的完整性，特别是在准备数据进行机器学习或其他统计分析之前，了解缺失值的情况是非常重要的。如果某些分类特征列有很多缺失值，我们可能需要考虑如何处理这些缺失值，例如通过删除、填充或其他数据插补技术。
+
+
+
+
+```python
+red_blood_cells            152
+pus_cell                    65
+pus_cell_clumps              4
+bacteria                     4
+hypertension                 2
+diabetes_mellitus            2
+coronary_artery_disease      2
+appetite                     1
+peda_edema                   1
+aanemia                      1
+class                        0
+dtype: int64
+```
+
+
+执行上述代码后，得到的结果显示了DataFrame `df`中每一分类特征列的缺失值数量。以下是对结果的详细分析：
+
+1. **red_blood_cells**:
+   - 缺失值数量最多，为152个。这表明红细胞的分类结果中有大量的数据缺失，可能需要特别关注并考虑如何处理这些缺失值。
+
+2. **pus_cell**:
+   - 缺失值数量为65个。脓细胞数据中也有较多的缺失值，这可能影响相关的医疗分析和决策。
+
+3. **pus_cell_clumps**:
+   - 缺失值数量为4个。脓细胞团数据中的缺失值较少。
+
+4. **bacteria**:
+   - 缺失值数量为4个。细菌检查结果中有少量缺失值。
+
+5. **hypertension**、**diabetes_mellitus**、**coronary_artery_disease**:
+   - 这三个列的缺失值数量都是2个。这些列分别代表高血压、糖尿病和冠状动脉疾病的状态，每列都有极少量的缺失值。
+
+6. **appetite**、**peda_edema**、**aanemia**:
+   - 这些列的缺失值数量都是1个。它们分别代表食欲、脚部水肿和贫血的状态，每列中只有极少数的缺失值。
+
+7. **class**:
+   - 缺失值为0个，表明肾脏疾病分类列中没有缺失值。
+
+这些结果表明，数据集中的某些分类特征存在不同程度的缺失值问题。在进行数据分析或机器学习建模之前，需要对这些缺失值进行适当的处理。处理方法可能包括删除含有缺失值的记录、使用众数或中位数进行填充、或者应用更复杂的插值方法。正确的处理缺失值对于提高模型的准确性和可靠性至关重要。特别是对于分类特征，缺失值的处理需要谨慎，以避免引入偏差或影响模型的性能。
+
+
+下面这段代码定义了两个函数，用于处理DataFrame `df`中的缺失值。第一个函数`random_value_imputation`通过随机抽样的方法填充较高数量的缺失值，而第二个函数`impute_mode`使用众数（mode）来填充较低数量的缺失值。以下是对每行代码的详细中文注释：
+
+```python
+# 填充缺失值，我们将使用两种方法：对于较高数量的缺失值使用随机抽样，对于较低数量的缺失值使用均值/众数抽样
+
+# 定义一个名为random_value_imputation的函数，接受一个参数feature。
+# 这个函数用于通过随机抽样的方法填充指定特征列中的缺失值。
+def random_value_imputation(feature):
+    # 从指定特征列中删除缺失值，然后使用sample函数随机抽取等于缺失值数量的样本。
+    # 这样做是为了从非缺失值中随机选择一些值来填充缺失值。
+    random_sample = df[feature].dropna().sample(df[feature].isna().sum())
+    # 将随机抽样得到的索引设置为原始数据中缺失值的索引位置。
+    random_sample.index = df[df[feature].isnull()].index
+    # 使用loc方法将随机抽样得到的值填充到原始数据中对应特征列的缺失值位置。
+    df.loc[df[feature].isnull(), feature] = random_sample
+
+# 定义一个名为impute_mode的函数，接受一个参数feature。
+# 这个函数用于通过众数来填充指定特征列中的缺失值。
+def impute_mode(feature):
+    # 使用mode函数找到指定特征列的众数。
+    # 众数是数据中出现次数最多的值。
+    mode = df[feature].mode()[0]
+    # 使用fillna方法将特征列中的所有缺失值填充为众数。
+    df[feature] = df[feature].fillna(mode)
+```
+
+这两个函数提供了处理分类特征中缺失值的两种策略。`random_value_imputation`函数适用于缺失值较多的情况，通过随机选择非缺失值来填充缺失值，这样可以保持数据的多样性。而`impute_mode`函数适用于缺失值较少的情况，通过填充众数来快速处理缺失值，这通常适用于那些分布不均匀且某个类别特别突出的特征。在实际应用中，选择哪种方法取决于数据的特点和分析的目标。
+
+
+下面这段代码遍历了之前定义的数值型特征列`num_cols`列表，并使用随机抽样方法填充每个列中的缺失值。以下是对每行代码的详细中文注释：
+
+```python
+# 使用随机抽样方法填充num_cols列中的缺失值
+
+# 使用for循环遍历num_cols列表中的每个元素，即DataFrame df中的数值型特征列。
+for col in num_cols:
+    # 对于当前遍历到的特征列col，调用random_value_imputation函数进行缺失值填充。
+    # 这个函数会在原始数据中找到与缺失值数量相等的非缺失值，并随机选择这些值来填充缺失值。
+    random_value_imputation(col)
+```
+
+执行这段代码后，对于`num_cols`中的每个数值型特征列，都会执行随机抽样填充缺失值的操作。这种方法可以保持原有数据的分布特性，同时避免了缺失值对数据分析和机器学习模型可能造成的不利影响。需要注意的是，随机抽样方法可能不适用于所有情况，特别是当缺失值数量较多或者数据分布具有特定模式时，可能需要考虑其他更复杂的填充方法。
+
+
+
+
+
+
+
+下面这行代码用于计算DataFrame `df`中数值型特征列的缺失值数量。以下是对这行代码的详细中文注释：
+
+```python
+# 计算数值型特征列的缺失值数量
+
+# df[num_cols]通过选择DataFrame df中数值型特征列的名称，创建一个新的DataFrame，只包含数值型特征列。
+# num_cols是一个包含所有数值型特征列名的列表，这些列通常应该是包含数值数据的列。
+# 然后使用isnull方法生成一个布尔型DataFrame，其中的值表示相应位置的数值是否为缺失值（True表示缺失，False表示非缺失）。
+# 最后，使用sum方法沿着列的方向（axis=0）对布尔型DataFrame进行求和，得到每一列的缺失值计数。
+df[num_cols].isnull().sum()
+```
+
+执行这段代码后，将得到一个Series，其中包含了DataFrame `df`中每一数值型特征列的缺失值数量。这有助于我们了解数据集中数值型特征的完整性，特别是在准备数据进行机器学习或其他统计分析之前，了解缺失值的情况是非常重要的。如果某些数值型特征列有很多缺失值，我们可能需要考虑如何处理这些缺失值，例如通过数据插补、删除含有缺失值的记录或使用其他方法来减少缺失值对分析结果的影响。处理缺失值是数据预处理的重要步骤，对于提高模型的准确性和可靠性至关重要。
+
+```python
+age                       0
+blood_pressure            0
+specific_gravity          0
+albumin                   0
+sugar                     0
+blood_glucose_random      0
+blood_urea                0
+serum_creatinine          0
+sodium                    0
+potassium                 0
+haemoglobin               0
+packed_cell_volume        0
+white_blood_cell_count    0
+red_blood_cell_count      0
+dtype: int64
+```
+
+
+执行上述代码后，得到的结果表明，在DataFrame `df`中的所有数值型特征列（`num_cols`）中，缺失值的数量均为0。这意味着经过之前的数据清洗和填充操作后，这些数值型特征列中的所有原始缺失值都已经被成功填充或处理掉了。
+
+这个结果对于数据分析和机器学习建模来说是非常积极的，因为缺失值的处理是数据预处理过程中的一个重要步骤。缺失值的存在可能会导致分析结果出现偏差，或者影响机器学习模型的性能。通过确保所有数值型特征列中的缺失值都已被有效处理，我们可以提高数据集的质量，从而提高后续分析和模型的准确性和可靠性。
+
+需要注意的是，这个结果仅表示当前DataFrame `df`中的数值型特征列没有缺失值。如果DataFrame中还有其他类型的数据（如分类特征），或者如果原始数据集中仍然存在缺失值，那么可能还需要进一步的检查和处理。此外，填充缺失值的方法可能会对数据的分布和分析结果产生影响，因此在处理缺失值时需要谨慎选择最合适的方法。
+
+
+
+下面这段代码首先使用随机抽样方法填充了两个指定的分类特征列`'red_blood_cells'`和`'pus_cell'`中的缺失值，然后对`cat_cols`列表中剩余的所有分类特征列使用众数填充方法。以下是对每行代码的详细中文注释：
+
+```python
+# 使用随机抽样方法填充"red_blood_cells"和"pus_cell"列的缺失值，对其余的分类特征列使用众数填充方法
+
+# 调用random_value_imputation函数，传入'red_blood_cells'列的名称。
+# 这个函数会从非缺失值中随机选择一些值来填充指定列中的缺失值。
+random_value_imputation('red_blood_cells')
+
+# 调用random_value_imputation函数，传入'pus_cell'列的名称。
+# 同样，这个函数会从非缺失值中随机选择一些值来填充指定列中的缺失值。
+random_value_imputation('pus_cell')
+
+# 使用for循环遍历cat_cols列表中的每个元素，即DataFrame df中的其余分类特征列。
+for col in cat_cols:
+    # 对于当前遍历到的特征列col，调用impute_mode函数进行缺失值填充。
+    # 这个函数会找到该列的众数，并使用众数来填充列中的所有缺失值。
+    impute_mode(col)
+```
+
+执行这段代码后，`'red_blood_cells'`和`'pus_cell'`列中的缺失值将通过随机抽样方法被填充，而`cat_cols`列表中的其他分类特征列的缺失值将通过众数填充方法被填充。这种分情况处理的方法考虑了不同特征列的缺失值数量，对于缺失值较多的列使用随机抽样可以保持数据的多样性，而对于缺失值较少的列使用众数填充则可以快速有效地处理缺失值。这样的处理有助于提高数据集的完整性，为后续的数据分析和机器学习建模提供更准确的基础。
+
+
+
+
+下面这行代码用于计算DataFrame `df`中所有分类特征列的缺失值数量。以下是对这行代码的详细中文注释：
+
+```python
+# 计算分类特征列的缺失值数量
+
+# df[cat_cols]通过选择DataFrame df中的分类特征列，创建一个新的DataFrame，只包含分类特征列。
+# cat_cols是一个包含所有分类特征列名的列表，这些列通常包含分类或离散数据。
+# 接着使用isnull方法生成一个布尔型DataFrame，其中的值表示相应位置的数值是否为缺失值（True表示缺失，False表示非缺失）。
+# 最后，使用sum方法沿着列的方向（axis=0）对布尔型DataFrame进行求和，得到每一列的缺失值计数。
+df[cat_cols].isnull().sum()
+```
+
+执行这段代码后，将得到一个Series，其中包含了DataFrame `df`中每一分类特征列的缺失值数量。这有助于我们了解数据集中分类特征的完整性，特别是在准备数据进行机器学习或其他统计分析之前，了解缺失值的情况是非常重要的。如果某些分类特征列有很多缺失值，我们可能需要考虑如何处理这些缺失值，例如通过删除、填充或其他数据插补技术。正确的处理缺失值对于提高模型的准确性和可靠性至关重要。
+
+```python
+red_blood_cells            0
+pus_cell                   0
+pus_cell_clumps            0
+bacteria                   0
+hypertension               0
+diabetes_mellitus          0
+coronary_artery_disease    0
+appetite                   0
+peda_edema                 0
+aanemia                    0
+class                      0
+dtype: int64
+```
+
+
+执行上述代码后，得到的结果显示了DataFrame `df`中每一分类特征列的缺失值数量。以下是对结果的详细分析：
+
+1. **red_blood_cells**:
+   - 缺失值数量为0，表明之前可能已经处理了这个列的缺失值，或者原始数据中就没有缺失值。
+
+2. **pus_cell**:
+   - 缺失值数量为0，同样表明这个列的缺失值已经被处理，或者原始数据中没有缺失值。
+
+3. **pus_cell_clumps**:
+   - 缺失值数量为0，这个列也没有缺失值。
+
+4. **bacteria**:
+   - 缺失值数量为0，表明细菌检查结果列中没有缺失值。
+
+5. **hypertension**、**diabetes_mellitus**、**coronary_artery_disease**:
+   - 这些列的缺失值数量也都是0，表明高血压、糖尿病和冠状动脉疾病状态列中的缺失值已经被成功处理。
+
+6. **appetite**、**peda_edema**、**aanemia**:
+   - 这些列的缺失值数量同样为0，表明食欲、脚部水肿和贫血状态列中的缺失值也已经被处理。
+
+7. **class**:
+   - 缺失值数量为0，表明肾脏疾病分类列中没有缺失值。
+
+这个结果表明，在执行了随机抽样和众数填充方法之后，DataFrame `df`中的所有分类特征列的缺失值都已经被成功填充。这是一个积极的结果，因为它意味着数据集的完整性得到了保证，可以进行后续的数据分析和机器学习建模。处理缺失值是数据预处理的一个重要步骤，正确的处理方法可以避免缺失值对分析结果和模型性能造成不利影响。
+
+
+All the missing values are handeled now, lets do ctaegorical features encding now
+
+## 3. Feature Encoding
+
+
+下面这段代码用于遍历DataFrame `df`中的分类特征列，并打印每个列的唯一类别数量。以下是对每行代码的详细中文注释：
+
+```python
+# 遍历分类特征列，打印每个列的唯一类别数量
+
+# 使用for循环遍历cat_cols列表中的每个元素，即DataFrame df中的分类特征列。
+for col in cat_cols:
+    # 使用nunique方法计算当前列col中的唯一值数量，并将其存储在变量中。
+    # nunique方法返回的是该列中不同值的数量。
+    unique_categories = df[col].nunique()
+    
+    # 使用f-string格式化字符串，打印当前列名col和其唯一类别数量unique_categories。
+    print(f"{col} has {unique_categories} categories\n")
+```
+
+执行这段代码后，将在Python环境中逐行输出每个分类特征列的名称和该列中包含的唯一类别的数量。这有助于了解数据集中每个分类特征的多样性，例如，如果一个特征列有很多唯一类别，这可能意味着该特征在数据中具有较高的区分度。相反，如果一个特征列的唯一类别数量较少，这可能表明该特征在区分不同样本时的作用有限。在数据分析和机器学习中，了解特征的类别数量对于特征选择和模型构建是非常重要的。
+
+
+
+
+
+```python
+red_blood_cells has 2 categories
+
+pus_cell has 2 categories
+
+pus_cell_clumps has 2 categories
+
+bacteria has 2 categories
+
+hypertension has 2 categories
+
+diabetes_mellitus has 2 categories
+
+coronary_artery_disease has 2 categories
+
+appetite has 2 categories
+
+peda_edema has 2 categories
+
+aanemia has 2 categories
+
+class has 2 categories
+```
+
+执行上述代码后，得到的结果显示了DataFrame `df`中每个分类特征列的唯一类别数量。以下是对结果的详细分析：
+
+1. **red_blood_cells**:
+   - 有2个唯一类别，这可能意味着数据集中红细胞的检查结果只分为两个类别，例如“正常”和“异常”。
+
+2. **pus_cell**:
+   - 有2个唯一类别，这可能表示脓细胞的存在与否，例如“有”和“无”。
+
+3. **pus_cell_clumps**:
+   - 有2个唯一类别，这可能指的是脓细胞团的存在与否，例如“有”和“无”。
+
+4. **bacteria**:
+   - 有2个唯一类别，这可能表示细菌检查的结果分为“存在”和“不存在”。
+
+5. **hypertension**:
+   - 有2个唯一类别，这可能表示高血压的状态分为“有高血压”和“无高血压”。
+
+6. **diabetes_mellitus**:
+   - 有2个唯一类别，这可能表示糖尿病的状态分为“有糖尿病”和“无糖尿病”。
+
+7. **coronary_artery_disease**:
+   - 有2个唯一类别，这可能表示冠状动脉疾病的状态分为“有”和“无”。
+
+8. **appetite**:
+   - 有2个唯一类别，这可能表示患者的食欲状态分为“良好”和“差”。
+
+9. **peda_edema**:
+   - 有2个唯一类别，这可能表示脚部水肿的存在与否，例如“有”和“无”。
+
+10. **aanemia**:
+    - 有2个唯一类别，这可能表示贫血的状态分为“有贫血”和“无贫血”。
+
+11. **class**:
+    - 有2个唯一类别，这可能表示肾脏疾病的分类分为“有慢性肾脏病”和“无慢性肾脏病”。
+
+从这些结果可以看出，大多数分类特征列都只有两个唯一类别，这在医学数据集中是常见的，因为很多情况下疾病状态或检查结果只有两种可能：存在或不存在。了解每个分类特征的类别数量对于后续的数据分析和机器学习任务非常重要，尤其是在进行分类任务时，这些信息有助于选择合适的模型和预处理策略。
+
+
+
+As all of the categorical columns have 2 categories we can use label encoder
+
+
+这段代码使用`sklearn.preprocessing`模块中的`LabelEncoder`类来对DataFrame `df`中的分类特征列进行编码。以下是对每行代码的详细中文注释：
+
+```python
+# 从sklearn.preprocessing模块导入LabelEncoder类
+from sklearn.preprocessing import LabelEncoder
+
+# 创建LabelEncoder对象le
+le = LabelEncoder()
+
+# 使用for循环遍历cat_cols列表中的每个元素，即DataFrame df中的分类特征列。
+for col in cat_cols:
+    # 对于当前遍历到的特征列col，使用fit_transform方法将df[col]中的每个唯一值映射到一个唯一的整数。
+    # 这个方法会首先学习每个唯一值的编码，然后使用这些编码来转换数据。
+    # 转换后的编码值将替换原始的分类特征值。
+    df[col] = le.fit_transform(df[col])
+```
+
+执行这段代码后，`df`中的每个分类特征列将被转换为数值型编码。这种转换是数据预处理中的常见步骤，特别是在进行机器学习时，因为大多数机器学习算法都需要数值型输入。`LabelEncoder`将每个唯一的分类值映射到一个整数值，从而实现了这一转换。需要注意的是，这种编码方式引入了一个有序关系，即使原始数据中的类别并没有顺序关系。在某些情况下，可能需要使用一种不引入有序关系的方法，如独热编码（One-Hot Encoding）。
+
+
+```python
+df.head()
+```
+
+![3.1head](01图片/3.1head.png)
+
+
+## 4. Model Building
+
+
+
+### 4.1. KNN
+
+
+
+### 4.2. Decision Tree Classifier
+
+
+
+### 4.3. Random Forest Classifier
+
+
+
+
+### 4.4. Ada Boost Classifier
+
+
+
+
+
+### 4.5. Gradient Boosting Classifier
+
+
+
+
+
+
+### 4.6. Stochastic Gradient Boosting (SGB)
+
+
+
+
+
+
+
+### 4.7. XgBoost
+
+
+
+
+
+
+
+
+### 4.8. Cat Boost Classifier
+
+
+
+
+
+
+### 4.9. Extra Trees Classifier
+
+
+
+
+
+
+
+### 4.10. LGBM Classifier
+
+
+
+
+
+## 5. Models Comparison
 
 
 
