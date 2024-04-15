@@ -76,4 +76,47 @@ GitHub地址：[动手学深度学习](https://github.com/d2l-ai/d2l-zh.git)
 
 
 
+### [【GitHub代码分享】第一期：医学人工智能领域](https://zhuanlan.zhihu.com/p/686782715?utm_psn=1763266008293433345)
+
+
+#### 一、基于人口的队列数据
+##### [GNN-HemaGraph](https://github.com/LorenzoBini4/GNN-HemaGraph)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### 二、Cox 比例危险模型
+
+#### 三、心血管疾病
+
+#### 四、心肌梗塞
+
+#### 五、大规模队列研究
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
