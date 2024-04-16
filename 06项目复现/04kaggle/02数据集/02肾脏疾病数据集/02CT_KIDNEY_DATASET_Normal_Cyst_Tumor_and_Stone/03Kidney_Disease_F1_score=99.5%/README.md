@@ -119,29 +119,15 @@ Modules loaded
 
 ### Custom Callback Concept
 This notebook implements a custom callback to adjust the learning rate during training.
+
 The callback has a parameter dwell. If dwell is set to True, the callback monitors the
 validation loss. It keeps track of the lowest validation loss thus far achieved as you run
-through each epoch and stores this as the lowest loss and also stores the weights for that
-epoch as the best weights. At the end of an epoch the validation loss for that epoch is
-compared with the lowest loss. If the validation loss at the end of the current epoch is
-less than the lowest loss than it becomes the lowest loss and the weights of the current
+through each epoch and stores this as the lowest loss and also stores the weights for that epoch as the best weights. At the end of an epoch the validation loss for that epoch is compared with the lowest loss. If the validation loss at the end of the current epoch is less than the lowest loss than it becomes the lowest loss and the weights of the current
 epoch become the best weights
 
-If the validation loss at the end of the current epoch is greator than the lowest loss
-this implies you have moved to a location in Nspace(N is the number of trainable parameters
-on the validation cost function surface that is less favorable(higher cost) than the position
-in Nspace defined by the best weights. Therefore why move the models weights to this less
-favorable location? Better to reset the models weights to the best weights, then lower the
-learning rate and run more epochs. The new learning rate is set to new_lr=current_lr * factor
-where factor is a user specified parameter in the instantiation of the callback. By default
-it is set to .04 and by default dwell is set to True.
+If the validation loss at the end of the current epoch is greator than the lowest loss this implies you have moved to a location in Nspace(N is the number of trainable parameters on the validation cost function surface that is less favorable(higher cost) than the position in Nspace defined by the best weights. Therefore why move the models weights to this less favorable location? Better to reset the models weights to the best weights, then lower the learning rate and run more epochs. The new learning rate is set to new_lr=current_lr * factor where factor is a user specified parameter in the instantiation of the callback. By default it is set to .04 and by default dwell is set to True.
 
-At the end of training the callback always returns your model with the weights set to the
-best weights. The callback provides a feature where it periodically queries the user to
-either contine and optionally manually specify a new learning rate or halt training.
-During training the calback provides useful information on the percent improvement in the
-validation loss for each epoch. The is useful to decide when to halt training or manually
-specifying a new learning rate.
+At the end of training the callback always returns your model with the weights set to the best weights. The callback provides a feature where it periodically queries the user to either contine and optionally manually specify a new learning rate or halt training. During training the calback provides useful information on the percent improvement in the validation loss for each epoch. The is useful to decide when to halt training or manually specifying a new learning rate.
 
 
 
