@@ -2155,10 +2155,10 @@ im1.save("kidney_tumor.jpg")
 
 
 
+Kidney Disease F1 score= 99.5%
 
 
-
-
+03Kidney_Disease_F1 _score_0.995
 
 
 

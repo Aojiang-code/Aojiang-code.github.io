@@ -28,7 +28,16 @@
 
 
 
+## [03Kidney_Disease_F1_score=99.5%](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\03Kidney_Disease_F1_score=99.5%/)
 
+> 网址： [Kidney Disease F1 score= 99.5%](https://www.kaggle.com/code/gpiosenka/kidney-disease-f1-score-99-5)
+
+* 2023年创建
+* 13人投票
+* 82 downloads
+
+
+## 
 
 ## About Dataset
 
