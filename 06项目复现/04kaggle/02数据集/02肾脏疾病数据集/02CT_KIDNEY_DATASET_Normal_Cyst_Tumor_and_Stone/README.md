@@ -18,7 +18,13 @@
 * 33人认可
 * 51次复现
 
-### 
+### [02KIDNEY-diseases 0.999 accuracy](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\02KIDNEY-diseases_0.999_accuracy/)
+
+> 网址： [KIDNEY-diseases 0.999 accuracy](https://www.kaggle.com/code/akshayr009/kidney-diseases-0-999-accuracy)
+
+* 2022年创建
+* 23人投票
+* 139 downloads
 
 
 
