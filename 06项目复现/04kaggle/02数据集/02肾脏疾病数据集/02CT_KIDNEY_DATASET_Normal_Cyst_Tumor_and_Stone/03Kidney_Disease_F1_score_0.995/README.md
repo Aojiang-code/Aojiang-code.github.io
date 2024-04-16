@@ -1,20 +1,20 @@
 # Kidney Disease F1 score= 99.5%
 
 ## 目录
-* 1. Import Needed Modules
-* 2 Concept for Callback Approach
-* 3. Define function to print text in rgb foreground and background colors
-* 4. Read in images and create a dataframe of image paths and class labels
-* 5. Trim the trainning set
-* 6. Create train, test and validation generators
-* 7. Create a function to show Training Image Samples
-* 8 Create a function that computes the F1 score metric 
-* 9. Create the Model
-* 10. Create a custom Keras callback to continue or halt training
-* 11. Instantiate custom callback 
-* 12. Train the model
-* 13. Define a function to plot the training data
-* 14. Make predictions on test set, create Confusion Matrix and Classification Report
+* 1  Import Needed Modules
+* 2  Concept for Callback Approach
+* 3  Define function to print text in rgb foreground and background colors
+* 4  Read in images and create a dataframe of image paths and class labels
+* 5  Trim the trainning set
+* 6  Create train, test and validation generators
+* 7  Create a function to show Training Image Samples
+* 8  Create a function that computes the F1 score metric 
+* 9  Create the Model
+* 10 Create a custom Keras callback to continue or halt training
+* 11 Instantiate custom callback 
+* 12 Train the model
+* 13 Define a function to plot the training data
+* 14 Make predictions on test set, create Confusion Matrix and Classification Report
 * 15 Define a function to print list of misclassified test files
 * 16 Save the model
 
