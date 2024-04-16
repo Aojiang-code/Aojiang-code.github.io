@@ -2129,7 +2129,28 @@ predicted_classes = np.argmax(a)
 
 
 
+```python
+# 定义一个字符串变量 image，存储一个图像文件的路径。
+# 这个路径指向一个 JPEG 图像文件，文件名是 'Tumor- (1001).jpg'，位于 'Tumor' 文件夹下。
+image = '../input/ct-kidney-dataset-normal-cyst-tumor-and-stone/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/Tumor/Tumor- (1001).jpg'
 
+# 使用 OpenCV 的 imread 函数读取图像文件的路径，并将其存储在变量 img 中。
+# 这将加载图像的像素数据，以便后续处理或显示。
+img = cv2.imread(str(image))
+
+# 从 PIL 包中导入 Image 模块，PIL 是 Python Imaging Library 的缩写，提供了图像处理的功能。
+from PIL import Image 
+
+# 使用 Image.open 方法创建一个 Image 对象 im1，它是一个图像处理对象，用于处理和保存图像。
+# 这里使用之前读取的图像文件路径来创建 Image 对象。
+im1 = Image.open(image)
+
+# 保存 Image 对象 im1 到文件系统，使用新的文件名 "kidney_tumor.jpg"。
+# 这个操作将图像保存在当前工作目录下，文件名为 "kidney_tumor.jpg"。
+im1.save("kidney_tumor.jpg")
+```
+
+执行上述代码后，原始图像文件 'Tumor- (1001).jpg' 将被保存为 "kidney_tumor.jpg"。这段代码使用了 OpenCV 和 PIL 两个库来处理图像，其中 OpenCV 用于加载和处理图像数据，而 PIL 用于保存图像到文件系统。需要注意的是，如果当前工作目录下已经存在 "kidney_tumor.jpg" 文件，它将被覆盖。此外，如果图像文件路径不正确或文件不存在，`Image.open(image)` 可能会抛出异常。在实际应用中，应该确保文件路径的正确性，并处理可能出现的异常情况。
 
 
 
