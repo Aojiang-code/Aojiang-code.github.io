@@ -2,11 +2,9 @@
 
 > 网址： [Chronic KIdney Disease dataset](https://www.kaggle.com/datasets/mansoordaku/ckdisease)
 
-2017年创建
-
-315人投票
-
-36,427 downloads
+* 2017年创建
+* 315人投票
+* 36,427 downloads
 
 ## 相关代码(按vote排序)
 

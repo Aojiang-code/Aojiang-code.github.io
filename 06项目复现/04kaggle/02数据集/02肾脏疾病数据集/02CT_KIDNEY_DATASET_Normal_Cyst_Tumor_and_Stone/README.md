@@ -1,0 +1,44 @@
+# [02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone/)
+
+
+> 网址： [CT KIDNEY DATASET: Normal-Cyst-Tumor and Stone](https://www.kaggle.com/datasets/nazmul0087/ct-kidney-dataset-normal-cyst-tumor-and-stone)
+
+* 2017年创建
+* 315人投票
+* 36,427 downloads
+
+## 相关代码(按vote排序)
+
+### [01Watershed Segmentation on Kidney Cysts](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\0101Watershed_Segmentation_on_Kidney_Cysts/)
+
+> 网址：[Watershed Segmentation on Kidney Cysts](https://www.kaggle.com/code/sanya9/watershed-segmentation-on-kidney-cysts)
+
+* 2023年发布
+* 2,801次浏览
+* 33人认可
+* 51次复现
+
+### 
+
+
+
+
+
+## About Dataset
+
+### Context
+CT KIDNEY DATASET: Normal-Cyst-Tumor and Stone
+
+### Content
+The dataset was collected from PACS (Picture archiving and communication system) from different hospitals in Dhaka, Bangladesh where patients were already diagnosed with having a kidney tumor, cyst, normal or stone findings. Both the Coronal and Axial cuts were selected from both contrast and non-contrast studies with protocol for the whole abdomen and urogram. The Dicom study was then carefully selected, one diagnosis at a time, and from those we created a batch of Dicom images of the region of interest for each radiological finding. Following that, we excluded each patient's information and meta data from the Dicom images and converted the Dicom images to a lossless jpg image format. After the conversion, each image finding was again verified by a radiologist and a medical technologist to reconfirm the correctness of the data.
+
+Our created dataset contains 12,446 unique data within it in which the cyst contains 3,709, normal 5,077, stone 1,377, and tumor 2,283
+
+Kindly Cite if you are finding this helpful-
+
+Islam MN, Hasan M, Hossain M, Alam M, Rabiul G, Uddin MZ, Soylu A. Vision transformer and explainable transfer learning models for auto detection of kidney cyst, stone and tumor from CT-radiography. Scientific Reports. 2022 Jul 6;12(1):1-4.
+
+### Acknowledgements
+Thanks to Mehedi Hasan, Medical Technologist, who assisted to gather all the data from different hospitals.
+
+
