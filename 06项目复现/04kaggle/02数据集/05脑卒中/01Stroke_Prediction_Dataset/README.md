@@ -9,7 +9,18 @@
 
 ## 相关代码(按vote排序)
 
-### Stroke Prediction: Effect of Data Leakage | SMOTE
+### [01Data_Storytelling_AUC_focus_on_strokes]()
+
+[网址](https://www.kaggle.com/code/bhuvanchennoju/data-storytelling-auc-focus-on-strokes)
+
+* 2021年发布
+* 38，570次浏览
+* 384个人支持
+* 573人复现
+
+
+
+### [04Stroke_Prediction_Effect_of_Data_Leakage_SMOTE]()
 
 [网址](https://www.kaggle.com/code/tanmay111999/stroke-prediction-effect-of-data-leakage-smote)
 
