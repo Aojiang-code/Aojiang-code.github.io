@@ -1315,22 +1315,188 @@ BMI is highly skewed and high bmi , high possibility of having strokes.
 ### 2.2 Overview of univariate categorical variables
 
 
+以下是对上述代码的逐行中文注释：
 
+```python
+fig = plt.figure(figsize = (24,10),dpi = 60)
+```
+- 创建一个新的`matplotlib`图形对象`fig`，设置图形的大小为24英寸宽、10英寸高，分辨率为60点每英寸。
 
+```python
+gs = fig.add_gridspec(10,24)
+gs.update(wspace = 1, hspace = 0.05)
+```
+- 向图形对象添加一个10行24列的网格布局`gs`。
+- 更新网格布局的宽度间隙`wspace`和高度间隙`hspace`，以调整子图之间的间距。
 
+```python
+ax2 = fig.add_subplot(gs[1:4,0:8]) #distribution plot
+ax3 = fig.add_subplot(gs[6:9, 0:8]) #hue distribution plot
+ax1 = fig.add_subplot(gs[2:9,13:]) #dumbbell plot
+```
+- 使用`add_subplot`方法在图形对象上创建三个轴对象`ax1`、`ax2`和`ax3`，分别用于绘制不同类型的图表。参数指定了每个轴在网格布局中的位置。
 
+```python
+# axes list
+axes = [ ax1,ax2, ax3]
+```
+- 定义一个轴对象列表`axes`，包含上面创建的三个轴对象。
 
+```python
+# setting of axes; visibility of axes and spines turn off
+for ax in axes:
+    ax.axes.get_yaxis().set_visible(False)
+    ax.set_facecolor('#f6f5f5')
+    for loc in ['left', 'right', 'top', 'bottom']:
+        ax.spines[loc].set_visible(False)
+```
+- 遍历轴对象列表`axes`，设置每个轴的y轴不可见，并设置轴的背景颜色为浅灰色`'#f6f5f5'`。
+- 对于每个轴，隐藏所有的脊线（边界线）。
 
+```python
+fig.patch.set_facecolor('#f6f5f5')
+```
+- 设置整个图形背景的颜色为浅灰色`'#f6f5f5'`。
 
+```python
+ax1.axes.get_xaxis().set_visible(False)
+ax1.axes.get_yaxis().set_visible(True)
+ax1.set_xlim(xmin = -250,xmax = 2000)
+ax1.set_ylim(ymin = -1,ymax =3.5)
+```
+- 特别为`ax1`轴设置x轴不可见，y轴可见，并设置x轴和y轴的显示范围。
 
+```python
+# dumbbell plot of stoke and healthy people
+```
+- 这是一行注释，说明了接下来的代码是用于创建中风和健康人群的哑铃图。
 
+```python
+stroke_bmi = df[df['stroke'] == 1].bmi_cat.value_counts()
+healthy_bmi = df[df['stroke'] == 0].bmi_cat.value_counts()
+```
+- 计算并存储中风人群（`'stroke'`列值为1）和健康人群（`'stroke'`列值为0）的`'bmi_cat'`分类的计数。
 
+```python
+ax1.hlines(y = ['Obesity', 'Overweight', 'Ideal', 'Underweight'], xmin = [96,115,37,1], 
+          xmax = [1797,1495,1159,410], color = 'grey',**{'linewidth':0.5})
+```
+- 在`ax1`轴上绘制水平线，用于表示哑铃图的分隔线。
 
+```python
+sns.scatterplot(y = stroke_bmi.index, x = stroke_bmi.values, s = stroke_bmi.values*2, color = '#fe346e', ax= ax1, alpha = 1)
+sns.scatterplot(y = healthy_bmi.index, x = healthy_bmi.values, s = healthy_bmi.values*2, color = '#512b58', ax= ax1, alpha = 1)
+```
+- 使用`seaborn`的`scatterplot`函数在`ax1`轴上绘制两个散点图，分别表示中风人群和健康人群的BMI分类分布，使用不同的颜色和透明度。
 
+```python
+ax1.set_yticklabels( labels = ['Obesity', 'Overweight', 'Ideal', 'Underweight'],fontdict = {'font':'Serif', 'fontsize':16,'fontweight':'bold', 'color':'black'})
+```
+- 设置`ax1`轴的y轴刻度标签为不同的BMI分类，并设置标签的字体样式。
 
+```python
+ax1.text(-750,-1.5, 'How BMI Impact on Having Strokes?' ,{'font': 'Serif', 'Size': '25','weight':'bold', 'color':'black'})
+```
+- 在`ax1`轴上添加文本，探讨BMI对中风的影响。
 
+```python
+ax1.text(1000,-1., 'Stroke ', {'font': 'Serif','weight':'bold','Size': '16','weight':'bold','style':'normal', 'color':'#fe346e'})
+ax1.text(1250,-1, '|', {'color':'black' , 'size':'16', 'weight': 'bold'})
+ax1.text(1300,-1, 'Healthy', {'font': 'Serif','weight':'bold', 'Size': '16','style':'normal', 'weight':'bold','color':'#512b58'})
+```
+- 在`ax1`轴上添加文本，区分中风和健康人群。
 
+```python
+ax1.text(-750,-0.8, 'High BMI shows signs of possible strokes, and clearly seen that strokes are \nhighest for overweight and obese people, \nwhere as negligible for younger people.', 
+        {'font':'Serif', 'size':'16','color': 'black'})
+```
+- 添加一段文本，详细说明BMI对中风影响的观察结果。
 
+```python
+ax1.text(stroke_bmi.values[0] + 20 , 0.98, stroke_bmi.values[0], {'font':'Serif', 'Size':14, 'weight':'bold', 'color':'#fe346e'})
+ax1.text(healthy_bmi.values[1] - 275 ,0.98, healthy_bmi.values[1], {'font':'Serif', 'Size':14, 'weight':'bold', 'color':'#512b58'})
+```
+- 在`ax1`轴上添加文本，标注特定BMI分类的数值。
+
+```python
+# distribution plots ---- only single variable
+```
+- 这是一行注释，说明了接下来的代码是用于创建单变量分布图。
+
+```python
+sns.kdeplot(data = df, x = 'bmi', ax = ax2, shade = True, color = '#2c003e', alpha = 1, )
+```
+- 使用`seaborn`的`kdeplot`函数在`ax2`轴上绘制`'bmi'`列的核密度估计图。
+
+```python
+ax2.set_xlabel('Body mass index of a person', fontdict = {'font':'Serif', 'color': 'black', 'size': 16,'weight':'bold' })
+```
+- 设置`ax2`轴的x轴标签为"Body mass index of a person"，并设置标签的字体样式。
+
+```python
+ax2.text(-17,0.085,'Overall BMI Distribution - How skewed is it?', {'font':'Serif', 'color': 'black','weight':'bold','size':24})
+```
+- 在`ax2`轴上添加文本，探讨总体BMI分布的偏斜情况。
+
+```python
+ax2.text(-17,0.075, 'BMI is highly skewed towards left side, and averages bmi is around 30.', 
+        {'font':'Serif', 'size':'16','color': 'black'})
+```
+- 添加文本，描述数据集中BMI的分布情况。
+
+```python
+ax2.text(80,0.06, 'Total',{'font':'Serif', 'size':'14','color': '#2c003e','weight':'bold'})
+ax2.text(92,0.06, '=',{'font':'Serif', 'size':'14','color': 'black','weight':'bold'})
+ax2.text(97,0.06, 'Stroke',{'font':'Serif', 'size':'14','color': '#fe346e','weight':'bold'})
+ax2.text(113,0.06, '+',{'font':'Serif', 'size':'14','color': 'black','weight':'bold'})
+ax2.text(117,0.06, 'Healthy',{'font':'Serif', 'size':'14','color': '#512b58','weight':'bold'})
+```
+- 在`ax2`轴上添加文本和数学符号，标注中风和健康人群的总体BMI分布。
+
+```python
+# distribution plots with hue of strokes
+```
+- 这是一行注释，说明了接下来的代码是用于创建带有中风区分的颜色的分布图。
+
+```python
+sns.kdeplot(data = df[df['stroke'] == 0], x = 'bmi',ax = ax3, shade = True,  alpha = 1, color = '#512b58' )
+sns.kdeplot(data = df[df['stroke'] == 1], x = 'bmi',ax = ax3, shade = True,  alpha = 0.8, color = '#fe346e')
+```
+- 在`ax3`轴上使用`kdeplot`函数分别绘制健康人群（`'stroke'`值为0）和中风人群（`'stroke'`值为1）的`'bmi'`列的核密度估计图，使用不同的颜色和透明度。
+
+```python
+ax3.set_xlabel('Body mass index of a person', fontdict = {'font':'Serif', 'color': 'black', 'weight':'bold','size': 16})
+```
+- 设置`ax3`轴的x轴标签为"Body mass index of a person"，并设置标签的字体样式。
+
+```python
+ax3.text(-15,0.12,'BMI-Stroke Distribution - How serious is it?', {'font':'Serif', 'weight':'bold','color': 'black', 'size':24})
+```
+- 在`ax3`轴上添加文本，探讨BMI与中风分布的严重性。
+
+```python
+ax3.text(-15,0.11,'Higher BMI higher chance of stroke.', {'font':'Serif', 'color': 'black', 'size':16})
+```
+- 添加文本，说明BMI水平与中风风险之间的关系。
+
+```python
+ax3.text(80,0.095, 'Stroke ', {'font': 'Serif','weight':'bold','Size': '16','weight':'bold','style':'normal', 'color':'#fe346e'})
+ax3.text(95,0.095, '|', {'color':'black' , 'size':'16', 'weight': 'bold'})
+ax3.text(97,0.095, 'Healthy', {'font': 'Serif','weight':'bold', 'Size': '16','style':'normal', 'weight':'bold','color':'#512b58'})
+```
+- 在`ax3`轴上添加文本，区分中风和健康人群的BMI分布。
+
+```python
+fig.text(0.25,0.925,'Story of a Heavy Heart - Heart Strokes and Weight',{'font':'Serif', 'weight':'bold','color': 'black', 'size':35})
+```
+- 在整个图形对象`fig`上添加标题文本，设置字体样式和位置。
+
+```python
+fig.show()
+```
+- 显示整个图形。在Jupyter Notebook中，这会导致图形在输出中渲染。
+
+整体而言，这段代码创建了一个复杂的图形，包含三个子图：哑铃图、总体BMI分布图和按中风状况分类的BMI分布图。通过这些图表，代码探讨了BMI与中风之间的关系，并通过文本和图形元素增强了信息的传达。
 
 
 ![2.2.1](01图片/2.2.1.png)
@@ -1341,9 +1507,503 @@ Overview of the categorical features shows the value counts of the strokes and n
 
 #### Gender Distribution
 
+以下是对上述代码的逐行中文注释：
+
+```python
+fig = plt.figure(figsize = (15,15),dpi = 40)
+```
+- 使用`matplotlib.pyplot`的`figure`函数创建一个新的图形对象`fig`，设置图形的大小为15英寸宽、15英寸高，分辨率为40点每英寸。
+
+```python
+gs = fig.add_gridspec(3,3)
+```
+- 在图形对象`fig`上使用`add_gridspec`方法添加一个3行3列的网格布局`gs`。
+
+```python
+gs.update(wspace = 0.2, hspace = 0.5)
+```
+- 更新网格布局`gs`的宽度间隙`wspace`和高度间隙`hspace`，这两个参数控制子图之间的间距。
+
+```python
+ax1 = fig.add_subplot(gs[0,0])
+```
+- 在图形对象`fig`上使用`add_subplot`方法创建一个新的轴对象`ax1`，它位于网格布局的第1个位置（左上角）。
+
+```python
+ax2 = fig.add_subplot(gs[0,1:])
+```
+- 创建一个新的轴对象`ax2`，它位于网格布局的第2个和第3个位置（第一行的中间和右边）。
+
+```python
+ax3 = fig.add_subplot(gs[1,0])
+```
+- 创建一个新的轴对象`ax3`，它位于网格布局的第4个位置（第二行的左边）。
+
+```python
+ax4 = fig.add_subplot(gs[1,1])
+```
+- 创建一个新的轴对象`ax4`，它位于网格布局的第5个位置（第二行的中间）。
+
+```python
+ax5 = fig.add_subplot(gs[1,2])
+```
+- 创建一个新的轴对象`ax5`，它位于网格布局的第6个位置（第二行的右边）。
+
+```python
+ax6 = fig.add_subplot(gs[2,0:2])
+```
+- 创建一个新的轴对象`ax6`，它跨越网格布局的第7和第8个位置（第三行的左边和中间）。
+
+```python
+ax7 = fig.add_subplot(gs[2,2])
+```
+- 创建一个新的轴对象`ax7`，它位于网格布局的第9个位置（第三行的右边）。
+
+```python
+axes = [ax1, ax2, ax3, ax4, ax5, ax6, ax7]
+```
+- 定义一个列表`axes`，包含上面创建的所有轴对象。
+
+```python
+fig.patch.set_facecolor('#f5f5f5')
+```
+- 设置整个图形背景的颜色为`'#f5f5f5'`，这是一种浅灰色。
+
+```python
+# setting of axes; visibility of axes and spines turn off
+```
+- 这是一行注释，说明了接下来的代码是用于设置轴的属性，包括隐藏轴和脊线。
+
+```python
+for ax in axes:
+    ax.axes.get_yaxis().set_visible(False)
+```
+- 遍历轴对象列表`axes`，隐藏每个轴的y轴。
+
+```python
+    ax.set_facecolor('#f8f8f8')
+```
+- 将每个轴的背景颜色设置为`'#f8f8f8'`，这是一种更浅的灰色。
+
+```python
+    ax.spines['bottom'].set_linewidth(2)
+```
+- 设置每个轴的底部脊线的线宽为2。
+
+```python
+    for loc in ['left', 'right', 'top']:
+        ax.spines[loc].set_visible(False)
+```
+- 对于每个轴，隐藏除了底部脊线之外的所有脊线。
+
+```python
+        ax.spines[loc].set_linewidth(2)
+```
+- 对于每个轴，将隐藏的脊线的线宽设置为2。
+
+```python
+title_args = {'font':'Serif', 'weight':'bold','color': 'black', 'size':24}
+```
+- 定义一个字典`title_args`，用于设置标题文本的字体样式。
+
+```python
+font_dict = {'size':16, 'family':'Serif', 'color':'black', 'weight':'bold'}
+```
+- 定义一个字典`font_dict`，用于设置一般文本的字体样式。
+
+```python
+health_dict = {'font':'Serif', 'color': '#2c003e', 'size':15, 'weight':'bold'}
+```
+- 定义一个字典`health_dict`，用于设置健康人群相关文本的字体样式。
+
+```python
+dash_dict = {'font':'Serif', 'color': 'black', 'size':15,'weight':'bold'}
+```
+- 定义一个字典`dash_dict`，用于设置分隔符文本的字体样式。
+
+```python
+stroke_dict = {'font':'Serif', 'color': '#fe346e', 'size':15,'weight':'bold'}
+```
+- 定义一个字典`stroke_dict`，用于设置中风人群相关文本的字体样式。
+
+```python
+stroke_col = '#fe346e'
+```
+- 定义一个变量`stroke_col`，用于表示中风人群的颜色，这里是`'#fe346e'`。
+
+```python
+healthy_col = '#2c003e'
+```
+- 定义一个变量`healthy_col`，用于表示健康人群的颜色，这里是`'#2c003e'`。
+
+以下是对上述代码的逐行中文注释：
+
+```python
+# Ax1: Gender- stroke distributions
+```
+- 这是一行注释，说明了接下来的代码是用于创建性别与中风分布的条形图。
+
+```python
+healthy_gen = df[df['stroke'] == 0].gender.value_counts()
+```
+- 从数据集`df`中筛选出中风标记为0（代表健康人群）的记录，并对性别`gender`列进行计数，得到健康人群的性别分布。
+
+```python
+stroke_gen = df[df['stroke'] == 1].gender.value_counts()
+```
+- 从数据集`df`中筛选出中风标记为1（代表中风人群）的记录，并对性别`gender`列进行计数，得到中风人群的性别分布。
+
+```python
+ax1.barh(stroke_gen.index, width=healthy_gen.values[0:2], height=0.2, color=healthy_col)
+```
+- 在轴对象`ax1`上绘制水平条形图，使用`stroke_gen.index`作为y轴的类别标签，`healthy_gen.values[0:2]`作为x轴的宽度（这里只取前两个值，可能是由于数据集中性别类别超过两个，这里只显示前两个最常见类别的对比），条形的高度固定为0.2，颜色设置为`healthy_col`，代表健康人群。
+
+```python
+ax1.barh(np.arange(len(stroke_gen.index)), width=stroke_gen.values, height=0.5, color=stroke_col)
+```
+- 在相同的轴对象`ax1`上绘制第二个水平条形图，y轴的类别标签为`stroke_gen.index`，x轴的宽度为`stroke_gen.values`，条形的高度固定为0.5，颜色设置为`stroke_col`，代表中风人群。第二个条形图紧挨着第一个条形图。
+
+```python
+ax1.set_yticklabels(stroke_gen.index, **font_dict)
+```
+- 设置`ax1`轴的y轴刻度标签为`stroke_gen.index`中的性别类别，使用`font_dict`字典中定义的字体样式。
+
+```python
+ax1.axes.get_yaxis().set_visible(True)
+```
+- 确保`ax1`轴的y轴可见。
+
+```python
+ax1.axes.get_xaxis().set_visible(False)
+```
+- 隐藏`ax1`轴的x轴。
+
+```python
+ax1.spines['bottom'].set_visible(False)
+```
+- 隐藏`ax1`轴的底部脊线。
+
+```python
+ax1.spines['left'].set_visible(True)
+```
+- 显示`ax1`轴的左侧脊线。
+
+```python
+ax1.text(0,1.5, 'Gender Risk',**title_args)
+```
+- 在轴对象`ax1`上添加文本"Gender Risk"，位置在x=0, y=1.5处，使用之前定义的`title_args`字体样式。
+
+```python
+ax1.text(0,1.35, 'Healthy',**health_dict)
+```
+- 在轴对象`ax1`上添加文本"Healthy"，位置在x=0, y=1.35处，使用`health_dict`字体样式。
+
+```python
+ax1.text(790,1.35, '|',**dash_dict)
+```
+- 在轴对象`ax1`上添加竖线符号"|"，位置在x=790, y=1.35处，使用`dash_dict`字体样式，作为分隔符。
+
+```python
+ax1.text(870,1.35, 'Stroke',**stroke_dict)
+```
+- 在轴对象`ax1`上添加文本"Stroke"，位置在x=870, y=1.35处，使用`stroke_dict`字体样式，表示中风人群。
+
+整体而言，这段代码创建了一个水平条形图，用于比较健康人群和中风人群在不同性别类别下的分布情况。通过设置轴的可见性和添加文本标签，增强了图表的信息传达。
 
 
+以下是对上述代码的逐行中文注释：
+
+```python
+# Ax2: work type - stroke distributions
+```
+- 这是一行注释，说明了接下来的代码是用于创建工作类型与中风分布的条形图。
+
+```python
+healthy_gen = df[df['stroke'] == 0].work_type.value_counts()
+```
+- 从数据集`df`中筛选出中风标记为0（代表健康人群）的记录，并对工作类型`work_type`列进行计数，得到健康人群的工作类型分布。
+
+```python
+stroke_gen = df[df['stroke'] == 1].work_type.value_counts()
+```
+- 从数据集`df`中筛选出中风标记为1（代表中风人群）的记录，并对工作类型`work_type`列进行计数，得到中风人群的工作类型分布。
+
+```python
+ax2.bar(healthy_gen.index, height=healthy_gen.values, width=0.2, color=healthy_col)
+```
+- 在轴对象`ax2`上绘制条形图，使用`healthy_gen.index`作为x轴的类别标签，`healthy_gen.values`作为条形的高度，条形的宽度固定为0.2，颜色设置为`healthy_col`，代表健康人群。
+
+```python
+ax2.bar(np.arange(len(stroke_gen.index)), height=stroke_gen.values, width=0.5, color=stroke_col)
+```
+- 在相同的轴对象`ax2`上绘制第二个条形图，x轴的类别标签为`np.arange(len(stroke_gen.index))`，条形的高度为`stroke_gen.values`，条形的宽度固定为0.5，颜色设置为`stroke_col`，代表中风人群。第二个条形图紧挨着第一个条形图。
+
+```python
+ax2.set_xticklabels(['Private','Self-Employed','Children', 'Gov-Job','Never worked'], **font_dict)
+```
+- 设置`ax2`轴的x轴刻度标签为预定义的工作类型列表，并应用`font_dict`字典中定义的字体样式。
+
+```python
+ax2.text(-0.45, 3200, 'Employment Risk', **title_args)
+```
+- 在轴对象`ax2`上添加文本"Employment Risk"（就业风险），位置在x=-0.45, y=3200处，使用之前定义的`title_args`字体样式。
+
+```python
+ax2.text(-0.45, 2950, 'Healthy', **health_dict)
+```
+- 在轴对象`ax2`上添加文本"Healthy"（健康），位置在x=-0.45, y=2950处，使用`health_dict`字体样式。
+
+```python
+ax2.text(0.18, 2950, '|', **dash_dict)
+```
+- 在轴对象`ax2`上添加竖线符号"|"，位置在x=0.18, y=2950处，使用`dash_dict`字体样式，作为分隔符。
+
+```python
+ax2.text(0.25, 2950, 'Stroke', **stroke_dict)
+```
+- 在轴对象`ax2`上添加文本"Stroke"（中风），位置在x=0.25, y=2950处，使用`stroke_dict`字体样式。
+
+整体而言，这段代码创建了一个条形图，用于比较健康人群和中风人群在不同工作类型下的分布情况。通过设置轴的刻度标签和添加文本标签，增强了图表的信息传达和可读性。
 
 
+以下是对上述代码的逐行中文注释：
+
+```python
+# Ax4: Heart Disease - stroke distributions
+```
+- 这是一行注释，说明了接下来的代码是用于创建心脏病状况与中风分布的条形图。
+
+```python
+healthy_gen = df[df['stroke'] == 0].heart_disease.value_counts()
+```
+- 从数据集`df`中筛选出中风标记为0（代表健康人群）的记录，并对心脏病状况`heart_disease`列进行计数，得到健康人群的心脏病状况分布。
+
+```python
+stroke_gen = df[df['stroke'] == 1].heart_disease.value_counts()
+```
+- 从数据集`df`中筛选出中风标记为1（代表中风人群）的记录，并对心脏病状况`heart_disease`列进行计数，得到中风人群的心脏病状况分布。
+
+```python
+ax4.bar(['Yes','No'], height=healthy_gen.values, width=0.2, color=healthy_col)
+```
+- 在轴对象`ax4`上绘制条形图，使用`['Yes','No']`作为x轴的类别标签，代表有无心脏病，`healthy_gen.values`作为条形的高度，条形的宽度固定为0.2，颜色设置为`healthy_col`，代表健康人群。
+
+```python
+ax4.bar(stroke_gen.index, height=stroke_gen.values, width=0.5, color=stroke_col)
+```
+- 在相同的轴对象`ax4`上绘制第二个条形图，x轴的类别标签为`stroke_gen.index`，条形的高度为`stroke_gen.values`，条形的宽度固定为0.5，颜色设置为`stroke_col`，代表中风人群。第二个条形图紧挨着第一个条形图。
+
+```python
+ax4.set_xticklabels(['Yes', 'No'], **font_dict)
+```
+- 设置`ax4`轴的x轴刻度标签为有无心脏病的分类，并应用`font_dict`字典中定义的字体样式。
+
+```python
+ax4.text(-0.3, 5250, 'Heart Disease Risk', **title_args)
+```
+- 在轴对象`ax4`上添加文本"Heart Disease Risk"（心脏病风险），位置在x=-0.3, y=5250处，使用之前定义的`title_args`字体样式。
+
+```python
+ax4.text(-0.3, 4950, 'Healthy', **health_dict)
+```
+- 在轴对象`ax4`上添加文本"Healthy"（健康），位置在x=-0.3, y=4950处，使用`health_dict`字体样式。
+
+```python
+ax4.text(0.15, 4950, '|', **dash_dict)
+```
+- 在轴对象`ax4`上添加竖线符号"|"，位置在x=0.15, y=4950处，使用`dash_dict`字体样式，作为分隔符。
+
+```python
+ax4.text(0.20, 4950, 'Stroke', **stroke_dict)
+```
+- 在轴对象`ax4`上添加文本"Stroke"（中风），位置在x=0.20, y=4950处，使用`stroke_dict`字体样式。
+
+整体而言，这段代码创建了一个条形图，用于比较健康人群和中风人群在有无心脏病状况下的分布情况。通过设置轴的刻度标签和添加文本标签，增强了图表的信息传达和可读性。
+
+以下是对上述代码的逐行中文注释：
+
+```python
+# Ax5: Married - stroke distributions
+```
+- 这是一行注释，说明了接下来的代码是用于创建婚姻状况与中风分布的条形图。
+
+```python
+healthy_gen = df[df['stroke'] == 0].ever_married.value_counts()
+```
+- 从数据集`df`中筛选出中风标记为0（代表健康人群）的记录，并对婚姻状况`ever_married`列进行计数，得到健康人群的婚姻状况分布。
+
+```python
+stroke_gen = df[df['stroke'] == 1].ever_married.value_counts()
+```
+- 从数据集`df`中筛选出中风标记为1（代表中风人群）的记录，并对婚姻状况`ever_married`列进行计数，得到中风人群的婚姻状况分布。
+
+```python
+ax5.bar(healthy_gen.index, height=healthy_gen.values, width=0.2, color=healthy_col)
+```
+- 在轴对象`ax5`上绘制条形图，使用`healthy_gen.index`作为x轴的类别标签，代表不同的婚姻状况，`healthy_gen.values`作为条形的高度，条形的宽度固定为0.2，颜色设置为`healthy_col`，代表健康人群。
+
+```python
+ax5.bar(np.arange(len(stroke_gen.index)), height=stroke_gen.values, width=0.5, color=stroke_col)
+```
+- 在相同的轴对象`ax5`上绘制第二个条形图，x轴的类别标签为`np.arange(len(stroke_gen.index))`，条形的高度为`stroke_gen.values`，条形的宽度固定为0.5，颜色设置为`stroke_col`，代表中风人群。第二个条形图紧挨着第一个条形图。
+
+```python
+ax5.set_xticklabels(healthy_gen.index, **font_dict)
+```
+- 设置`ax5`轴的x轴刻度标签为健康人群的婚姻状况类别，并应用`font_dict`字典中定义的字体样式。
+
+```python
+ax5.text(-0.3, 3500, 'Marrital Status And Risk', **title_args)
+```
+- 在轴对象`ax5`上添加文本"Marrital Status And Risk"（婚姻状况与风险），位置在x=-0.3, y=3500处，使用之前定义的`title_args`字体样式。
+
+```python
+ax5.text(-0.3, 3300, 'Healthy', **health_dict)
+```
+- 在轴对象`ax5`上添加文本"Healthy"（健康），位置在x=-0.3, y=3300处，使用`health_dict`字体样式。
+
+```python
+ax5.text(0.14, 3300, '|', **dash_dict)
+```
+- 在轴对象`ax5`上添加竖线符号"|"，位置在x=0.14, y=3300处，使用`dash_dict`字体样式，作为分隔符。
+
+```python
+ax5.text(0.18, 3300, 'Stroke', **stroke_dict)
+```
+- 在轴对象`ax5`上添加文本"Stroke"（中风），位置在x=0.18, y=3300处，使用`stroke_dict`字体样式。
+
+整体而言，这段代码创建了一个条形图，用于比较健康人群和中风人群在不同婚姻状况下的分布情况。通过设置轴的刻度标签和添加文本标签，增强了图表的信息传达和可读性。
+
+以下是对上述代码的逐行中文注释：
+
+```python
+# Ax6: Smoking status - stroke distributions
+```
+- 这是一行注释，说明了接下来的代码是用于创建吸烟状况与中风分布的条形图。
+
+```python
+healthy_gen = df[df['stroke'] == 0].smoking_status.value_counts()
+```
+- 从数据集`df`中筛选出中风标记为0（代表健康人群）的记录，并对吸烟状况`smoking_status`列进行计数，得到健康人群的吸烟状况分布。
+
+```python
+stroke_gen = df[df['stroke'] == 1].smoking_status.value_counts()
+```
+- 从数据集`df`中筛选出中风标记为1（代表中风人群）的记录，并对吸烟状况`smoking_status`列进行计数，得到中风人群的吸烟状况分布。
+
+```python
+ax6.bar(healthy_gen.index, height=healthy_gen.values, width=0.2, color=healthy_col)
+```
+- 在轴对象`ax6`上绘制条形图，使用`healthy_gen.index`作为x轴的类别标签，代表不同的吸烟状况，`healthy_gen.values`作为条形的高度，条形的宽度固定为0.2，颜色设置为`healthy_col`，代表健康人群。
+
+```python
+ax6.bar(np.arange(len(stroke_gen.index)), height=stroke_gen.values, width=0.5, color=stroke_col)
+```
+- 在相同的轴对象`ax6`上绘制第二个条形图，x轴的类别标签为`np.arange(len(stroke_gen.index))`，条形的高度为`stroke_gen.values`，条形的宽度固定为0.5，颜色设置为`stroke_col`，代表中风人群。第二个条形图紧挨着第一个条形图。
+
+```python
+ax6.set_xticklabels(['Never Smoked', 'Unknown','Formaly Smoked' ,'Smokes'], **font_dict)
+```
+- 设置`ax6`轴的x轴刻度标签为预定义的吸烟状况列表，并应用`font_dict`字典中定义的字体样式。
+
+```python
+ax6.text(-0.4, 2050, 'Smoking Status And Risk', **title_args)
+```
+- 在轴对象`ax6`上添加文本"Smoking Status And Risk"（吸烟状况与风险），位置在x=-0.4, y=2050处，使用之前定义的`title_args`字体样式。
+
+```python
+ax6.text(-0.4, 1900, 'Healthy', **health_dict)
+```
+- 在轴对象`ax6`上添加文本"Healthy"（健康），位置在x=-0.4, y=1900处，使用`health_dict`字体样式。
+
+```python
+ax6.text(0.095, 1900, '|', **dash_dict)
+```
+- 在轴对象`ax6`上添加竖线符号"|"，位置在x=0.095, y=1900处，使用`dash_dict`字体样式，作为分隔符。
+
+```python
+ax6.text(0.18, 1900, 'Stroke', **stroke_dict)
+```
+- 在轴对象`ax6`上添加文本"Stroke"（中风），位置在x=0.18, y=1900处，使用`stroke_dict`字体样式。
+
+整体而言，这段代码创建了一个条形图，用于比较健康人群和中风人群在不同吸烟状况下的分布情况。通过设置轴的刻度标签和添加文本标签，增强了图表的信息传达和可读性。
+
+以下是对上述代码的逐行中文注释：
+
+```python
+# Ax7: Residence type - stroke distributions
+```
+- 这是一行注释，说明了接下来的代码是用于创建居住类型与中风分布的条形图。
+
+```python
+healthy_gen = df[df['stroke'] == 0].Residence_type.value_counts()
+```
+- 从数据集`df`中筛选出中风标记为0（代表健康人群）的记录，并对居住类型`Residence_type`列进行计数，得到健康人群的居住类型分布。
+
+```python
+stroke_gen = df[df['stroke'] == 1].Residence_type.value_counts()
+```
+- 从数据集`df`中筛选出中风标记为1（代表中风人群）的记录，并对居住类型`Residence_type`列进行计数，得到中风人群的居住类型分布。
+
+```python
+ax7.bar(healthy_gen.index, height=healthy_gen.values, width=0.2, color=healthy_col)
+```
+- 在轴对象`ax7`上绘制条形图，使用`healthy_gen.index`作为x轴的类别标签，代表不同的居住类型，`healthy_gen.values`作为条形的高度，条形的宽度固定为0.2，颜色设置为`healthy_col`，代表健康人群。
+
+```python
+ax7.bar(np.arange(len(stroke_gen.index)), height=stroke_gen.values, width=0.5, color=stroke_col)
+```
+- 在相同的轴对象`ax7`上绘制第二个条形图，x轴的类别标签为`np.arange(len(stroke_gen.index))`，条形的高度为`stroke_gen.values`，条形的宽度固定为0.5，颜色设置为`stroke_col`，代表中风人群。第二个条形图紧挨着第一个条形图。
+
+```python
+ax7.set_xticklabels(healthy_gen.index, **font_dict)
+```
+- 设置`ax7`轴的x轴刻度标签为健康人群的居住类型类别，并应用`font_dict`字典中定义的字体样式。
+
+```python
+ax7.text(-0.31, 2800, 'Residence Type And Risk', **title_args)
+```
+- 在轴对象`ax7`上添加文本"Residence Type And Risk"（居住类型与风险），位置在x=-0.31, y=2800处，使用之前定义的`title_args`字体样式。
+
+```python
+ax7.text(-0.31, 2600, 'Healthy', **health_dict)
+```
+- 在轴对象`ax7`上添加文本"Healthy"（健康），位置在x=-0.31, y=2600处，使用`health_dict`字体样式。
+
+```python
+ax7.text(0.12, 2600, '|', **dash_dict)
+```
+- 在轴对象`ax7`上添加竖线符号"|"，位置在x=0.12, y=2600处，使用`dash_dict`字体样式，作为分隔符。
+
+```python
+ax7.text(0.165, 2600, 'Stroke', **stroke_dict)
+```
+- 在轴对象`ax7`上添加文本"Stroke"（中风），位置在x=0.165, y=2600处，使用`stroke_dict`字体样式。
+
+整体而言，这段代码创建了一个条形图，用于比较健康人群和中风人群在不同居住类型下的分布情况。通过设置轴的刻度标签和添加文本标签，增强了图表的信息传达和可读性。
 
 
+以下是对上述代码的逐行中文注释：
+
+```python
+fig.text(0.05,1.025, 'Overview of Univariate Categorical Features - Stroke vs Healthy', {'font':'Serif', 'color':'black','size':30, 'weight':'bold'})
+```
+- 使用`matplotlib`的`fig.text()`方法在图形对象`fig`上添加文本。文本内容为"Overview of Univariate Categorical Features - Stroke vs Healthy"，意为“单变量分类特征概览 - 中风与健康对比”。
+- 文本位置由`(0.05,1.025)`指定，这是相对于整个图形布局的比例坐标。
+- 字体样式通过一个字典指定，其中`'font'`为`'Serif'`，`'color'`为`'black'`，`'size'`为`30`，`'weight'`为`'bold'`，表示使用Serif字体，黑色，大小为30，加粗。
+
+```python
+fig.text(0.05,0.9375,'Data could be deceiving sometimes. All the plots show that\ncertain features have more strokes than others, There by importance, \nBut is it true though? \ncounting targets ignore big picture.',{'font':'Serif', 'color':'black','size':20, 'weight':'normal'}, alpha = 0.8)
+```
+- 同样使用`fig.text()`方法在图形对象`fig`上添加另一段文本。
+- 文本内容是对数据可能具有欺骗性的说明，指出虽然某些特征在图表中显示中风的频率更高，但这并不意味着这些特征就是最重要的，因为仅仅计数目标可能会忽略整体情况。
+- 文本位置由`(0.05,0.9375)`指定，这是相对于整个图形布局的比例坐标。
+- 字体样式通过一个字典指定，其中`'font'`为`'Serif'`，`'color'`为`'black'`，`'size'`为`20`，`'weight'`为`'normal'`，表示使用Serif字体，黑色，大小为20，不加粗。
+- `alpha = 0.8`设置文本的透明度为0.8，使得背景内容可以透过文本稍微显示出来。
+
+```python
+fig.show()
+```
+- 使用`matplotlib`的`show()`方法显示整个图形。在Jupyter Notebook环境中，这会导致图形在输出区域中渲染出来。
+
+整体而言，这段代码在图形对象`fig`上添加了总体标题和一段说明文本，然后展示整个图形。这些文本提供了对图形内容的额外解释和上下文信息。
