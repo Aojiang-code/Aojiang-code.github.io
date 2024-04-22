@@ -1,17 +1,23 @@
 # 简介
-脑卒中数据集
+kaggle上的脑卒中数据集
 
-## Stroke Prediction: Effect of Data Leakage | SMOTE
 
-[网址](https://www.kaggle.com/code/tanmay111999/stroke-prediction-effect-of-data-leakage-smote)
+## 目录
 
-2023年发布
+### [01Stroke_Prediction_Dataset]()
 
-9，331次浏览
+> 网址： [Stroke Prediction Dataset](https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset)
 
-132个人支持
+* 2021年创建
+* 2959人投票
+* 174,821 downloads
 
-100人复现
+
+
+
+
+
+
 
 
 
