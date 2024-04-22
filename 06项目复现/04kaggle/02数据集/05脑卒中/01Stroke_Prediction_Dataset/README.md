@@ -18,18 +18,27 @@
 * 132个人支持
 * 100人复现
 
+
+### 
+
+
+
+
+
+
+
 ## About Dataset
 
 ### Similar Datasets
 
-* [HIGHLIGHTED] CERN Electron Collision Data ☄️[LINK]()
-* Hepatitis C Dataset: [LINK]()
-* Body Fat Prediction Dataset: [LINK]()
-* Cirrhosis Prediction Dataset: [LINK]()
-* Heart Failure Prediction Dataset: [LINK]()
-* Stellar Classification Dataset - SDSS17: [LINK]()
-* Wind Speed Prediction Dataset: [LINK]()
-* Spanish Wine Quality Dataset: [LINK]()
+* [HIGHLIGHTED] CERN Electron Collision Data ☄️[LINK](https://www.kaggle.com/datasets/fedesoriano/cern-electron-collision-data)
+* Hepatitis C Dataset: [LINK](https://www.kaggle.com/fedesoriano/hepatitis-c-dataset)
+* Body Fat Prediction Dataset: [LINK](https://www.kaggle.com/fedesoriano/body-fat-prediction-dataset)
+* Cirrhosis Prediction Dataset: [LINK](https://www.kaggle.com/fedesoriano/cirrhosis-prediction-dataset)
+* Heart Failure Prediction Dataset: [LINK](https://www.kaggle.com/fedesoriano/heart-failure-prediction)
+* Stellar Classification Dataset - SDSS17: [LINK](https://www.kaggle.com/fedesoriano/stellar-classification-dataset-sdss17)
+* Wind Speed Prediction Dataset: [LINK](https://www.kaggle.com/datasets/fedesoriano/wind-speed-prediction-dataset)
+* Spanish Wine Quality Dataset: [LINK](https://www.kaggle.com/datasets/fedesoriano/spanish-wine-quality-dataset)
 
 ### Context
 According to the World Health Organization (WHO) stroke is the 2nd leading cause of death globally, responsible for approximately 11% of total deaths.
