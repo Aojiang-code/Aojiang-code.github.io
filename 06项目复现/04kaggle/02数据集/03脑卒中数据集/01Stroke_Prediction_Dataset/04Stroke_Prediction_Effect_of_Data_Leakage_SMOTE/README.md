@@ -1614,27 +1614,1216 @@ Order / Values of features for positive cases of stroke :
 
 ## 4. Domain Information
 
+* Categorical Features (Order) :
+
+* * gender : male > female
+* * hypertension : hypertension > no hypertension
+* * heart_disease : heart disease > no heart disease
+* * ever_married : married = not married
+* * working_type : Stress of the work can lead to stroke.
+* * Residence_type : Mortality due to stroke is higher in rural areas than urban areas due to poor medical * * treatment.
+* * smoking_status : Smoking increases the risk of stroke.
 
 
+* Discrete Features (Range) :
 
+* * age : The chance of having a stroke about doubles every 10 years after age 55.
+* * avg_glucose_level : High blood glucose is found in stroke cases. A value of 126+ has been observed alot.
+* * bmi : High bmi values increases the chances of ischemic stroke.
 
+* All the information mentioned is gathered from websites and research papers. We will use this information for cross checking the summary of EDA and feature selection.
 
-
-
-
-
+* Conclusions obtained from the EDA contradict the Domain Information for the features : hypertension, heart_disease and smoking_status.
+* This difference is probably because of the Unbalanced dataset!
+* Thus, we will carry out the feature engineering process, balance the dataset using SMOTE analysis and feed the balanced to the ML algorithms.
 
 ## 5. Feature Engineering
 
+* The dataset is Unbalanced with a bias towards No Stroke in a ratio of 19 : 1 for No Stroke : Stroke. We will first balance the dataset using SMOTE Analysis!
+
+* In order to cope with unbalanced data, there are 2 options :
+
+* * Undersampling : Trim down the majority samples of the target variable.
+* * Oversampling : Increase the minority samples of the target variable to the majority samples.
+
+* For best performances, combination of undersampling and oversampling is recommended.
+
+* First, we will undersample the majority samples and it is followed by oversampling minority samples.
+* For data balancing, we will use imblearn.
+* PIP statement : pip install imbalanced-learn
+
+### Data Balancing using SMOTE :
+
+这段代码是Python中使用`imblearn`库进行数据不平衡处理的示例。下面我将逐行添加详细的中文注释：
+
+```python
+# 首先，导入imblearn库，这是一个用于处理不平衡数据集的库，它提供了多种方法来平衡数据集
+import imblearn
+
+# 导入Python标准库中的collections模块，这个模块提供了有用的容器类型，例如列表、字典、集合等
+from collections import Counter
+
+# 从imblearn.over_sampling模块导入SMOTE类，SMOTE代表“Synthetic Minority Over-sampling Technique”，即“合成少数类过采样技术”。这是一种通过创建少数类的新样本来增加其数量的方法，以此来平衡数据集
+from imblearn.over_sampling import SMOTE
+
+# 从imblearn.under_sampling模块导入RandomUnderSampler类，这是一种通过随机删除多数类中的一些样本来减少其数量的方法，以此来平衡数据集
+from imblearn.under_sampling import RandomUnderSampler
+
+# 从imblearn.pipeline模块导入Pipeline类，Pipeline是scikit-learn中用于将多个处理步骤串联起来的一个类，imblearn的Pipeline可以包含imblearn的采样器，使得数据预处理、采样和模型训练可以方便地组合在一起
+from imblearn.pipeline import Pipeline
+```
+
+这段代码主要涉及了数据不平衡问题的处理，其中`SMOTE`和`RandomUnderSampler`是两种常用的处理方法，而`Pipeline`则用于构建一个数据处理流程，使得整个过程更加自动化和模块化。`Counter`是一个用于计数的容器，可以用于统计数据集中各类样本的数量，以便于分析数据的不平衡程度。
+
+
+
+
+这段代码是使用`imblearn`库中的`SMOTE`和`RandomUnderSampler`方法来处理数据不平衡问题的一个示例。下面是对每一行代码的详细中文注释：
+
+```python
+# 创建一个SMOTE对象，用于对少数类进行过采样。
+# sampling_strategy参数设置为1，意味着目标是使少数类和多数类的数量相等。
+over = SMOTE(sampling_strategy=1)
+
+# 创建一个RandomUnderSampler对象，用于对多数类进行欠采样。
+# sampling_strategy参数设置为0.1，意味着最终多数类将保留10%的样本，以此来减少多数类的数量，使得多数类和少数类的数量接近。
+under = RandomUnderSampler(sampling_strategy=0.1)
+
+# 从df1数据框中选取所有列到'smoking_status'（不包括'smoking_status'这一列）作为特征集f1。
+f1 = df1.loc[:, :'smoking_status']
+
+# 从df1数据框中选取'stroke'列作为目标变量t1。
+t1 = df1.loc[:, 'stroke']
+
+# 创建一个步骤列表，其中包含两个元组。
+# 第一个元组('under', under)表示使用RandomUnderSampler对象under进行欠采样，'under'是给这个步骤起的别名。
+# 第二个元组('over', over)表示使用SMOTE对象over进行过采样，'over'是给这个步骤起的别名。
+steps = [('under', under), ('over', over)]
+
+# 使用Pipeline类和上面定义的步骤列表创建一个Pipeline对象。
+# Pipeline可以将多个数据处理步骤串联起来，首先执行欠采样，然后执行过采样。
+pipeline = Pipeline(steps=steps)
+
+# 使用Pipeline对象的fit_resample方法对特征集f1和目标变量t1进行拟合和重采样。
+# 这个过程会首先使用RandomUnderSampler对多数类进行欠采样，然后使用SMOTE对少数类进行过采样。
+# 重采样后的数据集会作为新的f1和t1返回。
+f1, t1 = pipeline.fit_resample(f1, t1)
+
+# 使用Counter函数统计目标变量t1中各类样本的数量。
+# Counter是一个容器，用于计数可哈希对象。它会返回一个字典，其中键是t1中的不同类别，值是每个类别的计数。
+Counter(t1)
+```
+
+这段代码通过`Pipeline`将欠采样和过采样步骤结合起来，对数据集进行处理，以解决数据不平衡问题。最后，使用`Counter`来统计处理后的数据集中各类样本的数量，以便于进一步分析数据的平衡情况。
 
 
 
 
 
 
+```python
+Counter({0: 2490, 1: 2490})
+```
 
+
+上述代码的执行结果是一个`Counter`对象，它统计了重采样后的目标变量`t1`中每个类别的样本数量。这个`Counter`对象显示如下：
+
+```python
+Counter({0: 2490, 1: 2490})
+```
+
+这意味着：
+
+- 类别`0`有2490个样本。
+- 类别`1`也有2490个样本。
+
+这里是对结果的解释：
+
+1. `SMOTE`（`over`）和`RandomUnderSampler`（`under`）是两个用于处理不平衡数据集的算法。`SMOTE`通过合成新样本来增加少数类（通常是正类）的数量，而`RandomUnderSampler`通过随机移除多数类（通常是负类）的样本来减少其数量。
+
+2. 在代码中，`over = SMOTE(sampling_strategy=1)`意味着`SMOTE`的目标是使少数类和多数类的数量相等。`sampling_strategy=1`是一个指示器，表示过采样后少数类的比例应与多数类的比例相同。
+
+3. `under = RandomUnderSampler(sampling_strategy=0.1)`意味着`RandomUnderSampler`的目标是将多数类的数量减少到原来的10%。这通常用于大幅度减少多数类的数量，以解决数据不平衡问题。
+
+4. `Pipeline`是`scikit-learn`中的一个工具，它允许你将多个转换和拟合步骤串联起来。在这个例子中，它首先应用`RandomUnderSampler`，然后应用`SMOTE`。
+
+5. `pipeline.fit_resample(f1, t1)`执行了整个流程，对特征集`f1`和目标变量`t1`进行了拟合和重采样。
+
+6. 结果`Counter({0: 2490, 1: 2490})`表明，经过`Pipeline`处理后，类别`0`和类别`1`的样本数量都是2490，这意味着数据集现在在这两个类别上是平衡的。每个类别都拥有相同数量的样本，从而减少了由于类别不平衡导致模型训练偏差的风险。
+
+总结来说，原始数据集中的类别可能不平衡，但通过使用`imblearn`的`Pipeline`结合`SMOTE`和`RandomUnderSampler`，我们成功地将数据集中的两个类别平衡到了相同的样本数量，这有助于提高机器学习模型的泛化能力。
+
+
+### Calculation for Data Balancing :
+* Sampling Strategy : It is a ratio which is the common paramter for oversampling and undersampling.
+* Sampling Strategy : ( Samples of Minority Class ) / ( Samples of Majority Class )
+* In this case,
+
+* * Majority Class : No Stroke : 4861 samples
+* * Minority Class : Stroke : 249 samples
+### Undersampling : Trim down the majority class samples
+* Sampling_Strategy = 0.1
+* 0.1 = ( 249 ) / Majority Class Samples
+* After undersampling,
+
+* * Majority Class : No Stroke : 2490 samples
+* * Minority Class : Stroke : 249 samples
+### Oversampling : Increase the minority class samples
+* Sampling_Strategy = 1
+* 1 = ( Minority Class Samples ) / 2490
+* After oversampling,
+
+* * Majority Class : No Stroke : 2490 samples
+* * Minority Class : Stroke : 2490 samples
+* Final Class Samples :
+
+* * Majority Class : No Stroke : 2490 samples
+* * Minority Class : Stroke : 2490 samples
+* Here, we balance the data by reducing the majority group samples & then increasing the minority group to majority group.
+* For imbalanced datasets, we duplicate the data to deal with the potential bias in the predictions.
+* Due to this duplication process, we are using synthetic data for modeling purposes to ensure that the predictions are not skewed towards the majority target class value.
+* Thus, evaluating models using accuracy will be misleading. Instead, we will go for confusion matrix, ROC-AUC graph and ROC-AUC score for model evaluation.
+### Data Leakage :
+* Data Leakage is the problem when the information outside the training data is used for model creation. It is one of the most ignored problem.
+* In order to create robust models, solving data leakage is a must! Creation of overly optimistic models which are practically useless & cannot be used in production have become common.
+* Model performance degrades when Data Leakage is not dealt with & the model is sent online. It is a difficult concept to understand because it seems quite trivial.
+* Typical approach used is transforming / modifying the entire dataset by filling NAN values with mean, median & mode, standardisation, normalization, etc.
+* When we execute the above process in order to make the dataset ready for modeling, we use the values from the entire dataset & thus indirectly provide information from the to-be test data i.e outside of the training data.
+* Thus, in order to avoid Data Leakage, it is advised to use train-test-split before any transformations. Execute the transformations according to the training data for the training as well as test data. Use of k-fold cross validation is also suggested!
+We will display the effect of Data Leakage from the following code snippet!
+
+这段代码使用了`scikit-learn`库中的`train_test_split`函数，它用于将数据集分割为训练集和测试集。下面是对每一行代码的详细中文注释：
+
+```python
+# 首先，导入scikit-learn库中的model_selection模块。model_selection模块包含了用于模型超参数选择和评估的多种工具，其中就包括train_test_split函数。
+from sklearn.model_selection import train_test_split
+
+# 使用train_test_split函数将原始特征集f1和目标变量t1分割为训练集和测试集。
+# x_train和x_test是分割后的特征集，其中x_train是训练特征集，x_test是测试特征集。
+# y_train和y_test是分割后的目标变量，其中y_train是训练目标变量，y_test是测试目标变量。
+# test_size参数设置为0.15，意味着测试集将占原始数据集的15%。
+# random_state参数设置为2，这是一个随机数生成器的种子，用于确保每次运行代码时，数据的分割方式是相同的，从而保证结果的可复现性。
+x_train, x_test, y_train, y_test = train_test_split(f1, t1, test_size=0.15, random_state=2)
+```
+
+这段代码的作用是：
+
+1. 将原始数据集（特征集`f1`和目标变量`t1`）分割为两个部分：训练集和测试集。
+2. 训练集用于训练机器学习模型，测试集用于评估模型的泛化能力。
+3. `test_size=0.15`指定了测试集占原始数据集的比例，这里是15%。
+4. `random_state=2`确保了每次分割数据集时，都能获得相同的结果，这对于实验的可复现性非常重要。
+
+分割后，你可以使用`x_train`和`y_train`来训练你的模型，而`x_test`和`y_test`则用于在训练完成后测试模型的性能。
+
+### Correlation Matrix :
+
+这段代码涉及到对Pandas DataFrame的操作，用于准备机器学习模型的训练数据。下面是对每一行代码的详细中文注释：
+
+```python
+x_train_test = x_train.copy(deep=True)
+# 这行代码创建了x_train数据集的一个深拷贝，赋值给新的变量x_train_test。
+# deep=True参数确保了x_train_test是x_train的一个完全独立的副本，对x_train_test的任何修改都不会影响到x_train。
+# 深拷贝相比于浅拷贝，会复制DataFrame中所有的数据，包括它包含的任何深层嵌套的对象。
+
+x_train_test['stroke'] = y_train
+# 这行代码在x_train_test DataFrame中新增了一列，列名为'stroke'。
+# 将y_train的内容赋值给新创建的'stroke'列。
+# 这里假设y_train是一个Series对象，它包含了目标变量的数据，通常是我们想要模型预测的标签。
+# 通过这种方式，目标变量'stroke'被添加到训练特征集x_train_test中，从而可以用于监督学习模型的训练。
+```
+
+这段代码的作用是：
+
+1. 创建训练特征集`x_train`的一个深拷贝，命名为`x_train_test`。
+2. 在`x_train_test`中添加一列，这一列是目标变量`y_train`，列名设置为`'stroke'`。
+
+通常，在机器学习中，特征集（`x`）和目标变量（`y`）是分开的，但在某些情况下，比如当需要将目标变量作为特征的一部分进行模型训练时，就需要将目标变量添加到特征集中。然而，需要注意的是，将目标变量添加到特征集中通常不是一个标准的机器学习实践，因为这样做可能会导致模型训练过程中的逻辑错误。在大多数情况下，目标变量应该只用于评估模型的性能，而不是作为训练数据的一部分。
+
+
+
+* In order to visualize the correlation matrix, we create a new dataframe that contains values from x_train & y_train.
+* Thus, we reject anything outside the training data to avoid data leakage.
+
+这段代码使用了`matplotlib`和`seaborn`库来创建一个包含两个子图的图表，并使用热图来展示数据集中不同特征与目标变量`'stroke'`之间的相关性。下面是对每一行代码的详细中文注释：
+
+```python
+# 使用matplotlib的subplots函数创建一个图表对象fig和一个坐标轴对象ax。
+# nrows=1和ncols=2指定了子图的行数和列数，这里表示创建一个1行2列的子图布局。
+# figsize=(12,5)设置了整个图表的大小为宽12英寸、高5英寸。
+fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(12, 5))
+
+# 使用plt.subplot来指定接下来绘图的子图位置，这里是第一个子图（1,2,1）。
+plt.subplot(1, 2, 1)
+
+# 计算x_train_test数据集中每个特征与'stroke'列的相关性，并按照相关性从高到低排序。
+# corrwith函数计算DataFrame与Series之间的相关性。
+# sort_values函数按照相关性的值进行排序，ascending=False表示降序排序。
+# to_frame将结果转换为DataFrame。
+corr = x_train_test.corrwith(x_train_test['stroke']).sort_values(ascending=False).to_frame()
+
+# 将相关性DataFrame的列名设置为'stroke'。
+corr.columns = ['stroke']
+
+# 使用seaborn的heatmap函数绘制热图，展示特征与'stroke'之间的相关性。
+# annot=True表示在热图的每个单元格内显示数值。
+# cmap=colors设置了热图的颜色映射，colors应该是之前定义的一个颜色映射变量。
+# linewidths=0.4和linecolor='black'设置了热图中格线的线条宽度和颜色。
+sns.heatmap(corr, annot=True, cmap=colors, linewidths=0.4, linecolor='black')
+
+# 设置第一个子图的标题，说明这是没有数据泄露的相关性热图。
+plt.title('Correlation w.r.t stroke : No Data Leakage')
+
+# 再次使用plt.subplot来指定接下来绘图的子图位置，这里是第二个子图（1,2,2）。
+plt.subplot(1, 2, 2)
+
+# 计算df1数据集中每个特征（除去'age_group', 'avg_glucose_level_group', 'bmi_group'）与'stroke'列的相关性，并按照相关性从高到低排序。
+# drop函数用于删除DataFrame中的列。
+corr = df1.drop(columns=['age_group', 'avg_glucose_level_group', 'bmi_group']).corrwith(df1['stroke']).sort_values(ascending=False).to_frame()
+
+# 将相关性DataFrame的列名设置为'stroke'。
+corr.columns = ['stroke']
+
+# 使用seaborn的heatmap函数绘制热图，展示特征与'stroke'之间的相关性。
+sns.heatmap(corr, annot=True, cmap=colors, linewidths=0.4, linecolor='black')
+
+# 设置第二个子图的标题，说明这是可能有数据泄露的相关性热图。
+plt.title('Correlation w.r.t stroke : Data Leakage')
+```
+
+这段代码的作用是：
+
+1. 创建一个包含两个子图的图表，用于比较有无数据泄露情况下，特征与目标变量之间的相关性。
+2. 使用热图来可视化相关性矩阵，其中颜色越“热”表示相关性越强。
+3. 第一个子图展示了在没有数据泄露的情况下的相关性，即仅使用训练集的特征与目标变量之间的相关性。
+4. 第二个子图展示了在可能有数据泄露的情况下的相关性，即使用了完整数据集（包括训练集和测试集）的特征与目标变量之间的相关性。
+
+需要注意的是，`colors`变量应该在这段代码之前定义，它指定了热图使用的颜色映射。此外，`corrwith`函数计算的是DataFrame与Series之间的相关性，如果`df1['stroke']`中有空值，可能会影响相关性的计算结果。
+
+* Clearly, we can see the difference in values between Data Leakage & No Data Leakage.
+* In the case of No Data Leakage, age displays a strong positive correlation with stroke. avg_glucose_level & ever_married display some kind of positive correlation. Opposite to positive correlation, gender, Residence_type & work_type have negative correlation with the stroke.
+* In the case of Data Leakage, none of the features display an extreme positive or negative correlation with stroke.
+* age, heart_disease, avg_glucose_level, hypertension & ever_married display some kind of positive correlation. Overall, all the features have a value very close to 0, displaying neutral correlation with stroke.
+
+### Feature Selection for Categorical Features :
+
+这段代码涉及到`scikit-learn`库中的两个特征选择方法，分别是基于互信息的分类方法`mutual_info_classif`和卡方检验`chi2`，以及用于选择特征的`SelectKBest`类。下面是对每一行代码的详细中文注释：
+
+```python
+# 从scikit-learn的feature_selection模块导入SelectKBest类。
+# SelectKBest是一个用于选择特征的基类，它根据指定的分数函数选择数据集中的前k个最好特征。
+from sklearn.feature_selection import SelectKBest
+
+# 从scikit-learn的feature_selection模块导入mutual_info_classif函数。
+# mutual_info_classif是基于互信息的特征选择函数，适用于分类问题。
+# 互信息衡量两个变量之间的相互依赖性，用于评估特征对于目标变量的信息贡献量。
+from sklearn.feature_selection import mutual_info_classif
+
+# 从scikit-learn的feature_selection模块导入chi2函数。
+# chi2是卡方检验的特征选择函数，它适用于分类问题，并且可以用于非线性关系的特征和目标变量。
+# 卡方检验是一种统计学方法，用于判断分类变量之间是否独立。
+from sklearn.feature_selection import chi2
+```
+
+这段代码的作用是：
+
+1. 导入`SelectKBest`类，它允许你选择数据集中的前k个最好特征，基于某种评分系统。
+2. 导入`mutual_info_classif`函数，它是一个评分函数，用于评估特征对分类目标变量的信息贡献量。
+3. 导入`chi2`函数，它是另一个评分函数，用于评估特征与分类目标变量之间的相关性。
+
+使用这些工具，你可以执行以下步骤：
+
+- 使用`SelectKBest`选择特征。
+- 使用`mutual_info_classif`或`chi2`作为评分函数来评估特征的重要性。
+- 根据评分结果选择一定数量的“最佳”特征用于模型训练，这有助于提高模型的泛化能力并减少过拟合的风险。
+
+特征选择是机器学习中的一个关键步骤，特别是在高维数据集上，它可以帮助我们识别和剔除不重要或冗余的特征。
+
+#### Mutual Information Test :
+
+这段代码使用了`matplotlib`和`seaborn`库来创建一个包含两个子图的图表，并通过热图展示了特征选择过程中不同特征与目标变量`'stroke'`之间的互信息分数。下面是对每一行代码的详细中文注释：
+
+```python
+# 使用matplotlib的subplots函数创建一个图表对象fig和一个坐标轴对象ax。
+# nrows=1和ncols=2指定了子图的行数和列数，这里表示创建一个1行2列的子图布局。
+# figsize=(12,5)设置了整个图表的大小为宽12英寸、高5英寸。
+fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(12, 5))
+
+# 使用plt.subplot来指定接下来绘图的子图位置，这里是第一个子图（1,2,1）。
+plt.subplot(1, 2, 1)
+
+# 从x_train中选取categorical_features列表指定的分类特征。
+features = x_train.loc[:, categorical_features]
+
+# 将y_train目标变量转换成DataFrame类型，以便后续处理。
+target = pd.DataFrame(y_train)
+
+# 创建SelectKBest对象，选择基于互信息的分类方法mutual_info_classif作为评分函数，k='all'表示选择所有特征。
+best_features = SelectKBest(score_func=mutual_info_classif, k='all')
+
+# 使用fit方法对features和target进行拟合，计算每个特征的互信息分数。
+fit = best_features.fit(features, target)
+
+# 创建一个新的DataFrame featureScores，包含fit.scores_（即每个特征的互信息分数）。
+# 索引设置为features的列名，列名设置为'Mutual Information Score'。
+featureScores = pd.DataFrame(data=fit.scores_, index=list(features.columns), columns=['Mutual Information Score'])
+
+# 使用seaborn的heatmap函数绘制热图，展示特征的互信息分数。
+# sort_values对featureScores按互信息分数降序排序。
+# annot=True表示在热图的每个单元格内显示数值。
+# cmap=colors设置了热图的颜色映射，colors应该是之前定义的一个颜色映射变量。
+# linewidths=0.4和linecolor='black'设置了热图中格线的线条宽度和颜色。
+# fmt='.2f'设置了热图中数值的格式化方式，显示两位小数。
+sns.heatmap(featureScores.sort_values(ascending=False, by='Mutual Information Score'), annot=True, cmap=colors, linewidths=0.4, linecolor='black', fmt='.2f')
+
+# 设置第一个子图的标题，说明这是没有数据泄露的分类特征选择。
+plt.title('Selection of Categorical Features : No Data Leakage')
+
+# 使用plt.subplot来指定接下来绘图的子图位置，这里是第二个子图（1,2,2）。
+plt.subplot(1, 2, 2)
+
+# 从df1中选取categorical_features列表指定的分类特征。
+features = df1.loc[:, categorical_features]
+
+# 将df1中的'stroke'列作为目标变量。
+target = df1.loc[:, 'stroke']
+
+# 重复之前的特征选择过程，计算df1中分类特征与'stroke'的互信息分数。
+best_features = SelectKBest(score_func=mutual_info_classif, k='all')
+fit = best_features.fit(features, target)
+
+# 重复之前创建互信息分数DataFrame的过程。
+featureScores = pd.DataFrame(data=fit.scores_, index=list(features.columns), columns=['Mutual Information Score'])
+
+# 重复之前绘制热图的过程，展示df1中分类特征的互信息分数。
+sns.heatmap(featureScores.sort_values(ascending=False, by='Mutual Information Score'), annot=True, cmap=colors, linewidths=0.4, linecolor='black', fmt='.2f')
+
+# 设置第二个子图的标题，说明这是可能有数据泄露的分类特征选择。
+plt.title('Selection of Categorical Features : Data Leakage')
+```
+
+这段代码的作用是：
+
+1. 创建两个子图，分别展示有无数据泄露情况下的分类特征选择过程。
+2. 使用`SelectKBest`和`mutual_info_classif`计算特征与目标变量`'stroke'`之间的互信息分数。
+3. 使用热图可视化每个特征的互信息分数，其中颜色越“热”表示互信息分数越高，即特征与目标变量的相关性越强。
+4. 第一个子图展示了在没有数据泄露的情况下的互信息分数，即仅使用训练集的特征。
+5. 第二个子图展示了在可能有数据泄露的情况下的互信息分数，即使用了完整数据集的特征。
+
+需要注意的是，`categorical_features`应该是一个包含分类特征名称的列表，`colors`变量应该在这段代码之前定义，它指定了热图使用的颜色映射。此外，`'Mutual Information Score'`是互信息分数的列名，可以根据实际情况进行调整。
+
+![5.2](01图片/5.2.png)
+
+* Mutual Information Score of stroke with categorical features display very low scores irrespective of Data Leakage or No Data Leakage.
+* According to the above scores, none of the features should be selected for modeling.
+
+#### Chi Squared Test :
+
+
+这段代码使用`matplotlib`和`seaborn`库来创建一个包含两个子图的图表，并通过热图展示了使用卡方检验（Chi-Squared Test）作为评分函数时，不同特征与目标变量`'stroke'`之间的相关性分数。下面是对每一行代码的详细中文注释：
+
+```python
+# 使用matplotlib的subplots函数创建一个图表对象fig和一个坐标轴对象ax。
+# nrows=1和ncols=2指定了子图的行数和列数，这里表示创建一个1行2列的子图布局。
+# figsize=(12,5)设置了整个图表的大小为宽12英寸、高5英寸。
+fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(12, 5))
+
+# 使用plt.subplot来指定接下来绘图的子图位置，这里是第一个子图（1,2,1）。
+plt.subplot(1, 2, 1)
+
+# 从x_train中选取categorical_features列表指定的分类特征。
+features = x_train.loc[:, categorical_features]
+
+# 将y_train目标变量赋值给变量target。
+target = y_train
+
+# 创建SelectKBest对象，选择chi2作为评分函数，k='all'表示选择所有特征进行评分。
+best_features = SelectKBest(score_func=chi2, k='all')
+
+# 使用fit方法对features和target进行拟合，计算每个特征的卡方检验分数。
+fit = best_features.fit(features, target)
+
+# 创建一个新的DataFrame featureScores，包含fit.scores_（即每个特征的卡方检验分数）。
+# 索引设置为features的列名，列名设置为'Chi Squared Score'。
+featureScores = pd.DataFrame(data=fit.scores_, index=list(features.columns), columns=['Chi Squared Score'])
+
+# 使用seaborn的heatmap函数绘制热图，展示特征的卡方检验分数。
+# sort_values对featureScores按卡方检验分数降序排序。
+# annot=True表示在热图的每个单元格内显示数值。
+# cmap=colors设置了热图的颜色映射，colors应该是之前定义的一个颜色映射变量。
+# linewidths=0.4和linecolor='black'设置了热图中格线的线条宽度和颜色。
+# fmt='.2f'设置了热图中数值的格式化方式，显示两位小数。
+sns.heatmap(featureScores.sort_values(ascending=False, by='Chi Squared Score'), annot=True, cmap=colors, linewidths=0.4, linecolor='black', fmt='.2f')
+
+# 设置第一个子图的标题，说明这是没有数据泄露的分类特征选择。
+plt.title('Selection of Categorical Features : No Data Leakage')
+
+# 使用plt.subplot来指定接下来绘图的子图位置，这里是第二个子图（1,2,2）。
+plt.subplot(1, 2, 2)
+
+# 从df1中选取categorical_features列表指定的分类特征。
+features = df1.loc[:, categorical_features]
+
+# 将df1中的'stroke'列作为目标变量。
+target = df1.loc[:, 'stroke']
+
+# 重复之前的特征选择过程，计算df1中分类特征与'stroke'的卡方检验分数。
+best_features = SelectKBest(score_func=chi2, k='all')
+fit = best_features.fit(features, target)
+
+# 重复之前创建卡方检验分数DataFrame的过程。
+featureScores = pd.DataFrame(data=fit.scores_, index=list(features.columns), columns=['Chi Squared Score'])
+
+# 重复之前绘制热图的过程，展示df1中分类特征的卡方检验分数。
+sns.heatmap(featureScores.sort_values(ascending=False, by='Chi Squared Score'), annot=True, cmap=colors, linewidths=0.4, linecolor='black', fmt='.2f')
+
+# 设置第二个子图的标题，说明这是可能有数据泄露的分类特征选择。
+plt.title('Selection of Categorical Features : Data Leakage')
+```
+
+这段代码的作用是：
+
+1. 创建两个子图，分别展示有无数据泄露情况下的分类特征选择过程。
+2. 使用`SelectKBest`和`chi2`作为评分函数计算特征与目标变量`'stroke'`之间的卡方检验分数。
+3. 使用热图可视化每个特征的卡方检验分数，其中颜色越“热”表示卡方检验分数越高，即特征与目标变量的相关性越强。
+4. 第一个子图展示了在没有数据泄露的情况下的卡方检验分数，即仅使用训练集的特征。
+5. 第二个子图展示了在可能有数据泄露的情况下的卡方检验分数，即使用了完整数据集的特征。
+
+需要注意的是，`categorical_features`应该是一个包含分类特征名称的列表，`colors`变量应该在这段代码之前定义，它指定了热图使用的颜色映射。此外，`'Chi Squared Score'`是卡方检验分数的列名，可以根据实际情况进行调整。
+
+
+
+
+![5.3](01图片/5.3.png)
+
+* For No Data Leakage, we should reject the features that have low values. We will reject features with scores less than 20. Hence, we will not use : smoking_status, heart_disease & hypertension. This does contradict with the Domain Information.
+* For Data Leakage, heart disease & hypertension need to be selected for modeling and reject the other features due to low Chi Squared Score.
+### Feature Selection for Numerical Features :
+#### ANOVA Test :
+
+
+这段代码使用了`matplotlib`和`seaborn`库来创建一个包含两个子图的图表，并通过热图展示了使用F检验（f_classif）作为评分函数时，不同离散特征与目标变量`'stroke'`之间的相关性分数。下面是对每一行代码的详细中文注释：
+
+```python
+# 导入f_classif，这是scikit-learn库中用于特征选择的类之间ANOVA F值的方法。
+from sklearn.feature_selection import f_classif
+
+# 使用matplotlib的subplots函数创建一个图表对象fig和一个坐标轴对象ax。
+# nrows=1和ncols=2指定了子图的行数和列数，这里表示创建一个1行2列的子图布局。
+# figsize=(12,5)设置了整个图表的大小为宽12英寸、高5英寸。
+fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(12, 5))
+
+# 使用plt.subplot来指定接下来绘图的子图位置，这里是第一个子图（1,2,1）。
+plt.subplot(1, 2, 1)
+
+# 从x_train中选取discrete_features列表指定的离散特征。
+features = x_train.loc[:, discrete_features]
+
+# 将y_train目标变量赋值给变量target。
+target = y_train
+
+# 创建SelectKBest对象，选择f_classif作为评分函数，k='all'表示选择所有特征进行评分。
+best_features = SelectKBest(score_func=f_classif, k='all')
+
+# 使用fit方法对features和target进行拟合，计算每个特征的ANOVA F值分数。
+fit = best_features.fit(features, target)
+
+# 创建一个新的DataFrame featureScores，包含fit.scores_（即每个特征的ANOVA F值分数）。
+# 索引设置为features的列名，列名设置为'ANOVA Score'。
+featureScores = pd.DataFrame(data=fit.scores_, index=list(features.columns), columns=['ANOVA Score'])
+
+# 使用seaborn的heatmap函数绘制热图，展示特征的ANOVA F值分数。
+# sort_values对featureScores按ANOVA F值分数降序排序。
+# annot=True表示在热图的每个单元格内显示数值。
+# cmap=colors设置了热图的颜色映射，colors应该是之前定义的一个颜色映射变量。
+# linewidths=0.4和linecolor='black'设置了热图中格线的线条宽度和颜色。
+# fmt='.2f'设置了热图中数值的格式化方式，显示两位小数。
+sns.heatmap(featureScores.sort_values(ascending=False, by='ANOVA Score'), annot=True, cmap=colors, linewidths=0.4, linecolor='black', fmt='.2f')
+
+# 设置第一个子图的标题，说明这是没有数据泄露的离散特征选择。
+plt.title('Selection of Numerical Features : No Data Leakage')
+
+# 使用plt.subplot来指定接下来绘图的子图位置，这里是第二个子图（1,2,2）。
+plt.subplot(1, 2, 2)
+
+# 从df1中选取discrete_features列表指定的离散特征。
+features = df1.loc[:, discrete_features]
+
+# 将df1中的'stroke'列作为目标变量。
+target = df1.loc[:, 'stroke']
+
+# 重复之前的特征选择过程，计算df1中离散特征与'stroke'的ANOVA F值分数。
+best_features = SelectKBest(score_func=f_classif, k='all')
+fit = best_features.fit(features, target)
+
+# 重复之前创建ANOVA F值分数DataFrame的过程。
+featureScores = pd.DataFrame(data=fit.scores_, index=list(features.columns), columns=['ANOVA Score'])
+
+# 重复之前绘制热图的过程，展示df1中离散特征的ANOVA F值分数。
+sns.heatmap(featureScores.sort_values(ascending=False, by='ANOVA Score'), annot=True, cmap=colors, linewidths=0.4, linecolor='black', fmt='.2f')
+
+# 设置第二个子图的标题，说明这是可能有数据泄露的离散特征选择。
+plt.title('Selection of Numerical Features : Data Leakage')
+```
+
+这段代码的作用是：
+
+1. 创建两个子图，分别展示有无数据泄露情况下的离散特征选择过程。
+2. 使用`SelectKBest`和`f_classif`作为评分函数计算特征与目标变量`'stroke'`之间的ANOVA F值分数。
+3. 使用热图可视化每个特征的ANOVA F值分数，其中颜色越“热”表示ANOVA F值分数越高，即特征与目标变量的相关性越强。
+4. 第一个子图展示了在没有数据泄露的情况下的ANOVA F值分数，即仅使用训练集的特征。
+5. 第二个子图展示了在可能有数据泄露的情况下的ANOVA F值分数，即使用了完整数据集的特征。
+
+需要注意的是，`discrete_features`应该是一个包含离散特征名称的列表，`colors`变量应该在这段代码之前定义，它指定了热图使用的颜色映射。此外，`'ANOVA Score'`是ANOVA F值分数的列名，可以根据实际情况进行调整。
+
+![5.4](01图片/5.4.png)
+
+* From the above ANOVA Scores, we ignore the features with values less than 20. Hence, we reject bmi for modeling irrespective of Data Leakage or No Data Leakage.
+* We ready the datasets for data scaling by dropping the features based on the above statistical tests.
+* We will ignore the Domain Information!
+
+
+这段代码涉及到数据预处理中的特征选择步骤，用于从数据集中移除特定的列以避免数据泄露或进行特征选择。下面是对每一行代码的详细中文注释：
+
+```python
+# 特征选择以避免数据泄露：
+# x_train是原始训练数据集，drop方法用于移除指定的列。
+# 'smoking_status', 'heart_disease', 'hypertension', 'bmi'这些列被认为可能与目标变量有直接关系，
+# 移除这些列可以防止在特征选择过程中不小心泄露目标变量的信息。
+x_train = x_train.drop(columns=['smoking_status', 'heart_disease', 'hypertension', 'bmi'])
+
+# 对应的测试集x_test也执行相同的操作，移除相同的列。
+# 这是因为在测试阶段，我们希望模型能够处理与训练阶段相同的特征集，
+# 以确保模型的泛化能力得到正确的评估。
+x_test = x_test.drop(columns=['smoking_status', 'heart_disease', 'hypertension', 'bmi'])
+
+# 特征选择以应对数据泄露：
+# 创建一个新的DataFrame df2，它是df1的深拷贝（deep=True），意味着df2是df1的一个完全独立的副本。
+# 这样做是为了防止在对df2进行操作时影响到原始的df1。
+df2 = df1.drop(columns=['smoking_status', 'work_type', 'Residence_type', 'gender', 
+                          'bmi', 'age_group', 'avg_glucose_level_group', 'bmi_group']).copy(deep=True)
+# drop方法用于从df2中移除一系列列，这些列可能是分类变量或与目标变量高度相关的变量。
+# 'work_type', 'Residence_type', 'gender', 'bmi', 'age_group', 'avg_glucose_level_group', 'bmi_group'是从df1中移除的列。
+# 移除这些列可能是为了简化模型，去除潜在的噪声特征，或者是为了避免在特征选择过程中的数据泄露。
+```
+
+这段代码的作用是：
+
+1. 在训练集`x_train`和测试集`x_test`中移除特定的列，以避免在特征选择过程中发生数据泄露。
+2. 创建一个新的DataFrame`df2`作为df1的深拷贝，并对`df2`执行特征选择，移除一系列可能引起数据泄露或与目标变量高度相关的列。
+
+需要注意的是，特征选择是一个重要的步骤，它可以帮助提高模型的性能，减少过拟合的风险，并提高模型的解释性。然而，选择哪些特征进行移除应该基于对数据和问题的深入理解。此外，`deep=True`参数确保了对原始数据的修改不会影响副本，这对于实验的可重复性和数据的完整性是重要的。
+
+#### Data Scaling :
+
+
+
+这段代码使用了`scikit-learn`库中的`MinMaxScaler`和`StandardScaler`类来进行特征的归一化（Normalization）和标准化（Standardization）处理。下面是对每一行代码的详细中文注释：
+
+```python
+# 从sklearn.preprocessing模块导入MinMaxScaler类和StandardScaler类。
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+
+# 创建MinMaxScaler对象mms，用于将特征的值缩放到[0, 1]的范围内，这是一种归一化方法。
+mms = MinMaxScaler() # Normalization
+
+# 创建StandardScaler对象ss，用于将特征的值转换为均值为0，标准差为1的分布，这是一种标准化方法。
+ss = StandardScaler() # Standardization
+
+# No Data Leakage : 避免数据泄露的情况下的特征缩放和标准化
+
+# 对'age'列进行归一化处理
+# 使用mms.fit_transform对x_train中的'age'列进行拟合和转换
+x_train['age'] = mms.fit_transform(x_train[['age']])
+# 使用mms.transform对x_test中的'age'列进行转换，注意这里不使用拟合，以保持x_train和x_test的转换一致性
+x_test['age'] = mms.transform(x_test[['age']])
+
+# 对'avg_glucose_level'列进行归一化处理
+x_train['avg_glucose_level'] = mms.fit_transform(x_train[['avg_glucose_level']])
+x_test['avg_glucose_level'] = mms.transform(x_test[['avg_glucose_level']])
+
+# 对'gender'列进行标准化处理
+# 注意gender是分类变量，通常不进行标准化，但这里可能是作为一个编码后的数值型特征处理
+x_train['gender'] = ss.fit_transform(x_train[['gender']]) 
+x_test['gender'] = ss.transform(x_test[['gender']])
+
+# 对'ever_married'列进行标准化处理
+# 同样，ever_married通常是分类变量，这里作为数值型特征处理
+x_train['ever_married'] = ss.fit_transform(x_train[['ever_married']])
+x_test['ever_married'] = ss.transform(x_test[['ever_married']])
+
+# 对'work_type'列进行标准化处理
+x_train['work_type'] = ss.fit_transform(x_train[['work_type']])
+x_test['work_type'] = ss.transform(x_test[['work_type']])
+
+# 对'Residence_type'列进行标准化处理
+x_train['Residence_type'] = ss.fit_transform(x_train[['Residence_type']])
+x_test['Residence_type'] = ss.transform(x_test[['Residence_type']])
+
+# Data Leakage : 允许数据泄露的情况下的特征缩放
+
+# 对df2中的'age'列进行归一化处理
+df2['age'] = mms.fit_transform(df2[['age']])
+
+# 对df2中的'avg_glucose_level'列进行归一化处理
+df2['avg_glucose_level'] = mms.fit_transform(df2[['avg_glucose_level']])
+
+# 对df2中的'hypertension'列进行归一化处理
+# hypertension列可能表示某种血压状态，这里使用归一化处理
+df2['hypertension'] = mms.fit_transform(df2[['hypertension']])
+
+# 对df2中的'heart_disease'列进行归一化处理
+# heart_disease列可能表示某种心脏疾病状态，这里使用归一化处理
+df2['heart_disease'] = mms.fit_transform(df2[['heart_disease']])
+
+# 对df2中的'ever_married'列进行归一化处理
+# 这里将通常的分类变量ever_married当作数值型特征进行归一化处理
+df2['ever_married'] = mms.fit_transform(df2[['ever_married']])
+```
+
+这段代码的作用是：
+
+1. 使用`MinMaxScaler`对数值型特征进行归一化处理，使其范围在[0, 1]之间。
+2. 使用`StandardScaler`对某些特征进行标准化处理，使其具有均值为0，标准差为1的分布。
+3. 特别注意，`gender`, `ever_married`, `work_type`, 和 `Residence_type` 通常是分类变量，但在这段代码中，它们被当作数值型特征进行标准化处理，这可能是因为这些变量已经被编码为数值型。
+4. 在处理测试集`x_test`和数据集`df2`时，使用`transform`而不是`fit_transform`，以确保与训练集使用相同的缩放参数。
+5. 代码分为两部分，一部分是避免数据泄露的特征处理，另一部分是允许数据泄露的特征处理。
+
+需要注意的是，归一化和标准化的选择取决于具体的数据和模型。某些模型对特征的尺度敏感，如支持向量机（SVM）和K最近邻（KNN），而其他模型则不敏感，如决策树。此外，对于分类变量，通常不进行标准化或归一化处理，除非它们已经被转换为数值编码。
+
+
+
+* Machine learning model does not understand the units of the values of the features. It treats the input just as a simple number but does not understand the true meaning of that value. Thus, it becomes necessary to scale the data.
+
+We have 2 options for data scaling :
+
+* * 1) Normalization
+
+* * 2) Standardization.
+
+* As most of the algorithms assume the data to be normally (Gaussian) distributed, Normalization is done for features whose data does not display normal distribution and standardization is carried out for features that are normally distributed but the range of values is huge or small as compared to other features.
+
+* From the above transformation, we fit the data on the training data and transform the test data from information based on the training data. If we check the formulas of the Normalization & Standardization, we use mean, standard deviation, min & max values.
+
+* Thus if these above statistical parameters are calculated using the complete dataset, then we are sharing the values from the to-be test data and thus sharing this to-be test data with the training data and cause Data Leakage.
 
 
 
 ## 6. Modeling
+
+这段代码导入了`scikit-learn`库中用于模型评估和超参数优化的多个函数和类。下面是对每一行代码的详细中文注释：
+
+```python
+# 从sklearn.model_selection模块导入train_test_split函数。
+# train_test_split函数用于将数据集分割为训练集和测试集，通常用于模型训练前的数据准备。
+from sklearn.model_selection import train_test_split
+
+# 从sklearn.metrics模块导入confusion_matrix函数。
+# confusion_matrix用于生成混淆矩阵，它是评价分类模型性能的一个重要工具，可以直观地展示模型预测的准确度。
+from sklearn.metrics import confusion_matrix
+
+# 从sklearn.metrics模块导入roc_auc_score函数。
+# roc_auc_score用于计算模型的ROC-AUC分数，它是衡量分类模型在所有可能的分类阈值下性能的指标。
+from sklearn.metrics import roc_auc_score
+
+# 从sklearn.metrics模块导入plot_roc_curve函数。
+# plot_roc_curve是一个用于绘制模型的ROC曲线的函数，ROC曲线是评价分类模型性能的图形工具。
+from sklearn.metrics import plot_roc_curve
+
+# 从sklearn.model_selection模块导入cross_val_score函数。
+# cross_val_score用于执行交叉验证，它可以将数据集分成多个子集，并在每个子集上训练模型来评估模型的平均性能。
+from sklearn.model_selection import cross_val_score
+
+# 从sklearn.model_selection模块导入GridSearchCV类。
+# GridSearchCV是一个用于超参数网格搜索的类，通过遍历给定的参数网格，找到最佳的参数组合以提高模型性能。
+from sklearn.model_selection import GridSearchCV
+
+# 从sklearn.metrics模块导入classification_report函数。
+# classification_report生成一个分类报告，展示不同类别下的Precision（精确率）、Recall（召回率）和F1-score（F1分数）等指标。
+from sklearn.metrics import classification_report
+
+# 从sklearn.metrics模块导入accuracy_score函数。
+# accuracy_score计算分类准确度，即正确预测的样本数占总样本数的比例。
+from sklearn.metrics import accuracy_score
+
+# 从sklearn.model_selection模块导入RepeatedStratifiedKFold类。
+# RepeatedStratifiedKFold是交叉验证方法的一个变体，它将数据集分成多个大小相同的子集（folds），并在每个子集上作为测试集，其余作为训练集。
+from sklearn.model_selection import RepeatedStratifiedKFold
+
+# 从sklearn.metrics模块导入precision_recall_curve函数。
+# precision_recall_curve用于生成精确率-召回率曲线，它是评价二分类模型性能的图形工具，特别适用于不平衡数据集。
+from sklearn.metrics import precision_recall_curve
+```
+
+这段代码的作用是：
+
+1. 导入了数据集分割、模型评估和超参数优化所需的多个工具。
+2. `train_test_split`用于数据预处理，将数据集分割为训练集和测试集。
+3. `confusion_matrix`、`roc_auc_score`、`plot_roc_curve`、`classification_report`、`accuracy_score`和`precision_recall_curve`用于模型评估，提供了多种评价指标和图形工具来衡量模型性能。
+4. `cross_val_score`和`RepeatedStratifiedKFold`用于执行交叉验证，评估模型在不同数据子集上的性能。
+5. `GridSearchCV`用于超参数优化，通过遍历参数网格找到最佳的参数组合。
+
+这些工具和函数是机器学习模型开发过程中的重要组成部分，它们帮助我们评估模型的性能，优化模型的参数，并最终选择最佳的模型进行预测。
+
+
+这段代码涉及到从已有的数据集中分割出训练集和测试集，并提取它们的值。下面是对每一行代码的详细中文注释：
+
+```python
+# 从x_train, x_test, y_train, y_test中提取数据，并分别赋值给x_train1, x_test1, y_train1, y_test1。
+# values属性会将DataFrame对象转换为NumPy数组，这样可以方便后续的机器学习模型处理。
+# x_train1, x_test1, y_train1, y_test1现在是NumPy数组格式，分别对应原始训练集和测试集的特征及目标变量。
+x_train1, x_test1, y_train1, y_test1 = x_train.values, x_test.values, y_train.values, y_test.values
+
+# 使用train_test_split函数从df2数据集中分割出训练集和测试集。
+# df2.drop(columns='stroke').values会从df2中移除'stroke'列，并提取剩余部分的值，作为特征集。
+# df2['stroke'].values提取df2中'stroke'列的值，作为目标变量。
+# test_size=0.15设置了测试集占总数据集的比例为15%。
+# random_state=2设置了随机数生成器的种子，以确保每次分割的结果都是一样的，这有助于实验的可重复性。
+# 得到的x_train2, x_test2, y_train2, y_test2分别是分割后的特征训练集、特征测试集、目标变量训练集和目标变量测试集的NumPy数组。
+x_train2, x_test2, y_train2, y_test2 = train_test_split(df2.drop(columns='stroke').values, df2['stroke'].values, test_size=0.15, random_state=2)
+```
+
+这段代码的作用是：
+
+1. 将原始训练集和测试集的数据从DataFrame格式转换为NumPy数组格式，以便于后续的机器学习模型处理。
+2. 使用`train_test_split`函数从`df2`数据集中分割出新的训练集和测试集，其中排除了`'stroke'`列，因为`'stroke'`列是目标变量。
+3. 通过设置`test_size`和`random_state`参数，确保了分割过程的可配置性和可重复性。
+
+需要注意的是，`train_test_split`函数在分割数据集时，会随机地选择数据点分配到训练集或测试集中。设置`random_state`参数可以确保每次运行代码时，数据的分割方式是相同的，这对于实验的可复现性非常重要。此外，`.values`属性用于从DataFrame对象中提取数据，将其转换为NumPy数组，这是大多数机器学习模型所要求的数据格式。
+
+* Selecting the features from the above conducted tests and splitting the data into 85 - 15 train - test groups.
+
+这段代码定义了两个函数，`model`用于训练一个分类器、进行交叉验证、计算ROC-AUC分数并绘制ROC曲线，`model_evaluation`用于评估模型性能，生成混淆矩阵和分类报告。下面是对每一行代码的详细中文注释：
+
+```python
+# 定义一个名为model的函数，它接受一个分类器(classifier)和四组数据（训练特征、训练目标、测试特征、测试目标）作为参数。
+def model(classifier, x_train, y_train, x_test, y_test):
+    # 使用fit方法训练分类器，将x_train和y_train作为输入。
+    classifier.fit(x_train, y_train)
+    
+    # 使用训练好的分类器对x_test进行预测，得到预测结果prediction。
+    prediction = classifier.predict(x_test)
+    
+    # 创建RepeatedStratifiedKFold对象cv，用于生成交叉验证的折数。
+    # n_splits=10表示将数据集分成10个折，n_repeats=3表示对每次分割进行3次重复，random_state=1用于确保随机过程的可重复性。
+    cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
+    
+    # 打印交叉验证的得分，使用cross_val_score函数计算得分，并传入分类器、训练特征、训练目标、交叉验证方法cv以及评分方法roc_auc。
+    # 使用mean()函数计算重复交叉验证的平均得分，并格式化输出为百分数。
+    print("Cross Validation Score : ", '{0:.2%}'.format(cross_val_score(classifier, x_train, y_train, cv=cv, scoring='roc_auc').mean()))
+    
+    # 计算并打印ROC-AUC得分，使用roc_auc_score函数传入真实目标y_test和预测目标prediction。
+    # 格式化输出为百分数。
+    print("ROC_AUC Score : ", '{0:.2%}'.format(roc_auc_score(y_test, prediction)))
+    
+    # 使用plot_roc_curve函数绘制分类器的ROC曲线，传入分类器、测试特征x_test和测试目标y_test。
+    plot_roc_curve(classifier, x_test, y_test)
+    
+    # 设置绘制的ROC曲线图的标题为'ROC_AUC_Plot'。
+    plt.title('ROC_AUC_Plot')
+    
+    # 显示绘制的ROC曲线图。
+    plt.show()
+
+# 定义一个名为model_evaluation的函数，它接受一个分类器(classifier)和两组数据（测试特征、测试目标）作为参数。
+def model_evaluation(classifier, x_test, y_test):
+    # 使用confusion_matrix函数生成混淆矩阵cm，传入真实目标y_test和分类器预测的目标。
+    # 混淆矩阵是一个重要的性能评价工具，它显示了分类器预测的类别与真实类别之间的关系。
+    
+    # 定义混淆矩阵的标签名称。
+    names = ['True Neg', 'False Pos', 'False Neg', 'True Pos']
+    
+    # 从混淆矩阵cm中提取每个单元格的值，并存储在counts列表中。
+    counts = [value for value in cm.flatten()]
+    
+    # 计算混淆矩阵每个单元格的百分比，并存储在percentages列表中。
+    # 百分比是通过对每个单元格的值除以cm中所有值的总和来计算的。
+    percentages = ['{0:.2%}'.format(value) for value in cm.flatten() / np.sum(cm)]
+    
+    # 创建一个格式化的标签列表，其中包含混淆矩阵的名称、计数和百分比。
+    labels = [f'{v1}\n{v2}\n{v3}' for v1, v2, v3 in zip(names, counts, percentages)]
+    
+    # 将格式化的标签列表reshape为2x2的NumPy数组，以便用于热图的注释。
+    labels = np.asarray(labels).reshape(2, 2)
+    
+    # 使用seaborn的heatmap函数绘制混淆矩阵的热图，并传入混淆矩阵cm、格式化的标签和颜色映射colors。
+    # 设置cmap参数为colors（应在代码前定义）。
+    # 设置fmt参数为空字符串，表示不显示单元格中的数值。
+    sns.heatmap(cm, annot=labels, cmap=colors, fmt='')
+    
+    # 打印分类报告，使用classification_report函数传入真实目标y_test和分类器预测的目标。
+    # 分类报告提供Precision（精确率）、Recall（召回率）、F1-score（F1分数）等指标，为每个类别生成详细的分类评估。
+    print(classification_report(y_test, classifier.predict(x_test)))
+```
+
+这段代码的作用是：
+
+1. `model`函数用于训练分类器，计算并打印交叉验证得分和ROC-AUC得分，并绘制ROC曲线图。
+2. `model_evaluation`函数用于生成混淆矩阵的热图和分类报告，提供更详细的分类性能评估。
+
+需要注意的是，`model`函数中的`plot_roc_curve`函数需要一个估计器对象（如LogisticRegression、RandomForestClassifier等），而`model_evaluation`函数中的`confusion_matrix`和`classification_report`需要一个已经训练好的分类器对象。此外，`sns.heatmap`函数调用中使用的颜色映射`colors`和`np.sum(cm)`中的`np`需要在代码前定义和导入。
+
+
+### 1） XGBoostClassifier :
+
+这行代码是Python中使用`xgboost`库导入`XGBClassifier`类的示例。下面是对这行代码的详细中文注释：
+
+```python
+# 从xgboost库中导入XGBClassifier类。
+# xgboost是一个流行的开源梯度提升库，它实现了机器学习中常用的梯度提升框架。
+# XGBClassifier是xgboost库中用于分类问题的实现，它能够处理二分类和多分类问题。
+# 使用XGBClassifier可以训练一个梯度提升分类器，它通常在各种数据科学竞赛和实际应用中表现优异。
+from xgboost import XGBClassifier
+```
+
+这段代码的作用是：
+
+1. 导入`XGBClassifier`类，这是使用`xgboost`进行分类任务的基础。
+2. 允许用户创建`XGBClassifier`的实例，并对数据进行训练和预测。
+
+需要注意的是，在使用`XGBClassifier`之前，需要确保已经安装了`xgboost`库。如果没有安装，可以通过Python的包管理工具`pip`来安装，命令如下：
+
+```bash
+pip install xgboost
+```
+
+此外，`XGBClassifier`有许多参数可以调整，如学习率(`learning_rate`)、树的最大深度(`max_depth`)、树的构建数量(`n_estimators`)等，这些参数的调整对模型的性能有很大影响。在实际应用中，通常需要通过交叉验证等方法来选择最优的参数组合。
+
+这行代码是在使用`XGBClassifier`类创建一个XGBoost分类器实例。下面是对这行代码的详细中文注释：
+
+```python
+# 使用xgboost库中的XGBClassifier类创建一个分类器实例，赋值给变量classifier_xgb。
+# classifier_xgb是这个分类器实例的变量名，可以在后续的代码中使用这个变量来调用XGBClassifier的方法。
+classifier_xgb = XGBClassifier(
+    # 为XGBClassifier实例设置参数：
+    learning_rate=0.01,  # 学习率，也称为步长，它决定了每棵树对最终预测的贡献。
+    # 较小的学习率通常需要更多的树（n_estimators），训练时间会更长，但可以提供更准确的模型。
+    max_depth=3,  # 树的最大深度。树的深度限制了树的复杂性，可以防止过拟合。
+    # 较大的深度可以使模型捕获数据中更复杂的关系，但也可能引起过拟合。
+    n_estimators=1000  # n_estimators参数指定了要构建的树的数量。
+    # 更多的树可以提高模型的性能，但也会增加训练时间和模型复杂性。
+)
+```
+
+这段代码的作用是：
+
+1. 初始化一个XGBoost分类器实例`classifier_xgb`。
+2. 设置了XGBoost分类器的关键参数，这些参数将影响模型的训练和预测性能。
+
+需要注意的是，`XGBClassifier`的参数需要根据具体问题和数据集特性进行调整，以获得最佳的模型性能。这个过程通常涉及到模型超参数的调优，可以通过交叉验证、网格搜索等方法来实现。此外，`XGBClassifier`还有许多其他的参数，如`subsample`、`colsample_bytree`等，这些参数同样对模型性能有重要影响。
+
+
+#### Model for No Data Leakage :
+这段代码调用了之前定义的两个函数`model`和`model_evaluation`，用于训练XGBoost分类器并评估其性能。下面是对每一行代码的详细中文注释：
+
+```python
+# 调用model函数，传入XGBoost分类器classifier_xgb，以及训练集和测试集的数据。
+# 该函数将执行以下操作：
+# - 使用XGBoost分类器对训练数据进行训练。
+# - 使用训练好的分类器对测试数据进行预测。
+# - 使用10折重复分层K折交叉验证来评估模型的ROC-AUC分数，并打印输出。
+# - 计算并打印测试集上的ROC-AUC分数。
+# - 绘制并显示ROC曲线图。
+model(classifier_xgb, x_train1, y_train1, x_test1, y_test1)
+
+# 调用model_evaluation函数，传入XGBoost分类器classifier_xgb，以及测试集的数据。
+# 该函数将执行以下操作：
+# - 使用测试数据生成混淆矩阵，并使用seaborn的heatmap函数绘制混淆矩阵的热图。
+#   热图中的每个单元格显示了混淆矩阵的值、对应的计数和百分比。
+# - 打印分类报告，其中包括Precision（精确率）、Recall（召回率）、F1-score（F1分数）等指标。
+model_evaluation(classifier_xgb, x_test1, y_test1)
+```
+
+这段代码的作用是：
+
+1. 使用`model`函数训练XGBoost分类器，并对其进行交叉验证和ROC-AUC分数评估，同时绘制ROC曲线图。
+2. 使用`model_evaluation`函数生成混淆矩阵的热图和分类报告，提供模型性能的详细评估。
+
+需要注意的是，`model`和`model_evaluation`函数的具体行为取决于它们的定义。在这个例子中，`model`函数不仅训练模型，还提供了关于模型性能的一些指标，而`model_evaluation`函数则专注于展示混淆矩阵和分类报告，为模型的评估提供了更深入的视角。此外，这些函数的输出对于理解模型的性能非常有帮助，但也需要根据实际问题和数据集进行解释。
+
+```python
+Cross Validation Score :  91.45%
+ROC_AUC Score :  83.03%
+```
+
+![6.1.1.png](01图片/6.1.1.png)
+
+
+上述代码执行了两个函数：`model`和`model_evaluation`。根据提供的结果，我们可以解读如下：
+
+1. **Cross Validation Score : 91.45%**
+   这个分数是通过`model`函数中的交叉验证计算得出的。它表示XGBoost分类器在10折重复分层K折交叉验证过程中的平均ROC-AUC分数。由于设置了`n_repeats=3`，这意味着每一折都被重复了3次，以提高评分的稳定性和可靠性。91.45%的分数表明模型在交叉验证过程中表现非常好，能够以超过91%的准确率区分不同的类别。
+
+2. **ROC_AUC Score : 83.03%**
+   这个分数是使用`roc_auc_score`函数计算得出的，它表示XGBoost分类器在测试集上的性能。ROC-AUC（Receiver Operating Characteristic - Area Under Curve）是一个衡量分类模型性能的指标，特别是对于二分类问题。它通过绘制不同阈值下的真正例率（True Positive Rate, TPR）和假正例率（False Positive Rate, FPR）来评估模型。AUC分数的范围从0%到100%，其中100%表示完美分类器，50%表示没有区分能力的分类器（相当于随机猜测）。83.03%的分数表明模型在测试集上具有良好的性能，能够以超过83%的准确率区分正类和负类。
+
+解读这些结果时，需要注意的是：
+
+- **模型泛化能力**：交叉验证分数高表明模型具有良好的泛化能力，能够很好地推广到未见过的数据上。
+- **模型性能**：ROC-AUC分数提供了模型在测试集上的二元分类性能的度量。较高的ROC-AUC分数通常意味着模型在正负分类上表现更好。
+- **数据泄露风险**：由于`model`函数被设计为避免数据泄露，这个结果是基于训练集训练的模型对测试集的预测得出的，这增加了结果的可信度。
+
+然而，尽管这些分数提供了模型性能的初步评估，但它们并不完整。为了全面评估模型，还需要考虑其他因素，如精确率、召回率、F1分数等，以及模型在不同类别上的表现是否均衡。此外，还需要考虑数据集的特点，如类别不平衡，以及模型的可解释性和实际应用场景。
+
+
+```python
+    precision    recall  f1-score   support
+
+           0       0.87      0.77      0.82       367
+           1       0.80      0.89      0.84       380
+
+    accuracy                           0.83       747
+   macro avg       0.84      0.83      0.83       747
+weighted avg       0.83      0.83      0.83       747
+```
+
+![6.1.2.png](01图片/6.1.2.png)
+
+
+上述代码的执行结果提供了一个分类模型的性能评估，具体来自XGBoost分类器在测试集上的表现。以下是对结果的详细解读：
+
+1. **Precision, Recall, and F1-Score for Each Class:**
+   - 对于类别0，精确率（Precision）是0.87，召回率（Recall）是0.77，F1分数（F1-Score）是0.82。这意味着：
+     - 当模型预测一个样本属于类别0时，有87%的准确率。
+     - 类别0的真实样本中，有77%被模型正确识别。
+     - F1分数是精确率和召回率的调和平均数，提供了模型精确性和完整性的平衡指标，对于类别0，这个平衡指标是0.82。
+   
+   - 对于类别1，精确率是0.80，召回率是0.89，F1分数是0.84。这意味着：
+     - 当模型预测一个样本属于类别1时，有80%的准确率。
+     - 类别1的真实样本中，有89%被模型正确识别。
+     - F1分数对于类别1是0.84，表明模型在类别1上的综合表现略高于类别0。
+
+2. **Support:**
+   - 支持度（Support）表示每个类别在测试数据集中的样本数量。类别0有367个样本，类别1有380个样本。
+
+3. **Accuracy:**
+   - 准确率（Accuracy）是0.83，表示模型正确预测的样本数占总样本数的83%。这是一个整体的性能指标，考虑了所有类别。
+
+4. **Macro Average and Weighted Average:**
+   - 宏平均（Macro Avg）是将每个类别的指标取平均，不考虑每个类别的支持度（样本数量）。宏平均的精确率、召回率和F1分数都是0.84，表明模型在两个类别上的平均性能是一致的。
+   
+   - 加权平均（Weighted Avg）是将每个类别的指标按照它们的支持度（样本数量）进行加权平均。加权平均的精确率、召回率和F1分数都是0.83，这意味着模型的性能在总体上受到了样本数量较多的类别的影响。
+
+解读这些结果时，需要考虑以下几点：
+
+- **模型平衡性**：模型在两个类别上的性能相对均衡，没有明显偏向于某一个类别。
+- **业务需求**：在某些应用中，可能需要更高的召回率以减少漏检（如医疗诊断），而在其他应用中，可能需要更高的精确率以避免错误的积极干预（如垃圾邮件过滤）。
+- **数据不平衡**：如果数据集中类别的分布不均匀，可能需要考虑使用采样方法或其他技术来平衡类别。
+- **进一步改进**：尽管模型表现良好，但仍有改进空间，可以通过调整模型参数、进行特征工程或尝试不同的模型来进一步提升性能。
+
+总体而言，这个XGBoost模型在测试集上展现出了良好的性能，但在实际应用中，还需要考虑其他因素，如模型的可解释性、计算成本以及部署的复杂性。
+
+#### Model for Data Leakage :
+
+这段代码继续使用了之前定义的两个函数 `model` 和 `model_evaluation`，不过这次它们被用来训练和评估一个XGBoost分类器，但是使用的数据集是之前通过 `train_test_split` 函数分割得到的 `x_train2`, `x_test2`, `y_train2`, `y_test2`。下面是对每一行代码的详细中文注释：
+
+```python
+# 调用model函数，传入XGBClassifier分类器classifier_xgb，以及通过train_test_split函数得到的新的x_train2, y_train2作为训练数据集，x_test2, y_test2作为测试数据集。
+# model函数将执行以下操作：
+# - 使用XGBClassifier的fit方法训练分类器。
+# - 使用训练好的分类器对测试集x_test2进行预测，得到预测结果。
+# - 使用RepeatedStratifiedKFold进行交叉验证，并通过cross_val_score计算模型的平均ROC-AUC分数。
+# - 计算测试集上的ROC-AUC分数，并打印出来。
+# - 使用plot_roc_curve函数绘制ROC曲线，并显示这个曲线图。
+model(classifier_xgb, x_train2, y_train2, x_test2, y_test2)
+
+# 调用model_evaluation函数，传入XGBClassifier分类器classifier_xgb，以及测试集x_test2, y_test2。
+# model_evaluation函数将执行以下操作：
+# - 使用测试数据集计算混淆矩阵，并使用seaborn的heatmap函数绘制混淆矩阵的热图。
+# - 打印分类报告，其中包括精确率、召回率、F1分数等指标，为模型的性能提供详细评估。
+model_evaluation(classifier_xgb, x_test2, y_test2)
+```
+
+这段代码的作用是：
+
+1. 使用`model`函数训练XGBoost分类器，并对其进行交叉验证和ROC-AUC分数评估，同时绘制ROC曲线图。
+2. 使用`model_evaluation`函数生成混淆矩阵的热图和分类报告，提供模型性能的详细评估。
+
+需要注意的是，`model`和`model_evaluation`函数的具体行为取决于它们的定义。在这个例子中，`model`函数不仅训练模型，还提供了关于模型性能的一些指标，而`model_evaluation`函数则专注于展示混淆矩阵和分类报告，为模型的评估提供了更深入的视角。此外，这些函数的输出对于理解模型的性能非常有帮助，但也需要根据实际问题和数据集进行解释。
+
+```python
+Cross Validation Score :  83.53%
+ROC_AUC Score :  50.00%
+```
+
+![6.1.3.png](01图片/6.1.3.png)
+
+
+
+上述代码的执行结果包括两部分：交叉验证得分和ROC-AUC得分。以下是对这些结果的详细解读：
+
+1. **交叉验证得分 (Cross Validation Score): 83.53%**
+   这个百分比表示XGBoost分类器在使用`RepeatedStratifiedKFold`进行交叉验证时的平均ROC-AUC得分。得分为83.53%意味着模型在交叉验证的过程中表现良好，能够以超过83%的准确率区分不同的类别。
+
+2. **ROC-AUC得分 (ROC_AUC Score): 50.00%**
+   这个百分比是模型在测试集上的ROC-AUC得分。ROC-AUC是一个衡量分类模型性能的指标，特别是在二分类问题中。一个ROC-AUC得分为50.00%通常意味着模型的性能不比随机猜测好，因为50.00%的得分等同于没有区分能力（相当于随机水平）。这个低得分可能表明模型在测试集上的表现非常差，或者模型对测试数据的泛化能力不足。
+
+解读这些结果时，需要注意的是：
+
+- **模型性能差异**：交叉验证得分高而ROC-AUC得分低，这可能表明模型在训练数据上过拟合，即模型在训练集上表现很好，但不能很好地推广到未见过的数据。
+- **数据泄露**：由于`model`函数被设计为避免数据泄露，这个低ROC-AUC得分可能表明模型在训练过程中存在问题，或者测试集的分布与训练集显著不同。
+- **模型调整**：可能需要重新考虑模型的参数设置，进行更多的特征工程，或者尝试不同的模型。
+- **类别不平衡**：如果数据集中存在类别不平衡问题，可能需要采用采样技术或使用不同的评估指标。
+
+在实际应用中，除了查看交叉验证得分和ROC-AUC得分外，还需要考虑其他性能指标，如精确率、召回率、F1分数等，以及模型在不同类别上的表现是否均衡。此外，还需要考虑模型的可解释性和实际应用场景。如果模型在测试集上的表现不佳，可能需要重新收集数据、进行更深入的特征分析或使用更复杂的模型。
+
+
+```python
+    precision    recall  f1-score   support
+
+           0       0.95      1.00      0.97       726
+           1       0.00      0.00      0.00        41
+
+    accuracy                           0.95       767
+   macro avg       0.47      0.50      0.49       767
+weighted avg       0.90      0.95      0.92       767
+```
+
+![6.1.4.png](01图片/6.1.4.png)
+
+
+上述代码的执行结果提供了一个XGBoost分类器在测试集上的性能评估。以下是对结果的详细解读：
+
+1. **Precision, Recall, and F1-Score for Each Class:**
+   - 对于类别0，精确率（Precision）是0.95，召回率（Recall）是1.00，F1分数（F1-Score）是0.97。这意味着：
+     - 当模型预测一个样本属于类别0时，准确率高达95%。
+     - 类别0的所有样本都被模型正确识别，召回率达到了100%。
+     - F1分数是精确率和召回率的调和平均数，对于类别0，这个平衡指标是0.97，表明模型在类别0上的表现非常出色。
+     
+   - 对于类别1，精确率是0.00，召回率是0.00，F1分数是0.00。这意味着：
+     - 模型没有正确预测任何属于类别1的样本，精确率和召回率都为0%。
+     - F1分数为0，表明模型在类别1上完全失败，没有区分出任何类别1的样本。
+
+2. **Support:**
+   - 支持度（Support）表示每个类别在测试数据集中的样本数量。类别0有726个样本，类别1有41个样本。
+
+3. **Accuracy:**
+   - 准确率（Accuracy）是0.95，表示模型正确预测的样本数占总样本数的95%。这个高准确率可能看起来不错，但由于模型在类别1上的表现极差，这可能掩盖了模型在类别1上的问题。
+
+4. **Macro Average and Weighted Average:**
+   - 宏平均（Macro Avg）是将每个类别的指标取平均，不考虑每个类别的支持度。宏平均的精确率、召回率和F1分数都是0.47、0.50和0.49，这表明如果平均考虑每个类别，模型的性能会显著下降。
+   
+   - 加权平均（Weighted Avg）是将每个类别的指标按照它们的支持度进行加权平均。加权平均的精确率、召回率和F1分数都是0.90、0.95和0.92，这意味着模型的整体性能在很大程度上受到样本数量较多的类别0的影响。
+
+解读这些结果时，需要考虑以下几点：
+
+- **类别不平衡**：类别1的样本数量远少于类别0，这可能导致模型对类别1的预测性能不佳。
+- **模型泛化能力**：模型在类别0上表现出色，但在类别1上完全失败，这可能表明模型没有很好地泛化到类别1的样本。
+- **评估指标的选择**：仅依赖准确率可能会误导模型性能的真实情况，特别是在类别不平衡的情况下。在这种情况下，考虑精确率、召回率和F1分数等指标更为重要。
+- **模型改进**：可能需要采取措施来提高模型对类别1的预测能力，如收集更多类别1的样本、尝试不同的模型参数、或使用专门针对类别不平衡的技术。
+
+总体而言，尽管模型在类别0上表现出色，但在类别1上的表现非常差，这表明模型在整体性能上存在严重的问题。需要对模型进行进一步的调整和优化，以提高其在所有类别上的泛化能力。
+
+
+
+#### ML Alogrithm Results Table :
+
+##### No Data Leakage Model :
+
+![6.1.5.png](01图片/6.1.5.png)
+
+
+##### Data Leakage Model :
+
+![6.1.6.png](01图片/6.1.6.png)
+
+
+## 7. Conclusion
+
+* This is another good dataset for understanding how to handle binary classification problems however, imbalance nature of the dataset makes it a tricky task to deal with.
+* It's EDA opportunities are immense as well. However, it's EDA insights did contradict with the domain knowledge.
+* In order to understand the significance of Data Leakage & it's effects, 2 models are created. You can easily spot the difference in statistical test values, feature selections and machine learning model performance.
+* F1 score of No Data Leakage Model suggests that it is more robust and can deal with the unknown data better than the Data Leakage Model.
+
+
+
+
+## References :
+
+
+https://www.youtube.com/watch?v=n9jz7G68pVg
+
+https://machinelearningmastery.com/data-preparation-without-data-leakage/#:~:text=Data%20leakage%20refers%20to%20a,a%20marked%20effect%20on%20performance.
+
+https://stackoverflow.com/questions/49444262/normalize-data-before-or-after-split-of-training-and-testing-data
+
+
+[Image Source](https://www.cdc.gov/stroke/images/Index-About.jpg?_=67208)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

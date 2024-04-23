@@ -1,4 +1,4 @@
-# [01Stroke_Prediction_Dataset]()
+# 01Stroke_Prediction_Dataset
 
 > 网址： [Stroke Prediction Dataset](https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset)
 
@@ -9,7 +9,7 @@
 
 ## 相关代码(按vote排序)
 
-### [01Data_Storytelling_AUC_focus_on_strokes]()
+### [01Data_Storytelling_AUC_focus_on_strokes](06项目复现\04kaggle\02数据集\03脑卒中数据集\01Stroke_Prediction_Dataset\01Data_Storytelling_AUC_focus_on_strokes/)
 
 网址： [01Data_Storytelling_AUC_focus_on_strokes](https://www.kaggle.com/code/bhuvanchennoju/data-storytelling-auc-focus-on-strokes)
 
@@ -22,23 +22,16 @@
 
 
 
-### 03Predicting_a_Stroke_SHAP_LIME_Explainer_ELI5
-
-[03Predicting_a_Stroke_SHAP_LIME_Explainer_ELI5](https://www.kaggle.com/code/joshuaswords/predicting-a-stroke-shap-lime-explainer-eli5)
-
+### [03Predicting_a_Stroke_SHAP_LIME_Explainer_ELI5](06项目复现\04kaggle\02数据集\03脑卒中数据集\01Stroke_Prediction_Dataset\03Predicting_a_Stroke_SHAP_LIME_Explainer_ELI5/)
 
 网址： [Predicting_a_Stroke_SHAP_LIME_Explainer_ELI5](https://www.kaggle.com/code/joshuaswords/predicting-a-stroke-shap-lime-explainer-eli5)
 
+* 2021年发布
+* 54,774次浏览
+* 290个人支持
+* 606人复现
 
-
-
-
-
-
-
-
-
-### [04Stroke_Prediction_Effect_of_Data_Leakage_SMOTE]()
+### [04Stroke_Prediction_Effect_of_Data_Leakage_SMOTE](06项目复现\04kaggle\02数据集\03脑卒中数据集\01Stroke_Prediction_Dataset\04Stroke_Prediction_Effect_of_Data_Leakage_SMOTE/)
 
 [网址](https://www.kaggle.com/code/tanmay111999/stroke-prediction-effect-of-data-leakage-smote)
 
