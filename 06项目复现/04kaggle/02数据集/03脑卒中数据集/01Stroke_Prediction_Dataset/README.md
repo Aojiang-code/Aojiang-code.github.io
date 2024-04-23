@@ -33,13 +33,22 @@
 
 ### [04Stroke_Prediction_Effect_of_Data_Leakage_SMOTE](06项目复现\04kaggle\02数据集\03脑卒中数据集\01Stroke_Prediction_Dataset\04Stroke_Prediction_Effect_of_Data_Leakage_SMOTE/)
 
-[网址](https://www.kaggle.com/code/tanmay111999/stroke-prediction-effect-of-data-leakage-smote)
+网址： [Stroke_Prediction_Effect_of_Data_Leakage_SMOTE](https://www.kaggle.com/code/tanmay111999/stroke-prediction-effect-of-data-leakage-smote)
 
 * 2023年发布
 * 9，331次浏览
 * 132个人支持
 * 100人复现
 
+
+### [05Analyzing_and_Modeling_Stroke_Data](06项目复现\04kaggle\02数据集\03脑卒中数据集\01Stroke_Prediction_Dataset\05Analyzing_and_Modeling_Stroke_Data/)
+
+网址： [Analyzing_and_Modeling_Stroke_Data](https://www.kaggle.com/code/thomaskonstantin/analyzing-and-modeling-stroke-data)
+
+* 2021年发布
+* 30,976次浏览
+* 130个人支持
+* 378人复现
 
 ### 
 

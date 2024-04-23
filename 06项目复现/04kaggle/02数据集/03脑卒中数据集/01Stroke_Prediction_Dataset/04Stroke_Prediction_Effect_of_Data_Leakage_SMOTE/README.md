@@ -24,7 +24,7 @@ According to the World Health Organization (WHO), stroke is the 2nd leading caus
 * To classify / predict whether a patient can suffer a stroke.
 * It is a binary classification problem with multiple numerical and categorical features.
 
-### 0.3. Dataset Attributes :¶
+### 0.3. Dataset Attributes :
 * id : unique identifier
 * gender : "Male", "Female" or "Other"
 * age : age of the patient
