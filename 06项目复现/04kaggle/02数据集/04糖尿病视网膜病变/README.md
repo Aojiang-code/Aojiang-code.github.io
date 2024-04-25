@@ -1,4 +1,68 @@
-# 目录
+# 简介
+kaggle上的与糖尿病视网膜病变相关的一些数据,主要为数值型数据或图片型数据。
+
+# 目录 
+
+## [01Diabetic Retinopathy (resized)]()
+
+> 网址： [Diabetic Retinopathy (resized)](https://www.kaggle.com/datasets/tanlikesmath/diabetic-retinopathy-resized)
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [02Diabetic Retinopathy 224x224 Gaussian Filtered]()
+
+> 网址： [Diabetic Retinopathy 224x224 Gaussian Filtered](https://www.kaggle.com/datasets/sovitrath/diabetic-retinopathy-224x224-gaussian-filtered)
+
+
+## [03Diabetic Retinopathy Dataset]()
+
+> 网址： [Diabetic Retinopathy Dataset](https://www.kaggle.com/datasets/sachinkumar413/diabetic-retinopathy-dataset)
+
+
+## [04Diagnosis_of_Diabetic_Retinopathy]()
+
+> 网址： [Diagnosis of Diabetic Retinopathy](https://www.kaggle.com/datasets/pkdarabi/diagnosis-of-diabetic-retinopathy)
+
+* 2019年创建
+* 71人投票
+* 1,432 downloads
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## [05Diabetic Retinopathy Arranged]()
+
+> 网址： [Diabetic Retinopathy Arranged](https://www.kaggle.com/datasets/amanneo/diabetic-retinopathy-resized-arranged)
+
+
+
+
 
 
 
