@@ -29,7 +29,7 @@ kaggle上的与糖尿病视网膜病变相关的一些数据,主要为数值型�
 > 网址： [Diabetic Retinopathy Dataset](https://www.kaggle.com/datasets/sachinkumar413/diabetic-retinopathy-dataset)
 
 
-## [04Diagnosis_of_Diabetic_Retinopathy]()
+## [04Diagnosis_of_Diabetic_Retinopathy](06项目复现\04kaggle\02数据集\04糖尿病视网膜病变\04Diagnosis_of_Diabetic_Retinopathy/)
 
 > 网址： [Diagnosis of Diabetic Retinopathy](https://www.kaggle.com/datasets/pkdarabi/diagnosis-of-diabetic-retinopathy)
 
