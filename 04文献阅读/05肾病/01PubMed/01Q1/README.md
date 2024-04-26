@@ -12,11 +12,15 @@
 
 #### 基本信息
 
-* 期刊：JAMA
-* 影响因子：120.7
-* 见刊时间： 2011 Apr 20
+* **期刊：JAMA**
+* **影响因子：120.7**
+* **见刊时间： 2011 Apr 20**
+* 国家：USA
+* 机构：Department of Medicine, Tufts Medical Center
 * PMID: 21482743 
 * DOI: 10.1001/jama.2011.451
+
+> [全文链接](https://jamanetwork.com/journals/jama/fullarticle/897102)
 
 
 #### Abstract
