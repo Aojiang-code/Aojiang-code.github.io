@@ -13,7 +13,7 @@
 
 #### 基本信息
 
-* **期刊：Nat Rev Nephrol**
+* **期刊：Nat Rev Nephrol**  即《Nature Reviews Nephrology》
 * **影响因子：41.5**
 * **见刊时间： 2021 Oct**
 * 国家：USA
