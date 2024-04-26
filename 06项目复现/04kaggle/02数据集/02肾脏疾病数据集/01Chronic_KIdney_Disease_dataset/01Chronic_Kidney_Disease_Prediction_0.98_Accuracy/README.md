@@ -20,8 +20,8 @@
 * * LGBM Classifier
 * 
 * Models Comparison
-
-## 导入包
+## 准备
+### 导入包
 
 下面这段代码包含了一些用于数据操作和可视化的Python库的导入语句，以及一些环境配置的设置。以下是对每行代码的详细中文注释：
 
@@ -59,7 +59,7 @@ pd.set_option('display.max_columns', 26)
 
 执行这段代码后，Python环境将配置好用于数据分析和可视化所需的库和风格。这对于后续的数据操作、统计分析和数据可视化非常有用。特别是在Jupyter Notebook中，这些设置可以提高工作效率，使得数据探索和结果展示更加直观和美观。
 
-
+### 加载数据
 下面这段代码用于加载存储在CSV文件中的肾脏疾病数据集，并显示数据集的前几行。以下是对每行代码的详细中文注释：
 
 ```python
@@ -106,7 +106,7 @@ df.shape
 
 这个结果提供了数据集的基本维度信息，有助于我们了解数据集的规模。在数据分析和机器学习的上下文中，了解数据集的大小对于确定分析方法、设计特征工程策略、选择合适的模型以及评估模型性能都是非常重要的。例如，如果数据集较小，我们可能需要更谨慎地选择特征以避免过拟合；如果特征数量较多，我们可能需要进行特征选择或降维处理以提高模型的效率和性能。
 
-
+### 删除id
 
 下面这段代码用于从DataFrame `df`中删除名为`id`的列，并更新原始DataFrame。以下是对这行代码的详细中文注释：
 
@@ -123,7 +123,7 @@ df.drop('id', axis=1, inplace=True)
 
 执行这段代码后，`df`中的`id`列将被删除，且这个更改会直接作用于原始的DataFrame。这种操作在数据分析中很常见，尤其是在预处理阶段，当我们认为某些列对于分析或建模没有帮助或者有隐私风险时，我们会选择删除这些列。在这个例子中，可能是因为`id`列是一个唯一标识符，对于数据分析和机器学习任务没有实际用途，因此选择将其移除。需要注意的是，`inplace=True`参数确保了更改是永久性的，因此在执行这一操作前应确保这是我们想要的结果。
 
-
+### 重命名列名
 
 下面这段代码用于将DataFrame `df`中的列名重命名为更友好、更易于理解的名称。以下是对这行代码的详细中文注释：
 
@@ -143,6 +143,59 @@ df.columns = ['age', 'blood_pressure', 'specific_gravity', 'albumin', 'sugar', '
 
 执行这段代码后，`df`中的每个列将被赋予一个新的名称，这些名称更加直观地描述了每一列数据的特征。例如，`blood_pressure`列可能包含了血压的测量值，`diabetes_mellitus`列可能标识了是否患有糖尿病等。这种重命名操作是数据预处理的一个重要步骤，它有助于提高数据集的可读性，使得数据集的结构和内容更容易被理解和使用。在进行数据分析、数据可视化或构建机器学习模型时，清晰的列名可以帮助分析师和开发者更快地理解和处理数据。
 
+以下是上述这些英文术语的翻译及其在肾病模型预测中的意义：
+
+1. `age` - 年龄：在肾病模型中，年龄是评估患者肾功能和疾病进展风险的重要因素。
+
+2. `blood_pressure` - 血压：高血压是导致肾脏疾病的一个重要因素，监测血压对肾病管理至关重要。
+
+3. `specific_gravity` - 尿比重：尿比重是评估肾脏浓缩尿液能力的一个指标，可以反映肾脏功能。
+
+4. `albumin` - 白蛋白：尿液中的白蛋白含量异常通常是肾脏疾病的早期标志。
+
+5. `sugar` - 糖：尿糖水平的升高可能与糖尿病相关肾脏损害有关。
+
+6. `red_blood_cells` - 红细胞：尿液中的红细胞可能指示肾脏炎症或损伤。
+
+7. `pus_cell` - 脓细胞：尿液中的脓细胞可能表明存在尿路感染。
+
+8. `pus_cell_clumps` - 脓细胞团：尿液中的脓细胞团块进一步强化了尿路感染的可能性。
+
+9. `bacteria` - 细菌：尿液中的细菌存在可能表明有感染，这可能影响肾脏健康。
+
+10. `blood_glucose_random` - 随机血糖：高血糖是糖尿病的标志，糖尿病是引起肾病的常见原因。
+
+11. `blood_urea` - 血尿素：血尿素水平升高可能表明肾脏清除废物的能力下降。
+
+12. `serum_creatinine` - 血清肌酐：血清肌酐是评估肾小球滤过率（GFR）和肾脏功能的一个常用指标。
+
+13. `sodium` - 钠：血液中的钠水平异常可能与肾脏调节电解质平衡的能力有关。
+
+14. `potassium` - 钾：血液中的钾水平异常可能指示肾脏功能问题。
+
+15. `haemoglobin` - 血红蛋白：低血红蛋白水平可能指示贫血，肾病患者常见贫血症状。
+
+16. `packed_cell_volume` - 压积细胞体积：反映血液红细胞的浓度，与血红蛋白水平相关。
+
+17. `white_blood_cell_count` - 白细胞计数：白细胞计数的增加可能表明存在感染或炎症。
+
+18. `red_blood_cell_count` - 红细胞计数：可以反映患者的贫血状态。
+
+19. `hypertension` - 高血压：是肾病进展的一个重要风险因素。
+
+20. `diabetes_mellitus` - 糖尿病：糖尿病可以导致糖尿病肾病，是肾病的常见原因之一。
+
+21. `coronary_artery_disease` - 冠状动脉疾病：与心血管疾病相关的疾病，可能与肾病有共同的风险因素。
+
+22. `appetite` - 食欲：食欲减退可能是肾病晚期或其他健康问题的症状。
+
+23. `peda_edema` - 下肢水肿：由于肾脏无法有效清除体内多余液体，可能导致下肢水肿。
+
+24. `aanemia` - 贫血：肾病患者由于肾脏无法产生足够的红细胞生成素，常常伴随贫血。
+
+25. `class` - 类别：在医学模型中，可能指疾病阶段或严重程度的分类。
+
+这些指标在肾病模型预测中用于评估患者的肾脏健康状况、疾病进展风险以及制定相应的治疗策略。
 
 ```python
 df.head()
@@ -150,7 +203,7 @@ df.head()
 
 ![0.2head](01图片/0.2head.png)
 
-
+### 描述性统计摘要
 
 下面这行代码用于生成DataFrame `df`的描述性统计摘要。以下是对这行代码的详细中文注释：
 
@@ -214,7 +267,7 @@ df.describe()
 
 
 
-
+### 查看每列的数据类型、非空值的数量以及内存使用情况
 
 
 
@@ -312,9 +365,9 @@ memory usage: 78.2+ KB
 
 
 
-As we can see that 'packed_cell_volume', 'white_blood_cell_count' and 'red_blood_cell_count' are object type. We need to change them to numerical dtype.
+**As we can see that 'packed_cell_volume', 'white_blood_cell_count' and 'red_blood_cell_count' are object type. We need to change them to numerical dtype.**
 
-
+### 转换为数值型数据
 下面这段代码用于将DataFrame `df`中的某些列转换为数值型数据，如果转换过程中遇到无法转换为数值的值，则将其设置为NaN。以下是对每行代码的详细中文注释：
 
 ```python
@@ -339,7 +392,7 @@ df['red_blood_cell_count'] = pd.to_numeric(df['red_blood_cell_count'], errors='c
 执行这段代码后，`df`中的`packed_cell_volume`、`white_blood_cell_count`和`red_blood_cell_count`列将被转换为数值型数据。如果这些列中原本包含非数值型的文本（例如“高”、“低”或其他描述性文本），使用`errors='coerce'`参数可以确保这些无法转换的值被设置为NaN，而不是引发错误。这样的处理对于数据清洗和后续的数据分析非常重要，因为数值型数据是进行数学计算和统计分析的基础。同时，将无法转换的值设置为NaN也有助于后续进一步处理这些缺失值，例如通过填充或删除含有缺失值的记录。
 
 
-
+### 检验是否转换成功
 
 下面这行代码用于获取DataFrame `df`的详细内容信息，包括每列的数据类型、非空值的数量以及内存使用情况。以下是对这行代码的详细中文注释：
 
@@ -439,7 +492,7 @@ memory usage: 78.2+ KB
 
 从这个分析中，我们可以了解到数据集中存在一些缺失值，特别是`red_blood_cells`、`pus_cell`、`serum_creatinine`等列，它们的非空值数量少于总样本数。这可能意味着需要进一步的数据清洗工作，例如填充缺失值或删除含有缺失值的行。此外，大部分数值型数据使用`float64`类型，而一些可能是分类变量的数据使用`object`类型，这可能需要进一步的数据类型转换或处理。最后，内存使用情况显示数据集不是特别大，应该不会对大多数现代计算机的内存造成压力。
 
-
+### 提取分类特征列和数值特征列
 
 下面这段代码使用列表推导式来从DataFrame `df`中提取分类（categorical）列和数值（numerical）列的名称。以下是对每行代码的详细中文注释：
 
@@ -460,7 +513,7 @@ num_cols = [col for col in df.columns if df[col].dtype != 'object']
 执行这段代码后，`cat_cols`列表将包含DataFrame `df`中所有分类列的名称，而`num_cols`列表将包含所有数值列的名称。这种区分对于数据分析和机器学习任务非常重要，因为分类数据和数值数据通常需要不同的处理方法。例如，分类数据可能需要进行编码（如独热编码或标签编码），而数值数据可能需要进行标准化或归一化。通过将列分为两类，我们可以更有针对性地对数据进行预处理和分析。
 
 
-
+### 查看分类列的唯一值
 
 下面这段代码用于遍历DataFrame `df`中的分类列，并打印每个分类列的唯一值数量。以下是对每行代码的详细中文注释：
 
@@ -541,7 +594,7 @@ class has ['ckd' 'ckd\t' 'notckd'] values
 
 There is some ambugity present in the columns we have to remove that.
 
-
+### 替换分类列中不正确的值
 下面这段代码用于替换DataFrame `df`中某些列中的不正确或不一致的值。以下是对每行代码的详细中文注释：
 
 ```python
@@ -568,7 +621,7 @@ df['class'] = df['class'].replace(to_replace={'ckd\t': 'ckd', 'notckd': 'not ckd
 
 执行这段代码后，`df`中的`diabetes_mellitus`、`coronary_artery_disease`和`class`列将被更新，所有指定的不正确或不一致的值都将被替换为新的值。这种数据清洗步骤对于确保数据质量和后续分析的准确性非常重要。在机器学习和数据分析中，处理这类数据问题是一个常见的预处理步骤，它有助于提高模型的性能和解释性。
 
-
+### 将分类标签转换为数值型数据
 下面这段代码用于将DataFrame `df`中的`class`列中的分类标签转换为数值型数据，并处理可能的转换错误。以下是对每行代码的详细中文注释：
 
 ```python
@@ -587,7 +640,7 @@ df['class'] = pd.to_numeric(df['class'], errors='coerce')
 执行这段代码后，`df`中的`class`列将完全由数值型数据组成，其中`ckd`被转换为0，`not ckd`被转换为1。如果`map`操作后存在任何非预期的值，`pd.to_numeric`将确保这些值被处理为NaN，从而避免了潜在的数据错误。这种转换是数据预处理中的常见步骤，特别是在准备数据用于机器学习模型训练时，因为大多数模型都需要数值型特征。
 
 
-
+### 检验是否转换成功
 下面这段代码用于遍历指定的列，并打印每个列的唯一值列表。以下是对每行代码的详细中文注释：
 
 ```python
@@ -626,7 +679,7 @@ class has [0 1] values
 
 从这些结果可以看出，数据集中的分类特征已经通过之前的清洗和转换步骤被处理为了更加一致和数值型的形式。这种处理使得数据集准备好了进行后续的数据分析和机器学习任务。然而，仍然存在一些缺失值（`nan`），这可能需要进一步的处理，例如通过填充缺失值或删除含有缺失值的记录。在进行模型训练之前，确保数据的完整性是非常重要的。
 
-
+### 查看数值特征的分布图
 下面这段代码用于创建一个图形，其中包含DataFrame `df`中数值型特征的分布图。以下是对每行代码的详细中文注释：
 
 ```python
@@ -675,7 +728,7 @@ plt.show()
 
 Skewness is present in some of the columns.
 
-
+### 查看分类特征的计数图
 下面这段代码用于创建一个图形，其中包含DataFrame `df`中分类特征的计数图。以下是对每行代码的详细中文注释：
 
 ```python
@@ -720,7 +773,7 @@ plt.show()
 ![0.5categorical](01图片/0.5categorical.png)
 
 
-
+### 数值型特征之间的相关性热图
 下面这段代码用于创建DataFrame `df`中数值型特征之间的相关性热图。以下是对每行代码的详细中文注释：
 
 ```python
@@ -839,8 +892,127 @@ def scatter(col1, col2):
 
 这些函数使得用户可以通过传递不同的参数来生成特定特征的图表，从而更好地理解数据的分布和特征之间的关系。例如，`violin`函数可以用于比较不同类别下某个数值型特征的分布情况；`kde`函数可以用于查看某个特征的分布密度；`scatter`函数可以用于探索两个数值型特征之间的关系。这些可视化工具在数据分析和机器学习中非常有用，因为它们可以帮助我们识别数据中的模式、异常值和潜在的关联。
 
+### 定义小提琴图
+
+```python
+# 定义一个名为violin的函数，接受一个参数col。
+def violin(col):
+    """
+    这个函数用于创建小提琴图，它可以展示数据分布的同时，还能够显示出数据的中位数、
+    四分位数和异常值。
+
+    参数:
+    col: 需要绘制小提琴图的数据列。
+    """
+
+    # 创建一个Plotly表达式对象，用于绘制小提琴图。
+    # df是数据源DataFrame，
+    # y=col指定小提琴图在y轴上展示的列，
+    # x="class"指定x轴的标签，
+    # color="class"表示根据'class'列的类别来着色。
+    # box=True表示在小提琴图上方显示箱线图，
+    # template='plotly_dark'指定使用深色背景的模板。
+    fig = px.violin(df, y=col, x="class", color="class", box=True, template='plotly_dark")
+    
+    # 调用show方法显示图表，并返回该方法的输出。
+    # 这里的show方法实际上会生成一个图形界面展示图表，并不会返回一个值，
+    # 所以这里的return语句可能不是必要的，除非有特定的上下文需要这个返回值。
+    return fig.show()
+```
+
+请注意，这段代码中有几个地方需要额外说明：
+
+1. `df`在注释中被提及为数据源DataFrame，但在函数定义中并没有作为参数传递给`violin`函数。如果`df`是全局变量或在函数外部定义的，则可以正常使用；否则，你可能需要将其作为参数传递给函数。
+
+2. `px.violin`是Plotly库中用于创建小提琴图的函数。确保在使用这段代码之前已经导入了Plotly库，并且`px`是Plotly的别名。
+
+3. `return fig.show()`这行代码实际上在Jupyter Notebook等交互式环境中会显示图表，但在其他上下文中，你可能需要根据实际情况调整，因为`fig.show()`通常不返回一个值，而是直接在图形界面中展示图表。
+
+4. 如果你的目的仅仅是在函数中创建并展示图表，而不是返回一个值，那么可以去掉`return`语句。
+
+5. 这段代码假设`df`中有一个名为`'class'`的列，用于区分不同的类别，并且在`x`和`color`参数中使用它。如果`df`中没有这样的列，你需要根据实际情况调整代码。
+
+### 定义核密度图
+
+```python
+# 定义一个名为kde的函数，不接受参数。
+def kde(col):
+    """
+    这个函数用于创建核密度估计图（KDE），它可以展示数据的分布密度。
+
+    参数:
+    col: 需要绘制核密度估计图的数据列。
+    """
+
+    # 创建一个Seaborn的FacetGrid对象，用于绘制多个图表的网格。
+    # df是数据源DataFrame，hue="class"表示根据'class'列的类别来着色。
+    # height=6和aspect=2指定了每个图表的尺寸。
+    grid = sns.FacetGrid(df, hue="class", height=6, aspect=2)
+    
+    # 使用grid.map方法在每个子图上应用kdeplot函数，绘制核密度估计图。
+    # col参数指定了要在x轴上展示的列。
+    grid.map(sns.kdeplot, col)
+    
+    # 添加图例，以便于区分不同类别的数据。
+    grid.add_legend()
+```
+
+请注意，这段代码中有几个地方需要额外说明：
+
+1. 函数`kde`的注释中提到不接受参数，但实际上它接收了一个名为`col`的参数，这个参数用于指定绘制核密度估计图的数据列。
+
+2. `df`在注释中被提及为数据源DataFrame，但在函数定义中并没有作为参数传递给`kde`函数。如果`df`是全局变量或在函数外部定义的，则可以正常使用；否则，你可能需要将其作为参数传递给函数。
+
+3. `hue="class"`表示核密度估计图将根据`'class'`列的类别来着色，这意味着`df`中应该有一个名为`'class'`的列，用于区分不同的类别。
+
+4. `grid.add_legend()`添加了图例，但通常Seaborn会自动处理图例，除非需要自定义图例的显示方式，否则可能不需要显式调用`add_legend()`方法。
+
+5. 这段代码假设你已经导入了Seaborn库，并且`sns`是Seaborn的别名。如果没有导入，你需要在代码的开始处添加相应的导入语句，例如：`import seaborn as sns`。
 
 
+### 定义散点图
+
+```python
+# 定义一个名为scatter的函数，接受两个参数col1和col2。
+def scatter(col1, col2):
+    """
+    这个函数用于创建散点图，它可以展示两个数值型特征之间的关系。
+
+    参数:
+    col1: 需要绘制在散点图x轴上的数据列。
+    col2: 需要绘制在散点图y轴上的数据列。
+    """
+
+    # 创建一个Plotly表达式对象，用于绘制散点图。
+    # df是数据源DataFrame，
+    # x=col1指定x轴上展示的数据列，
+    # y=col2指定y轴上展示的数据列。
+    # color="class"表示根据'class'列的类别来着色散点，
+    # template='plotly_dark'指定使用深色背景的模板。
+    fig = px.scatter(df, x=col1, y=col2, color="class", template='plotly_dark')
+    
+    # 调用show方法显示图表，并返回该方法的输出。
+    # 在Jupyter Notebook等交互式环境中，show方法会弹出一个窗口展示图表。
+    # return语句用于返回show方法的输出，但在实际使用中，通常不需要返回值。
+    return fig.show()
+```
+
+请注意，这段代码中有几个地方需要额外说明：
+
+1. `df`在注释中被提及为数据源DataFrame，但在函数定义中并没有作为参数传递给`scatter`函数。如果`df`是全局变量或在函数外部定义的，则可以正常使用；否则，你可能需要将其作为参数传递给函数。
+
+2. `px.scatter`是Plotly库中用于创建散点图的函数。确保在使用这段代码之前已经导入了Plotly库，并且`px`是Plotly的别名。
+
+3. `return fig.show()`这行代码实际上在Jupyter Notebook等交互式环境中会显示图表，但在其他上下文中，你可能需要根据实际情况调整，因为`fig.show()`通常不返回一个值，而是直接在图形界面中展示图表。
+
+4. 如果你的目的仅仅是在函数中创建并展示图表，而不是返回一个值，那么可以去掉`return`语句。
+
+5. 这段代码假设`df`中有一个名为`'class'`的列，用于区分不同的类别，并且在`color`参数中使用它。如果`df`中没有这样的列，你需要根据实际情况调整代码。
+
+6. `template='plotly_dark'`参数是Plotly的一个特性，它允许你为图表设置不同的主题模板。如果你没有安装对应的模板，或者不需要使用特定的模板，可以省略这个参数或者设置为默认值。
+
+### 绘制
+#### 红细胞计数小提琴图
 下面这行代码调用了之前定义的`violin`函数，传入了字符串参数`'red_blood_cell_count'`，用于创建DataFrame `df`中`'red_blood_cell_count'`列的小提琴图。以下是对这行代码的详细中文注释：
 
 ```python
@@ -858,9 +1030,18 @@ violin('red_blood_cell_count')
 
 
 ![0.7violin](01图片/0.7violin.png)
+#### 红细胞计数核密度图
 
 
 
+
+
+
+
+
+
+
+#### 白细胞计数核密度图
 
 下面这行代码调用了之前定义的`kde`函数，传入了字符串参数`'white_blood_cell_count'`，用于创建DataFrame `df`中`'white_blood_cell_count'`列的核密度估计（KDE）图。以下是对这行代码的详细中文注释：
 
@@ -879,7 +1060,7 @@ kde('white_blood_cell_count')
 
 ![0.8kde](01图片/0.8kde.png)
 
-
+#### packed_cell_volume小提琴图
 下面这行代码调用了之前定义的`violin`函数，传入了字符串参数`'packed_cell_volume'`，用于创建DataFrame `df`中`'packed_cell_volume'`列的小提琴图。以下是对这行代码的详细中文注释：
 
 ```python
@@ -899,7 +1080,7 @@ violin('packed_cell_volume')
 
 ![0.9violin](01图片/0.9violin.png)
 
-
+#### 白细胞计数核密度图
 下面这行代码调用了之前定义的`kde`函数，传入了字符串参数`'white_blood_cell_count'`，用于创建DataFrame `df`中`'white_blood_cell_count'`列的核密度估计（KDE）图。以下是对这行代码的详细中文注释：
 
 ```python
@@ -915,7 +1096,7 @@ kde('white_blood_cell_count')
 
 ![0.10kde](01图片/0.10kde.png)
 
-
+#### packed_cell_volume小提琴图
 下面这行代码调用了之前定义的`violin`函数，传入了字符串参数`'packed_cell_volume'`，用于创建DataFrame `df`中`'packed_cell_volume'`列的小提琴图。以下是对这行代码的详细中文注释：
 
 ```python
@@ -932,7 +1113,7 @@ violin('packed_cell_volume')
 ![0.11violin](01图片/0.11vioin.png)
 
 
-
+#### 
 ```python
 kde('packed_cell_volume')
 ```
@@ -940,7 +1121,7 @@ kde('packed_cell_volume')
 ![0.12kde](01图片/0.12kde.png)
 
 
-
+#### 
 ```python
 violin('haemoglobin')
 ```
@@ -949,28 +1130,32 @@ violin('haemoglobin')
 ![0.13violin](0.13violin.png)
 
 
-
+#### 
 ```python
 kde('haemoglobin')
 ```
 
+#### 
 
 ```python
 violin('albumin')
 ```
 
 
+#### 
 
 ```python
 kde('albumin')
 ```
 
+#### 
 
 ```python
 violin('blood_glucose_random')
 ```
 
 
+#### 
 
 ```python
 kde('blood_glucose_random')
@@ -978,6 +1163,7 @@ kde('blood_glucose_random')
 
 
 
+#### 
 
 ```python
 violin('sodium')
@@ -986,18 +1172,21 @@ violin('sodium')
 
 
 
+#### 
 
 ```python
 kde('sodium')
 ```
 
 
+#### 
 
 ```python
 violin('blood_urea')
 ```
 
 
+#### 
 
 ```python
 kde('blood_urea')
@@ -1005,6 +1194,7 @@ kde('blood_urea')
 
 
 
+#### 
 
 ```python
 violin('specific_gravity')
@@ -1013,16 +1203,19 @@ violin('specific_gravity')
 
 
 
+#### 
 
 ```python
 kde('specific_gravity')
 ```
 
+#### 
 
 ```python
 scatter('haemoglobin', 'packed_cell_volume')
 ```
 
+#### 
 
 ```python
 scatter('red_blood_cell_count', 'packed_cell_volume')
@@ -1031,16 +1224,19 @@ scatter('red_blood_cell_count', 'packed_cell_volume')
 
 
 
+#### 
 
 ```python
 scatter('red_blood_cell_count', 'albumin')
 ```
 
+#### 
 
 ```python
 scatter('sugar', 'blood_glucose_random')
 ```
 
+#### 
 
 ```python
 scatter('packed_cell_volume','blood_urea')
@@ -1049,17 +1245,20 @@ scatter('packed_cell_volume','blood_urea')
 
 
 
+#### 
 
 ```python
 px.bar(df, x="specific_gravity", y="packed_cell_volume", color='class', barmode='group', template = 'plotly_dark', height = 400)
 ```
 
+#### 
 
 ```python
 px.bar(df, x="specific_gravity", y="albumin", color='class', barmode='group', template = 'plotly_dark', height = 400)
 
 ```
 
+#### 
 
 ```python
 px.bar(df, x="blood_pressure", y="packed_cell_volume", color='class', barmode='group', template = 'plotly_dark', height = 400)
@@ -1068,6 +1267,7 @@ px.bar(df, x="blood_pressure", y="packed_cell_volume", color='class', barmode='g
 
 
 
+#### 
 
 ```python
 px.bar(df, x="blood_pressure", y="haemoglobin", color='class', barmode='group', template = 'plotly_dark', height = 400)
