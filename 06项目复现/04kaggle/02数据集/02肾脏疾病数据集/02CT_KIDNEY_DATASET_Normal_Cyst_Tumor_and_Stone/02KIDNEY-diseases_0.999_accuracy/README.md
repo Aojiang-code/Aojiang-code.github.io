@@ -1,6 +1,7 @@
 # KIDNEY-diseases 0.999 accuracy
 
 ## 0. 准备
+### 0.1. 导入库
 下面这段代码导入了多个Python库，这些库在数据处理、图像处理和可视化方面非常有用。以下是对每行代码的详细中文注释：
 
 ```python
@@ -32,7 +33,7 @@ from skimage.io import imread
 执行这段代码后，Python环境中将可以使用上述库的功能。NumPy和Pandas在数据分析和预处理中非常有用；os模块在处理文件和目录时经常使用；OpenCV是进行图像处理和计算机视觉任务的常用库；Pathlib提供了面向对象的文件系统路径操作；Seaborn和Matplotlib用于创建丰富的数据可视化图表；skimage.io模块中的imread函数可以方便地读取不同格式的图像文件。这些库的组合为数据科学、机器学习和图像处理任务提供了强大的工具集。
 
 
-
+### 定义数据集文件路径
 下面这段代码使用`pathlib`模块来定义数据集的文件路径，并创建一个路径对象指向训练数据的目录。以下是对每行代码的详细中文注释：
 
 ```python
@@ -75,7 +76,7 @@ PosixPath('../input/ct-kidney-dataset-normal-cyst-tumor-and-stone/CT-KIDNEY-DATA
 
 
 
-
+### 添加标签
 下面这段代码使用`pathlib`和`glob`模块来处理图像数据集的文件路径，并将图像路径及其对应的标签存储在一个列表中，最后将这个列表转换为一个Pandas的DataFrame对象，并进行洗牌。以下是对每行代码的详细中文注释：
 
 ```python
@@ -143,7 +144,7 @@ unique_labels = label_column.unique()
 
 执行这段代码后，`unique_labels`变量将包含`train_data` DataFrame中`'label'`列的所有唯一值。这个结果有助于我们了解数据集中的类别分布，以及是否所有的类别都被正确地标记。在机器学习任务中，了解类别的唯一值对于设置分类模型的类别数或进行数据探索性分析是非常重要的。例如，如果我们在进行多类别分类任务，我们需要确保模型的输出层有与唯一标签数相匹配的神经元数量。
 
-
+### 检查标签
 ```python
 array([0, 2, 1, 3])
 ```
@@ -157,7 +158,7 @@ array([0, 2, 1, 3])
 从这个结果可以看出，数据集中包含了四种不同的类别，每个类别都有一个唯一的标签值。在机器学习分类任务中，这意味着模型需要能够区分这四种不同的状况。标签值的顺序（0, 1, 2, 3）通常不重要，但在某些算法中，类别的顺序可能会影响结果的解释，例如在决策树或某些类型的聚类算法中。在使用这些标签进行模型训练时，需要确保模型的输出层或分类器配置正确地反映了类别的数量和顺序。此外，如果标签值不是连续的整数，可能需要考虑使用标签编码技术，如独热编码（One-Hot Encoding），以便更好地处理类别间的不平衡或确保模型正确地学习类别间的关系。
 
 
-
+### 查看维度
 下面这行代码用于获取Pandas DataFrame `train_data`的维度信息。以下是对这行代码的详细中文注释：
 
 ```python
@@ -186,7 +187,7 @@ train_data.shape
 
 
 
-
+### 计算每个类别的样本数量
 下面这段代码首先使用Pandas库计算每个类别的样本数量，然后使用Seaborn和Matplotlib库创建一个条形图来可视化每个类别的样本计数。以下是对每行代码的详细中文注释：
 
 ```python
@@ -240,17 +241,17 @@ Name: label, dtype: int64
    - `2    1377` 表示标签为2的类别有1377个样本。
 
 2. **类别分布**:
-   - 从计数结果可以看出，标签为3的类别（肿瘤）样本数量最多，有2283个样本。
+   - 从计数结果可以看出，标签为1的类别（正常）样本数量最多，有5077个样本。
    - 标签为0的类别（囊肿）样本数量最少，有1377个样本。
-   - 标签为1的类别（正常）和标签为2的类别（结石）的样本数量分别位于中间，分别是5077和3709。
+   - 标签为3的类别（肿瘤）和标签为2的类别（结石）的样本数量分别位于中间，分别是2283和3709。
 
-这个结果表明数据集中的类别分布是不均衡的，特别是标签为3的类别样本数量显著多于其他类别。在机器学习中，类别分布的不均衡可能会影响模型的性能，特别是当某些类别的样本数量远多于其他类别时。在这种情况下，模型可能会偏向于那些具有更多样本的类别。为了提高模型对较少样本类别的识别能力，可能需要采取一些策略，如过采样少数类别、欠采样多数类别或使用加权损失函数等。
+这个结果表明数据集中的类别分布是不均衡的，特别是标签为1的类别样本数量显著多于其他类别。在机器学习中，类别分布的不均衡可能会影响模型的性能，特别是当某些类别的样本数量远多于其他类别时。在这种情况下，模型可能会偏向于那些具有更多样本的类别。为了提高模型对较少样本类别的识别能力，可能需要采取一些策略，如过采样少数类别、欠采样多数类别或使用加权损失函数等。
 
 此外，通过可视化工具（如上述代码中的条形图）可以直观地展示每个类别的样本数量，帮助我们更好地理解数据集的特点，并为后续的数据处理和模型训练提供指导。
 
 ![0.2](01图片/0.2.png)
 
-
+### 20个样本展示
 下面这段代码首先从`train_data` DataFrame中提取每个类别的前5个样本的图像路径，然后将这些样本合并到一个列表中，并使用`matplotlib`和`skimage`库来显示这些图像样本。以下是对每行代码的详细中文注释：
 
 ```python
@@ -311,7 +312,7 @@ plt.show()
 
 
 ## 1. loading train image using cv2
-
+### 1.1. 加载数据及预处理
 下面这段代码用于从不同的子目录中加载图像数据，对图像进行预处理，并将它们存储在列表中，最后将这些列表转换为NumPy数组。以下是对每行代码的详细中文注释：
 
 ```python
@@ -353,11 +354,41 @@ for img in Cyst_cases:
     train_labels.append(label)
 
 # 对正常案例的图像执行相同的预处理和标签操作
-# ...
+for img in normal_cases:
+    img = cv2.imread(str(img))
+    img = cv2.resize(img, (28,28))
+    if img.shape[2] ==1:
+        img = np.dstack([img, img, img])
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img=np.array(img)
+    img = img/255
+    label ='Normal'
+    train_data.append(img)
+    train_labels.append(label)
 # 对结石案例的图像执行相同的预处理和标签操作
-# ...
+for img in Stone_cases:
+    img = cv2.imread(str(img))
+    img = cv2.resize(img, (28,28))
+    if img.shape[2] ==1:
+        img = np.dstack([img, img, img])
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img=np.array(img)
+    img = img/255
+    label = 'Stone'
+    train_data.append(img)
+    train_labels.append(label)
 # 对肿瘤案例的图像执行相同的预处理和标签操作
-# ...
+for img in Tumor_cases:
+    img = cv2.imread(str(img))
+    img = cv2.resize(img, (28,28))
+    if img.shape[2] ==1:
+        img = np.dstack([img, img, img])
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img=np.array(img)
+    img = img/255
+    label = 'Tumor'
+    train_data.append(img)
+    train_labels.append(label)
 
 # 将列表转换为NumPy数组
 train_data1 = np.array(train_data)
@@ -368,7 +399,7 @@ print("Total number of validation examples: ", train_data1.shape)
 print("Total number of labels:", train_labels1.shape)
 ```
 
-执行这段代码后，`train_data1`和`train_labels1`将包含所有预处理后的图像数据和对应的标签。这里的错误在于，代码中的注释提到了“验证样本”，但实际上这些数据应该是用于训练的。此外，标签应该是数值型的，以便与神经网络的输出层相匹配。在实际应用中，可能需要使用`keras.utils.np_utils.to_categorical`函数将标签转换为独热编码形式，以便用于分类任务。此外，归一化操作通常在所有图像数据集上统一进行，而不是在循环中对每个图像单独进行。这样可以确保所有图像的预处理方式一致，并且归一化的范围相同。
+执行这段代码后，`train_data1`和`train_labels1`将包含所有预处理后的图像数据和对应的标签。这里的错误在于，代码中的注释提到了“验证样本”，但实际上这些数据应该是用于训练的。此外，标签应该是数值型的，以便与神经网络的输出层相匹配。在实际应用中，可能需要使用`keras.utils.np_utils.to_categorical`函数将标签转换为独热编码形式，以便用于分类任务。**此外，归一化操作通常在所有图像数据集上统一进行，而不是在循环中对每个图像单独进行。**这样可以确保所有图像的预处理方式一致，并且归一化的范围相同。
 
 
 
@@ -394,7 +425,7 @@ Total number of labels: (12446,)
 
 
 
-
+### 获取`train_data1` NumPy数组的形状（维度）
 下面这行代码用于获取`train_data1` NumPy数组的形状（维度）。以下是对这行代码的详细中文注释：
 
 ```python
@@ -429,6 +460,7 @@ train_data1.shape
 
 
 ```python
+train_data1[1]
 # train_data1 是一个包含所有预处理后的图像数据的NumPy数组。
 # 通过索引操作 train_data1[1]，我们访问数组中的第二个元素（因为索引从0开始）。
 # 这将返回一个表示单个图像的NumPy数组，该图像具有28x28像素大小和3个颜色通道（RGB）。
@@ -453,6 +485,7 @@ plt.show()                   # 显示图像
 
 
 ```python
+train_data1[1]
 # train_data1 是一个四维 NumPy 数组，存储了预处理后的图像数据。
 # 数组的第一个维度表示样本的索引，由于索引是从0开始的，所以 train_data1[1] 表示获取数据集中的第二个样本。
 # 这个索引操作将返回一个三维数组，其中包含了单个图像样本的数据。
@@ -477,7 +510,7 @@ plt.show()                   # 显示图像
 
 执行`train_data1[1]`代码后，您将获取到数据集中的第二个图像样本。根据您提供的结果，这个样本的所有像素值在所有颜色通道上都是0，表明这是一个全黑的图像。这个结果可能是由于图像预处理过程中的错误，或者是因为原始图像本身就是全黑的。在继续进行模型训练之前，需要确保所有图像数据的质量，并对可能的问题进行修正或排除。
 
-
+结果展示：
 ```python
 array([[[0., 0., 0.],
         [0., 0., 0.],
@@ -589,7 +622,7 @@ train_labels1.head()
 
 
 
-
+### 检验标签列的唯一值
 ```python
 train_labels1['label'].unique()
 # train_labels1 是一个包含所有图像样本标签的 Pandas DataFrame。
@@ -645,7 +678,7 @@ array(['Cyst', 'Normal', 'Stone', 'Tumor'], dtype=object)
 
 总之，`train_labels1['label'].unique()`的结果显示了数据集中的四个主要类别，为我们提供了关于如何准备和评估机器学习模型的重要信息。这些信息将指导我们进行后续的数据探索、模型选择和训练工作。
 
-
+### 标签映射
 ```python
 # train_labels1['label'] 是一个 Pandas Series，包含了 DataFrame train_labels1 中 'label' 列的所有数据。
 # 这里我们将对 Series 中的每个标签值进行映射，将其转换为数值型标签。
@@ -676,7 +709,7 @@ train_labels1['label'] = train_labels1['label'].map({'Cyst': 0, 'Normal': 1, 'St
 
 执行上述代码后，`train_labels1['label']`中的每个文本标签都将被替换为其对应的数值型标签。这个转换过程是数据预处理的一个重要步骤，它使得数据格式与大多数机器学习模型的输入要求相匹配。通过这种方式，我们可以确保模型能够正确地处理和学习数据集中的不同类别。此外，数值型标签也使得模型的输出更容易被理解和分析，因为它们可以直接用于计算性能指标和可视化结果。
 
-
+### 检验是否映射成功
 由于您提供的代码行 `train_labels1` 是一个请求查看当前状态下的 `train_labels1` DataFrame 的操作，而不是一个完整的代码块，因此我将直接对该操作进行解释。
 
 ```python
@@ -705,7 +738,7 @@ train_labels1
 12446 rows × 1 columns
 ```
 
-
+### 查看数据数组和标签数组形状，再次检查数据
 ```python
 # 下面这行代码用于打印出 train_data1 这个 NumPy 数组的形状（shape）信息。
 # train_data1 数组存储了经过预处理的图像数据，其中包含了多个样本的图像数组。
@@ -750,7 +783,7 @@ print(train_labels1.shape)
 
 
 
-
+### 查看标签数组是否存在缺失值
 ```python
 # train_labels1 是一个包含图像样本标签的 Pandas DataFrame。
 # 这个 DataFrame 经过之前的处理，其中 'label' 列包含了转换为数值型的类别标签。
