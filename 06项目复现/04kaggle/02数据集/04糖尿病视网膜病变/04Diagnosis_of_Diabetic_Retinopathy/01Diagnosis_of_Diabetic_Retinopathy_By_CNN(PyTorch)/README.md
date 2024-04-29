@@ -1481,7 +1481,7 @@ print(classification_report(y_true, y_pred), '\n\n')
 
 请注意，`classification_report`函数中的`y_true`参数是真实标签的数组，而`y_pred`参数是模型预测的标签数组。这些数组必须具有相同的长度，并且按相同的顺序排列。分类报告将为每个类别生成性能指标，并提供整体的性能评估。这有助于理解模型在未见过的数据上的表现，是评估模型泛化能力的重要步骤。
 
-#### 机构展示：
+#### 结果展示：
 ```python
  precision    recall  f1-score   support
 
