@@ -39,7 +39,7 @@
 
 ## [04Kidney_Dieses_Detection_(normal-cyst-tumor-stone)](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\04Kidney_Dieses_Detection_(normal-cyst-tumor-stone)/)
 
-> 网址： [Kidney Disease F1 score= 99.5%](https://www.kaggle.com/code/ramoliyafenil/kidney-dieses-detection-normal-cyst-tumor-stone)
+> 网址： [Kidney_Dieses_Detection_(normal-cyst-tumor-stone)](https://www.kaggle.com/code/ramoliyafenil/kidney-dieses-detection-normal-cyst-tumor-stone)
 
 * 2024年创建(16天之前，也就是2024年4月13日)
 * 12人投票
@@ -47,7 +47,13 @@
 
 
 
+## [05Kidney_Disease_Classifier_With_99%_(CNN)]()
 
+> 网址： [Kidney Disease Classifier With 99% (CNN)](https://www.kaggle.com/code/ahmedbadr22/kidney-disease-classifier-with-99-cnn)
+
+* 2022年创建
+* 8人投票
+* 145次复现
 
 
 

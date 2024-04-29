@@ -6,6 +6,19 @@
 * 12人投票
 * 6次复现
 
+# Kidney Dieses Classification in 4 classes using 3 different model (VGG, MOBILENET, RESNET)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
