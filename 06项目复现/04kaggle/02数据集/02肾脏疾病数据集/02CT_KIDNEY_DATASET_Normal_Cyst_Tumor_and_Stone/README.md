@@ -24,7 +24,7 @@
 
 * 2022年创建
 * 23人投票
-* 139 downloads
+* 139次复现
 
 
 
@@ -34,7 +34,25 @@
 
 * 2023年创建
 * 13人投票
-* 82 downloads
+* 82次复现
+
+
+## [04Kidney_Dieses_Detection_(normal-cyst-tumor-stone)](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\04Kidney_Dieses_Detection_(normal-cyst-tumor-stone)/)
+
+> 网址： [Kidney Disease F1 score= 99.5%](https://www.kaggle.com/code/ramoliyafenil/kidney-dieses-detection-normal-cyst-tumor-stone)
+
+* 2024年创建(16天之前，也就是2024年4月13日)
+* 12人投票
+* 6次复现
+
+
+
+
+
+
+
+
+
 
 
 ## 
