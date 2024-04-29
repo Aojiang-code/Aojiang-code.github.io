@@ -1183,7 +1183,7 @@ torch.save(Retino_model, "Retino_model.pt")
 
 
 ## 13| Detection Retinopathy By Real Image
-
+### 加载预训练模型
 下面这段代码展示了如何加载预训练模型、将其移动到GPU设备（如果可用），然后在测试数据加载器上进行预测的过程。以下是对每行代码的详细中文注释：
 
 ```python
@@ -1224,9 +1224,243 @@ with torch.no_grad():
 
 这段代码首先加载了保存在文件中的预训练模型，然后将其移动到最适合执行计算的设备上。接着，代码在不计算梯度的情况下遍历测试数据加载器，使用模型对每个批次的图像进行预测，并打印出每个图像预测的类别。这里使用的`torch.softmax`函数对模型的原始输出进行归一化，将其转换为概率分布，而`torch.argmax`函数则从这个概率分布中选择概率最高的类别作为预测结果。
 
+#### 打印预测结果
+```python
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 1
+Predicted class: 0
+Predicted class: 0
+```
 
 
-
+### 评估模型在验证集上的性能
 下面在您提供的代码中，函数名 `ture_and_pred_val` 似乎是一个拼写错误，它应该是之前定义的 `true_and_pred_data` 函数。我将基于正确的函数名 `true_and_pred_data` 来提供注释。以下是对每行代码的详细中文注释：
 
 ```python
@@ -1247,9 +1481,20 @@ print(classification_report(y_true, y_pred), '\n\n')
 
 请注意，`classification_report`函数中的`y_true`参数是真实标签的数组，而`y_pred`参数是模型预测的标签数组。这些数组必须具有相同的长度，并且按相同的顺序排列。分类报告将为每个类别生成性能指标，并提供整体的性能评估。这有助于理解模型在未见过的数据上的表现，是评估模型泛化能力的重要步骤。
 
+#### 机构展示：
+```python
+ precision    recall  f1-score   support
 
+         0.0       0.98      0.90      0.94       113
+         1.0       0.91      0.98      0.95       118
 
+    accuracy                           0.94       231
+   macro avg       0.95      0.94      0.94       231
+weighted avg       0.95      0.94      0.94       231
+ 
+```
 
+#### 结果解读：
 上述代码的输出是一个分类报告（classification report），它提供了基于测试集的糖尿病视网膜病变分类模型的性能指标。以下是对输出结果的详细解读：
 
 1. **precision**: 精确度，表示模型预测为正类别（在此情境中为糖尿病性视网膜病变，DR）中实际为正类别的比例。计算公式为：`TP / (TP + FP)`，其中TP是真正例的数量，FP是假正例的数量。
