@@ -56,6 +56,26 @@
 * 145次复现
 
 
+## [06]()
+EDA
+
+
+
+## [07CNN_vs_VGG16_vs_MobileNet](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\07CNN_vs_VGG16_vs_MobileNet/)
+
+> 网址： [CNN vs VGG16 vs MobileNet](https://www.kaggle.com/code/divyanshuxyz/cnn-vs-vgg16-vs-mobilenet)
+
+* 2023年创建(六个月前创建，也就是2023年10月)
+* 6人投票
+* 77次复现
+
+## [08Kidney_VGG-16_classification]()
+
+> 网址： [Kidney_VGG-16_classification](https://www.kaggle.com/code/ahmedaffan789/kidney-vgg-16-classification)
+
+* 2023年创建
+* 6人投票
+* 79次复现
 
 
 
