@@ -1,5 +1,7 @@
 # 05Kidney_Disease_Classifier_With_99%_(CNN)
 
+
+## 安装分割包
 当然，以下是对命令`!pip install split-folders`逐行添加中文注释的解释：
 
 ```shell
@@ -17,7 +19,7 @@
 综上所述，整个命令的意思是：在当前的编程环境或终端中，使用pip工具安装名为`split-folders`的Python包。这个命令通常在Python项目的根目录下执行，以便于在项目的虚拟环境中安装所需的依赖包。
 
 
-结果展示：
+### 结果展示：
 
 ```python
 Collecting split-folders
@@ -27,7 +29,7 @@ Successfully installed split-folders-0.4.3
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 ```
 
-结果解释：
+### 结果解释：
 
 上述代码的运行结果提供了关于使用`pip`安装`split-folders`包的详细信息，以及一个警告。下面是对结果的逐行解释：
 
@@ -45,7 +47,7 @@ WARNING: Running pip as the 'root' user can result in broken permissions and con
 
 综上所述，`split-folders`包已成功安装，但警告信息提示了潜在的风险，建议用户使用虚拟环境来隔离和管理Python包，以避免系统级别的权限和包管理冲突。
 
-
+## 导入库
 下面这段代码是使用Keras库以及一些其他库来处理图像数据、构建神经网络模型、可视化结果、数据增强和评估模型性能的示例。下面是对每一行代码的详细中文注释：
 
 ```python
@@ -93,7 +95,7 @@ import splitfolders
 这段代码主要涉及了机器学习和深度学习中常用的库和函数，用于构建和评估图像分类模型。代码中导入的库和函数将在后面的训练和评估过程中被使用。
 
 
-
+## 分割数据集
 下面这段代码使用了`splitfolders`库的`ratio`函数来将一个图像数据集分割成多个子集，通常用于创建训练集、验证集和测试集。以下是对每一行代码的详细中文注释：
 
 ```python
@@ -121,7 +123,7 @@ splitfolders.ratio(
 
 
 
-结果展示：
+### 结果展示：
 ```python
 Copying files: 12446 files [01:11, 172.87 files/s]
 ```
@@ -129,7 +131,7 @@ Copying files: 12446 files [01:11, 172.87 files/s]
 
 
 
-结果解释：
+### 结果解释：
 
 上述代码的运行结果提供了关于`splitfolders.ratio`函数执行过程中的一些信息：
 
@@ -149,7 +151,7 @@ Copying files: 12446 files [01:11, 172.87 files/s]
 
 
 
-
+## 加载和预处理图像数据集
 下面这段代码是使用Keras库中的`ImageDataGenerator`类来加载和预处理图像数据集的示例。下面是对每一行代码的详细中文注释：
 
 ```python
@@ -199,7 +201,7 @@ valid_dataset = valid_datagen.flow_from_directory('./dataset/val',
 
 这段代码的主要目的是为深度学习模型准备训练、验证和测试数据集，通过调整图像大小、转换为灰度图像以及将标签转换为适合模型训练的格式。
 
-结果展示：
+### 结果展示：
 
 ```python
 Found 11200 images belonging to 4 classes.
@@ -211,7 +213,7 @@ Found 620 images belonging to 4 classes.
 
 
 
-结果解释：
+### 结果解释：
 
 上述代码的运行结果提供了关于使用`ImageDataGenerator`对象的`flow_from_directory`方法加载数据集时的一些信息：
 
@@ -228,7 +230,7 @@ Found 620 images belonging to 4 classes.
 
 
 
-
+## 构建卷积神经网络（CNN）模型
 这段代码是使用Keras库构建一个卷积神经网络（CNN）模型的示例。下面是对每一行代码的详细中文注释：
 
 ```python
@@ -283,7 +285,7 @@ model.summary()
 
 这段代码构建了一个典型的CNN模型，它由多个卷积层、池化层、全连接层组成，并使用了ReLU激活函数和softmax激活函数。模型的输入是图像数据，输出是一个概率分布，表示图像属于每个类别的概率。最后，通过调用`model.summary()`，可以查看模型的详细结构，包括每层的输出维度和参数数量，这有助于理解模型的复杂度和性能。
 
-结果展示：
+### 结果展示：
 ```python
 2021-12-04 09:24:41.689999: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:937] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
 Model: "sequential"
@@ -339,7 +341,7 @@ To enable them in other operations, rebuild TensorFlow with the appropriate comp
 
 
 
-结果解释：
+### 结果解释：
 
 输出结果中的大部分信息是TensorFlow框架在执行时的日志信息，这些信息对于用户来说通常是透明的，可以不必深究。但是，对于模型的`summary`输出，它提供了模型结构和参数数量的有用信息。下面是对模型`summary`输出的解释：
 
@@ -389,7 +391,7 @@ Non-trainable params: 0
 
 
 
-
+## 对深度学习模型进行编译（包括指定优化器、损失函数和评价指标）
 这段代码是使用Keras库对一个深度学习模型进行编译的示例，包括指定优化器、损失函数和评价指标。以下是对每一行代码的详细中文注释：
 
 ```python
@@ -422,7 +424,7 @@ model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=METR
 
 
 
-
+## 对模型进行训练
 这段代码是使用Keras库对模型进行训练的示例，其中指定了训练数据集、验证数据集、训练的轮次等。下面是对每一行代码的详细中文注释：
 
 ```python
@@ -454,7 +456,7 @@ Info = model.fit(
 
 这段代码执行后，`Info`变量将包含模型训练过程中的详细信息，包括每个epoch的损失值、准确率、精确率和召回率等指标的表现。这些信息对于评估模型性能和后续的模型调优非常重要。
 
-结果展示：
+### 结果展示：
 
 ```python
 2021-12-04 09:24:46.059110: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:185] None of the MLIR Optimization Passes are enabled (registered 2)
@@ -477,7 +479,7 @@ Epoch 5/5
 
 
 
-结果解释：
+### 结果解释：
 
 输出结果主要展示了模型训练过程中的一些关键信息，包括系统日志、模型的损失值、准确率、精确率和召回率等指标。以下是对输出结果的逐条解释：
 
@@ -538,7 +540,7 @@ Epoch 5/5
 总结来说，输出结果显示了模型在训练过程中的进展和性能指标，包括损失值、准确率、精确率和召回率。这些指标对于评估模型的泛化能力和选择最佳模型非常重要。
 
 
-
+## 绘制模型训练过程中的不同评价指标和损失值的变化趋势图
 这段代码是使用matplotlib库来绘制模型训练过程中的不同评价指标和损失值的变化趋势图。以下是对每一行代码的详细中文注释：
 
 ```python
@@ -570,10 +572,11 @@ for i, met in enumerate(['precision', 'recall', 'accuracy', 'loss']):
 ```
 
 这段代码的目的是将模型训练过程中的准确率、召回率、精确率和损失值的变化以图形的方式展示出来，便于观察和分析模型的学习动态和性能。通过这些图表，我们可以直观地看到模型在训练集和验证集上的表现，并评估是否存在过拟合或欠拟合的问题。
-
+### 图片输出
 ![01](01图片/01.png)
 
 
+## 使用训练好的深度学习模型对测试数据集进行预测
 这行代码是使用训练好的深度学习模型对测试数据集进行预测的示例。以下是对这行代码的详细中文注释：
 
 ```python
@@ -588,7 +591,7 @@ predictions = model.predict(test_dataset)
 
 需要注意的是，预测结果的具体形式取决于模型的输出层设计和激活函数。在进行预测之前，确保测试数据集已经通过适当的预处理步骤，比如缩放像素值、归一化等，以便与模型训练时使用的数据保持一致。
 
-
+## 获取类别名称
 这段代码是用来从训练数据集的`class_indices`属性中获取类别名称，并将其存储在一个列表中。以下是对每一行代码的详细中文注释：
 
 ```python
@@ -611,7 +614,7 @@ for key, value in train_dataset.class_indices.items():
 
 
 
-
+## 定义评估模型函数
 这段代码定义了一个名为 `evaluate` 的函数，用于评估模型的预测结果。它接收两个参数：`actual` 表示真实标签，`predictions` 表示模型预测的概率分布。函数计算了准确率、精确率、召回率、F1分数，并显示了混淆矩阵的热图。以下是对每一行代码的详细中文注释：
 
 ```python
@@ -658,7 +661,7 @@ def evaluate(actual, predictions):
 
 
 
-
+## 评估模型(验证数据集)
 这行代码调用了之前定义的 `evaluate` 函数，传入了测试数据集的真实类别标签和模型预测的结果。以下是对这行代码的详细中文注释：
 
 ```python
@@ -677,7 +680,7 @@ evaluate(test_dataset.classes, predictions)
 
 通过这个函数的输出，用户可以了解模型在测试数据集上的整体性能，并且混淆矩阵的热图可以提供更直观的性能反馈。这对于理解模型的强弱点和进一步优化模型非常重要。
 
-结果展示：
+### 结果展示：
 ```python
 Accuracy: 0.9984025559105432
 Precision: 0.9990234375
@@ -686,7 +689,7 @@ F1_score: 0.9977122020583142
 ```
 
 
-结果解释：
+### 结果解释：
 
 输出结果显示了模型在测试数据集上的性能评估指标，包括准确率（Accuracy）、精确率（Precision）、召回率（Recall）和F1分数（F1_score）。以下是对每个指标的解释：
 
@@ -718,14 +721,14 @@ F1_score: 0.9977122020583142
 
 
 
-
+### 图片输出
 ![02](01图片/02.png)
 
 
 
 
 
-
+## 评估模型(测试数据集)
 这行代码使用Keras模型的 `evaluate` 方法来评估模型在测试数据集上的性能。以下是对这行代码的详细中文注释：
 
 ```python
@@ -745,7 +748,7 @@ model.evaluate(test_dataset)
 
 需要注意的是，`test_dataset` 应该是一个通过 `ImageDataGenerator.flow_from_directory` 或类似方法创建的、包含了测试图像数据和标签的Keras数据集对象。此外，为了确保评估结果的一致性，测试数据应经过与训练数据相同的预处理步骤。
 
-结果展示：
+### 结果展示：
 ```python
 7/7 [==============================] - 4s 590ms/step - loss: 0.0123 - accuracy: 0.9984 - precision: 0.9984 - recall: 0.9984
 ```
@@ -758,7 +761,7 @@ model.evaluate(test_dataset)
 ```
 
 
-结果解释：
+### 结果解释：
 
 输出结果显示了模型在测试数据集上的性能评估，包括损失值（loss）、准确率（accuracy）、精确率（precision）和召回率（recall）。以下是对输出结果的解释：
 
