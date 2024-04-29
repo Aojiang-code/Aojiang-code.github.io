@@ -158,6 +158,7 @@ Data Description : This dataset consists of a large collection of high-resolutio
 * Diabetic Retinopathy ---> 0
 * No Diabetic Retinopathy ---> 1
 ## 3 | Data Preparation 
+### 定义用于数据增强的transform
 下面这段代码使用了PyTorch的`torchvision.transforms`模块来定义一组图像转换操作，这些操作通常用于数据增强，以提高深度学习模型的泛化能力。下面是对每行代码的详细中文注释：
 
 ```python
@@ -192,7 +193,7 @@ transform = transforms.Compose(
 通过上述代码，我们定义了一个名为`transform`的变换序列，它将首先调整图像大小，然后以一定的概率进行随机翻转和旋转，接着将图像转换为张量，并进行标准化处理。这些步骤通常用于深度学习模型训练之前的数据预处理阶段，以增强模型对输入数据的鲁棒性。
 
 
-
+### 加载和处理图像数据集
 下面这段代码使用了PyTorch的`torchvision.datasets.ImageFolder`类来加载和处理图像数据集，通常用于计算机视觉任务。以下是对每行代码的详细中文注释：
 
 ```python
@@ -229,7 +230,7 @@ test_set.transform
 
 
 
-结果输出：
+#### 结果输出：
 
 
 
@@ -246,7 +247,7 @@ Compose(
 
 
 
-结果解读：
+#### 结果解读：
 
 
 上述代码的结果描述了一个由`transforms.Compose`创建的图像转换序列对象。这个对象按照定义的顺序执行一系列图像转换操作。下面是对这个转换序列的详细解读：
@@ -278,7 +279,7 @@ Compose(
 
 这个转换序列被应用于训练集、验证集和测试集中的每个图像，以实现数据增强和标准化，从而提高深度学习模型的性能和泛化能力。
 
-
+### 随机选择并可视化
 下面这段代码用于从训练数据集中随机选择一些图像，并使用matplotlib库将它们可视化。下面是对每行代码的详细中文注释：
 
 ```python
@@ -336,7 +337,7 @@ plt.show()
 
 
 
-
+#### 结果展示：
 
 
 ![3.1](01图片/3.1.png)
@@ -345,6 +346,7 @@ plt.show()
 
 ## 5 | Creating Dataloaders
 
+### 定义数据加载器
 下面这段代码使用了PyTorch的`torch.utils.data.DataLoader`类来创建数据加载器，这些加载器可以在模型训练和评估过程中批量地提供数据。以下是对每行代码的详细中文注释：
 
 ```python
@@ -369,7 +371,7 @@ test_loader = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuff
 
 通过上述代码，我们创建了三个数据加载器：`train_loader`、`val_loader`和`test_loader`，分别用于训练集、验证集和测试集。这些加载器将数据集封装成可以在训练和评估过程中迭代的对象。设置`batch_size`为64意味着每次迭代提供64个样本给模型。设置`shuffle=True`可以确保在每个epoch（训练周期）开始时，数据集中的样本顺序都是随机的，这有助于提高模型训练的效果。
 
-
+### 打印出训练集和验证集数据加载器中单个批次数据的形状和类型
 下面这段代码的目的是打印出训练集和验证集数据加载器中单个批次数据的形状和类型。以下是对每行代码的详细中文注释：
 
 ```python
@@ -399,7 +401,7 @@ for key, value in data_loaders.items():
 
 
 
-结果输出：
+#### 结果输出：
 
 
 
@@ -416,7 +418,7 @@ Shape of y: torch.Size([64]) torch.int64
 
 
 
-结果解读：
+#### 结果解读：
 
 上述代码的输出结果提供了训练集和验证集数据加载器中每个批次数据的形状信息。下面是对输出结果的详细解读：
 
@@ -443,7 +445,7 @@ Shape of y: torch.Size([64]) torch.int64
 
 ## 6 | Define Diabetic Retinopathy Classifier
 
-
+### 
 下面这段代码定义了一个函数`findConv2dOutShape`，用于计算给定输入尺寸和卷积层参数的情况下，卷积层输出的尺寸。以下是对每行代码的详细中文注释：
 
 ```python
@@ -477,7 +479,7 @@ def findConv2dOutShape(hin, win, conv, pool=2):
 这个函数非常有用，尤其是在设计卷积神经网络时，它可以帮助我们预测卷积操作后的特征图尺寸，这对于确定网络架构和理解不同层之间的相互作用至关重要。函数中的`pool`参数允许我们进一步考虑池化层对输出尺寸的影响，如果池化层存在的话。
 
 
-
+### 定义卷积神经网络（CNN）模型架构
 下面这段代码定义了一个用于糖尿病视网膜病变诊断的卷积神经网络（CNN）模型架构。以下是对每行代码的详细中文注释：
 
 ```python
@@ -543,7 +545,7 @@ class CNN_Retino(nn.Module):
 
 
 
-
+### 使用定义好的CNN模型参数，实例化卷积神经网络模型
 下面这段代码展示了如何使用定义好的CNN模型参数，实例化一个用于糖尿病视网膜病变诊断的卷积神经网络模型，并根据可用的计算资源（GPU或CPU）将模型移动到相应的设备上。以下是对每行代码的详细中文注释：
 
 ```python
@@ -572,7 +574,7 @@ Retino_model = Retino_model.to(device)
 在这段代码中，首先定义了模型参数，然后实例化了CNN模型。接着，代码通过`torch.device`来确定是否有可用的GPU。如果有，模型将被发送到GPU上进行训练，这通常比在CPU上更快。如果没有可用的GPU，模型将被发送到CPU上。使用`.to(device)`方法将模型迁移到相应的设备上。这对于确保模型能够在最佳的硬件上运行是必要的。
 
 
-
+### 打印CNN模型的摘要信息
 下面在您提供的代码中，似乎您想要使用一个名为 `summary` 的函数来打印CNN模型的摘要信息。然而，`summary` 并不是PyTorch内置的函数，可能是您之前定义的一个函数，或者是来自 `torchsummary` 这样的第三方库。以下是对您给出代码的中文注释，假设 `summary` 函数的目的是打印出模型的每一层及其参数数量的摘要：
 
 ```python
@@ -606,7 +608,7 @@ summary(Retino_model, input_size=(3, 255, 255))
 请注意，`device.type` 在 `summary` 函数中可能不会被使用，因为 `summary` 通常只关心模型的结构和输入尺寸，而不需要实际的设备上下文来生成摘要。如果 `summary` 函数需要知道设备类型，那么可能是因为它需要在特定的设备上实例化模型的权重，以准确计算参数数量。但这种情况比较少见，大多数情况下，模型摘要与设备无关。
 
 
-结果输出：
+#### 结果输出：
 
 ```python
 =================================================================
@@ -640,7 +642,7 @@ Non-trainable params: 0
 ```
 
 
-结果解读：
+#### 结果解读：
 
 
 上述代码的输出提供了CNN_Retino模型每一层的参数数量的详细摘要。以下是对输出结果的详细解读：
@@ -971,7 +973,7 @@ sns.lineplot(x=range(1, epochs + 1), y=metric_hist_m["val"], ax=ax[1], label='Ac
 
 
 ### 10.2 | Classification Report
-
+#### 定义函数
 下面这段代码定义了一个名为 `true_and_pred_data` 的函数，它用于从验证数据加载器 `val_loader` 中获取真实的标签和模型预测的标签，以便进行分类报告的生成。以下是对每行代码的详细中文注释：
 
 ```python
@@ -1012,7 +1014,7 @@ def true_and_pred_data(val_loader, model):
 这个函数首先初始化两个用于存储真实标签和预测标签的空列表。然后，它遍历验证数据加载器中的所有批次，将图像移动到正确的设备上进行预测，并将预测结果与真实标签一起收集起来。最后，函数返回这两个列表，它们可以用于生成分类报告或进行其他性能评估。
 
 
-
+#### 评估模型在训练集上的性能
 下面在您提供的代码中，似乎有一个小错误：函数名 `ture_and_pred_val` 应该是 `true_and_pred_data`，这是之前定义的函数，用于从数据加载器中获取真实标签和预测标签。我将基于正确的函数名 `true_and_pred_data` 来提供注释。
 
 以下是对每行代码的详细中文注释：
@@ -1036,7 +1038,7 @@ print(classification_report(y_true, y_pred), '\n\n')
 
 
 
-结果输出：
+##### 结果输出：
 
 ```python
 precision    recall  f1-score   support
@@ -1050,7 +1052,7 @@ weighted avg       0.95      0.94      0.94      2076
 ```
 
 
-结果解释：
+##### 结果解释：
 
 上述代码的输出是一个分类报告（classification report），它提供了模型在糖尿病视网膜病变分类任务上的性能指标。以下是对输出结果的详细解读：
 
@@ -1083,7 +1085,7 @@ weighted avg       0.95      0.94      0.94      2076
 
 
 
-
+#### 评估模型在验证集上的性能
 
 下面在您提供的代码中，函数名 `ture_and_pred_val` 似乎是一个拼写错误，它应该是之前定义的 `true_and_pred_data` 函数。我将基于正确的函数名 `true_and_pred_data` 来提供注释。以下是对每行代码的详细中文注释：
 
@@ -1108,7 +1110,7 @@ print(classification_report(y_true, y_pred), '\n\n')
 
 
 
-结果输出：
+##### 结果输出：
 
 
 ```python
@@ -1122,7 +1124,7 @@ print(classification_report(y_true, y_pred), '\n\n')
 weighted avg       0.94      0.94      0.94       531
 ```
 
-结果解读：
+##### 结果解读：
 
 上述代码的输出是一个分类报告（classification report），它提供了基于验证集的糖尿病视网膜病变分类模型的性能指标。以下是对输出结果的详细解读：
 
