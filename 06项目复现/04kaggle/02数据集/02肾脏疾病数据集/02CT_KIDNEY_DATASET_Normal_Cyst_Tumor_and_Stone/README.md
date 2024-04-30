@@ -9,7 +9,7 @@
 
 ## 相关代码(按vote排序)
 
-### [01Watershed Segmentation on Kidney Cysts](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\01Watershed_Segmentation_on_Kidney_Cysts\README.md)
+### [01Watershed Segmentation on Kidney Cysts](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\01Watershed_Segmentation_on_Kidney_Cysts\README.md) 测试
 
 > 网址：[Watershed Segmentation on Kidney Cysts](https://www.kaggle.com/code/sanya9/watershed-segmentation-on-kidney-cysts)
 
