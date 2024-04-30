@@ -61,7 +61,7 @@ EDA
 
 
 
-## [07CNN_vs_VGG16_vs_MobileNet](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\07CNN_vs_VGG16_vs_MobileNet/)
+## [07CNN_vs_VGG16_vs_MobileNet](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\07CNN_vs_VGG16_vs_MobileNet\README.md)
 
 > 网址： [CNN vs VGG16 vs MobileNet](https://www.kaggle.com/code/divyanshuxyz/cnn-vs-vgg16-vs-mobilenet)
 
