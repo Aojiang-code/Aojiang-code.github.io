@@ -1,0 +1,15 @@
+output/*
+data/*
+models/*
+__pycache__/*
+.ipynb_checkpoints/*
+.vscode/*
+outputos/*
+new_outputs/*
+model_april/*
+testmodels/*
+new_models/*
+plot sound.ipynb
+model_saveload.ipynb
+my_new_op/*
+docs/*
