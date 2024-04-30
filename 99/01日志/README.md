@@ -60,3 +60,73 @@ OK！回寝室！
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# zetro
+文献管理的软件
+
+可以装插件
+
+类似于endnote
+
+# markdown 语法
+
+# 一级标题
+## 二级标题
+### 三级
+#### 四级
+##### 
+
+**加粗**
+
+加粗
+
+[链接](https://baidu.com)
+
+
+![图片名](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\02KIDNEY-diseases_0.999_accuracy\01图片\0.2.png)
+
+
+
+
+
+
+# gitee
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
