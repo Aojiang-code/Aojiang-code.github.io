@@ -18,7 +18,7 @@
 * 33人认可
 * 51次复现
 
-### [02KIDNEY-diseases 0.999 accuracy](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\02KIDNEY-diseases_0.999_accuracy/)
+### [02KIDNEY-diseases 0.999 accuracy](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\02KIDNEY-diseases_0.999_accuracy\README.md)
 
 > 网址： [KIDNEY-diseases 0.999 accuracy](https://www.kaggle.com/code/akshayr009/kidney-diseases-0-999-accuracy)
 
@@ -28,7 +28,7 @@
 
 
 
-## [03Kidney_Disease_F1_score=99.5%](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\03Kidney_Disease_F1_score_0.995/)
+## [03Kidney_Disease_F1_score=99.5%](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\03Kidney_Disease_F1_score_0.995\README.md)
 
 > 网址： [Kidney Disease F1 score= 99.5%](https://www.kaggle.com/code/gpiosenka/kidney-disease-f1-score-99-5)
 
@@ -37,7 +37,7 @@
 * 82次复现
 
 
-## [04Kidney_Dieses_Detection_(normal-cyst-tumor-stone)](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\04Kidney_Dieses_Detection_(normal-cyst-tumor-stone)/)
+## [04Kidney_Dieses_Detection_(normal-cyst-tumor-stone)](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\02CT_KIDNEY_DATASET_Normal_Cyst_Tumor_and_Stone\04Kidney_Dieses_Detection_(normal-cyst-tumor-stone)\README.md)
 
 > 网址： [Kidney_Dieses_Detection_(normal-cyst-tumor-stone)](https://www.kaggle.com/code/ramoliyafenil/kidney-dieses-detection-normal-cyst-tumor-stone)
 

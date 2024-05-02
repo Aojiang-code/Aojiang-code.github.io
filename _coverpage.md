@@ -9,7 +9,7 @@
 - 疾病之防，预防为重中之重，流病为手段之先，统计为工具之首也。
 
 [蒋傲的GitHub](https://github.com/Aojiang-code/)
-[Get Started](README)
+[Get Started](README.md)
 
 
 

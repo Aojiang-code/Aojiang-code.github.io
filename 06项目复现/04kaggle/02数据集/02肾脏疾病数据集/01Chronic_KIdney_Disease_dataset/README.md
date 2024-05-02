@@ -1,4 +1,4 @@
-# [01Chronic_KIdney_Disease_dataset](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\01Chronic_KIdney_Disease_dataset/)
+# [01Chronic_KIdney_Disease_dataset](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\01Chronic_KIdney_Disease_dataset\README.md)
 
 > 网址： [Chronic KIdney Disease dataset](https://www.kaggle.com/datasets/mansoordaku/ckdisease)
 
@@ -8,7 +8,7 @@
 
 ## 相关代码(按vote排序)
 
-### [01Chronic_Kidney_Disease_Prediction_(98%_Accuracy)](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\01Chronic_KIdney_Disease_dataset\01Chronic_Kidney_Disease_Prediction_0.98_Accuracy/)
+### [01Chronic_Kidney_Disease_Prediction_(98%_Accuracy)](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\01Chronic_KIdney_Disease_dataset\01Chronic_Kidney_Disease_Prediction_0.98_Accuracy\README.md)
 
 
 > 网址：[Chronic Kidney Disease Prediction (98% Accuracy)](https://www.kaggle.com/code/niteshyadav3103/chronic-kidney-disease-prediction-98-accuracy)
@@ -20,7 +20,7 @@
 
 
 
-### [06Chronic Kidney Disease Prediction + EDA](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\01Chronic_KIdney_Disease_dataset\06Chronic_Kidney_Disease_Prediction_EDA/)
+### [06Chronic Kidney Disease Prediction + EDA](06项目复现\04kaggle\02数据集\02肾脏疾病数据集\01Chronic_KIdney_Disease_dataset\06Chronic_Kidney_Disease_Prediction_EDA\README.md)
 
 
 > 网址：[Chronic Kidney Disease Prediction + EDA](https://www.kaggle.com/code/equinxx/chronic-kidney-disease-prediction-eda)

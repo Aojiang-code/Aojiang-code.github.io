@@ -25,7 +25,7 @@ kaggle上的与糖尿病视网膜病变相关的一些数据,主要为数值型�
 * 55人投票
 * 2,682downloads
 
-## [04Diagnosis_of_Diabetic_Retinopathy](06项目复现\04kaggle\02数据集\04糖尿病视网膜病变\04Diagnosis_of_Diabetic_Retinopathy/)
+## [04Diagnosis_of_Diabetic_Retinopathy](06项目复现\04kaggle\02数据集\04糖尿病视网膜病变\04Diagnosis_of_Diabetic_Retinopathy\README.md)
 
 > 网址： [Diagnosis of Diabetic Retinopathy](https://www.kaggle.com/datasets/pkdarabi/diagnosis-of-diabetic-retinopathy)
 

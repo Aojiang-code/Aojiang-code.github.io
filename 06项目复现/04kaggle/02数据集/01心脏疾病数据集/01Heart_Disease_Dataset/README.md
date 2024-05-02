@@ -1,4 +1,4 @@
-# [Heart_Disease_Dataset](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01Heart_Disease_Dataset/)
+# Heart_Disease_Dataset
 
 > 网址：[Heart Disease Dataset](https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset)
 
@@ -11,7 +11,7 @@
 
 ## 相关代码(按vote排序)
 
-### [01Loading_and_Manipulating_Heartbeat_Audio](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01Heart_Disease_Dataset\01Loading_and_Manipulating_Heartbeat_Audio/)
+### [01Loading_and_Manipulating_Heartbeat_Audio](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01Heart_Disease_Dataset\01Loading_and_Manipulating_Heartbeat_Audio\README.md)
 
 > 网址：[Loading_and_Manipulating_Heartbeat_Audio](https://www.kaggle.com/code/kinguistics/loading-and-manipulating-heartbeat-audio)
 * 2017年发布
@@ -19,7 +19,7 @@
 * 60人认可
 * 196次复现
 
-### [02Heart_sounds_analysis_and_classification_with_LSTM](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01Heart_Disease_Dataset\02Heart_sounds_analysis_and_classification_with_LSTM/)
+### [02Heart_sounds_analysis_and_classification_with_LSTM](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01Heart_Disease_Dataset\02Heart_sounds_analysis_and_classification_with_LSTM\README.md)
 
 > 网址：[Heart_sounds_analysis_and_classification_with_LSTM](https://www.kaggle.com/code/mychen76/heart-sounds-analysis-and-classification-with-lstm)
 
@@ -29,7 +29,7 @@
 * 577次复现
 
 
-### [03Heartbeat_Sound_LSTM_Classification](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01Heart_Disease_Dataset\03Heartbeat_Sound_LSTM_Classification/)
+### [03Heartbeat_Sound_LSTM_Classification](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01Heart_Disease_Dataset\03Heartbeat_Sound_LSTM_Classification\README.md)
 
 > 网址：[Heartbeat_Sound_LSTM_Classification](https://www.kaggle.com/code/abdallahaboelkhair/heartbeat-sound-lstm-classification)
 
