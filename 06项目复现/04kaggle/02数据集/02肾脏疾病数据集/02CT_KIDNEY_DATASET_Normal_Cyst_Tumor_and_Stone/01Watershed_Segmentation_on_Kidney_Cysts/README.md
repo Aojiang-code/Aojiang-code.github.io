@@ -1,5 +1,11 @@
 # Watershed Segmentation on Kidney Cysts
 
+> 网址：[Watershed Segmentation on Kidney Cysts](https://www.kaggle.com/code/sanya9/watershed-segmentation-on-kidney-cysts)
+
+* 2023年发布
+* 2,801次浏览
+* 33人认可
+* 51次复现
 ## 1. Importing Libraries
 
 下面这段代码导入了OpenCV库、Matplotlib库和NumPy库，这些库在图像处理和数值计算中非常常用。以下是对每行代码的详细中文注释：
