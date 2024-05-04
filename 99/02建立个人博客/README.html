@@ -1,0 +1,609 @@
+<!DOCTYPE html><html><head>
+      <title>README</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\Administrator\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.13\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="建立个人博客">建立个人博客 </h1>
+<h2 id="目录">目录 </h2>
+<ol>
+<li>Zotero</li>
+<li>BookxNote</li>
+<li>markdown语法</li>
+<li>Typora:Markdown 编辑器</li>
+<li>Obsidian:知识管理和笔记软件</li>
+<li>VSCode:代码编辑器</li>
+<li>docsify:简洁、高效的文档网站生成器</li>
+<li>Gitee:代码托管平台</li>
+<li>GitHub:代码托管平台</li>
+</ol>
+<h2 id="zotero">Zotero </h2>
+<p>Zotero 是一个免费且开源的引用和参考文献管理软件，广泛用于学术研究和写作中。它可以帮助用户收集、管理、引用和分享研究资料。以下是一些基本的 Zotero 使用指南：</p>
+<h3 id="安装-zotero">安装 Zotero </h3>
+<ol>
+<li>访问 Zotero 官方网站 <a href="https://www.zotero.org/">https://www.zotero.org/</a></li>
+<li>下载适合你操作系统的 Zotero 版本并安装。</li>
+</ol>
+<h3 id="启动-zotero">启动 Zotero </h3>
+<ul>
+<li>安装完成后，启动 Zotero。</li>
+</ul>
+<h3 id="创建个人文库">创建个人文库 </h3>
+<ul>
+<li>打开 Zotero 后，你可以创建一个或多个文库（library），用于存储你的文献资料。</li>
+</ul>
+<h3 id="添加文献">添加文献 </h3>
+<ul>
+<li><strong>手动添加</strong>：通过 "New Item" 可以手动输入文献信息。</li>
+<li><strong>从网页添加</strong>：Zotero 可以安装浏览器插件，当你在网页上遇到想要引用的文献时，可以直接通过插件保存到 Zotero。</li>
+<li><strong>导入文件</strong>：支持从各种文献数据库导入文献信息。</li>
+</ul>
+<h3 id="管理文献">管理文献 </h3>
+<ul>
+<li><strong>标签</strong>：为文献添加标签，便于分类和检索。</li>
+<li><strong>文件夹</strong>：创建文件夹，将相关文献分组管理。</li>
+<li><strong>搜索</strong>：使用 Zotero 的搜索功能快速找到所需文献。</li>
+</ul>
+<h3 id="创建引用">创建引用 </h3>
+<ul>
+<li>Zotero 支持多种引用格式，包括 APA、MLA、Chicago 等。</li>
+<li>在文档中，你可以使用 Zotero 的插件来插入引用和生成参考文献列表。</li>
+</ul>
+<h3 id="同步">同步 </h3>
+<ul>
+<li>Zotero 提供了数据同步功能，可以跨设备同步你的文库。</li>
+</ul>
+<h3 id="插件和集成">插件和集成 </h3>
+<ul>
+<li>Zotero 支持与 Microsoft Word、LibreOffice 等文字处理软件集成。</li>
+<li>通过插件，Zotero 可以与许多其他应用程序和工具集成。</li>
+</ul>
+<h3 id="学习资源">学习资源 </h3>
+<ul>
+<li><strong>官方文档</strong>：Zotero 官方文档提供了详细的指南和教程。</li>
+<li><strong>社区论坛</strong>：加入 Zotero 社区，参与讨论和提问。</li>
+</ul>
+<h3 id="注意事项">注意事项 </h3>
+<ul>
+<li>熟悉 Zotero 的基本操作，如添加文献、管理文献、创建引用等。</li>
+<li>学习如何使用 Zotero 的各种功能，如标签、搜索、同步等。</li>
+<li>了解 Zotero 支持的引用格式和如何根据需要进行切换。</li>
+</ul>
+<p>通过以上步骤，你可以开始使用 Zotero 来管理你的研究资料和参考文献。随着你的使用，你将发现 Zotero 提供了许多其他有用的功能，以帮助你更高效地进行学术研究和写作。</p>
+<h3 id="文献下载">文献下载 </h3>
+<h4 id="以知网为例单篇pdf导入">以知网为例：单篇PDF导入 </h4>
+<h5 id="以pubmed为例批量文献导入及文献自动抓取">以Pubmed为例：批量文献导入及文献自动抓取 </h5>
+<h2 id="bookxnote一款免费的文献阅读器">BookxNote:一款免费的文献阅读器 </h2>
+<p>BookxNote 是一个开源的电子书阅读和笔记管理软件，它支持多种电子书格式，并提供了笔记、批注、高亮等功能，方便用户在阅读电子书时进行知识管理和学习。以下是一些基本的 BookxNote 使用指南：</p>
+<h3 id="安装-bookxnote">安装 BookxNote </h3>
+<ol>
+<li>访问 BookxNote 的官方网站或者 GitHub 仓库页面，根据你的操作系统下载相应的安装包。</li>
+<li>安装完成后，启动 BookxNote。</li>
+</ol>
+<h3 id="界面介绍">界面介绍 </h3>
+<p>BookxNote 的界面通常包括以下几个主要部分：</p>
+<ul>
+<li><strong>书架</strong>：展示所有已添加的电子书，可以快速找到并打开书籍。</li>
+<li><strong>阅读器</strong>：用于阅读电子书，提供翻页、放大缩小等操作。</li>
+<li><strong>笔记管理</strong>：管理你的笔记和批注，可以查看所有书籍的笔记或特定书籍的笔记。</li>
+</ul>
+<h3 id="添加电子书">添加电子书 </h3>
+<ul>
+<li>点击界面上方的“添加书籍”按钮，选择你的电子书文件，将其添加到书架。</li>
+</ul>
+<h3 id="阅读和批注">阅读和批注 </h3>
+<ul>
+<li>双击书架中的电子书，打开阅读器开始阅读。</li>
+<li>使用阅读器工具栏中的批注工具，可以进行高亮、划线、添加批注等操作。</li>
+</ul>
+<h3 id="笔记管理">笔记管理 </h3>
+<ul>
+<li>在阅读过程中，可以实时添加笔记和批注。</li>
+<li>笔记可以导出为 Markdown 格式，方便进行进一步的编辑和分享。</li>
+</ul>
+<h3 id="同步和备份">同步和备份 </h3>
+<ul>
+<li>BookxNote 支持云端同步，可以将你的笔记和批注同步到云端，方便在不同设备间切换。</li>
+<li>定期备份你的电子书和笔记，防止数据丢失。</li>
+</ul>
+<h3 id="高级功能">高级功能 </h3>
+<ul>
+<li><strong>目录导航</strong>：通过电子书的目录快速跳转到指定章节。</li>
+<li><strong>搜索</strong>：在整本电子书中搜索关键词，快速定位内容。</li>
+</ul>
+<h3 id="学习资源-1">学习资源 </h3>
+<h3 id="注意事项-1">注意事项 </h3>
+<ul>
+<li>熟悉电子书格式：BookxNote 支持 EPUB、PDF、MOBI 等多种电子书格式。</li>
+<li>学习如何使用批注工具：高亮、划线、批注等，这些工具可以帮助你更好地进行阅读和学习。</li>
+<li>定期同步和备份：确保你的笔记和批注不会丢失。</li>
+</ul>
+<p>通过以上步骤，你可以开始使用 BookxNote 来阅读电子书和管理笔记。随着你的使用，你将发现 BookxNote 提供了许多其他有用的功能，以帮助你更高效地学习和研究。</p>
+<h2 id="markdown">markdown </h2>
+<h3 id="语法规则">语法规则 </h3>
+<p>Markdown 是一种轻量级的标记语言，它允许人们使用易读易写的纯文本格式编写文档，然后转换成结构化的 HTML 页面。</p>
+<p>以下是一些基本的 Markdown 语法：</p>
+<h4 id="标题">标题 </h4>
+<p>使用 <code>#</code> 来创建标题。一个井号表示一级标题，两个井号表示二级标题，以此类推，直到六级标题。</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code># 一级标题
+## 二级标题
+### 三级标题
+#### 四级标题
+##### 五级标题
+###### 六级标题
+</code></pre><h4 id="强调">强调 </h4>
+<p>使用星号 <code>*</code> 或下划线 <code>_</code> 来强调文本。</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>*斜体*
+_斜体_
+  
+**粗体**
+__粗体__
+
+**_同时斜体和粗体_**
+</code></pre><h4 id="列表">列表 </h4>
+<p>使用星号 <code>*</code>、加号 <code>+</code> 或减号 <code>-</code> 来创建无序列表。</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>* 列表项一
+* 列表项二
+* 列表项三
+</code></pre><p>有序列表则使用数字后跟一个点来创建：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>1. 第一项
+2. 第二项
+3. 第三项
+</code></pre><h4 id="链接">链接 </h4>
+<p>使用方括号包围链接文本，圆括号内输入链接地址。</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>[链接文本](http://example.com)
+</code></pre><h4 id="图片">图片 </h4>
+<p>图片的语法和链接类似，但是前面要加一个感叹号。</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>![替代文本](http://example.com/image.jpg)
+</code></pre><h4 id="代码">代码 </h4>
+<p>行内代码使用反引号包围：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>`代码内容`
+</code></pre><p>代码块使用三个反引号或缩进四个空格：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code></code></pre><p>代码内容</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code></code></pre><p>或者使用缩进：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>    代码内容
+</code></pre><h3 id="引用">引用 </h3>
+<p>使用大于号 <code>&gt;</code> 来创建引用文本。</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>&gt; 引用文本
+</code></pre><h3 id="分隔线">分隔线 </h3>
+<p>使用三个星号 <code>***</code> 或三个短划线 <code>---</code> 来创建分隔线。</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>***
+---
+</code></pre><h3 id="表格">表格 </h3>
+<p>使用管道符 <code>|</code> 和连字符 <code>-</code> 来创建表格。</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>| 标题1 | 标题2 | 标题3 |
+|-------|-------|-------|
+| 单元格1 | 单元格2 | 单元格3 |
+| 单元格4 | 单元格5 | 单元格6 |
+</code></pre><p>这些是 Markdown 的一些基本语法。Markdown 的目的是要让文档易于阅读和编写，同时又能轻松地转换成 HTML。随着你的实践，你将能够更熟练地使用 Markdown 来编写各种文档。</p>
+<h2 id="typora">Typora </h2>
+<p>Typora 是一个支持即时渲染的 Markdown 编辑器，它允许你一边写 Markdown，一边看到最终排版后的样式。这使得写作和格式化文本变得更加直观和方便。以下是一些关于如何使用 Typora 的基本指南：</p>
+<h3 id="安装和启动">安装和启动 </h3>
+<ol>
+<li>访问 Typora 的官方网站 <a href="https://typora.io/">https://typora.io/</a> 或者通过应用商店下载并安装 Typora。</li>
+<li>安装完成后，启动 Typora。</li>
+</ol>
+<h3 id="界面介绍-1">界面介绍 </h3>
+<p>Typora 的界面非常简洁，主要包括以下几个部分：</p>
+<ul>
+<li><strong>顶部菜单栏</strong>：包含文件、编辑、段落、格式等选项。</li>
+<li><strong>左侧边栏</strong>：显示文档结构，如标题和列表。</li>
+<li><strong>编辑区域</strong>：你可以在这里编写和格式化文本。</li>
+</ul>
+<h3 id="基本操作">基本操作 </h3>
+<ul>
+<li><strong>打开文件</strong>：通过顶部菜单栏的 <code>文件</code> &gt; <code>打开</code>，或者直接拖拽文件到 Typora 窗口中打开 Markdown 文件。</li>
+<li><strong>保存文件</strong>：通过 <code>文件</code> &gt; <code>保存</code> 或者 <code>文件</code> &gt; <code>另存为...</code>。</li>
+</ul>
+<h3 id="编辑和格式化文本">编辑和格式化文本 </h3>
+<p>Typora 支持直接使用 Markdown 语法来编辑文本，同时也提供了一些快捷键和工具栏按钮来帮助格式化文本。</p>
+<ul>
+<li><strong>标题</strong>：选中文本后，点击工具栏上的 <code>H1</code> 到 <code>H6</code> 来设置不同级别的标题。</li>
+<li><strong>加粗和斜体</strong>：选中文本，点击工具栏上的 <code>B</code>（加粗）或 <code>I</code>（斜体）按钮。</li>
+<li><strong>链接和图片</strong>：选中文本，点击工具栏上的链接或图片按钮，输入链接地址或图片路径。</li>
+<li><strong>列表</strong>：输入 <code>- </code> 或 <code>* </code> 来创建无序列表，输入 <code>1. </code> 来创建有序列表。</li>
+<li><strong>表格</strong>：输入表格的格式，例如：<pre data-role="codeBlock" data-info="" class="language-text"><code>| 标题1 | 标题2 |
+| ------ | ------ |
+| 单元格 | 单元格 |
+</code></pre></li>
+<li><strong>代码块</strong>：输入三个反引号后跟语言名称，然后输入代码，例如：<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string">"Hello, World!"</span><span class="token punctuation">)</span>
+</code></pre></li>
+<li><strong>引用</strong>：输入 <code>&gt; </code> 来创建引用文本。</li>
+</ul>
+<h3 id="高级功能-1">高级功能 </h3>
+<ul>
+<li><strong>文件管理</strong>：Typora 支持文件夹和文件的拖拽操作，方便管理文档。</li>
+<li><strong>主题和样式</strong>：通过顶部菜单栏的 <code>主题</code> 选项，可以切换不同的主题和样式。</li>
+<li><strong>预览模式</strong>：点击工具栏上的 <code>专注模式</code> 或 <code>源代码模式</code> 按钮，可以在不同的视图之间切换。</li>
+<li><strong>导出功能</strong>：通过 <code>文件</code> &gt; <code>导出</code>，可以将 Markdown 文档导出为 HTML、PDF、Word 等多种格式。</li>
+</ul>
+<h3 id="快捷键">快捷键 </h3>
+<p>Typora 支持大量的快捷键，以提高编辑效率。一些常用的快捷键包括：</p>
+<ul>
+<li><code>Ctrl + N</code>：新建文档</li>
+<li><code>Ctrl + S</code>：保存文档</li>
+<li><code>Ctrl + Z</code>：撤销</li>
+<li><code>Ctrl + Shift + Z</code>：重做</li>
+<li><code>Ctrl + B</code>：加粗</li>
+<li><code>Ctrl + I</code>：斜体</li>
+<li><code>Ctrl + P</code>：预览</li>
+</ul>
+<h3 id="学习资源-2">学习资源 </h3>
+<p>通过不断练习和探索，你将能够更熟练地使用 Typora 来编写和格式化 Markdown 文档。祝你学习愉快！</p>
+<h2 id="obsidian">Obsidian </h2>
+<p>Obsidian 是一款知识管理和笔记软件，它利用 Markdown 语法来编写和组织笔记，并通过链接将不同笔记相互关联，形成个人知识库。以下是一些关于如何使用 Obsidian 的基本指南：</p>
+<h3 id="安装和启动-1">安装和启动 </h3>
+<ol>
+<li>访问 Obsidian 的官方网站 <a href="https://obsidian.md/">https://obsidian.md/</a> 下载并安装 Obsidian。</li>
+<li>安装完成后，启动 Obsidian。</li>
+</ol>
+<h3 id="界面介绍-2">界面介绍 </h3>
+<p>Obsidian 的界面通常分为三个主要部分：</p>
+<ul>
+<li><strong>左侧边栏</strong>：显示所有笔记的列表，可以创建文件夹来组织笔记。</li>
+<li><strong>中间主面板</strong>：显示选中笔记的内容，你可以在这里编辑和查看笔记。</li>
+<li><strong>右侧面板</strong>：用于显示笔记的反向链接、大纲、标签等信息。</li>
+</ul>
+<h3 id="创建和编辑笔记">创建和编辑笔记 </h3>
+<ul>
+<li><strong>创建笔记</strong>：点击左侧边栏的 "+" 按钮，选择 "Create a new note" 创建新笔记，或者直接拖拽 Markdown 文件到 Obsidian 窗口中。</li>
+<li><strong>编辑笔记</strong>：Obsidian 支持 Markdown 语法，你可以在中间主面板中直接编辑笔记内容。</li>
+</ul>
+<h3 id="链接和关联笔记">链接和关联笔记 </h3>
+<p>Obsidian 的核心功能之一是将不同笔记通过链接关联起来，形成知识网络。</p>
+<ul>
+<li><strong>创建内部链接</strong>：在笔记中引用另一篇笔记，使用 <code>[[Note Title]]</code> 的格式，Obsidian 会自动创建链接。</li>
+<li><strong>反向链接</strong>：在右侧面板的 "Backlinks" 部分，可以查看所有链接到当前笔记的其他笔记。</li>
+</ul>
+<h3 id="标签和搜索">标签和搜索 </h3>
+<ul>
+<li><strong>添加标签</strong>：在笔记中添加 <code>#标签名</code>，可以为笔记添加标签。</li>
+<li><strong>搜索笔记</strong>：在左侧边栏的搜索框中，可以搜索笔记标题或标签。</li>
+</ul>
+<h3 id="文件和文件夹管理">文件和文件夹管理 </h3>
+<ul>
+<li><strong>创建文件夹</strong>：在左侧边栏，右键点击空白处，选择 "Create Folder" 创建文件夹。</li>
+<li><strong>移动笔记</strong>：将笔记从左侧边栏拖拽到目标文件夹中，可以移动笔记。</li>
+</ul>
+<h3 id="主题和插件">主题和插件 </h3>
+<ul>
+<li><strong>更改主题</strong>：通过 "Settings" &gt; "Appearance" 可以更改 Obsidian 的主题。</li>
+<li><strong>安装插件</strong>：Obsidian 支持插件扩展功能，通过 "Settings" &gt; "Third-party plugins" 可以安装和管理插件。</li>
+</ul>
+<h3 id="导出和分享">导出和分享 </h3>
+<ul>
+<li><strong>导出笔记</strong>：选中笔记，点击 "File" &gt; "Export"，可以将笔记导出为 Markdown、PDF 等格式。</li>
+<li><strong>分享笔记</strong>：Obsidian 支持将笔记分享为链接，方便与他人共享。</li>
+</ul>
+<h3 id="高级功能-2">高级功能 </h3>
+<ul>
+<li><strong>每日笔记</strong>：Obsidian 提供 "Daily Notes" 功能，可以快速创建和查看每日笔记。</li>
+<li><strong>任务管理</strong>：Obsidian 支持 <code>- [ ]</code> 和 <code>- [x]</code> 格式的任务列表，方便管理待办事项。</li>
+</ul>
+<h3 id="学习资源-3">学习资源 </h3>
+<p>通过不断练习和探索，你将能够更熟练地使用 Obsidian 来管理你的个人知识库。祝你学习愉快！</p>
+<h2 id="vscode">VScode </h2>
+<p>Visual Studio Code（简称 VSCode）是一个由微软开发的免费、开源的代码编辑器。它支持多种编程语言，具有强大的功能和可扩展性，是许多开发者喜爱的工具之一。以下是一些基本的 VSCode 使用指南：</p>
+<h3 id="安装和启动-2">安装和启动 </h3>
+<ol>
+<li>访问 Visual Studio Code 的官方网站 <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a> 下载并安装 VSCode。</li>
+<li>安装完成后，启动 VSCode。</li>
+</ol>
+<h3 id="界面介绍-3">界面介绍 </h3>
+<p>VSCode 的界面主要由以下几个部分组成：</p>
+<ul>
+<li><strong>侧边栏</strong>：包含文件资源管理器、搜索、Git 等功能。</li>
+<li><strong>编辑区</strong>：这是你编写代码的地方。</li>
+<li><strong>面板</strong>：位于编辑区的下方，包含终端、调试视图、输出等。</li>
+<li><strong>状态栏</strong>：位于窗口底部，显示文件编码、语言和其他状态信息。</li>
+</ul>
+<h3 id="基本操作-1">基本操作 </h3>
+<ul>
+<li><strong>打开文件/文件夹</strong>：点击侧边栏的文件夹图标，选择要打开的文件或文件夹。</li>
+<li><strong>新建文件</strong>：在侧边栏的文件资源管理器中，右键点击空白处，选择 "New File"。</li>
+<li><strong>保存文件</strong>：使用快捷键 <code>Ctrl + S</code>（Windows/Linux）或 <code>Command + S</code>（Mac）。</li>
+<li><strong>关闭文件</strong>：点击编辑区右上角的关闭按钮。</li>
+</ul>
+<h3 id="编辑和导航">编辑和导航 </h3>
+<ul>
+<li><strong>撤销和重做</strong>：使用快捷键 <code>Ctrl + Z</code> 和 <code>Ctrl + Y</code>（Windows/Linux）或 <code>Command + Z</code> 和 <code>Command + Shift + Z</code>（Mac）。</li>
+<li><strong>查找和替换</strong>：使用快捷键 <code>Ctrl + F</code>（Windows/Linux）或 <code>Command + F</code>（Mac）打开查找框；使用 <code>Ctrl + H</code> 或 <code>Command + Option + F</code> 打开查找和替换框。</li>
+<li><strong>多光标编辑</strong>：按住 <code>Alt</code>（Windows/Linux）或 <code>Option</code>（Mac）键并点击，可以添加多个光标。</li>
+</ul>
+<h3 id="代码编辑增强功能">代码编辑增强功能 </h3>
+<ul>
+<li><strong>自动完成</strong>：VSCode 会根据你输入的代码提供自动完成建议。</li>
+<li><strong>代码片段</strong>：使用预定义的代码模板来加速编码。</li>
+<li><strong>语法高亮</strong>：VSCode 支持多种语言的语法高亮。</li>
+<li><strong>代码格式化</strong>：使用快捷键 <code>Shift + Alt + F</code>（Windows/Linux）或 <code>Shift + Option + F</code>（Mac）格式化代码。</li>
+</ul>
+<h3 id="git-集成">Git 集成 </h3>
+<ul>
+<li><strong>提交</strong>：在侧边栏的 Git 图标处选择要提交的文件，然后点击 "Commit"。</li>
+<li><strong>推送</strong>：点击 "Push" 将本地更改推送到远程仓库。</li>
+</ul>
+<h3 id="扩展">扩展 </h3>
+<ul>
+<li><strong>扩展市场</strong>：通过侧边栏的扩展图标或 <code>Ctrl + Shift + X</code>（Windows/Linux）或 <code>Command + Shift + X</code>（Mac）打开扩展市场。</li>
+<li><strong>安装扩展</strong>：搜索需要的扩展，点击 "Install" 安装。</li>
+</ul>
+<h3 id="自定义设置">自定义设置 </h3>
+<ul>
+<li><strong>用户设置</strong>：通过菜单栏的 <code>File</code> &gt; <code>Preferences</code> &gt; <code>Settings</code> 访问用户设置。</li>
+<li><strong>快捷键设置</strong>：通过 <code>File</code> &gt; <code>Preferences</code> &gt; <code>Keyboard Shortcuts</code> 自定义快捷键。</li>
+</ul>
+<h3 id="调试">调试 </h3>
+<ul>
+<li><strong>启动调试</strong>：通过侧边栏的调试图标或 <code>Ctrl + Shift + D</code>（Windows/Linux）或 <code>Command + Shift + D</code>（Mac）打开调试视图。</li>
+<li><strong>设置断点</strong>：在代码行号旁边点击，设置断点。</li>
+</ul>
+<h3 id="终端">终端 </h3>
+<ul>
+<li><strong>打开终端</strong>：使用 <code>Ctrl + ``（Windows/Linux）或 </code>Command + ``（Mac）打开集成终端。</li>
+<li><strong>终端命令</strong>：在终端中，可以执行各种命令行操作。</li>
+</ul>
+<h3 id="学习资源-4">学习资源 </h3>
+<p>通过这些基本操作，你可以开始使用 VSCode 进行编程。随着你的使用，你将发现更多高级功能，以提高你的开发效率。</p>
+<h2 id="部署">部署 </h2>
+<h3 id="docsify">docsify </h3>
+<p>Docsify 是一个简洁、高效的文档网站生成器，它使用 Markdown 来编写和预览文档，并且可以轻松地将文档部署为静态网站。以下是一些基本的 Docsify 使用指南：</p>
+<h4 id="b站视频指导">B站视频指导 </h4>
+<p><a href="https://www.bilibili.com/video/BV1kT4y1T7wY/?spm_id_from=333.337.search-card.all.click&amp;vd_source=f2109622b7f8654d9ed6510fa2db0c78">使用docsify搭建笔记博客</a></p>
+<blockquote>
+<p>这是一篇使用docsify搭建个人笔记博客的快速入门视频<br>
+官方主页：<a href="https://thinkaboutai.github.io">https://thinkaboutai.github.io</a><br>
+笔记：<a href="https://thinkaboutai.github.io/#/other/01_docsify/">https://thinkaboutai.github.io/#/other/01_docsify/</a></p>
+</blockquote>
+<h4 id="docsify-官网指南">docsify 官网指南 </h4>
+<p><a href="https://docsify.js.org/#/zh-cn/">官网指南</a></p>
+<h4 id="准备工作">准备工作 </h4>
+<ul>
+<li>确保你的计算机上已经安装了 Node.js 和 Git。</li>
+</ul>
+<h4 id="安装-docsify-cli">安装 Docsify CLI </h4>
+<ol>
+<li>通过 npm 安装 Docsify 的命令行工具：<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-g</span> docsify-cli
+</code></pre></li>
+</ol>
+<h4 id="创建一个新项目">创建一个新项目 </h4>
+<ol>
+<li>创建一个新文件夹作为你的项目目录。</li>
+<li>在项目目录中初始化一个新项目：<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code>docsify init <span class="token builtin class-name">.</span>
+</code></pre></li>
+</ol>
+<h4 id="文件结构">文件结构 </h4>
+<p>Docsify 的基本文件结构通常如下：</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>my-docs/
+├── .nojekyll
+├── index.html
+├── README.md
+└── guide.md
+</code></pre><ul>
+<li><code>index.html</code> 是你的网站的入口点，通常包含对 Docsify 的引用。</li>
+<li><code>README.md</code> 和 <code>guide.md</code> 是你的文档页面，可以包含更多的 <code>.md</code> 文件。</li>
+</ul>
+<h4 id="编写文档">编写文档 </h4>
+<ul>
+<li>使用 Markdown 语法在 <code>.md</code> 文件中编写你的文档内容。</li>
+<li>你可以使用相对链接来连接不同的文档页面。</li>
+</ul>
+<h4 id="预览文档">预览文档 </h4>
+<ol>
+<li>在项目目录中启动本地服务器：<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code>docsify serve
+</code></pre></li>
+<li>打开浏览器，访问 <code>http://localhost:3000</code> 来预览你的文档。</li>
+</ol>
+<h4 id="部署文档">部署文档 </h4>
+<ol>
+<li>你可以将你的文档部署到 GitHub Pages、Gitee Pages 或其他静态网站托管服务。</li>
+<li>将你的项目推送到远程仓库，并按照托管服务的指南配置静态网站部署。</li>
+</ol>
+<h4 id="自定义主题">自定义主题 </h4>
+<ul>
+<li>Docsify 允许你通过修改 <code>index.html</code> 中的 CSS 或者使用插件来自定义文档的外观。</li>
+</ul>
+<h4 id="使用插件">使用插件 </h4>
+<ul>
+<li>Docsify 支持插件扩展，你可以在 <code>index.html</code> 中引入插件来增加额外的功能。</li>
+</ul>
+<h4 id="学习资源-5">学习资源 </h4>
+<ul>
+<li><strong>官方文档</strong>：Docsify 官方文档提供了详细的指南和教程。</li>
+<li><strong>GitHub 仓库</strong>：Docsify 的 GitHub 仓库中有丰富的示例和社区贡献的插件。</li>
+</ul>
+<h4 id="注意事项-2">注意事项 </h4>
+<ul>
+<li>熟悉 Markdown 的基本语法，包括标题、链接、列表、代码块等。</li>
+<li>理解如何使用相对路径来链接文档中的不同页面。</li>
+<li>学习如何使用 Docsify 的配置选项来自定义你的文档网站。</li>
+</ul>
+<p>通过以上步骤，你可以开始使用 Docsify 来编写和部署你的文档网站。随着你的使用，你将发现 Docsify 提供了许多其他有用的功能，以帮助你更高效地创建和管理文档。</p>
+<h4 id="和docsify相似的工具">和docsify相似的工具 </h4>
+<p>和 Docsify 类似的工具有多种，它们都是用于生成文档网站的工具，但各有特点和优势。以下是一些与 Docsify 相似的工具：</p>
+<ol>
+<li><strong>VuePress</strong>：由 Vue.js 的创始人开发，是一个 Vue 驱动的静态站点生成器，适合生成技术文档和个人博客。</li>
+<li><strong>GitBook</strong>：一个基于 Node.js 的命令行工具，可以使用 GitHub/Git 和 Markdown 来制作电子书。</li>
+<li><strong>MkDocs</strong>：一个静态网站生成器，可以将 Markdown 文件转换为静态网页，支持 YAML 配置文件。</li>
+<li><strong>Hexo</strong>：一个基于 Node.js 的博客平台和静态网站生成器，支持 Markdown 写作。</li>
+<li><strong>Docute</strong>：类似于 Docsify，建立在 Vue.js 之上，允许在 Markdown 文件中使用 Vue 组件。</li>
+<li><strong>Slate</strong>：由 GitHub 开发，用于生成 REST API 文档，支持多语言选项卡。</li>
+<li><strong>Docusaurus</strong>：由 Facebook 创建，使用 React，适合创建开源项目文档和企业文档网站。</li>
+<li><strong>Jekyll</strong>：一个成熟的静态网站生成器，被广泛用于生成项目文档和个人博客。</li>
+<li><strong>Teedoc</strong>：一个开源静态文档网站生成工具，支持 Markdown 和多种文档格式。</li>
+<li><strong>Docpress</strong>：从项目文档生成网站，支持 <code>README.md</code> 和 <code>docs/</code> 中的多个 Markdown 页面。</li>
+</ol>
+<p>这些工具各有千秋，选择哪个工具取决于你的具体需求、技术栈以及对特定功能的偏好。例如，如果你熟悉 Vue.js，可能会倾向于使用 VuePress；如果你的项目需要深度集成 React，Docusaurus 可能是一个好选择。</p>
+<h3 id="gitee">gitee </h3>
+<p>Gitee（原名 Git@OSC，国内称为码云）是一个基于 Git 的代码托管和协作开发平台，类似于 GitHub 或 GitLab，但主要面向中文用户，提供更优的国内访问速度。以下是一些基本的 Gitee 使用指南：</p>
+<h4 id="注册账号">注册账号 </h4>
+<ol>
+<li>访问 Gitee 官方网站 <a href="https://gitee.com/">https://gitee.com/</a></li>
+<li>点击右上角的 "注册"，按照提示完成账号注册。</li>
+</ol>
+<h4 id="登录账号">登录账号 </h4>
+<ol>
+<li>完成注册后，使用账号登录 Gitee。</li>
+</ol>
+<h4 id="创建仓库">创建仓库 </h4>
+<ol>
+<li>登录后，点击右上角的头像，选择 "我的仓库"。</li>
+<li>点击 "新建仓库"，填写仓库名称、描述，选择公开或私有，然后创建。</li>
+</ol>
+<h4 id="初始化仓库">初始化仓库 </h4>
+<ol>
+<li>创建仓库后，你可以立即开始初始化你的仓库：
+<ul>
+<li>添加一个 <code>README.md</code> 文件来描述你的项目。</li>
+<li>添加 <code>.gitignore</code> 文件来指定不需要版本控制的文件。</li>
+</ul>
+</li>
+</ol>
+<h4 id="克隆仓库">克隆仓库 </h4>
+<ol>
+<li>在你的仓库页面，点击 "SSH" 或 "HTTPS" 复制克隆地址。</li>
+<li>在本地终端使用 <code>git clone</code> 命令加上克隆地址，例如：<pre data-role="codeBlock" data-info="" class="language-text"><code>git clone git@gitee.com:username/repo.git
+</code></pre></li>
+</ol>
+<h4 id="推送代码到仓库">推送代码到仓库 </h4>
+<ol>
+<li>在本地创建或修改文件后，使用以下命令将改动推送到 Gitee：<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code><span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span>
+<span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">"Initial commit"</span>
+<span class="token function">git</span> push <span class="token parameter variable">-u</span> origin main
+</code></pre>注意：<code>main</code> 可能是你仓库的主分支名称，也可能是 <code>master</code>。</li>
+</ol>
+<h4 id="分支管理">分支管理 </h4>
+<ol>
+<li>创建分支：<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code><span class="token function">git</span> branch new-branch
+</code></pre></li>
+<li>切换分支：<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code><span class="token function">git</span> checkout new-branch
+</code></pre></li>
+<li>合并分支：<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code><span class="token function">git</span> merge new-branch
+</code></pre></li>
+</ol>
+<h4 id="问题跟踪和-wiki">问题跟踪和 Wiki </h4>
+<ol>
+<li><strong>问题跟踪</strong>：可以用来跟踪和管理项目的 bug 和功能请求。</li>
+<li><strong>Wiki</strong>：项目的文档可以放在 Wiki 中，方便团队成员查阅。</li>
+</ol>
+<h4 id="协作开发">协作开发 </h4>
+<ol>
+<li><strong>团队成员管理</strong>：可以给团队成员分配不同的权限，如管理员、写入、读取等。</li>
+<li><strong>Pull Request</strong>：当团队成员完成了一个新功能或修复了一个 bug，他们可以发起 Pull Request 请求将代码合并到主分支。</li>
+</ol>
+<h4 id="使用-gitee-pages">使用 Gitee Pages </h4>
+<ol>
+<li>Gitee Pages 是一个静态网页托管服务，你可以利用它来托管博客、项目页面等。</li>
+</ol>
+<h4 id="学习和帮助">学习和帮助 </h4>
+<h4 id="注意事项-3">注意事项 </h4>
+<ul>
+<li>熟悉 Git 的基本操作，如 <code>git add</code>、<code>git commit</code>、<code>git push</code>、<code>git pull</code> 等。</li>
+<li>理解 Git 的分支管理，如分支创建、合并、删除等。</li>
+<li>学习 Markdown 语法，用于编写 <code>README.md</code> 和 Wiki 页面。</li>
+</ul>
+<p>通过以上步骤，你可以开始使用 Gitee 进行代码托管和版本控制。随着你的使用，你将发现 Gitee 提供了许多其他有用的功能，以帮助你更好地管理项目和协作开发。</p>
+<h3 id="github">github </h3>
+<p>GitHub 是一个非常流行的代码托管平台，同时也是一个强大的协作和代码管理工具。以下是一些基本的 GitHub 使用指南：</p>
+<h4 id="注册账号-1">注册账号 </h4>
+<ol>
+<li>访问 GitHub 官方网站 <a href="https://github.com/">https://github.com/</a></li>
+<li>点击右上角的 "Sign up"，按照提示完成账号注册。</li>
+</ol>
+<h4 id="登录账号-1">登录账号 </h4>
+<ol>
+<li>完成注册后，使用账号登录 GitHub。</li>
+</ol>
+<h4 id="创建仓库-1">创建仓库 </h4>
+<ol>
+<li>登录后，点击右上角的 "+" 号，选择 "New repository" 创建新仓库。</li>
+<li>填写仓库名称、描述，选择公开或私有，然后创建。</li>
+</ol>
+<h4 id="初始化仓库-1">初始化仓库 </h4>
+<ol>
+<li>创建仓库后，你可以立即开始初始化你的仓库：
+<ul>
+<li>添加一个 <code>README.md</code> 文件来描述你的项目。</li>
+<li>添加 <code>.gitignore</code> 文件来指定不需要版本控制的文件。</li>
+</ul>
+</li>
+</ol>
+<h4 id="克隆仓库-1">克隆仓库 </h4>
+<ol>
+<li>在你的仓库页面，点击 "Code" 按钮，复制 SSH 或 HTTPS 克隆地址。</li>
+<li>在本地终端使用 <code>git clone</code> 命令加上克隆地址，例如：<pre data-role="codeBlock" data-info="" class="language-text"><code>git clone git@github.com:username/repo.git
+</code></pre></li>
+</ol>
+<h4 id="推送代码到仓库-1">推送代码到仓库 </h4>
+<ol>
+<li>在本地创建或修改文件后，使用以下命令将改动推送到 GitHub：<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code><span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span>
+<span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">"Initial commit"</span>
+<span class="token function">git</span> push <span class="token parameter variable">-u</span> origin main
+</code></pre>注意：<code>main</code> 可能是你仓库的主分支名称，也可能是 <code>master</code>。</li>
+</ol>
+<h4 id="分支管理-1">分支管理 </h4>
+<ol>
+<li>创建分支：<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code><span class="token function">git</span> branch new-branch
+</code></pre></li>
+<li>切换分支：<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code><span class="token function">git</span> checkout new-branch
+</code></pre></li>
+<li>合并分支：<pre data-role="codeBlock" data-info="sh" class="language-bash sh"><code><span class="token function">git</span> merge new-branch
+</code></pre></li>
+</ol>
+<h4 id="问题跟踪和-wiki-1">问题跟踪和 Wiki </h4>
+<ol>
+<li><strong>问题跟踪</strong>：可以用来跟踪和管理项目的 bug 和功能请求。</li>
+<li><strong>Wiki</strong>：项目的文档可以放在 Wiki 中，方便团队成员查阅。</li>
+</ol>
+<h4 id="协作开发-1">协作开发 </h4>
+<ol>
+<li><strong>团队成员管理</strong>：可以给团队成员分配不同的权限，如管理员、写入、读取等。</li>
+<li><strong>Pull Request</strong>：当团队成员完成了一个新功能或修复了一个 bug，他们可以发起 Pull Request 请求将代码合并到主分支。</li>
+</ol>
+<h4 id="使用-github-pages">使用 GitHub Pages </h4>
+<ol>
+<li>GitHub Pages 是一个静态网页托管服务，你可以利用它来托管博客、项目页面等。</li>
+</ol>
+<h4 id="学习和帮助-1">学习和帮助 </h4>
+<ul>
+<li><strong>官方文档</strong>：GitHub 提供了官方文档，涵盖从基础到高级的教程。</li>
+<li><strong>社区支持</strong>：加入 GitHub 社区，参与讨论和提问。</li>
+</ul>
+<h4 id="注意事项-4">注意事项 </h4>
+<ul>
+<li>熟悉 Git 的基本操作，如 <code>git add</code>、<code>git commit</code>、<code>git push</code>、<code>git pull</code> 等。</li>
+<li>理解 Git 的分支管理，如分支创建、合并、删除等。</li>
+<li>学习 Markdown 语法，用于编写 <code>README.md</code> 和 Wiki 页面。</li>
+</ul>
+<p>通过以上步骤，你可以开始使用 GitHub 进行代码托管和版本控制。随着你的使用，你将发现 GitHub 提供了许多其他有用的功能，以帮助你更好地管理项目和协作开发。</p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

@@ -1,5 +1,15 @@
 # Loading and Manipulating Heartbeat Audio
 
+> 网址：[Loading_and_Manipulating_Heartbeat_Audio](https://www.kaggle.com/code/kinguistics/loading-and-manipulating-heartbeat-audio)
+* 2017年发布
+* 16，316次浏览
+* 60人认可
+* 196次复现
+
+
+
+
+## 简介
 This notebook will show you how to load and manipulate audio data in Python.
 
 The Heartbeat Sounds dataset is primarily audio-based: all of the heartbeat sounds are stored as WAV files that record either normal or abnormal heartbeats. So let's learn how to load and play with WAVs in Python.
@@ -12,7 +22,7 @@ The wave library handles the parsing of WAV file headers, which include the para
 
 
 
-
+## 读取WAV格式的音频文件
 下面这段代码是用于读取WAV格式的音频文件，并打印出音频帧的前20个字节的内容。下面是对每行代码的详细中文注释：
 
 ```python
