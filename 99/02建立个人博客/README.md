@@ -6,7 +6,7 @@
 4. Typora:Markdown 编辑器
 5. Obsidian:知识管理和笔记软件
 6. VSCode:代码编辑器
-7. 
+7. docsify:简洁、高效的文档网站生成器
 8. Gitee:代码托管平台
 9. GitHub:代码托管平台
 
@@ -328,7 +328,15 @@ VSCode 的界面主要由以下几个部分组成：
 
 ### docsify
 Docsify 是一个简洁、高效的文档网站生成器，它使用 Markdown 来编写和预览文档，并且可以轻松地将文档部署为静态网站。以下是一些基本的 Docsify 使用指南：
+#### B站视频指导
+[使用docsify搭建笔记博客](https://www.bilibili.com/video/BV1kT4y1T7wY/?spm_id_from=333.337.search-card.all.click&vd_source=f2109622b7f8654d9ed6510fa2db0c78)
 
+> 这是一篇使用docsify搭建个人笔记博客的快速入门视频
+> 官方主页：https://thinkaboutai.github.io
+> 笔记：https://thinkaboutai.github.io/#/other/01_docsify/
+#### docsify 官网指南
+
+[官网指南](https://docsify.js.org/#/zh-cn/)
 #### 准备工作
 - 确保你的计算机上已经安装了 Node.js 和 Git。
 
@@ -388,6 +396,22 @@ my-docs/
 - 学习如何使用 Docsify 的配置选项来自定义你的文档网站。
 
 通过以上步骤，你可以开始使用 Docsify 来编写和部署你的文档网站。随着你的使用，你将发现 Docsify 提供了许多其他有用的功能，以帮助你更高效地创建和管理文档。
+#### 和docsify相似的工具
+和 Docsify 类似的工具有多种，它们都是用于生成文档网站的工具，但各有特点和优势。以下是一些与 Docsify 相似的工具：
+
+1. **VuePress**：由 Vue.js 的创始人开发，是一个 Vue 驱动的静态站点生成器，适合生成技术文档和个人博客。
+2. **GitBook**：一个基于 Node.js 的命令行工具，可以使用 GitHub/Git 和 Markdown 来制作电子书。
+3. **MkDocs**：一个静态网站生成器，可以将 Markdown 文件转换为静态网页，支持 YAML 配置文件。
+4. **Hexo**：一个基于 Node.js 的博客平台和静态网站生成器，支持 Markdown 写作。
+5. **Docute**：类似于 Docsify，建立在 Vue.js 之上，允许在 Markdown 文件中使用 Vue 组件。
+6. **Slate**：由 GitHub 开发，用于生成 REST API 文档，支持多语言选项卡。
+7. **Docusaurus**：由 Facebook 创建，使用 React，适合创建开源项目文档和企业文档网站。
+8. **Jekyll**：一个成熟的静态网站生成器，被广泛用于生成项目文档和个人博客。
+9. **Teedoc**：一个开源静态文档网站生成工具，支持 Markdown 和多种文档格式。
+10. **Docpress**：从项目文档生成网站，支持 `README.md` 和 `docs/` 中的多个 Markdown 页面。
+
+这些工具各有千秋，选择哪个工具取决于你的具体需求、技术栈以及对特定功能的偏好。例如，如果你熟悉 Vue.js，可能会倾向于使用 VuePress；如果你的项目需要深度集成 React，Docusaurus 可能是一个好选择。
+
 ### gitee
 Gitee（原名 Git@OSC，国内称为码云）是一个基于 Git 的代码托管和协作开发平台，类似于 GitHub 或 GitLab，但主要面向中文用户，提供更优的国内访问速度。以下是一些基本的 Gitee 使用指南：
 
