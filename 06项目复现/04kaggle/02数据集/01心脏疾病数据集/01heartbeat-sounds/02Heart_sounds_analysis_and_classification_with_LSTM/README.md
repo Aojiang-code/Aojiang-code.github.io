@@ -837,9 +837,7 @@ librosa.display.waveplot(y2, sr=sr2)
 <matplotlib.collections.PolyCollection at 0x7f8fd9adff28>
 ```
 
-![2.0](../01Loading_and_Manipulating_Heartbeat_Audio/01图片/2.0.png)
-
-
+![2.0](01图片/2.0.png)
 
 #### 3. Extrasystole
 Extrasystole sounds may appear occasionally and can be identified because there is a heart sound that is out of rhythm involving extra or skipped heartbeats, e.g. a “lub-lub dub” or a “lub dub-dub”. (This is not the same as an extra heart sound as the event is not regularly occuring.) An extrasystole may not be a sign of disease. It can happen normally in an adult and can be very common in children. However, in some situations extrasystoles can be caused by heart diseases. If these diseases are detected earlier, then treatment is likely to be more effective. (source: Rita Getz)
@@ -925,7 +923,7 @@ ipd.Audio(extrastole_file)
 ```python
 <matplotlib.collections.PolyCollection at 0x7f8fd9a599b0>
 ```
-![3.0](../01Loading_and_Manipulating_Heartbeat_Audio/01图片/3.0.png)
+![3.0](01图片/3.0.png)
 
 
 #### 4. Artifact
@@ -1040,7 +1038,7 @@ librosa.display.waveplot(y4, sr=sr4)
 ```python
 <matplotlib.collections.PolyCollection at 0x7f8fd9a28ba8>
 ```
-![4.0](../01Loading_and_Manipulating_Heartbeat_Audio/01图片/4.0.png)
+![4.0]01图片/4.0.png)
 
 #### 5. Extra Heart Sound
 In the Artifact category there are a wide range of different sounds, including feedback squeals and echoes, speech, music and noise. There are usually no discernable heart sounds, and thus little or no temporal periodicity at frequencies below 195 Hz. This category is the most different from the others. It is important to be able to distinguish this category from the other three categories, so that someone gathering the data can be instructed to try again.(source: Rita Getz)
@@ -1158,7 +1156,7 @@ librosa.display.waveplot(y5, sr=sr5)
 ```python
 <matplotlib.collections.PolyCollection at 0x7f8fd9a00828>
 ```
-![5.0](../01Loading_and_Manipulating_Heartbeat_Audio/01图片/5.0.png)
+![5.0](01图片/5.0.png)
 
 
 
@@ -1377,7 +1375,7 @@ plt.tight_layout()
 这段代码的作用是在Python环境中使用`matplotlib`和`librosa`库可视化MFCCs特征。首先，它通过`matplotlib.pyplot`的`figure`函数创建一个图形对象，并设定了图形的大小。然后，使用`librosa.display`的`specshow`函数来绘制MFCCs的热图，其中`x_axis='time'`表示x轴是时间轴。接着，添加一个颜色条以便于观察MFCCs的数值大小。最后，设置图形的标题并调整布局以确保图形的整洁和紧凑。执行这段代码后，如果在一个支持图形显示的环境中（如Jupyter Notebook），它将在输出区域生成一个图形，展示了音频信号的MFCCs特征。这对于分析音频内容和特征提取非常有用。
 
 #### 结果展示：
-![6.0](../01Loading_and_Manipulating_Heartbeat_Audio/01图片/6.0.png)
+![6.0](01图片/6.0.png)
 
 ### 三级标题
 
@@ -1426,7 +1424,7 @@ plt.tight_layout()
 
 #### 结果展示：
 
-![6.1](../01Loading_and_Manipulating_Heartbeat_Audio/01图片/6.1.png)
+![6.1](01图片/6.1.png)
 
 
 
@@ -1566,7 +1564,7 @@ plt.legend(frameon=True, framealpha=0.75)
 ```python
 <matplotlib.legend.Legend at 0x7f8fd98d8f98>
 ```
-![7.0](../01Loading_and_Manipulating_Heartbeat_Audio/01图片/7.0.png)
+![7.0](01图片/7.0.png)
 
 ### onset_backtrack
 Backtrack detected onset events to the nearest preceding local minimum of an energy function. This function can be used to roll back the timing of detected onsets from a detected peak amplitude to the preceding minimum. This is most useful when using onsets to determine slice points for segmentation
@@ -1648,7 +1646,7 @@ plt.legend(frameon=True, framealpha=0.75)
 ```python
 <matplotlib.legend.Legend at 0x7f8fd8be24a8>
 ```
-![8.0](../01Loading_and_Manipulating_Heartbeat_Audio/01图片/8.0.png)
+![8.0](01图片/8.0.png)
 
 
 ### onset strength
@@ -1738,7 +1736,7 @@ plt.title('Sub-band onset strength')
 ```python
 Text(0.5,1,'Sub-band onset strength')
 ```
-![9.0](../01Loading_and_Manipulating_Heartbeat_Audio/01图片/9.0.png)
+![9.0](01图片/9.0.png)
 
 
 
@@ -4657,7 +4655,7 @@ plot_history(history)
 ```python
 <Figure size 1584x720 with 0 Axes>
 ```
-![10](../01Loading_and_Manipulating_Heartbeat_Audio/01图片/10.png)
+![10](01图片/10.png)
 
 ```python
 CPU times: user 1.2 s, sys: 264 ms, total: 1.46 s
@@ -4816,7 +4814,7 @@ plt.show()
 ##### 结果展示：
 
 
-![11](../01Loading_and_Manipulating_Heartbeat_Audio/01图片/11.png)
+![11](01图片/11.png)
 
 
 
