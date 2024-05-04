@@ -365,6 +365,8 @@ DenseVoxNet 采用三维全卷积架构，可有效进行容积到容积预测�
 
 ### [人工智能与医学结合的最新综述的笔记High-performance medicine](https://zhuanlan.zhihu.com/p/78694033)
 
+## [02建立个人博客](99\02建立个人博客\README.md)
+
 
 
 
