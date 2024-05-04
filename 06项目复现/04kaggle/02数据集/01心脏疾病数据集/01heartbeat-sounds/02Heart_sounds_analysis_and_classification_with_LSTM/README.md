@@ -1188,6 +1188,7 @@ Windowing features (eg. Hamming distances of windows)
 After extracting these features, it is then sent to the machine learning model for further analysis.
 
 ## Sound Feature: MFCC
+
 Mel Frequency Cepstral Coefficient (MFCC) is by far the most successful feature used in the field of Speech Processing. Speech is a non-stationary signal. As such, normal signal processing techniques cannot be directly applied to it.
 
 Mel-frequency cepstral coefficients (MFCCs) are coefficients that collectively make up an MFC. They are derived from a type of cepstral representation of the audio clip (a nonlinear "spectrum-of-a-spectrum"). The difference between the cepstrum and the mel-frequency cepstrum is that in the MFC, the frequency bands are equally spaced on the mel scale, which approximates the human auditory system's response more closely than the linearly-spaced frequency bands used in the normal cepstrum. This frequency warping can allow for better representation of sound, for example, in audio compression.
@@ -1196,7 +1197,7 @@ MFCCs are commonly derived as follows: -Take the Fourier transform of (a windowe
 
 In general, a 39-dimensional feature vector is used which is composed of first 13 MFCCs and their corresponding 13 delta and 13 delta-delta.
 
-### 
+### 三级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -1261,7 +1262,8 @@ print(mfccs)
 
 
 
-### 
+### 三级标题
+
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -1323,7 +1325,8 @@ print(log_S)
 这些MFCCs特征可以用于训练机器学习模型，如支持向量机（SVM）、神经网络或随机森林，以识别和分类不同的音频信号，如语音、音乐或在本例中的心脏声音。在心脏声音分析中，MFCCs可以帮助区分正常心跳声、心脏杂音、额外心音等不同的心脏声音状况。
 
 
-### 
+### 三级标题
+
 
 以下是对您提供的代码段的逐行中文注释：
 
@@ -1341,7 +1344,8 @@ mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40)
 
 这段代码的作用是从音频信号中提取40个Mel频率倒谱系数（MFCCs）。首先，使用`librosa.feature.mfcc`函数，传入音频信号`y`和采样率`sr`，以及指定的MFCCs数量`n_mfcc=40`来计算特征。这些特征可以用于音频信号的进一步分析或作为机器学习模型的输入。注释掉的`print(mfccs)`行，如果被执行，将会输出这些特征的值。在实际应用中，这些特征可以用于训练和评估机器学习模型，以识别不同的音频事件或声音模式。
 
-### 
+### 三级标题
+
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -1375,7 +1379,8 @@ plt.tight_layout()
 #### 结果展示：
 ![6.0](../01Loading_and_Manipulating_Heartbeat_Audio/01图片/6.0.png)
 
-### 
+### 三级标题
+
 
 以下是对您提供的代码段的逐行中文注释：
 
@@ -1420,23 +1425,20 @@ plt.tight_layout()
 这段代码的作用是计算并可视化使用不同DCT基计算的MFCCs特征。首先，它使用`librosa.feature.mfcc`函数计算了三种不同DCT基（`dct_type`）下的MFCCs。然后，使用`matplotlib.pyplot`和`librosa.display.specshow`函数创建一个包含三个子图的图形，每个子图展示一种DCT基下的MFCCs热图。最后，使用`plt.tight_layout()`函数调整布局以确保图形的整洁和紧凑。执行这段代码后，如果在一个支持图形显示的环境中（如Jupyter Notebook），它将在输出区域生成一个图形，展示了不同DCT基下的MFCCs特征，这对于分析音频内容和特征提取非常有用。
 
 #### 结果展示：
+
 ![6.1](../01Loading_and_Manipulating_Heartbeat_Audio/01图片/6.1.png)
 
 
 
-
-
-
-
-
-
 ## Sound Feature: Onset
+
 ### onset detector
+
 Basic onset detector. Locate note onset events by picking peaks in an onset strength envelope. The peak_pick parameters were chosen by large-scale hyper-parameter optimization over the dataset provided
 
 
 
-#### 
+#### 四级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -1487,7 +1489,7 @@ array([0.48761905, 0.7662585 , 0.95201814, 1.25387755, 1.55573696,
 
 
 
-#### 
+#### 四级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -1512,7 +1514,7 @@ onset_frames = librosa.onset.onset_detect(onset_envelope=o_env, sr=sr)
 
 
 
-#### 
+#### 四级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -1570,7 +1572,7 @@ plt.legend(frameon=True, framealpha=0.75)
 Backtrack detected onset events to the nearest preceding local minimum of an energy function. This function can be used to roll back the timing of detected onsets from a detected peak amplitude to the preceding minimum. This is most useful when using onsets to determine slice points for segmentation
 
 
-#### 
+#### 四级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -1602,7 +1604,7 @@ onset_bt_rms = librosa.onset.onset_backtrack(onset_raw, rms[0])
 这段代码的作用是计算音频信号的起始包络，并使用两种不同的回溯策略来改进起始点的检测。首先，使用`librosa.onset.onset_strength`函数计算起始包络，然后使用`librosa.onset.onset_detect`函数检测起始点，但不使用回溯策略。接着，使用`librosa.onset.onset_backtrack`函数对检测到的起始点进行基于起始包络的回溯处理。最后，计算音频信号的RMS值，并使用这些值进行另一种基于RMS的回溯处理。这些起始点的检测和回溯处理可以用于音频节奏分析、音乐结构分析或作为音乐信息检索的依据。
 
 
-#### 
+#### 四级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -1653,7 +1655,7 @@ plt.legend(frameon=True, framealpha=0.75)
 Compute a spectral flux onset strength envelope. Onset strength at time t is determined by: mean_f max(0, S[f, t] - ref_S[f, t - lag]) where ref_S is S after local max filtering along the frequency axis [1]. By default, if a time series y is provided, S will be the log-power Mel spectrogram.
 
 
-#### 
+#### 四级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -1743,7 +1745,7 @@ Text(0.5,1,'Sub-band onset strength')
 
 ## Loading Data
 
-### 
+### 三级标题
 以下是对您提供的代码行的详细中文注释：
 
 ```python
@@ -1779,7 +1781,7 @@ Number of training examples= 832   Number of classes= 6
 Loading od the audio data file will be based on content from directory since each filename is associate with the category type. hence, we can use csv file for cross reference check. Based on directory content approach will be more flexible.
 
 
-### 
+### 三级标题
 以下是对您提供的函数 `audio_norm` 的逐行中文注释：
 
 ```python
@@ -1811,7 +1813,7 @@ def audio_norm(data):
 
 
 
-### 
+### 三级标题
 以下是对您提供的函数 `load_file_data_without_change` 的逐行中文注释：
 
 ```python
@@ -1860,7 +1862,7 @@ def load_file_data_without_change(folder, file_names, duration=3, sr=16000):
 这段代码定义了一个函数 `load_file_data_without_change`，它接受文件夹路径 `folder`、文件名列表 `file_names`、可选参数 `duration`（默认为3秒）和 `sr`（默认采样率为16000Hz）来加载音频文件、计算其MFCC特征，并存储这些特征。函数中使用了异常处理来捕获并打印加载音频文件时可能遇到的错误。提取的MFCC特征被重塑并添加到列表 `data` 中，该列表最终被返回。这种特征提取方法在音频分析和机器学习任务中非常有用，尤其是当涉及到音频分类或检测任务时。
 
 
-### 
+### 三级标题
 
 以下是对您提供的函数 `load_file_data` 的逐行中文注释：
 
@@ -1919,7 +1921,7 @@ def load_file_data(folder, file_names, duration=12, sr=16000):
 这段代码定义了一个函数 `load_file_data`，它接受文件夹路径 `folder`、文件名列表 `file_names`、可选参数 `duration`（默认为12秒）和 `sr`（默认采样率为16000Hz）来加载音频文件、进行长度的统一处理（通过填充或截断）、计算其MFCC特征，并存储这些特征。函数中使用了异常处理来捕获并打印加载音频文件时可能遇到的错误。提取的MFCC特征被重塑并添加到列表 `data` 中，该列表最终被返回。这种特征提取方法在音频分析和机器学习任务中非常有用，尤其是当涉及到音频分类或检测任务时，且需要所有音频信号具有相同的长度。
 
 
-### 
+### 三级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -1984,7 +1986,7 @@ print(int_to_label)
 
 ### load dataset-a, keep them separate for testing purpose
 
-#### 
+#### 四级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -2018,7 +2020,7 @@ A_artifact_labels = [0 for items in A_artifact_files]
 
 
 
-#### 
+#### 四级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -2043,7 +2045,7 @@ A_normal_labels = [2 for items in A_normal_sounds]
 
 
 
-#### 
+#### 四级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -2068,7 +2070,7 @@ A_extrahls_labels = [1 for items in A_extrahls_sounds]
 
 
 
-#### 
+#### 四级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -2097,7 +2099,7 @@ A_murmur_labels = [1 for items in A_murmur_files]
 
 
 
-#### 
+#### 四级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -2504,7 +2506,7 @@ loaded dataset-a
 
 
 
-### 
+### 三级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -3808,7 +3810,7 @@ Wall time: 36.1 s
 这些步骤是数据预处理的重要组成部分，确保了数据集的一致性和模型训练的顺利进行。最后，打印的语句确认了数据集加载的完成。此外，输出还包括了程序运行的时间统计信息，显示了用户CPU时间、系统CPU时间、总CPU时间以及实际经过的墙钟时间。
 
 
-### 
+### 三级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -3871,7 +3873,7 @@ combined training data record:  585 247
 这个结果对于理解数据集的规模非常重要，它告诉我们模型将在585个样本上进行训练，并在247个样本上进行测试。这种分割有助于评估模型的性能，确保它没有过拟合训练数据，并且能够很好地推广到新的、未见过的数据上。
 
 
-### 
+### 三级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -3904,7 +3906,7 @@ test_y = np.array(keras.utils.to_categorical(test_y, len(CLASSES)))
 
 这段代码的作用是准备机器学习模型的训练和测试数据。首先，它使用交叉验证的方法将原始数据集分割为训练集、验证集和测试集。然后，它对训练集、测试集和验证集的标签进行独热编码，这是多分类问题中常用的一种标签表示方法。独热编码可以确保神经网络的输出层能够正确地处理多个类别。最后，通过设置随机数生成器的种子，确保每次运行代码时数据分割的结果都是相同的，从而保证了结果的可重复性。
 
-### 
+### 三级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -4518,7 +4520,7 @@ Wall time: 4min 36s
 ### Model Evaluation
 
 
-#### 
+#### 四级标题
 ```python
 # 使用Keras的evaluate函数在训练集上评估模型性能，计算并打印准确度。
 # model.evaluate函数接受测试数据和标签，返回损失值和准确度。
@@ -4574,7 +4576,7 @@ model unlabeled data score   :  80.0 %
 
 
 
-#### 
+#### 四级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -4662,7 +4664,7 @@ CPU times: user 1.2 s, sys: 264 ms, total: 1.46 s
 Wall time: 1.12 s
 ```
 
-#### 
+#### 四级标题
 
 以下是对您提供的`plot_confusion_matrix`函数的逐行中文注释：
 
@@ -4745,7 +4747,7 @@ def plot_confusion_matrix(cm, classes,
 make a prediction x: The input data, as a Numpy array (or list of Numpy arrays if the model has multiple inputs). batch_size: Integer. If unspecified, it will default to 32. steps = Total number of steps (batches of samples) before declaring the prediction round finished. callbacks: List of keras.callbacks.Callback instances. returns Numpy array(s) of predictions.
 
 
-#### 
+#### 四级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -4780,7 +4782,7 @@ prediction test return : 2 - normal
    这是打印出的预测结果，表明模型预测测试集中第二个样本的类别为索引2，根据`int_to_label`映射，索引2对应的文本标签是"normal"。这意味着模型预测这个样本属于"正常"类别。
 
 这个结果表明，模型对测试集中第二个样本的预测是类别"normal"。在心脏声音分析的上下文中，这可能意味着模型判断这个心跳声音样本是正常无杂音的。这样的预测结果对于评估模型的性能和准确性非常重要，尤其是在医疗诊断领域，准确的分类对于病情判断至关重要。
-#### 
+#### 四级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -4821,7 +4823,7 @@ plt.show()
 ## Loading a saved training model
 
 
-### 
+### 三级标题
 以下是对您提供的代码行的详细中文注释：
 
 ```python
@@ -4853,7 +4855,7 @@ print(best_model_file)
 
 
 
-### 
+### 三级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -4970,7 +4972,7 @@ Created model and loaded weights from file
 ## Test loaded model
 
 
-### 
+### 三级标题
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
