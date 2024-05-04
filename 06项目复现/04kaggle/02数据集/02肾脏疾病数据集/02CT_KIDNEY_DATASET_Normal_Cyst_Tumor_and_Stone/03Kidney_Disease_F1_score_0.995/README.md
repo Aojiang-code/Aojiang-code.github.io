@@ -1,4 +1,9 @@
 # Kidney Disease F1 score= 99.5%
+> 网址： [Kidney Disease F1 score= 99.5%](https://www.kaggle.com/code/gpiosenka/kidney-disease-f1-score-99-5)
+
+* 2023年创建
+* 13人投票
+* 82次复现
 
 ## 目录
 * 1  Import Needed Modules
@@ -21,7 +26,7 @@
 
 
 ## 1. Import Needed Modules
-
+### 导入库
 ```python
 # 导入 pandas 库，并使用别名 pd。Pandas 是一个强大的数据结构和数据分析工具。
 import pandas as pd
@@ -105,6 +110,7 @@ print('Modules loaded')
 ```
 
 这段代码导入了多个 Python 库和模块，用于数据处理、图像处理、机器学习模型构建、可视化和环境配置等任务。通过设置环境变量和模块选项，代码还配置了 TensorFlow 和 pandas 的显示行为，以及忽略了警告信息，以便在开发过程中减少不必要的干扰。最后，打印了 'Modules loaded' 信息，表示所有需要的模块已经成功加载。
+#### 结果展示：
 
 
 ```python
