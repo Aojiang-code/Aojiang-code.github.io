@@ -48,13 +48,14 @@ print(frames[:20])
 
 这段代码的主要作用是读取WAV格式的音频文件，并快速查看文件的音频数据。在实际应用中，这些数据可以用于音频的特征提取、分类、分析等任务。打印出的前20个字节对于了解音频数据的基本结构和内容有一定的帮助，但由于音频数据通常是大量的二进制数据，所以这里的打印输出仅用于演示目的。
 
+### 结果展示：
 
 结果：
 ```python
 b'\x0e\x00\x11\x00\x0e\x00\x00\x00\x02\x00\x0b\x00\xfe\xff\x05\x00\x05\x00\x04\x00'
 ```
 
-
+## 查看采样宽度
 So frames now holds the entire bytestring representing all the audio samples in the sound file. We need to unpack this bytestring into an array of numbers that we can actually work with.
 
 The first question is: how many bytes represent a single observation? In my experience in voice recording, 16-bit and 24-bit are the most common sample widths, but you can find a whole collection on Wikipedia.
@@ -78,12 +79,14 @@ print(sampwidth)
 
 这行代码通常用于音频文件的处理和分析中，因为它提供了音频数据采样精度的信息。例如，采样宽度为1通常表示8位音频，而采样宽度为2则表示16位音频。了解采样宽度对于正确解析和处理音频数据至关重要，尤其是在进行音频数据转换或压缩时。
 
+### 结果展示：
 
 结果：
 
 ```python
 2
 ```
+### 结果解释：
 
 代码`print(f.getsampwidth())`的输出结果为`2`，这表示该WAV文件中每个采样值的宽度是2个字节。这个信息对于理解音频文件的采样精度和数据表示方式非常重要。下面是对这个结果的详细解读：
 
@@ -110,7 +113,7 @@ We're in luck with the 16-bit depth, since the struct library prefers powers of 
 A slight trick in the `struct` library is that it wants its format string to exactly match the expected size, so we have to multiply the format character 'h' by the number of frames in the bytestring:
 
 
-
+### 字节串解包为原始采样值的数组
 这段代码用于将音频帧的字节串解包为原始采样值的数组，并打印出前10个采样值。下面是对每行代码的详细中文注释：
 
 ```python
@@ -155,12 +158,14 @@ print(samples[:10])
 这些格式字符可以在`struct.pack`和`struct.unpack`函数中使用，以便在Python程序和二进制数据之间进行转换。使用这些格式字符时，需要确保数据的类型和大小与格式字符指定的类型和大小相匹配，以避免数据解释错误或结构体解析异常。
 
 
+### 结果展示：
 
 结果：
 
 ```python
 (14, 17, 14, 0, 2, 11, -2, 5, 5, 4)
 ```
+### 结果解释：
 
 上面这段代码的输出结果是一个元组，包含了一系列整数。这些整数是从一个WAV音频文件中解包得到的前10个采样值。下面是对这个结果的详细解读：
 
@@ -176,7 +181,7 @@ print(samples[:10])
 
 了解这些采样值是音频信号处理和分析的基础。在实际应用中，可能需要对这些采样值进行进一步的处理，如滤波、特征提取、降噪等，以便于进行更复杂的音频分析任务。
 
-
+## 计算音频文件中每个采样值的时间戳
 To get the timing, we'll grab the sampling rate from the wave object.
 
 下面这段代码用于计算音频文件中每个采样值的时间戳，并打印出前10个采样值的时间戳。下面是对每行代码的详细中文注释：
@@ -199,10 +204,12 @@ print(t[:10])
 
 这段代码的主要作用是将音频文件中的采样索引转换为时间戳，从而可以了解每个采样值在音频流中的具体位置。这对于音频分析和处理非常重要，尤其是在需要考虑时间因素的场景中，例如在进行信号的时间同步、特征提取或音频可视化时。打印出的前10个时间戳有助于了解音频数据的开始部分的时间分布情况。
 
+### 结果展示：
 
 ```python
 [0.0, 2.2675736961451248e-05, 4.5351473922902495e-05, 6.802721088435374e-05, 9.070294784580499e-05, 0.00011337868480725624, 0.00013605442176870748, 0.00015873015873015873, 0.00018140589569160998, 0.00020408163265306123]
 ```
+### 结果解释：
 
 这个输出结果是一个包含10个浮点数的列表，这些数值代表了音频文件中前10个采样点的时间戳，以秒为单位。这些时间戳是根据音频文件的采样率计算得出的。下面是对这些结果的详细解读：
 
@@ -220,7 +227,7 @@ print(t[:10])
 
 通过这些时间戳，我们可以准确地知道每个采样点在音频流中的位置，这对于音频分析、编辑和处理非常重要。例如，如果我们想要在音频中找到特定的事件并了解它发生的时间，我们可以使用这些时间戳来定位。
 
-
+## 绘制音频采样值随时间变化的图表
 Now we can take a look at the waveform.
 
 
@@ -245,6 +252,7 @@ plot(t, samples)
 
 执行这段代码后，通常会在Python脚本运行的最后调用`show()`函数来显示图表。如果没有调用`show()`，那么在某些交互式环境中（如Jupyter Notebook），图表可能会自动显示。在其他情况下，可能需要手动调用`show()`来触发图表的渲染和显示。
 
+### 结果展示：
 
 
 ![1.0声波](01图片/1.0声波.png)
