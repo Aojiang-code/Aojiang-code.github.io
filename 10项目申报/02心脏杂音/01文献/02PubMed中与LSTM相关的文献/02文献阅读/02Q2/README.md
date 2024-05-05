@@ -1,0 +1,15 @@
+# Q2
+
+
+## [01Automatic_heart_sound_classification_from_segmented-unsegmented_phonocardiogram](10项目申报\02心脏杂音\01文献\02PubMed中与LSTM相关的文献\02文献阅读\02Q2\01Automatic_heart_sound_classification_from_segmented-unsegmented_phonocardiogram]\README.md)
+
+## [02Design_of_ear‑contactless_stethoscope_and_improvement_in_the_performance_of_deep_learning_based_on_CNN_to_classify_the_heart_sound](10项目申报\02心脏杂音\01文献\02PubMed中与LSTM相关的文献\02文献阅读\02Q2\02Design_of_ear‑contactless_stethoscope_and_improvement_in_the_performance_of_deep_learning_based_on_CNN_to_classify_the_heart_sound\README.md)
+
+
+
+## [03The_Effect_of_Signal_Duration_on_the_Classification_of_Heart_Sounds_A_Deep_Learning_Approach](10项目申报\02心脏杂音\01文献\02PubMed中与LSTM相关的文献\02文献阅读\02Q2\03The_Effect_of_Signal_Duration_on_the_Classification_of_Heart_Sounds_A_Deep_Learning_Approach\README.md)
+
+
+
+
+

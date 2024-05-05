@@ -1,0 +1,682 @@
+PMID- 36085633
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20220913
+LR  - 20221021
+IS  - 2694-0604 (Electronic)
+IS  - 2375-7477 (Linking)
+VI  - 2022
+DP  - 2022 Jul
+TI  - Heart Sound Classification based on Residual Shrinkage Networks.
+PG  - 4469-4472
+LID - 10.1109/EMBC48229.2022.9871640 [doi]
+AB  - Heart sound classification is one of the non-invasive methods for early detection 
+      of the cardiovascular diseases (CVDs), the leading cause for deaths. In recent 
+      years, Computer Audition (CA) technology has become increasingly sophisticated, 
+      auxiliary diagnosis technology of heart disease based on CA has become a popular 
+      research area. This paper proposes a deep Convolutional Neural Network (CNN) 
+      model for heart sound classification. To improve the classification accuracy of 
+      heart sound, we design a classification algorithm combining classical Residual 
+      Network (ResNet) and Long Short-Term Memory (LSTM). The model performance is 
+      evaluated in the PhysioNet/CinC Challenges 2016 datasets using a 2D 
+      time-frequency feature. We extract the four features from different filter-bank 
+      coefficients, including Filterbank (Fbank), Mel-Frequency Spectral Coefficients 
+      (MFSCs), and Mel-Frequency Cepstral Coefficients (MFCCs). The experimental 
+      results show the MFSCs feature outperforms the other features in the proposed CNN 
+      model. The proposed model performs well on the test set, particularly the F1 
+      score of 84.3 % - the accuracy of 84.4 %, the sensitivity of 84.3 %, and the 
+      specificity of 85.6 %. Compared with the classical ResNet model, an accuracy of 
+      4.9 % improvement is observed in the proposed model.
+FAU - Zhu, Lixian
+AU  - Zhu L
+FAU - Qian, Kun
+AU  - Qian K
+FAU - Wang, Zhihua
+AU  - Wang Z
+FAU - Hu, Bin
+AU  - Hu B
+FAU - Yamamoto, Yoshiharu
+AU  - Yamamoto Y
+FAU - Schuller, Bjorn W
+AU  - Schuller BW
+LA  - eng
+PT  - Journal Article
+PT  - Research Support, Non-U.S. Gov't
+PL  - United States
+TA  - Annu Int Conf IEEE Eng Med Biol Soc
+JT  - Annual International Conference of the IEEE Engineering in Medicine and Biology 
+      Society. IEEE Engineering in Medicine and Biology Society. Annual International 
+      Conference
+JID - 101763872
+SB  - IM
+MH  - Algorithms
+MH  - Disease Progression
+MH  - Hearing
+MH  - *Heart Sounds
+MH  - Humans
+MH  - Neural Networks, Computer
+EDAT- 2022/09/11 06:00
+MHDA- 2022/09/14 06:00
+CRDT- 2022/09/10 01:03
+PHST- 2022/09/10 01:03 [entrez]
+PHST- 2022/09/11 06:00 [pubmed]
+PHST- 2022/09/14 06:00 [medline]
+AID - 10.1109/EMBC48229.2022.9871640 [doi]
+PST - ppublish
+SO  - Annu Int Conf IEEE Eng Med Biol Soc. 2022 Jul;2022:4469-4472. doi: 
+      10.1109/EMBC48229.2022.9871640.
+
+PMID- 36575083
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20221229
+LR  - 20230701
+IS  - 1001-5515 (Print)
+IS  - 1001-5515 (Linking)
+VI  - 39
+IP  - 6
+DP  - 2022 Dec 25
+TI  - [Heart sound classification based on improved mel frequency cepstrum coefficient 
+      and integrated decision network method].
+PG  - 1140-1148
+LID - 10.7507/1001-5515.202111059 [doi]
+AB  - Heart sound analysis is significant for early diagnosis of congenital heart 
+      disease. A novel method of heart sound classification was proposed in this paper, 
+      in which the traditional mel frequency cepstral coefficient (MFCC) method was 
+      improved by using the Fisher discriminant half raised-sine function (F-HRSF) and 
+      an integrated decision network was used as classifier. It does not rely on 
+      segmentation of the cardiac cycle. Firstly, the heart sound signals were framed 
+      and windowed. Then, the features of heart sounds were extracted by using improved 
+      MFCC, in which the F-HRSF was used to weight sub-band components of MFCC 
+      according to the Fisher discriminant ratio of each sub-band component and the 
+      raised half sine function. Three classification networks, convolutional neural 
+      network (CNN), long and short-term memory network (LSTM), and gated recurrent 
+      unit (GRU) were combined as integrated decision network. Finally, the 
+      two-category classification results were obtained through the majority voting 
+      algorithm. An accuracy of 92.15%, sensitivity of 91.43%, specificity of 92.83%, 
+      corrected accuracy of 92.01%, and F score of 92.13% were achieved using the novel 
+      signal processing techniques. It shows that the algorithm has great potential in 
+      early diagnosis of congenital heart disease.
+FAU - Wang, Yuanlin
+AU  - Wang Y
+AD  - School of Information Science and Engineering, Yunnan University, Kunming 650504, 
+      P.R.China.
+FAU - Sun, Jing
+AU  - Sun J
+AD  - School of Information Science and Engineering, Yunnan University, Kunming 650504, 
+      P.R.China.
+FAU - Yang, Hongbo
+AU  - Yang H
+AD  - Fuwai Cardiovascular Hospital of Yunnan Province, Kunming 650102, P.R.China.
+FAU - Guo, Tao
+AU  - Guo T
+AD  - Fuwai Cardiovascular Hospital of Yunnan Province, Kunming 650102, P.R.China.
+FAU - Pan, Jiahua
+AU  - Pan J
+AD  - Fuwai Cardiovascular Hospital of Yunnan Province, Kunming 650102, P.R.China.
+FAU - Wang, Weilian
+AU  - Wang W
+AD  - School of Information Science and Engineering, Yunnan University, Kunming 650504, 
+      P.R.China.
+LA  - chi
+PT  - English Abstract
+PT  - Journal Article
+PL  - China
+TA  - Sheng Wu Yi Xue Gong Cheng Xue Za Zhi
+JT  - Sheng wu yi xue gong cheng xue za zhi = Journal of biomedical engineering = 
+      Shengwu yixue gongchengxue zazhi
+JID - 9426398
+SB  - IM
+MH  - Humans
+MH  - *Heart Sounds
+MH  - Algorithms
+MH  - Neural Networks, Computer
+MH  - *Heart Defects, Congenital/diagnosis
+MH  - Signal Processing, Computer-Assisted
+PMC - PMC9927189
+OTO - NOTNLM
+OT  - Fisher discriminant
+OT  - Heart sound
+OT  - Integrated decision
+OT  - Mel frequency cepstral coefficient
+OT  - Raised half sine function
+COIS- 利益冲突声明：本文全体作者均声明不存在利益冲突。
+EDAT- 2022/12/28 06:00
+MHDA- 2022/12/30 06:00
+PMCR- 2022/12/25
+CRDT- 2022/12/27 21:44
+PHST- 2022/12/27 21:44 [entrez]
+PHST- 2022/12/28 06:00 [pubmed]
+PHST- 2022/12/30 06:00 [medline]
+PHST- 2022/12/25 00:00 [pmc-release]
+AID - swyxgcxzz-39-6-1140 [pii]
+AID - 10.7507/1001-5515.202111059 [doi]
+PST - ppublish
+SO  - Sheng Wu Yi Xue Gong Cheng Xue Za Zhi. 2022 Dec 25;39(6):1140-1148. doi: 
+      10.7507/1001-5515.202111059.
+
+PMID- 34891391
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20211228
+LR  - 20211228
+IS  - 2694-0604 (Electronic)
+IS  - 2375-7477 (Linking)
+VI  - 2021
+DP  - 2021 Nov
+TI  - Unsegmented Heart Sound Classification Using Hybrid CNN-LSTM Neural Networks.
+PG  - 713-717
+LID - 10.1109/EMBC46164.2021.9629596 [doi]
+AB  - Cardiac Auscultation, an integral part of the physical examination of a patient, 
+      is essential for early diagnosis of cardiovascular diseases (CVDs). The ability 
+      to accurately diagnose the heart sounds requires experience and expertise, which 
+      is lacking in doctors in the early years of clinical practice. Thus, there is a 
+      need for an automatic diagnostic tool that would aid medical practitioners with 
+      their diagnosis. We propose novel hybrid architectures for classification of 
+      unsegmented heart sounds to normal and abnormal classes. We propose two methods, 
+      with and without the conventional feature extraction step in the classification 
+      pipeline. We demonstrate that the F score using the approach with conventional 
+      feature extraction is 1.25 (absolute) more than using a baseline implementation 
+      on the Physionet dataset. We also introduce a mechanism to tag predictions as 
+      unsure and compare results with a varying threshold.
+FAU - Megalmani, Drishti Ramesh
+AU  - Megalmani DR
+FAU - G, Shailesh B
+AU  - G SB
+FAU - Rao M V, Achuth
+AU  - Rao M V A
+FAU - Jeevannavar, Satish S
+AU  - Jeevannavar SS
+FAU - Ghosh, Prasanta Kumar
+AU  - Ghosh PK
+LA  - eng
+PT  - Journal Article
+PL  - United States
+TA  - Annu Int Conf IEEE Eng Med Biol Soc
+JT  - Annual International Conference of the IEEE Engineering in Medicine and Biology 
+      Society. IEEE Engineering in Medicine and Biology Society. Annual International 
+      Conference
+JID - 101763872
+SB  - IM
+MH  - *Heart Sounds
+MH  - Humans
+MH  - Neural Networks, Computer
+EDAT- 2021/12/12 06:00
+MHDA- 2021/12/29 06:00
+CRDT- 2021/12/11 01:01
+PHST- 2021/12/11 01:01 [entrez]
+PHST- 2021/12/12 06:00 [pubmed]
+PHST- 2021/12/29 06:00 [medline]
+AID - 10.1109/EMBC46164.2021.9629596 [doi]
+PST - ppublish
+SO  - Annu Int Conf IEEE Eng Med Biol Soc. 2021 Nov;2021:713-717. doi: 
+      10.1109/EMBC46164.2021.9629596.
+
+PMID- 36301698
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20230102
+LR  - 20230104
+IS  - 2057-1976 (Electronic)
+IS  - 2057-1976 (Linking)
+VI  - 9
+IP  - 1
+DP  - 2022 Dec 30
+TI  - A novel heart sound segmentation algorithm via multi-feature input and neural 
+      network with attention mechanism.
+LID - 10.1088/2057-1976/ac9da6 [doi]
+AB  - Objective. Heart sound segmentation (HSS), which aims to identify the exact 
+      positions of the first heart sound(S1), second heart sound(S2), the duration of 
+      S1, systole, S2, and diastole within a cardiac cycle of phonocardiogram (PCG), is 
+      an indispensable step to find out heart health. Recently, some neural 
+      network-based methods for heart sound segmentation have shown good 
+      performance.Approach. In this paper, a novel method was proposed for HSS exactly 
+      using One-Dimensional Convolution and Bidirectional Long-Short Term Memory neural 
+      network with Attention mechanism (C-LSTM-A) by incorporating the 0.5-order smooth 
+      Shannon entropy envelope and its instantaneous phase waveform (IPW), and third 
+      intrinsic mode function (IMF-3) of PCG signal to reduce the difficulty of neural 
+      network learning features.Main results. An average F1-score of 96.85 was achieved 
+      in the clinical research dataset (Fuwai Yunnan Cardiovascular Hospital heart 
+      sound dataset) and an average F1-score of 95.68 was achieved in 2016 
+      PhysioNet/CinC Challenge dataset using the novel method.Significance. The 
+      experimental results show that this method has advantages for normal PCG signals 
+      and common pathological PCG signals, and the segmented fundamental heart 
+      sound(S1, S2), systole, and diastole signal components are beneficial to the 
+      study of subsequent heart sound classification.
+CI  - © 2022 IOP Publishing Ltd.
+FAU - Guo, Yang
+AU  - Guo Y
+AUID- ORCID: 0000-0001-7659-3293
+AD  - School of Information Science and Technology, Yunnan University, Kunming 650504, 
+      People's Republic of China.
+FAU - Yang, Hongbo
+AU  - Yang H
+AD  - Yunnan Fuwai Cardiovascular Disease Hospital, Kunming 650102, People's Republic 
+      of China.
+FAU - Guo, Tao
+AU  - Guo T
+AD  - Yunnan Fuwai Cardiovascular Disease Hospital, Kunming 650102, People's Republic 
+      of China.
+FAU - Pan, Jiahua
+AU  - Pan J
+AD  - Yunnan Fuwai Cardiovascular Disease Hospital, Kunming 650102, People's Republic 
+      of China.
+FAU - Wang, Weilian
+AU  - Wang W
+AD  - School of Information Science and Technology, Yunnan University, Kunming 650504, 
+      People's Republic of China.
+LA  - eng
+PT  - Journal Article
+PT  - Research Support, Non-U.S. Gov't
+DEP - 20221230
+PL  - England
+TA  - Biomed Phys Eng Express
+JT  - Biomedical physics & engineering express
+JID - 101675002
+SB  - IM
+MH  - *Heart Sounds
+MH  - Phonocardiography/methods
+MH  - Signal Processing, Computer-Assisted
+MH  - China
+MH  - Algorithms
+MH  - Neural Networks, Computer
+OTO - NOTNLM
+OT  - attention mechanism
+OT  - heart sound segmentation
+OT  - instantaneous phase waveform
+OT  - intrinsic mode function
+OT  - neural network
+EDAT- 2022/10/28 06:00
+MHDA- 2023/01/03 06:00
+CRDT- 2022/10/27 12:43
+PHST- 2022/06/14 00:00 [received]
+PHST- 2022/10/26 00:00 [accepted]
+PHST- 2022/10/28 06:00 [pubmed]
+PHST- 2023/01/03 06:00 [medline]
+PHST- 2022/10/27 12:43 [entrez]
+AID - 10.1088/2057-1976/ac9da6 [doi]
+PST - epublish
+SO  - Biomed Phys Eng Express. 2022 Dec 30;9(1). doi: 10.1088/2057-1976/ac9da6.
+
+PMID- 37203741
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20230522
+LR  - 20230522
+IS  - 1879-8365 (Electronic)
+IS  - 0926-9630 (Linking)
+VI  - 302
+DP  - 2023 May 18
+TI  - Parralel Recurrent Convolutional Neural Network for Abnormal Heart Sound 
+      Classification.
+PG  - 526-530
+LID - 10.3233/SHTI230198 [doi]
+AB  - This paper presents the results of a study performed on Parallel Convolutional 
+      Neural Network (PCNN) toward detecting heart abnormalities from the heart sound 
+      signals. The PCNN preserves dynamic contents of the signal in a parallel 
+      combination of the recurrent neural network and a Convolutional Neural Network 
+      (CNN). The performance of the PCNN is evaluated and compared to the one obtained 
+      from a Serial form of the Convolutional Neural Network (SCNN) as well as two 
+      other baseline studies: a Long- and Short-Term Memory (LSTM) neural network and a 
+      Conventional CNN (CCNN). We employed a well-known public dataset of heart sound 
+      signals: the Physionet heart sound. The accuracy of the PCNN, was estimated to be 
+      87.2% which outperforms the rest of the three methods: the SCNN, the LSTM, and 
+      the CCNN by 12%, 7%, and 0.5%, respectively. The resulting method can be easily 
+      implemented in an Internet of Things platform to be employed as a decision 
+      support system for the screening heart abnormalities.
+FAU - Gharehbaghi, Arash
+AU  - Gharehbaghi A
+AD  - School of Information Technology, Halmstad University, Halmstad, Sweden.
+FAU - Partovi, Elaheh
+AU  - Partovi E
+AD  - Department of Electrical Engineering, Amirkabir University, Tehran, Iran.
+FAU - Babic, Ankica
+AU  - Babic A
+AD  - Department of Biomedical Engineering, Linköping University, Linköping, Sweden.
+AD  - Department Information Science and Media Studies, University of Bergen, Bergen, 
+      Norway.
+LA  - eng
+PT  - Journal Article
+PL  - Netherlands
+TA  - Stud Health Technol Inform
+JT  - Studies in health technology and informatics
+JID - 9214582
+MH  - Humans
+MH  - *Heart Sounds
+MH  - Neural Networks, Computer
+MH  - *Heart Defects, Congenital
+OTO - NOTNLM
+OT  - Heart sound
+OT  - convolutional neural networks
+OT  - deep learning
+OT  - intelligent phonocardiography
+OT  - parallel convolutional neural network
+EDAT- 2023/05/19 06:42
+MHDA- 2023/05/22 06:42
+CRDT- 2023/05/19 05:30
+PHST- 2023/05/22 06:42 [medline]
+PHST- 2023/05/19 06:42 [pubmed]
+PHST- 2023/05/19 05:30 [entrez]
+AID - SHTI230198 [pii]
+AID - 10.3233/SHTI230198 [doi]
+PST - ppublish
+SO  - Stud Health Technol Inform. 2023 May 18;302:526-530. doi: 10.3233/SHTI230198.
+
+PMID- 37387059
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20230703
+LR  - 20230703
+IS  - 1879-8365 (Electronic)
+IS  - 0926-9630 (Linking)
+VI  - 305
+DP  - 2023 Jun 29
+TI  - Recurrent vs Non-Recurrent Convolutional Neural Networks for Heart Sound 
+      Classification.
+PG  - 436-439
+LID - 10.3233/SHTI230525 [doi]
+AB  - Convolutional Neural Network (CNN) has been widely proposed for different tasks 
+      of heart sound analysis. This paper presents the results of a novel study on the 
+      performance of a conventional CNN in comparison to the different architectures of 
+      recurrent neural networks combined with CNN for the classification task of 
+      abnormal-normal heart sounds. The study considers various combinations of 
+      parallel and cascaded integration of CNN with Gated Recurrent Network (GRN) as 
+      well as Long- Short Term Memory (LSTM) and explores the accuracy and sensitivity 
+      of each integration independently, using the Physionet dataset of heart sound 
+      recordings. The accuracy of the parallel architecture of LSTM-CNN reached 98.0% 
+      outperforming all the combined architectures, with a sensitivity of 87.2%. The 
+      conventional CNN offered sensitivity/accuracy of 95.9%/97.3% with far less 
+      complexity. Results show that a conventional CNN can appropriately perform and 
+      solely employed for the classification of heart sound signals.
+FAU - Gharehbaghi, Arash
+AU  - Gharehbaghi A
+AD  - Department of Biomedical Engineering, Linköping University, Linköping, Sweden.
+FAU - Partovi, Elaheh
+AU  - Partovi E
+AD  - Department of Electrical Engineering, Amir Kabir University, Tehran, Iran.
+FAU - Babic, Ankica
+AU  - Babic A
+AD  - Department of Biomedical Engineering, Linköping University, Linköping, Sweden.
+AD  - Department of Information Science and Media Studies, University of Bergen, 
+      Norway.
+LA  - eng
+PT  - Journal Article
+PL  - Netherlands
+TA  - Stud Health Technol Inform
+JT  - Studies in health technology and informatics
+JID - 9214582
+MH  - *Heart Sounds
+MH  - Heart
+MH  - Neural Networks, Computer
+OTO - NOTNLM
+OT  - Heart sound
+OT  - convolutional neural network
+OT  - deep learning
+OT  - intelligent phonocardiography
+EDAT- 2023/06/30 06:42
+MHDA- 2023/07/03 06:41
+CRDT- 2023/06/30 04:23
+PHST- 2023/07/03 06:41 [medline]
+PHST- 2023/06/30 06:42 [pubmed]
+PHST- 2023/06/30 04:23 [entrez]
+AID - SHTI230525 [pii]
+AID - 10.3233/SHTI230525 [doi]
+PST - ppublish
+SO  - Stud Health Technol Inform. 2023 Jun 29;305:436-439. doi: 10.3233/SHTI230525.
+
+PMID- 33456742
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20211022
+LR  - 20211022
+IS  - 2040-2309 (Electronic)
+IS  - 2040-2295 (Print)
+IS  - 2040-2295 (Linking)
+VI  - 2020
+DP  - 2020
+TI  - Detection of Snore from OSAHS Patients Based on Deep Learning.
+PG  - 8864863
+LID - 10.1155/2020/8864863 [doi]
+LID - 8864863
+AB  - Obstructive sleep apnea-hypopnea syndrome (OSAHS) is extremely harmful to the 
+      human body and may cause neurological dysfunction and endocrine dysfunction, 
+      resulting in damage to multiple organs and multiple systems throughout the body 
+      and negatively affecting the cardiovascular, kidney, and mental systems. 
+      Clinically, doctors usually use standard PSG (Polysomnography) to assist 
+      diagnosis. PSG determines whether a person has apnea syndrome with 
+      multidimensional data such as brain waves, heart rate, and blood oxygen 
+      saturation. In this paper, we have presented a method of recognizing OSAHS, which 
+      is convenient for patients to monitor themselves in daily life to avoid delayed 
+      treatment. Firstly, we theoretically analyzed the difference between the snoring 
+      sounds of normal people and OSAHS patients in the time and frequency domains. 
+      Secondly, the snoring sounds related to apnea events and the nonapnea related 
+      snoring sounds were classified by deep learning, and then, the severity of OSAHS 
+      symptoms had been recognized. In the algorithm proposed in this paper, the 
+      snoring data features are extracted through the three feature extraction methods, 
+      which are MFCC, LPCC, and LPMFCC. Moreover, we adopted CNN and LSTM for 
+      classification. The experimental results show that the MFCC feature extraction 
+      method and the LSTM model have the highest accuracy rate which was 87% when it is 
+      adopted for binary-classification of snoring data. Moreover, the AHI value of the 
+      patient can be obtained by the algorithm system which can determine the severity 
+      degree of OSAHS.
+CI  - Copyright © 2020 Fanlin Shen et al.
+FAU - Shen, Fanlin
+AU  - Shen F
+AUID- ORCID: 0000-0001-6761-5075
+AD  - Key Laboratory of RF Circuits and Systems, Ministry of Education, Hangzhou Dianzi 
+      University, Hangzhou, Zhejiang, China.
+FAU - Cheng, Siyi
+AU  - Cheng S
+AD  - Key Laboratory of RF Circuits and Systems, Ministry of Education, Hangzhou Dianzi 
+      University, Hangzhou, Zhejiang, China.
+FAU - Li, Zhu
+AU  - Li Z
+AD  - Key Laboratory of RF Circuits and Systems, Ministry of Education, Hangzhou Dianzi 
+      University, Hangzhou, Zhejiang, China.
+FAU - Yue, Keqiang
+AU  - Yue K
+AUID- ORCID: 0000-0003-0880-9798
+AD  - Key Laboratory of RF Circuits and Systems, Ministry of Education, Hangzhou Dianzi 
+      University, Hangzhou, Zhejiang, China.
+FAU - Li, Wenjun
+AU  - Li W
+AUID- ORCID: 0000-0001-6788-3256
+AD  - Key Laboratory of RF Circuits and Systems, Ministry of Education, Hangzhou Dianzi 
+      University, Hangzhou, Zhejiang, China.
+FAU - Dai, Lili
+AU  - Dai L
+AD  - The Affiliated Hospital of Hangzhou Normal University, Hangzhou, Zhejiang, China.
+LA  - eng
+PT  - Journal Article
+PT  - Research Support, Non-U.S. Gov't
+DEP - 20201212
+PL  - England
+TA  - J Healthc Eng
+JT  - Journal of healthcare engineering
+JID - 101528166
+SB  - IM
+MH  - *Deep Learning
+MH  - Humans
+MH  - Oximetry
+MH  - Polysomnography
+MH  - *Sleep Apnea, Obstructive/diagnosis
+MH  - Snoring/diagnosis
+PMC - PMC7787852
+COIS- The authors declare that they have no conflicts of interest.
+EDAT- 2021/01/19 06:00
+MHDA- 2023/02/25 06:00
+PMCR- 2020/12/12
+CRDT- 2021/01/18 05:30
+PHST- 2020/08/17 00:00 [received]
+PHST- 2020/10/29 00:00 [revised]
+PHST- 2020/11/30 00:00 [accepted]
+PHST- 2021/01/18 05:30 [entrez]
+PHST- 2021/01/19 06:00 [pubmed]
+PHST- 2023/02/25 06:00 [medline]
+PHST- 2020/12/12 00:00 [pmc-release]
+AID - 10.1155/2020/8864863 [doi]
+PST - epublish
+SO  - J Healthc Eng. 2020 Dec 12;2020:8864863. doi: 10.1155/2020/8864863. eCollection 
+      2020.
+
+PMID- 33899423
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20210427
+LR  - 20230809
+IS  - 1001-5515 (Print)
+IS  - 1001-5515 (Linking)
+VI  - 38
+IP  - 1
+DP  - 2021 Feb 25
+TI  - [A heart sound classification method based on joint decision of extreme gradient 
+      boosting and deep neural network].
+PG  - 10-20
+LID - 10.7507/1001-5515.202006025 [doi]
+AB  - Heart sound is one of the common medical signals for diagnosing cardiovascular 
+      diseases. This paper studies the binary classification between normal or abnormal 
+      heart sounds, and proposes a heart sound classification algorithm based on the 
+      joint decision of extreme gradient boosting (XGBoost) and deep neural network, 
+      achieving a further improvement in feature extraction and model accuracy. First, 
+      the preprocessed heart sound recordings are segmented into four status, and five 
+      categories of features are extracted from the signals based on segmentation. The 
+      first four categories of features are sieved through recursive feature 
+      elimination, which is used as the input of the XGBoost classifier. The last 
+      category is the Mel-frequency cepstral coefficient (MFCC), which is used as the 
+      input of long short-term memory network (LSTM). Considering the imbalance of the 
+      data set, these two classifiers are both improved with weights. Finally, the 
+      heterogeneous integrated decision method is adopted to obtain the prediction. The 
+      algorithm was applied to the open heart sound database of the PhysioNet Computing 
+      in Cardiology(CINC) Challenge in 2016 on the PhysioNet website, to test the 
+      sensitivity, specificity, modified accuracy and F score. The results were 93%, 
+      89.4%, 91.2% and 91.3% respectively. Compared with the results of machine 
+      learning, convolutional neural networks (CNN) and other methods used by other 
+      researchers, the accuracy and sensibility have been obviously improved, which 
+      proves that the method in this paper could effectively improve the accuracy of 
+      heart sound signal classification, and has great potential in the clinical 
+      auxiliary diagnosis application of some cardiovascular diseases.
+FAU - Wang, Zichao
+AU  - Wang Z
+AD  - School of Mechanical Engineering, Shanghai Jiao Tong University, Shanghai 200240, 
+      P.R.China.
+FAU - Jin, Yanrui
+AU  - Jin Y
+AD  - School of Mechanical Engineering, Shanghai Jiao Tong University, Shanghai 200240, 
+      P.R.China.
+FAU - Zhao, Liqun
+AU  - Zhao L
+AD  - Department of Cardiology, Shanghai First People's Hospital, Shanghai 200080, 
+      P.R.China.
+FAU - Liu, Chengliang
+AU  - Liu C
+AD  - School of Mechanical Engineering, Shanghai Jiao Tong University, Shanghai 200240, 
+      P.R.China.
+LA  - chi
+PT  - Journal Article
+PL  - China
+TA  - Sheng Wu Yi Xue Gong Cheng Xue Za Zhi
+JT  - Sheng wu yi xue gong cheng xue za zhi = Journal of biomedical engineering = 
+      Shengwu yixue gongchengxue zazhi
+JID - 9426398
+SB  - IM
+MH  - Algorithms
+MH  - Databases, Factual
+MH  - *Heart Sounds
+MH  - Neural Networks, Computer
+PMC - PMC10307568
+OTO - NOTNLM
+OT  - extreme gradient boosting
+OT  - feature extraction
+OT  - heart sound classification
+OT  - long short-term memory network
+COIS- 利益冲突声明：本文全体作者均声明不存在利益冲突。
+EDAT- 2021/04/27 06:00
+MHDA- 2021/04/28 06:00
+PMCR- 2021/02/25
+CRDT- 2021/04/26 06:19
+PHST- 2021/04/26 06:19 [entrez]
+PHST- 2021/04/27 06:00 [pubmed]
+PHST- 2021/04/28 06:00 [medline]
+PHST- 2021/02/25 00:00 [pmc-release]
+AID - swyxgcxzz-38-1-10 [pii]
+AID - 10.7507/1001-5515.202006025 [doi]
+PST - ppublish
+SO  - Sheng Wu Yi Xue Gong Cheng Xue Za Zhi. 2021 Feb 25;38(1):10-20. doi: 
+      10.7507/1001-5515.202006025.
+
+PMID- 31947373
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20200622
+LR  - 20200928
+IS  - 2694-0604 (Electronic)
+IS  - 2375-7477 (Linking)
+VI  - 2019
+DP  - 2019 Jul
+TI  - Segmentation of Radar-Recorded Heart Sound Signals Using Bidirectional LSTM 
+      Networks.
+PG  - 6677-6680
+LID - 10.1109/EMBC.2019.8857863 [doi]
+AB  - Sounds caused by the action of the heart reflect both its health as well as 
+      deficiencies and are examined by physicians since antiquity. Pathologies of the 
+      valves, e.g. insufficiencies and stenosis, cardiac effusion, arrhythmia, 
+      inflammation of the surrounding tissue and other diagnosis can be reached by 
+      experienced physicians. However, practice is needed to assess the findings 
+      correctly. Furthermore, stethoscopes do not allow for long-term monitoring of a 
+      patient. Recently, radar technology has shown the ability to perform continuous 
+      touchless and thereby burden-free heart sound measurements. In order to perform 
+      automated classification of the signals, the first and most important step is to 
+      segment the heart sounds into their physiological phases. This paper examines the 
+      use of different Long Short-Term Memory (LSTM) architectures for this purpose 
+      based on a large dataset of radar-recorded heart sounds gathered from 30 
+      different test persons in a clinical study. The best-performing network, a 
+      bidirectional LSTM, achieves a sample-wise accuracy of 93.4 % and a F1 score for 
+      the first heart sound of 95.8 %.
+FAU - Shi, Kilin
+AU  - Shi K
+FAU - Weigel, Robert
+AU  - Weigel R
+FAU - Koelpin, Alexander
+AU  - Koelpin A
+FAU - Schellenberger, Sven
+AU  - Schellenberger S
+FAU - Weber, Leon
+AU  - Weber L
+FAU - Wiedemann, Jan Philipp
+AU  - Wiedemann JP
+FAU - Michler, Fabian
+AU  - Michler F
+FAU - Steigleder, Tobias
+AU  - Steigleder T
+FAU - Malessa, Anke
+AU  - Malessa A
+FAU - Lurz, Fabian
+AU  - Lurz F
+FAU - Ostgathe, Christoph
+AU  - Ostgathe C
+LA  - eng
+PT  - Journal Article
+PT  - Research Support, Non-U.S. Gov't
+PL  - United States
+TA  - Annu Int Conf IEEE Eng Med Biol Soc
+JT  - Annual International Conference of the IEEE Engineering in Medicine and Biology 
+      Society. IEEE Engineering in Medicine and Biology Society. Annual International 
+      Conference
+JID - 101763872
+SB  - IM
+MH  - Arrhythmias, Cardiac
+MH  - Heart
+MH  - *Heart Sounds
+MH  - Humans
+MH  - Radar
+MH  - *Stethoscopes
+EDAT- 2020/01/18 06:00
+MHDA- 2020/06/23 06:00
+CRDT- 2020/01/18 06:00
+PHST- 2020/01/18 06:00 [entrez]
+PHST- 2020/01/18 06:00 [pubmed]
+PHST- 2020/06/23 06:00 [medline]
+AID - 10.1109/EMBC.2019.8857863 [doi]
+PST - ppublish
+SO  - Annu Int Conf IEEE Eng Med Biol Soc. 2019 Jul;2019:6677-6680. doi: 
+      10.1109/EMBC.2019.8857863.

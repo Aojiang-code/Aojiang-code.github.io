@@ -1,0 +1,79 @@
+PMID- 38393859
+OWN - NLM
+STAT- Publisher
+LR  - 20240223
+IS  - 1878-7401 (Electronic)
+IS  - 0928-7329 (Linking)
+DP  - 2024 Feb 1
+TI  - HBNET: A blended ensemble model for the detection of cardiovascular anomalies 
+      using phonocardiogram.
+LID - 10.3233/THC-231290 [doi]
+AB  - BACKGROUND: Cardiac diseases are highly detrimental illnesses, responsible for 
+      approximately 32% of global mortality [1]. Early diagnosis and prompt treatment 
+      can reduce deaths caused by cardiac diseases. In paediatric patients, it is 
+      challenging for paediatricians to identify functional murmurs and pathological 
+      murmurs from heart sounds. OBJECTIVE: The study intends to develop a novel 
+      blended ensemble model using hybrid deep learning models and softmax regression 
+      to classify adult, and paediatric heart sounds into five distinct classes, 
+      distinguishing itself as a groundbreaking work in this domain. Furthermore, the 
+      research aims to create a comprehensive 5-class paediatric phonocardiogram (PCG) 
+      dataset. The dataset includes two critical pathological classes, namely atrial 
+      septal defects and ventricular septal defects, along with functional murmurs, 
+      pathological and normal heart sounds. METHODS: The work proposes a blended 
+      ensemble model (HbNet-Heartbeat Network) comprising two hybrid models, CNN-BiLSTM 
+      and CNN-LSTM, as base models and Softmax regression as meta-learner. HbNet 
+      leverages the strengths of base models and improves the overall PCG 
+      classification accuracy. Mel Frequency Cepstral Coefficients (MFCC) capture the 
+      crucial audio signal characteristics relevant to the classification. The 
+      amalgamation of these two deep learning structures enhances the precision and 
+      reliability of PCG classification, leading to improved diagnostic results. 
+      RESULTS: The HbNet model exhibited excellent results with an average accuracy of 
+      99.72% and sensitivity of 99.3% on an adult dataset, surpassing all the existing 
+      state-of-the-art works. The researchers have validated the reliability of the 
+      HbNet model by testing it on a real-time paediatric dataset. The paediatric 
+      model's accuracy is 86.5%. HbNet detected functional murmur with 100% precision. 
+      CONCLUSION: The results indicate that the HbNet model exhibits a high level of 
+      efficacy in the early detection of cardiac disorders. Results also imply that 
+      HbNet has the potential to serve as a valuable tool for the development of 
+      decision-support systems that aid medical practitioners in confirming their 
+      diagnoses. This method makes it easier for medical professionals to diagnose and 
+      initiate prompt treatment while performing preliminary auscultation and reduces 
+      unnecessary echocardiograms.
+FAU - Netto, Ann Nita
+AU  - Netto AN
+AD  - Department of Electronics and Communication Engineering, LBS Institute of 
+      Technology for Women, APJ Abdul Kalam Technological University, Trivandrum, 
+      India.
+FAU - Abraham, Lizy
+AU  - Abraham L
+AD  - Department of Electronics and Communication Engineering, LBS Institute of 
+      Technology for Women, APJ Abdul Kalam Technological University, Trivandrum, 
+      India.
+FAU - Philip, Saji
+AU  - Philip S
+AD  - Department of Cardiology, Thiruvalla Medical Mission Hospital, Thiruvalla, India.
+LA  - eng
+PT  - Journal Article
+DEP - 20240201
+PL  - Netherlands
+TA  - Technol Health Care
+JT  - Technology and health care : official journal of the European Society for 
+      Engineering and Medicine
+JID - 9314590
+SB  - IM
+OTO - NOTNLM
+OT  - Blended ensemble
+OT  - mel frequency cepstral coefficient
+OT  - meta-learner
+OT  - phonocardiogram
+OT  - softmax regression
+EDAT- 2024/02/23 18:42
+MHDA- 2024/02/23 18:42
+CRDT- 2024/02/23 12:23
+PHST- 2024/02/23 18:42 [medline]
+PHST- 2024/02/23 18:42 [pubmed]
+PHST- 2024/02/23 12:23 [entrez]
+AID - THC231290 [pii]
+AID - 10.3233/THC-231290 [doi]
+PST - aheadofprint
+SO  - Technol Health Care. 2024 Feb 1. doi: 10.3233/THC-231290.

@@ -1,0 +1,253 @@
+PMID- 32259811
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20210503
+LR  - 20210503
+IS  - 1361-6579 (Electronic)
+IS  - 0967-3334 (Linking)
+VI  - 41
+IP  - 5
+DP  - 2020 Jun 3
+TI  - Automatic heart sound classification from segmented/unsegmented phonocardiogram 
+      signals using time and frequency features.
+PG  - 055006
+LID - 10.1088/1361-6579/ab8770 [doi]
+AB  - OBJECTIVE: Heart abnormality detection using heart sound signals (phonocardiogram 
+      (PCG)) has been an active research area for the last few decades. In this paper, 
+      automatic heart sound classification using segmented and unsegmented PCG signals 
+      is presented. APPROACH: In this paper: (i) we perform an in-depth analysis of 
+      various time and frequency domain features, followed by experimental 
+      determination of effective feature subsets for improved classification 
+      performance; (ii) both segmented and unsegmented PCG signals are studied and 
+      important results concerning the respective feature subsets and their 
+      classification performances are reported; and (iii) different classification 
+      algorithms, including the support vector machine, kth nearest neighbor, decision 
+      tree, ensemble classifier, artificial neural network and long short-term memory 
+      network (LSTMs), are employed to evaluate the performance of the proposed feature 
+      subsets and their comparison with other established features and methods is 
+      presented. MAIN RESULTS: It is observed that LSTM performs better on 
+      mel-frequency cepstral coefficient (MFCC) features extracted from unsegmented PCG 
+      data, with an area under curve (AUC) score of 91.39%, however, the MFCC features 
+      do not show a consistent performance with other classifiers (the second highest 
+      AUC score is 62.08% with the decision tree classifier). In contrast, in the case 
+      of time-frequency features from segmented data, the performance of all the 
+      classifiers is appreciable with AUC scores over 70%. In particular, the 
+      conventional machine learning techniques shows consistency in achieving over 80% 
+      in AUC scores. Significanc e: The results of this study highlight the importance 
+      of time and frequency domain features. Thus it is necessary to employ both the 
+      time and frequency features of segmented PCG signals to achieve improved 
+      classification.
+FAU - Khan, Faiq Ahmad
+AU  - Khan FA
+AD  - Artificial Intelligence in Healthcare, Intelligent Information Processing Lab, 
+      National Center for Artificial Intelligence, University of Engineering and 
+      Technology, Peshawar, Pakistan.
+FAU - Abid, Anam
+AU  - Abid A
+FAU - Khan, Muhammad Salman
+AU  - Khan MS
+LA  - eng
+PT  - Journal Article
+PT  - Research Support, Non-U.S. Gov't
+DEP - 20200603
+PL  - England
+TA  - Physiol Meas
+JT  - Physiological measurement
+JID - 9306921
+SB  - IM
+MH  - Automation
+MH  - *Heart Sounds
+MH  - Humans
+MH  - *Phonocardiography
+MH  - *Signal Processing, Computer-Assisted
+MH  - Support Vector Machine
+MH  - Time Factors
+EDAT- 2020/04/08 06:00
+MHDA- 2021/05/04 06:00
+CRDT- 2020/04/08 06:00
+PHST- 2020/04/08 06:00 [pubmed]
+PHST- 2021/05/04 06:00 [medline]
+PHST- 2020/04/08 06:00 [entrez]
+AID - 10.1088/1361-6579/ab8770 [doi]
+PST - epublish
+SO  - Physiol Meas. 2020 Jun 3;41(5):055006. doi: 10.1088/1361-6579/ab8770.
+
+PMID- 35336432
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20220330
+LR  - 20220401
+IS  - 1424-8220 (Electronic)
+IS  - 1424-8220 (Linking)
+VI  - 22
+IP  - 6
+DP  - 2022 Mar 15
+TI  - The Effect of Signal Duration on the Classification of Heart Sounds: A Deep 
+      Learning Approach.
+LID - 10.3390/s22062261 [doi]
+LID - 2261
+AB  - Deep learning techniques are the future trend for designing heart sound 
+      classification methods, making conventional heart sound segmentation dispensable. 
+      However, despite using fixed signal duration for training, no study has assessed 
+      its effect on the final performance in detail. Therefore, this study aims at 
+      analysing the duration effect on the commonly used deep learning methods to 
+      provide insight for future studies in data processing, classifier, and feature 
+      selection. The results of this study revealed that (1) very short heart sound 
+      signal duration (1 s) weakens the performance of Recurrent Neural Networks 
+      (RNNs), whereas no apparent decrease in the tested Convolutional Neural Network 
+      (CNN) model was found. (2) RNN outperformed CNN using Mel-frequency cepstrum 
+      coefficients (MFCCs) as features. There was no difference between RNN models 
+      (LSTM, BiLSTM, GRU, or BiGRU). (3) Adding dynamic information (∆ and ∆²MFCCs) of 
+      the heart sound as a feature did not improve the RNNs' performance, and the 
+      improvement on CNN was also minimal (≤2.5% in MAcc). The findings provided a 
+      theoretical basis for further heart sound classification using deep learning 
+      techniques when selecting the input length.
+FAU - Bao, Xinqi
+AU  - Bao X
+AUID- ORCID: 0000-0002-7117-1267
+AD  - Department of Engineering, King's College London, London WC2R 2LS, UK.
+FAU - Xu, Yujia
+AU  - Xu Y
+AUID- ORCID: 0000-0001-6928-6068
+AD  - Department of Engineering, King's College London, London WC2R 2LS, UK.
+FAU - Kamavuako, Ernest Nlandu
+AU  - Kamavuako EN
+AUID- ORCID: 0000-0001-6846-2090
+AD  - Department of Engineering, King's College London, London WC2R 2LS, UK.
+AD  - Faculté de Médecine, Université de Kindu, Kindu, Maniema, Democratic Republic of 
+      the Congo.
+LA  - eng
+GR  - 201808230112./King's -China Scholarship Council/
+PT  - Journal Article
+DEP - 20220315
+PL  - Switzerland
+TA  - Sensors (Basel)
+JT  - Sensors (Basel, Switzerland)
+JID - 101204366
+SB  - IM
+MH  - *Deep Learning
+MH  - *Heart Sounds
+MH  - Neural Networks, Computer
+PMC - PMC8951308
+OTO - NOTNLM
+OT  - convolutional neural network (CNN)
+OT  - deep learning (DL)
+OT  - heart sound
+OT  - recurrent neural networks (RNNs)
+COIS- The authors declare no conflict of interest.
+EDAT- 2022/03/27 06:00
+MHDA- 2022/03/31 06:00
+PMCR- 2022/03/15
+CRDT- 2022/03/26 01:06
+PHST- 2022/02/11 00:00 [received]
+PHST- 2022/02/26 00:00 [revised]
+PHST- 2022/03/12 00:00 [accepted]
+PHST- 2022/03/26 01:06 [entrez]
+PHST- 2022/03/27 06:00 [pubmed]
+PHST- 2022/03/31 06:00 [medline]
+PHST- 2022/03/15 00:00 [pmc-release]
+AID - s22062261 [pii]
+AID - sensors-22-02261 [pii]
+AID - 10.3390/s22062261 [doi]
+PST - epublish
+SO  - Sensors (Basel). 2022 Mar 15;22(6):2261. doi: 10.3390/s22062261.
+
+PMID- 37103637
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20230811
+LR  - 20230811
+IS  - 1741-0444 (Electronic)
+IS  - 0140-0118 (Print)
+IS  - 0140-0118 (Linking)
+VI  - 61
+IP  - 9
+DP  - 2023 Sep
+TI  - Design of ear-contactless stethoscope and improvement in the performance of deep 
+      learning based on CNN to classify the heart sound.
+PG  - 2417-2439
+LID - 10.1007/s11517-023-02827-w [doi]
+AB  - Cardiac-related disorders are rapidly growing throughout the world. Accurate 
+      classification of cardiovascular diseases is an important research topic in 
+      healthcare. During COVID-19, auscultating heart sounds was challenging as health 
+      workers and doctors wear protective clothing, and direct contact with patients 
+      can spread the outbreak. Thus, contactless auscultation of heart sound is 
+      necessary. In this paper, a low-cost ear contactless stethoscope is designed 
+      where auscultation is done with the help of a bluetooth-enabled micro speaker 
+      instead of an earpiece. The PCG recordings are further compared with other 
+      standard electronic stethoscopes like Littman 3 M. This work is made to improve 
+      the performance of deep learning-based classifiers like recurrent neural networks 
+      (RNN) and convolutional neural networks (CNN) for different valvular heart 
+      problems using tuning of hyperparameters like learning rate of optimizers, 
+      dropout rate, and hidden layer. Hyper-parameter tuning is used to optimize the 
+      performances of various deep learning models and their learning curves for 
+      real-time analysis. The acoustic, time, and frequency domain features are used in 
+      this research. The investigation is made on the heart sounds of normal and 
+      diseased patients available from the standard data repository to train the 
+      software models. The proposed CNN-based inception network model achieved an 
+      accuracy of 99.65 ± 0.06% on the test dataset with a sensitivity of 98.8  ± 0.05% 
+      and specificity of 98.2 ± 0.19%. The proposed hybrid CNN-RNN architecture 
+      attained 91.17 ± 0.03% accuracy on test data after hyperparameter optimization, 
+      whereas the LSTM-based RNN model achieved 82.32 ± 0.11% accuracy. Finally, the 
+      evaluated results were compared with machine learning algorithms, and the 
+      improved CNN-based Inception Net model is the most effective among others.
+CI  - © 2023. International Federation for Medical and Biological Engineering.
+FAU - Roy, Tanmay Sinha
+AU  - Roy TS
+AUID- ORCID: 0000-0003-4790-5387
+AD  - Department of Electrical Engineering, Haldia Institute of Technology, Haldia, 
+      West Bengal, India. tanmoysinha.roy@gmail.com.
+FAU - Roy, Joyanta Kumar
+AU  - Roy JK
+AD  - Eureka Scientech Research Foundation, Kolkata, India.
+FAU - Mandal, Nirupama
+AU  - Mandal N
+AD  - Department of Electronics Engineering, Indian Institute of Technology (ISM), 
+      Dhanbad, India.
+LA  - eng
+PT  - Journal Article
+DEP - 20230427
+PL  - United States
+TA  - Med Biol Eng Comput
+JT  - Medical & biological engineering & computing
+JID - 7704869
+SB  - IM
+MH  - Humans
+MH  - *Stethoscopes
+MH  - *Heart Sounds
+MH  - *Deep Learning
+MH  - *COVID-19
+MH  - Neural Networks, Computer
+PMC - PMC10133919
+OTO - NOTNLM
+OT  - Acoustic features
+OT  - Acoustic stethoscope
+OT  - Artificial intelligence
+OT  - Classification
+OT  - Deep neural network
+OT  - Dropout rate
+OT  - Feature extraction
+OT  - Hyper parameters
+OT  - Inception network
+OT  - Learning rate
+OT  - Machine learning
+OT  - PCG signal analysis
+OT  - Recurrent neural network
+OT  - Valvular heart disease
+COIS- The authors declare no competing interests.
+EDAT- 2023/04/27 12:41
+MHDA- 2023/08/11 06:42
+PMCR- 2023/04/27
+CRDT- 2023/04/27 11:11
+PHST- 2022/09/07 00:00 [received]
+PHST- 2023/03/18 00:00 [accepted]
+PHST- 2023/08/11 06:42 [medline]
+PHST- 2023/04/27 12:41 [pubmed]
+PHST- 2023/04/27 11:11 [entrez]
+PHST- 2023/04/27 00:00 [pmc-release]
+AID - 10.1007/s11517-023-02827-w [pii]
+AID - 2827 [pii]
+AID - 10.1007/s11517-023-02827-w [doi]
+PST - ppublish
+SO  - Med Biol Eng Comput. 2023 Sep;61(9):2417-2439. doi: 10.1007/s11517-023-02827-w. 
+      Epub 2023 Apr 27.
