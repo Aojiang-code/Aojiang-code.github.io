@@ -39,17 +39,17 @@
   * [kaggle](06项目复现\04kaggle\README.md)
 
 
-* 07[**nn.labml**](07nn.labml\README.md)
+* [**07nn.labml**](07nn.labml\README.md)
 
 
-* 08[英语](08英语\01考研词汇闪过\README.md)
+* [**08英语**](08英语\01考研词汇闪过\README.md)
 
-* 09[考研](09考研\README.md)
+* [**09考研**](09考研\README.md)
 
-* 10[项目申报](10项目申报\README.md)
+* [**10项目申报**](10项目申报\README.md)
 
 
-* [学习资源](99/README.md)
+* [**学习资源**](99/README.md)
 
 
 
