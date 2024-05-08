@@ -184,7 +184,7 @@ print_in_color(msg)
 ```
 
 这段代码定义了一个函数 `print_in_color`，它允许用户以自定义的颜色打印文本消息。通过使用 ANSI 转义序列，可以在支持 ANSI 颜色代码的终端中以不同的颜色显示文本。函数的默认颜色是青色前景色和灰色背景色，但也可以通过参数自定义颜色。在函数的末尾，使用了一个重置代码来确保终端的颜色设置恢复到默认状态。
-
+#### 结果展示
 ```python
 test of default colors
 ```
@@ -281,7 +281,7 @@ the maximum files in any class in train_df is  3554   the minimum files in any c
 train_df length:  8712   test_df length:  1867   valid_df length:  1867
 average image height=  575   average image width=  629  aspect ratio h/w=  0.9141494435612083
 ```
-
+### 结果解释
 执行上述代码后，得到了关于图像数据集的一系列统计结果和分割后的 DataFrames。以下是对结果的详细分析：
 
 1. **类别和文件处理进度**:
@@ -378,7 +378,7 @@ dataframe initially is of length  8712  with  4  classes
 after trimming, the maximum samples in any class is now  500  and the minimum samples in any class is  500
 the trimmed dataframe now is of length  2000  with  4  classes
 ```
-
+#### 结果解释
 执行上述代码后，得到了关于处理后的 DataFrame 的统计信息。以下是对结果的详细分析：
 
 1. **原始 DataFrame 信息**:
@@ -578,7 +578,7 @@ Found 1867 validated image filenames belonging to 4 classes.           for valid
 Found 1867 validated image filenames belonging to 4 classes.           for test generator 
 test batch size:  1   test steps:  1867  number of classes :  4
 ```
-
+### 结果解释
 执行上述代码后，得到了关于创建的图像数据生成器的一些统计信息。以下是对结果的详细分析：
 
 1. **图像文件和类别发现**:
@@ -753,6 +753,7 @@ Created EfficientNet B3 model with initial learning rate set to 0.001
 ```
 Created EfficientNet B3 model with initial learning rate set to 0.001
 ```
+### 结果解释
 
 这是通过 `print_in_color` 函数打印的一条消息，提供了关于创建的模型和编译时设置的初始学习率的信息。具体来说，结果表明：
 
