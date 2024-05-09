@@ -21,7 +21,7 @@ This is my first attempt to create a deep learning classification model based on
 ## Here's we go...
 
 ### 设置和检查Python环境、安装必要的库或依赖，并打印一些环境信息
-下面这段代码是一系列注释掉的命令和Python代码行，它们通常用于设置和检查Python环境、安装必要的库或依赖，并打印一些环境信息。下面是对这些代码的详细中文注释：
+下面这段代码是一系列注释掉的命令和Python代码行，它们通常用于设置和检查Python环境、安装必要的库或依赖，并打印一些环境信息。
 
 ```bash
 #%%bash
@@ -71,7 +71,7 @@ This is my first attempt to create a deep learning classification model based on
 
 
 ### 设置Python环境以进行音频分析和数据可视化
-下面这段代码主要用于设置Python环境以进行音频分析和数据可视化。下面是对每行代码的详细中文注释：
+下面这段代码主要用于设置Python环境以进行音频分析和数据可视化。
 
 ```python
 # 导入warnings模块，用于控制警告信息的显示。
@@ -114,9 +114,11 @@ import matplotlib.pyplot as plt
 #### 结果展示：
 
 Populating the interactive namespace from numpy and matplotlib
+
+
 ### 打印出当前安装的TensorFlow和Keras库的版本信息
 
-下面这段代码用于获取并打印出当前安装的TensorFlow和Keras库的版本信息。下面是对每行代码的详细中文注释：
+下面这段代码用于获取并打印出当前安装的TensorFlow和Keras库的版本信息。
 
 ```python
 # 导入TensorFlow库，并使用别名tf。
@@ -166,7 +168,7 @@ keras version:  2.2.4
 Using TensorFlow backend.
 
 ### 配置音频文件处理的环境和参数
-下面这段代码定义了一些变量，用于配置音频文件处理的环境和参数。下面是对每行代码的详细中文注释：
+下面这段代码定义了一些变量，用于配置音频文件处理的环境和参数。
 
 ```python
 # 定义一个变量INPUT_DIR，存储音频文件所在的父文件夹路径。
@@ -196,7 +198,7 @@ Most information in heart sounds is contained in the low frequency components, w
 > let's check what is inside each directory and content and input data organization
 
 ### 检查当前工作目录和列出上级目录
-x下面这段代码使用了Unix shell命令来检查当前工作目录和列出上级目录`../input`中的所有文件和文件夹。这些代码通常在Jupyter Notebook中使用，以便于用户了解当前的工作目录以及输入数据的组织情况。以下是对这两行代码的详细中文注释：
+下面这段代码使用了Unix shell命令来检查当前工作目录和列出上级目录`../input`中的所有文件和文件夹。这些代码通常在Jupyter Notebook中使用，以便于用户了解当前的工作目录以及输入数据的组织情况。
 
 ```bash
 # 打印当前工作目录的完整路径。
@@ -217,6 +219,8 @@ x下面这段代码使用了Unix shell命令来检查当前工作目录和列出
 2. `!ls -all ../input`命令的输出将列出`../input`目录下的所有文件和文件夹，包括它们的权限、所有者、大小、最后修改日期等详细信息。
 
 这对于用户确认数据文件的位置和查看数据文件的基本信息非常有用，特别是在准备数据分析或机器学习任务时，了解数据的组织结构是非常重要的第一步。
+
+
 #### 结果展示：
 
 结果：
@@ -261,7 +265,7 @@ drwxr-xr-x 2 root root 45056 May  9  2018 set_b
 > Check input data in csv files
 
 ### 读取CSV文件`set_a.csv`，并显示其前几行内容
-下面这段代码使用Pandas库从指定的路径读取一个CSV文件，并显示其前几行内容。以下是对这两行代码的详细中文注释：
+下面这段代码使用Pandas库从指定的路径读取一个CSV文件，并显示其前几行内容。
 
 ```python
 # 使用Pandas库的read_csv函数读取位于INPUT_DIR路径下的"set_a.csv"文件，并将其内容存储到DataFrame对象set_a中。
@@ -302,7 +306,7 @@ set_a.head()
 
 ### 读取CSV文件`set_a_timing.csv`，并显示其前几行内容
 
-下面这段代码使用Pandas库从指定的路径读取一个名为`set_a_timing.csv`的CSV文件，并显示其前几行内容。以下是对这两行代码的详细中文注释：
+下面这段代码使用Pandas库从指定的路径读取一个名为`set_a_timing.csv`的CSV文件，并显示其前几行内容。
 
 ```python
 # 使用Pandas库的read_csv函数读取位于INPUT_DIR路径下的"set_a_timing.csv"文件，并将其内容存储到DataFrame对象set_a_timing中。
@@ -350,7 +354,7 @@ set_b.head()
 
 
 ### 将两个DataFrame对象`set_a`和`set_b`合并为一个新的DataFrame对象`train_ab`，并显示新DataFrame的描述性统计信息
-下面这段代码使用Pandas库将两个DataFrame对象`set_a`和`set_b`合并为一个新的DataFrame对象`train_ab`，并显示新DataFrame的描述性统计信息。以下是对这三行代码的详细中文注释：
+下面这段代码使用Pandas库将两个DataFrame对象`set_a`和`set_b`合并为一个新的DataFrame对象`train_ab`，并显示新DataFrame的描述性统计信息。
 
 ```python
 # 合并set_a和set_b两个DataFrame对象。
@@ -392,7 +396,7 @@ train_ab.describe()
 
 
 ### 获取合并后的DataFrame `train_ab`中所有唯一的标签（`label`），并打印出训练样本的数量和类别的数量
-下面这段代码用于获取合并后的DataFrame `train_ab`中所有唯一的标签（`label`），并打印出训练样本的数量和类别的数量。以下是对这两行代码的详细中文注释：
+下面这段代码用于获取合并后的DataFrame `train_ab`中所有唯一的标签（`label`），并打印出训练样本的数量和类别的数量。
 
 ```python
 # 获取train_ab DataFrame中' label'列的所有唯一值，存储在变量nb_classes中。
@@ -443,7 +447,7 @@ Number of training examples= 832   Number of classes= 6
 
 
 ### 可视化数据集中不同类别的分布情况，并打印出每个类别的最小和最大样本数
-下面这段代码用于可视化数据集中不同类别的分布情况，并打印出每个类别的最小和最大样本数。以下是对每行代码的详细中文注释：
+下面这段代码用于可视化数据集中不同类别的分布情况，并打印出每个类别的最小和最大样本数。
 
 ```python
 # 使用groupby方法根据'label'和'dataset'列对train_ab DataFrame进行分组，并计算每个组的计数，存储在category_group对象中。
@@ -518,7 +522,7 @@ Max samples per category =  351
 In the Normal category there are normal, healthy heart sounds. These may contain noise in the final second of the recording as the device is removed from the body. They may contain a variety of background noises (from traffic to radios). They may also contain occasional random noise corresponding to breathing, or brushing the microphone against clothing or skin. A normal heart sound has a clear “lub dub, lub dub” pattern, with the time from “lub” to “dub” shorter than the time from “dub” to the next “lub” (when the heart rate is less than 140 beats per minute)(source: Rita Getz)
 
 ##### 定义变量`normal_file`，用于存储一个特定音频文件的完整路径
-下面这行代码定义了一个变量`normal_file`，用于存储一个特定音频文件的完整路径。以下是对这行代码的详细中文注释：
+下面这行代码定义了一个变量`normal_file`，用于存储一个特定音频文件的完整路径。
 
 ```python
 # 定义一个变量normal_file，用于存储音频文件的完整路径。
@@ -534,7 +538,7 @@ normal_file = INPUT_DIR + "/set_a/normal__201106111136.wav"
 
 
 ##### 播放指定路径的音频文件
-下面这段代码用于在Jupyter Notebook中播放指定路径的音频文件。以下是对每行代码的详细中文注释：
+下面这段代码用于在Jupyter Notebook中播放指定路径的音频文件。
 
 ```python
 # 导入IPython.display模块，并使用别名ipd。
@@ -552,7 +556,7 @@ ipd.Audio(normal_file)
 
 ##### 打开并读取一个WAV格式的音频文件，然后打印出音频文件的采样率、总样本数（帧数）和持续时间
 
-下面这段代码使用Python的`wave`模块来打开并读取一个WAV格式的音频文件，然后打印出音频文件的采样率、总样本数（帧数）和持续时间。以下是对每行代码的详细中文注释：
+下面这段代码使用Python的`wave`模块来打开并读取一个WAV格式的音频文件，然后打印出音频文件的采样率、总样本数（帧数）和持续时间。
 
 ```python
 # 导入Python的wave模块，它提供了读取和写入WAV文件的功能。
@@ -601,7 +605,7 @@ Duration =  4.963786848072562
 从这些结果可以看出，音频文件是一个短暂的录音，大约5秒钟长。了解音频文件的采样率、总样本数和持续时间对于音频分析和处理非常重要，因为这些信息可以帮助确定如何处理音频数据，以及可能需要的存储空间和处理时间。例如，较高的采样率意味着音频质量较好，但同时也意味着文件大小更大，处理起来可能需要更多的计算资源。在进行音频特征提取或声音分析时，这些基本信息是必不可少的。
 
 ##### 读取WAV格式的音频文件，并打印出音频文件的采样率和音频数据的形状
-下面这段代码使用Python的`scipy.io`模块中的`wavfile`函数来读取WAV格式的音频文件，并打印出音频文件的采样率和音频数据的形状。以下是对每行代码的详细中文注释：
+下面这段代码使用Python的`scipy.io`模块中的`wavfile`函数来读取WAV格式的音频文件，并打印出音频文件的采样率和音频数据的形状。
 
 ```python
 # 从scipy.io模块导入wavfile函数。
@@ -650,7 +654,7 @@ Total samples (frames) =  (218903,)
 从这些结果可以看出，音频文件是一个单声道、CD质量的音频，持续时间大约为5秒（根据之前的计算，218,903个样本除以44,100Hz的采样率）。音频数据的振幅范围从负数到零，这表明音频信号是有效的，并且可能包含人的声音或其他声音。了解这些基本信息对于后续的音频分析和处理非常重要，例如进行频谱分析、特征提取或声音合成等任务。通过`scipy.io.wavfile`读取的音频数据可以直接用于这些科学计算任务，因为`scipy`是一个广泛用于科学计算的库，提供了许多用于数据处理的函数和工具。
 
 ##### 绘制音频数据的波形图
-下面这段代码使用`matplotlib.pyplot`模块来创建一个图形，并绘制音频数据的波形图。以下是对每行代码的详细中文注释：
+下面这段代码使用`matplotlib.pyplot`模块来创建一个图形，并绘制音频数据的波形图。
 
 ```python
 # 创建一个新的图形对象，设置图形的大小为宽16英寸、高3英寸。
@@ -671,7 +675,7 @@ plt.plot(data, '-', );
 ![6波形图](01图片/6波形图.png)
 
 ##### 使用`librosa`库来加载音频文件，并获取其持续时间和采样率，然后打印出音频数据的形状和采样率
-下面这段代码使用`librosa`库来加载音频文件，并获取其持续时间和采样率，然后打印出音频数据的形状和采样率。以下是对每行代码的详细中文注释：
+下面这段代码使用`librosa`库来加载音频文件，并获取其持续时间和采样率，然后打印出音频数据的形状和采样率。
 
 ```python
 # 使用librosa库的load函数加载指定路径的音频文件。
@@ -718,7 +722,7 @@ duration: 4.963809523809524
 
 ##### 绘制音频数据的波形图
 
-下面这段代码使用`matplotlib.pyplot`模块和`librosa.display`模块来创建一个图形，并绘制音频数据的波形图。以下是对每行代码的详细中文注释：
+下面这段代码使用`matplotlib.pyplot`模块和`librosa.display`模块来创建一个图形，并绘制音频数据的波形图。
 
 ```python
 # 创建一个新的图形对象，并设置图形的大小为宽16英寸、高3英寸。
@@ -742,7 +746,7 @@ librosa.display.waveplot(y, sr=sr)
 Heart murmurs sound as though there is a “whooshing, roaring, rumbling, or turbulent fluid” noise in one of two temporal locations: (1) between “lub” and “dub”, or (2) between “dub” and “lub”. They can be a symptom of many heart disorders, some serious. There will still be a “lub” and a “dub”. One of the things that confuses non-medically trained people is that murmurs happen between lub and dub or between dub and lub; not on lub and not on dub.(source: Rita Getz)
 
 
-##### 
+##### 加载一个murmur声音，`murmur__201108222231.wav`，并计算其持续时间
 ```python
 # 定义变量murmur_file，用于存储音频文件"murmur__201108222231.wav"的完整路径。
 # INPUT_DIR变量之前已定义，指向存放音频文件的父文件夹路径"../input"。
@@ -758,7 +762,8 @@ y2, sr2 = librosa.load(murmur_file, duration=5)
 # 这个函数接受音频数据y2作为输入，并返回其持续时间，单位为秒。
 # 需要注意的是，这里的dur变量实际上应该是y2的持续时间，但函数中错误地使用了y变量，这可能是一个笔误。
 # 正确的代码应该是dur = librosa.get_duration(y2)。
-dur = librosa.get_duration(y)
+# 下面的代码已更正，可以放心运行。
+dur = librosa.get_duration(y2)
 
 # 打印音频的持续时间。
 # 这将输出变量dur的值，即计算得到的音频持续时间。
@@ -770,7 +775,9 @@ print("duration:", dur)
 print(y2.shape, sr2)
 ```
 
-请注意，代码中存在一个潜在的错误：`librosa.get_duration(y)` 应该改为 `librosa.get_duration(y2)`，因为 `y2` 是通过 `librosa.load` 加载的音频数据变量，而 `y` 在这段代码中并未定义。此外，`print(y2.shape, sr2)` 将输出音频数据的维度和采样率，这对于了解音频信号的基本特性和进行后续处理非常重要。
+请注意，代码中存在一个潜在的错误：`librosa.get_duration(y)` 应该改为 `librosa.get_duration(y2)`，因为 `y2` 是通过 `librosa.load` 加载的音频数据变量，而 `y` 在这段代码中并未定义。
+在上述代码中，已自动将错误更正，请您放心运行！
+此外，`print(y2.shape, sr2)` 将输出音频数据的维度和采样率，这对于了解音频信号的基本特性和进行后续处理非常重要。
 
 ###### 结果展示：
 ```python
@@ -779,7 +786,7 @@ duration: 4.963809523809524
 ```
 
 ###### 结果解释：
-根据您提供的代码和运行结果，下面是对输出结果的详细解释：
+根据上述代码和运行结果，下面是对输出结果的详细解释：
 
 1. `murmur_file = INPUT_DIR + "/set_a/murmur__201108222231.wav"`:
    这行代码构建了一个指向名为 "murmur__201108222231.wav" 的音频文件的完整路径。`INPUT_DIR` 是一个预先定义的变量，指向存放音频文件的父目录，这里假设它被正确定义为包含音频文件的路径。
@@ -788,7 +795,7 @@ duration: 4.963809523809524
    这行代码使用 `librosa.load` 函数加载音频文件。`librosa` 是一个音频处理的Python库，`load` 函数用于读取音频文件并返回音频信号 `y2` 和采样率 `sr2`。参数 `duration=5` 指定了只加载音频文件的前5秒钟。
 
 3. `dur = librosa.get_duration(y, sr=sr2)`:
-   这里出现了一个错误，正确的函数调用应该是 `dur = librosa.get_duration(y2, sr=sr2)`。这个函数计算给定音频信号 `y2` 的持续时间，采样率 `sr2` 作为参数提供。由于这是一个错误，实际上 `dur` 变量并没有正确赋值，但幸运的是，在打印时使用了正确的变量 `y2`。
+   这里出现了一个错误，正确的函数调用应该是 `dur = librosa.get_duration(y2, sr=sr2)`。这个函数计算给定音频信号 `y2` 的持续时间，采样率 `sr2` 作为参数提供。由于这是一个错误，实际上 `dur` 变量并没有正确赋值，但幸运的是，即使不更正错误，在打印时也会输出正确的变量 `y2`。在上述代码中，已自动将错误更正，请您放心运行！
 
 4. `print("duration:", dur)`:
    打印出通过 `librosa.get_duration` 函数计算得到的音频信号 `y2` 的持续时间。输出结果是 `4.963809523809524` 秒，这表明加载的音频片段的实际长度接近5秒。
@@ -800,7 +807,7 @@ duration: 4.963809523809524
 
 综上所述，运行结果显示了一个心脏杂音（murmur）的音频样本被成功加载，并且持续时间接近5秒。采样率默认为22050赫兹，这可能是因为 `librosa.load` 函数在加载时对音频进行了重采样。
 
-##### 
+##### 播放音频
 
 ```python
 # 导入IPython.display模块，并使用别名ipd。
@@ -816,7 +823,7 @@ ipd.Audio(murmur_file)
 
 这段代码的作用是在Jupyter Notebook中播放一个心脏杂音的音频样本。首先，它导入了`IPython.display`模块，并给它起了一个简短的别名`ipd`。然后，使用`ipd.Audio`函数并传入`murmur_file`变量作为参数来播放音频。这个函数会在Jupyter Notebook输出区域生成一个音频播放器界面，用户可以通过这个界面来听取音频样本。这对于音频数据分析和处理特别有用，因为它允许研究人员和开发人员快速检查音频内容。
 
-##### 
+##### 展示音频波形
 
 ```python
 # 使用matplotlib.pyplot模块的figure函数创建一个新的图形对象。
@@ -843,7 +850,8 @@ librosa.display.waveplot(y2, sr=sr2)
 #### 3. Extrasystole
 Extrasystole sounds may appear occasionally and can be identified because there is a heart sound that is out of rhythm involving extra or skipped heartbeats, e.g. a “lub-lub dub” or a “lub dub-dub”. (This is not the same as an extra heart sound as the event is not regularly occuring.) An extrasystole may not be a sign of disease. It can happen normally in an adult and can be very common in children. However, in some situations extrasystoles can be caused by heart diseases. If these diseases are detected earlier, then treatment is likely to be more effective. (source: Rita Getz)
 
-##### 
+##### 加载一个额外心搏的音频样本声音，并计算其持续时间
+
 
 以下是对您提供的代码段的逐行中文注释：
 
@@ -862,7 +870,8 @@ y3, sr3 = librosa.load(extrastole_file, duration=5)
 # 这个函数接受音频数据y3作为输入，并返回其持续时间，单位为秒。
 # 需要注意的是，这里的dur变量实际上是y3的持续时间，但函数中错误地使用了y变量，这可能是一个笔误。
 # 正确的代码应该是dur = librosa.get_duration(y3)。
-dur = librosa.get_duration(y)
+# 下面的代码已更正，可以放心运行。
+dur = librosa.get_duration(y3)
 
 # 打印音频的持续时间。
 # 这将输出变量dur的值，即计算得到的音频持续时间。
@@ -874,7 +883,7 @@ print("duration:", dur)
 print(y3.shape, sr3)
 ```
 
-这段代码的作用是加载并分析一个额外心搏（extrasystole）的音频样本。代码中存在一个错误，即在计算持续时间时使用了未定义的`y`变量，而应该使用`y3`。此外，代码的注释详细说明了每一步的操作和目的，包括如何构建音频文件的路径、如何加载音频数据、如何计算音频的持续时间以及如何打印音频数据的形状和采样率。这些信息对于理解代码的功能和进行后续的音频分析非常重要。
+这段代码的作用是加载并分析一个额外心搏（extrasystole）的音频样本。代码中存在一个错误，即在计算持续时间时使用了未定义的`y`变量，而应该使用`y3`。在上述代码中，已自动将错误更正，请您放心运行！此外，代码的注释详细说明了每一步的操作和目的，包括如何构建音频文件的路径、如何加载音频数据、如何计算音频的持续时间以及如何打印音频数据的形状和采样率。这些信息对于理解代码的功能和进行后续的音频分析非常重要。
 ###### 结果展示：
 ```python
 duration: 4.963809523809524
@@ -891,7 +900,7 @@ duration: 4.963809523809524
    这行代码使用 `librosa.load` 函数加载音频文件。`librosa` 是一个音频处理的Python库，`load` 函数用于读取音频文件并返回音频信号 `y3` 和采样率 `sr3`。参数 `duration=5` 指定了只加载音频文件的前5秒钟。
 
 3. `dur = librosa.get_duration(y, sr=sr3)`:
-   这里存在一个错误，正确的函数调用应该是 `dur = librosa.get_duration(y3, sr=sr3)`。这个函数计算给定音频信号 `y3` 的持续时间，采样率 `sr3` 作为参数提供。由于这是一个错误，实际上 `dur` 变量并没有正确赋值，但幸运的是，在打印时使用了正确的变量 `y3`。
+   这里存在一个错误，正确的函数调用应该是 `dur = librosa.get_duration(y3, sr=sr3)`。这个函数计算给定音频信号 `y3` 的持续时间，采样率 `sr3` 作为参数提供。由于这是一个错误，实际上 `dur` 变量并没有正确赋值，但幸运的是，即使不更正错误，在打印时也会输出正确的变量 `y3`。在上述代码中，已自动将错误更正，请您放心运行！
 
 4. `print("duration:", dur)`:
    打印出通过 `librosa.get_duration` 函数计算得到的音频信号 `y3` 的持续时间。输出结果是 `4.963809523809524` 秒，这表明加载的音频片段的实际长度接近5秒。
@@ -905,7 +914,7 @@ duration: 4.963809523809524
 
 
 
-##### 
+##### 播放音频
 
 ```python
 # 导入IPython.display模块，并使用别名ipd。
@@ -930,8 +939,9 @@ ipd.Audio(extrastole_file)
 #### 4. Artifact
 In the Artifact category there are a wide range of different sounds, including feedback squeals and echoes, speech, music and noise. There are usually no discernable heart sounds, and thus little or no temporal periodicity at frequencies below 195 Hz. This category is the most different from the others. It is important to be able to distinguish this category from the other three categories, so that someone gathering the data can be instructed to try again.(source: Rita Getz)
 
-##### 
-以下是对您提供的代码段的逐行中文注释：
+
+##### 加载一个artifact声音，`artifact__201012172012.wav`，并计算其持续时间
+
 
 ```python
 # 定义变量artifact_file，用于存储音频文件"artifact__201012172012.wav"的完整路径。
@@ -948,7 +958,8 @@ y4, sr4 = librosa.load(artifact_file, duration=5)
 # 这个函数接受音频数据y4作为输入，并返回其持续时间，单位为秒。
 # 需要注意的是，这里的dur变量实际上是y4的持续时间，但函数中错误地使用了y变量，这可能是一个笔误。
 # 正确的代码应该是dur = librosa.get_duration(y4)。
-dur = librosa.get_duration(y)
+# 下面的代码已更正，可以放心运行。
+dur = librosa.get_duration(y4)
 
 # 打印音频的持续时间。
 # 这将输出变量dur的值，即计算得到的音频持续时间。
@@ -960,7 +971,7 @@ print("duration:", dur)
 print(y4.shape, sr4)
 ```
 
-这段代码的作用是加载并分析一个伪影（artifact）的音频样本。代码中存在一个错误，即在计算持续时间时使用了未定义的`y`变量，而应该使用`y4`。此外，代码的注释详细说明了每一步的操作和目的，包括如何构建音频文件的路径、如何加载音频数据、如何计算音频的持续时间以及如何打印音频数据的形状和采样率。这些信息对于理解代码的功能和进行后续的音频分析非常重要。
+这段代码的作用是加载并分析一个伪影（artifact）的音频样本。代码中存在一个错误，即在计算持续时间时使用了未定义的`y`变量，而应该使用`y4`。在上述代码中，已自动将错误更正，请您放心运行！此外，代码的注释详细说明了每一步的操作和目的，包括如何构建音频文件的路径、如何加载音频数据、如何计算音频的持续时间以及如何打印音频数据的形状和采样率。这些信息对于理解代码的功能和进行后续的音频分析非常重要。
 
 ###### 结果展示：
 ```python
@@ -978,7 +989,7 @@ duration: 4.963809523809524
    这行代码使用 `librosa.load` 函数加载音频文件。`librosa` 是一个音频处理的Python库，`load` 函数用于读取音频文件并返回音频信号 `y4` 和采样率 `sr4`。参数 `duration=5` 指定了只加载音频文件的前5秒钟。
 
 3. `dur = librosa.get_duration(y, sr=sr4)`:
-   这里存在一个错误，正确的函数调用应该是 `dur = librosa.get_duration(y4, sr=sr4)`。这个函数计算给定音频信号 `y4` 的持续时间，采样率 `sr4` 作为参数提供。由于这是一个错误，实际上 `dur` 变量并没有正确赋值，但幸运的是，在打印时使用了正确的变量 `y4`。
+   这里存在一个错误，正确的函数调用应该是 `dur = librosa.get_duration(y4, sr=sr4)`。这个函数计算给定音频信号 `y4` 的持续时间，采样率 `sr4` 作为参数提供。由于这是一个错误，实际上 `dur` 变量并没有正确赋值，但幸运的是，即使不更正错误，在打印时也会输出正确的变量 `y4`。在上述代码中，已自动将错误更正，请您放心运行！
 
 4. `print("duration:", dur)`:
    打印出通过 `librosa.get_duration` 函数计算得到的音频信号 `y4` 的持续时间。输出结果是 `4.963809523809524` 秒，这表明加载的音频片段的实际长度接近5秒。
@@ -992,8 +1003,8 @@ duration: 4.963809523809524
 
 
 
-##### 
-以下是对您提供的代码段的逐行中文注释：
+##### 播放音频
+
 
 ```python
 # 导入IPython.display模块，并使用别名ipd。
@@ -1011,8 +1022,8 @@ ipd.Audio(artifact_file)
 
 
 
-##### 
-以下是对您提供的代码段的逐行中文注释：
+
+##### 展示音频波形
 
 ```python
 # 导入matplotlib.pyplot模块，并使用别名plt。
@@ -1044,7 +1055,8 @@ librosa.display.waveplot(y4, sr=sr4)
 #### 5. Extra Heart Sound
 In the Artifact category there are a wide range of different sounds, including feedback squeals and echoes, speech, music and noise. There are usually no discernable heart sounds, and thus little or no temporal periodicity at frequencies below 195 Hz. This category is the most different from the others. It is important to be able to distinguish this category from the other three categories, so that someone gathering the data can be instructed to try again.(source: Rita Getz)
 
-##### 
+##### 加载一个extrahls的音频样本声音，并计算其持续时间
+
 以下是对您提供的代码段的逐行中文注释：
 
 ```python
@@ -1062,7 +1074,8 @@ y5, sr5 = librosa.load(extrahls_file, duration=5)
 # 这个函数接受音频数据y5作为输入，并返回其持续时间，单位为秒。
 # 需要注意的是，这里的dur变量实际上是y5的持续时间，但函数中错误地使用了y变量，这可能是一个笔误。
 # 正确的代码应该是dur = librosa.get_duration(y5)。
-dur = librosa.get_duration(y)
+# 下面的代码已更正，可以放心运行。
+dur = librosa.get_duration(y5)
 
 # 打印音频的持续时间。
 # 这将输出变量dur的值，即计算得到的音频持续时间。
@@ -1074,7 +1087,7 @@ print("duration:", dur)
 print(y5.shape, sr5)
 ```
 
-这段代码的作用是加载并分析一个额外心音（extra heart sound，extrahls）的音频样本。代码中存在一个错误，即在计算持续时间时使用了未定义的`y`变量，而应该使用`y5`。此外，代码的注释详细说明了每一步的操作和目的，包括如何构建音频文件的路径、如何加载音频数据、如何计算音频的持续时间以及如何打印音频数据的形状和采样率。这些信息对于理解代码的功能和进行后续的音频分析非常重要。
+这段代码的作用是加载并分析一个额外心音（extra heart sound，extrahls）的音频样本。代码中存在一个错误，即在计算持续时间时使用了未定义的`y`变量，而应该使用`y5`。在上述代码中，已自动将错误更正，请您放心运行！此外，代码的注释详细说明了每一步的操作和目的，包括如何构建音频文件的路径、如何加载音频数据、如何计算音频的持续时间以及如何打印音频数据的形状和采样率。这些信息对于理解代码的功能和进行后续的音频分析非常重要。
 
 ###### 结果展示：
 ```python
@@ -1092,7 +1105,7 @@ duration: 4.963809523809524
    这行代码使用 `librosa.load` 函数加载音频文件。`librosa` 是一个音频处理的Python库，`load` 函数用于读取音频文件并返回音频信号 `y5` 和采样率 `sr5`。参数 `duration=5` 指定了只加载音频文件的前5秒钟。
 
 3. `dur = librosa.get_duration(y, sr=sr5)`:
-   这里存在一个错误，正确的函数调用应该是 `dur = librosa.get_duration(y5, sr=sr5)`。这个函数计算给定音频信号 `y5` 的持续时间，采样率 `sr5` 作为参数提供。由于这是一个错误，实际上 `dur` 变量并没有正确赋值，但幸运的是，在打印时使用了正确的变量 `y5`。
+   这里存在一个错误，正确的函数调用应该是 `dur = librosa.get_duration(y5, sr=sr5)`。这个函数计算给定音频信号 `y5` 的持续时间，采样率 `sr5` 作为参数提供。由于这是一个错误，实际上 `dur` 变量并没有正确赋值，但幸运的是，即使不更正错误，在打印时也会输出正确的变量 `y5`。在上述代码中，已自动将错误更正，请您放心运行！
 
 4. `print("duration:", dur)`:
    打印出通过 `librosa.get_duration` 函数计算得到的音频信号 `y5` 的持续时间。输出结果是 `4.963809523809524` 秒，这表明加载的音频片段的实际长度接近5秒。
@@ -1108,7 +1121,7 @@ duration: 4.963809523809524
 
 
 
-##### 
+##### 播放音频
 
 以下是对您提供的代码段的逐行中文注释：
 
@@ -1130,9 +1143,7 @@ ipd.Audio(extrahls_file)
 
 
 
-##### 
-
-以下是对您提供的代码段的逐行中文注释：
+##### 展示音频波形
 
 ```python
 # 导入matplotlib.pyplot模块，并使用别名plt。
@@ -1168,25 +1179,28 @@ librosa.display.waveplot(y5, sr=sr5)
 
 
 
-### Audio Length
+> Audio Length
+
 the lengths of the audio files in the dataset varies from 1 to 30 seconds long. for training purpose we use first 5 seconds of the audio. padd missing lenght for file smaller than 5 seconds.
 
-## Data Handling in Audio domain
+> Data Handling in Audio domain
+
 As with all unstructured data formats, audio data has a couple of preprocessing steps which have to be followed before it is presented for analysis. Another way of representing audio data is by converting it into a different domain of data representation, namely the frequency domain.
 
 ![frequency domain](https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/08/23212155/time_freq.png)
 
 There are a few more ways in which audio data can be represented. example. using MFCs (Mel-Frequency cepstrums)
 
-General Audio Features
+**General Audio Features**
 
-Time Domain features (eg. RMSE of waveform)
-Frequency domain features (eg. Amplitude of individual freuencies)
-Perceptual features (eg. MFCC)
-Windowing features (eg. Hamming distances of windows)
+* Time Domain features (eg. RMSE of waveform)
+* Frequency domain features (eg. Amplitude of individual freuencies)
+* Perceptual features (eg. MFCC)
+* Windowing features (eg. Hamming distances of windows)
+
 After extracting these features, it is then sent to the machine learning model for further analysis.
 
-## Sound Feature: MFCC
+> Sound Feature: MFCC
 
 Mel Frequency Cepstral Coefficient (MFCC) is by far the most successful feature used in the field of Speech Processing. Speech is a non-stationary signal. As such, normal signal processing techniques cannot be directly applied to it.
 
@@ -1195,9 +1209,8 @@ Mel-frequency cepstral coefficients (MFCCs) are coefficients that collectively m
 MFCCs are commonly derived as follows: -Take the Fourier transform of (a windowed excerpt of) a signal. -Map the powers of the spectrum obtained above onto the mel scale, using triangular overlapping windows. -Take the logs of the powers at each of the mel frequencies. -Take the discrete cosine transform of the list of mel log powers, as if it were a signal. The MFCCs are the amplitudes of the resulting spectrum.
 
 In general, a 39-dimensional feature vector is used which is composed of first 13 MFCCs and their corresponding 13 delta and 13 delta-delta.
-
-### 三级标题
-以下是对您提供的代码段的逐行中文注释：
+#### 查看单样本音频特征
+##### MFCC
 
 ```python
 # 定义变量normal_file，用于存储音频文件"normal__201106111136.wav"的完整路径。
@@ -1224,7 +1237,7 @@ print(mfccs)
 
 这段代码的作用是从一个正常的心脏声音音频文件中提取MFCCs特征。首先，它定义了音频文件的路径，然后使用`librosa.load`函数加载音频数据和采样率。接着，使用`librosa.feature.mfcc`函数计算MFCCs特征。最后，打印出这些特征，这些特征可以用于音频信号的进一步分析或作为机器学习模型的输入。
 
-#### 结果展示：
+###### 结果展示：
 ```python
 [[-2.45461310e+02 -2.91119158e+02 -4.02448048e+02 ... -3.67871637e+02
   -3.70708414e+02 -3.72469945e+02]
@@ -1241,7 +1254,7 @@ print(mfccs)
   -1.38751247e+00  1.85793453e+00]]
 ```
 
-#### 结果解释：
+###### 结果解释：
 
 输出结果是一个多维数组，它代表了从音频文件 `normal__201106111136.wav` 中提取的 Mel 频率倒谱系数（MFCCs）。MFCCs 是一种在语音处理和音频分析中常用的特征，它们能够描述音频信号的频谱形状。
 
@@ -1261,9 +1274,8 @@ print(mfccs)
 
 
 
-### 三级标题
+##### Mel频谱图和MFCCs特征
 
-以下是对您提供的代码段的逐行中文注释：
 
 ```python
 # 使用librosa库的feature模块中的melspectrogram函数计算音频数据y的Mel频谱图。
@@ -1291,7 +1303,7 @@ print(log_S)
 
 这段代码的作用是计算音频信号的Mel频谱图，然后基于Mel频谱图计算MFCCs特征。首先，它使用`librosa.feature.melspectrogram`函数得到Mel频谱图，然后通过`librosa.power_to_db`函数将其转换为对数功率Mel频谱。最后，使用`librosa.feature.mfcc`函数计算MFCCs特征。这些特征对于音频信号的分析和分类非常有用，尤其是在处理语音和音乐数据时。
 
-#### 结果展示：
+###### 结果展示：
 ```python
 [[-2.46578451e+02 -2.89466533e+02 -3.86061424e+02 ... -3.50173598e+02
   -3.51358336e+02 -3.55300579e+02]
@@ -1308,7 +1320,8 @@ print(log_S)
    5.19361242e-01 -6.77453398e+00]]
 ```
 
-#### 结果解释：
+###### 结果解释：
+
 输出结果是一个二维数组，它代表了从音频信号中提取的Mel频率倒谱系数（MFCCs），这些特征是基于对数功率Mel频谱图计算得到的。这些特征广泛用于音频分析，尤其是在语音和音乐处理领域。
 
 以下是对输出结果的详细解释：
@@ -1324,10 +1337,7 @@ print(log_S)
 这些MFCCs特征可以用于训练机器学习模型，如支持向量机（SVM）、神经网络或随机森林，以识别和分类不同的音频信号，如语音、音乐或在本例中的心脏声音。在心脏声音分析中，MFCCs可以帮助区分正常心跳声、心脏杂音、额外心音等不同的心脏声音状况。
 
 
-### 三级标题
-
-
-以下是对您提供的代码段的逐行中文注释：
+### 提取40个Mel频率倒谱系数（MFCCs）
 
 ```python
 # 使用librosa库的feature模块中的mfcc函数计算音频数据y的Mel频率倒谱系数（MFCCs）。
@@ -1343,9 +1353,28 @@ mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40)
 
 这段代码的作用是从音频信号中提取40个Mel频率倒谱系数（MFCCs）。首先，使用`librosa.feature.mfcc`函数，传入音频信号`y`和采样率`sr`，以及指定的MFCCs数量`n_mfcc=40`来计算特征。这些特征可以用于音频信号的进一步分析或作为机器学习模型的输入。注释掉的`print(mfccs)`行，如果被执行，将会输出这些特征的值。在实际应用中，这些特征可以用于训练和评估机器学习模型，以识别不同的音频事件或声音模式。
 
-### 三级标题
+### 比较代码`mfccs = librosa.feature.mfcc(y=y, sr=sr)`和`mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40)`的差异
+在Python中，`librosa`是一个音频处理库，它提供了多种功能来分析音频信号。`librosa.feature.mfcc`函数用于计算梅尔频率倒谱系数（Mel-Frequency Cepstral Coefficients，MFCCs），这是一种广泛使用的声学特征，常用于语音和音频识别任务。
 
-以下是对您提供的代码段的逐行中文注释：
+上述两行代码都是调用`librosa.feature.mfcc`函数来计算MFCCs，但它们之间有一个关键的区别：
+
+1. 第一行代码：
+   ```python
+   mfccs = librosa.feature.mfcc(y=y, sr=sr)
+   ```
+   这行代码调用`mfccs`函数时没有指定`n_mfcc`参数。在这种情况下，`librosa`会使用默认值来计算MFCCs。截至2023年，`librosa.feature.mfcc`的默认`n_mfcc`值通常是13个系数。
+
+2. 第二行代码：
+   ```python
+   mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=40)
+   ```
+   这行代码明确设置了`n_mfcc`参数为40。`n_mfcc`参数指定了要计算的MFCC系数的数量。因此，这行代码会计算40个MFCC系数。
+
+MFCCs的数量（`n_mfcc`参数）可以影响特征的表示能力。更多的MFCC系数可以提供更详细的频谱信息，但同时可能会增加计算复杂度，并且可能导致过拟合，特别是如果数据集较小或者模型的容量有限。选择多少个MFCC系数通常取决于具体的应用场景和实验结果。
+
+在实际应用中，你可能需要通过实验来确定最佳的MFCC系数数量，以便在特征表示能力和计算效率之间取得平衡。
+
+### 绘制mffcc热图
 
 ```python
 # 导入matplotlib.pyplot模块，并使用别名plt。
@@ -1378,10 +1407,7 @@ plt.tight_layout()
 #### 结果展示：
 ![6.0](01图片/6.0.png)
 
-### 三级标题
-
-
-以下是对您提供的代码段的逐行中文注释：
+### 
 
 ```python
 # 使用librosa库的feature模块中的mfcc函数计算音频数据y的Mel频率倒谱系数（MFCCs）。
@@ -1427,7 +1453,30 @@ plt.tight_layout()
 
 ![6.1](01图片/6.1.png)
 
+### 比较代码`m_dct1 = librosa.feature.mfcc(y=y, sr=sr, dct_type=1)`和`m_slaney = librosa.feature.mfcc(y=y, sr=sr, dct_type=2)`和`m_htk = librosa.feature.mfcc(y=y, sr=sr, dct_type=3)`的区别
 
+在`librosa.feature.mfcc`函数中，`dct_type`参数用于指定在计算MFCCs时使用的离散余弦变换（Discrete Cosine Transform, DCT）的类型。`dct_type`参数的值决定了DCT的具体实现方式，这可能会影响最终计算出的MFCC特征。
+
+以下是`dct_type`参数不同设置的含义：
+
+1. `dct_type=1`：
+   - 这通常对应于DCT-II（类型II的离散余弦变换），它是最常用的DCT类型。在许多音频处理和计算机视觉的应用中，DCT-II因其良好的性能和广泛的研究支持而被广泛采用。
+
+2. `dct_type=2`：
+   - 这对应于DCT-III（类型III的离散余弦变换）。DCT-III在某些特定的应用中可能会用到，比如在某些类型的信号处理中，它可能更适合某些特定的统计特性。
+
+3. `dct_type=3`：
+   - 这对应于HTK（HMM Tool Kit）中的DCT，通常称为DCT-IV。HTK是一个用于建立隐藏马尔可夫模型的工具包，它在语音识别领域非常流行。HTK使用的DCT类型是DCT-IV，这在语音处理的文献和应用中非常常见。
+
+不同`dct_type`的选择可能会对MFCC特征的值产生影响，从而可能影响基于这些特征的任何后续处理或分析，如分类器的训练或语音识别系统的构建。在实践中，选择哪种DCT类型可能取决于特定任务的需求、数据的特性以及与现有文献或系统的兼容性。
+
+以下是三行代码的比较：
+
+- `m_dct1 = librosa.feature.mfcc(y=y, sr=sr, dct_type=1)`：使用DCT-II计算MFCCs。
+- `m_slaney = librosa.feature.mfcc(y=y, sr=sr, dct_type=2)`：使用DCT-III计算MFCCs，有时也称为"slaney" DCT，因为它在James Slaney的语音处理工作中被使用。
+- `m_htk = librosa.feature.mfcc(y=y, sr=sr, dct_type=3)`：使用HTK风格的DCT（DCT-IV）计算MFCCs。
+
+在实际应用中，你可能需要尝试不同的`dct_type`设置，以确定哪种类型最适合你的特定应用场景。
 
 ## Sound Feature: Onset
 
@@ -1437,8 +1486,7 @@ Basic onset detector. Locate note onset events by picking peaks in an onset stre
 
 
 
-#### 四级标题
-以下是对您提供的代码段的逐行中文注释：
+#### 寻找起始点并将起始点的帧索引转换为时间值
 
 ```python
 # 使用librosa库的onset模块中的onset_detect函数来检测音频信号y的起始点（onset times）。
@@ -1488,8 +1536,7 @@ array([0.48761905, 0.7662585 , 0.95201814, 1.25387755, 1.55573696,
 
 
 
-#### 四级标题
-以下是对您提供的代码段的逐行中文注释：
+#### 使用包络，根据起始点的时间值，寻找起始点的帧索引
 
 ```python
 # 使用librosa库的onset模块中的onset_strength函数来计算音频信号y的起始包络（onset envelope）。
@@ -1513,8 +1560,28 @@ onset_frames = librosa.onset.onset_detect(onset_envelope=o_env, sr=sr)
 
 
 
-#### 四级标题
-以下是对您提供的代码段的逐行中文注释：
+#### 可视化音频信号的功率谱图和起始包络（信号进行短时傅里叶变换，生成频谱图，频谱图的幅度取对数后得到分贝值，生成对数功率谱图）
+
+上述描述的信号处理过程解释如下：
+
+1. **短时傅里叶变换（Short-Time Fourier Transform, STFT）**：这是一种分析时变信号频率特性的方法。通过将信号分割成短时间的帧，并对每一帧进行傅里叶变换，可以得到信号的频谱图，它显示了信号在不同时间点的频率成分。
+
+2. **生成频谱图**：STFT的结果通常表示为信号的幅度谱或功率谱。频谱图通常显示了信号的幅度随频率的变化，而功率谱则是幅度的平方。
+
+3. **幅度取对数**：在处理频谱图时，经常采用对数尺度来放大低幅度信号的细节，使得人耳不易察觉的低能量频率成分更容易被观察到。对数变换可以压缩动态范围，使得频谱图在视觉上更加均衡。
+
+4. **分贝值**：分贝（dB）是一个比值的对数单位，通常用于描述功率比、幅度比或者信噪比等。在声学和信号处理中，分贝通常用于表示功率谱。将STFT的幅度谱转换为分贝值时，常用的公式是 \( P_{dB} = 10 \cdot \log_{10}( P ) \)，其中 \( P \) 是功率谱的值。
+
+5. **生成对数功率谱图**：对数功率谱图是将功率谱取对数后的表示，这样做可以更好地展示信号的频率成分，尤其是在处理具有宽动态范围的信号时。
+
+上述描述中的“生成对数功率谱图”是正确的，但是“生成频谱图”和“频谱图的幅度取对数后得到分贝值”这两部分可以稍微明确一些。通常，我们首先生成的是功率谱图，然后对功率谱进行对数变换，最后得到对数功率谱图。
+
+总结来说，上述描述的流程是正确的，但可以更精确地表述为：
+
+- 对信号进行短时傅里叶变换（STFT）。
+- 生成功率谱图。
+- 对功率谱图的值取10倍对数，得到分贝值。
+- 生成对数功率谱图，以便于分析和可视化信号的频率成分。
 
 ```python
 # 导入NumPy库，这是一个广泛使用的科学计算库，提供了对多维数组的支持。
@@ -1571,8 +1638,7 @@ plt.legend(frameon=True, framealpha=0.75)
 Backtrack detected onset events to the nearest preceding local minimum of an energy function. This function can be used to roll back the timing of detected onsets from a detected peak amplitude to the preceding minimum. This is most useful when using onsets to determine slice points for segmentation
 
 
-#### 四级标题
-以下是对您提供的代码段的逐行中文注释：
+#### 计算音频信号的起始包络，并使用两种不同的回溯策略来改进起始点的检测
 
 ```python
 # 使用librosa库的onset模块中的onset_strength函数来计算音频信号y的起始包络（onset envelope）。
@@ -1603,8 +1669,7 @@ onset_bt_rms = librosa.onset.onset_backtrack(onset_raw, rms[0])
 这段代码的作用是计算音频信号的起始包络，并使用两种不同的回溯策略来改进起始点的检测。首先，使用`librosa.onset.onset_strength`函数计算起始包络，然后使用`librosa.onset.onset_detect`函数检测起始点，但不使用回溯策略。接着，使用`librosa.onset.onset_backtrack`函数对检测到的起始点进行基于起始包络的回溯处理。最后，计算音频信号的RMS值，并使用这些值进行另一种基于RMS的回溯处理。这些起始点的检测和回溯处理可以用于音频节奏分析、音乐结构分析或作为音乐信息检索的依据。
 
 
-#### 四级标题
-以下是对您提供的代码段的逐行中文注释：
+#### 可视化音频信号的起始强度包络、RMS值以及通过不同方法检测到的起始点
 
 ```python
 # 使用matplotlib.pyplot的figure函数创建一个新的图形对象，并设置图形的大小为16英寸宽、6英寸高。
@@ -1654,8 +1719,7 @@ plt.legend(frameon=True, framealpha=0.75)
 Compute a spectral flux onset strength envelope. Onset strength at time t is determined by: mean_f max(0, S[f, t] - ref_S[f, t - lag]) where ref_S is S after local max filtering along the frequency axis [1]. By default, if a time series y is provided, S will be the log-power Mel spectrogram.
 
 
-#### 四级标题
-以下是对您提供的代码段的逐行中文注释：
+#### 计算音频信号的起始包络，并可视化不同特征提取方法和聚合函数对起始强度的影响
 
 ```python
 # 导入NumPy库，这是一个广泛使用的科学计算库，提供了对多维数组的支持。
@@ -1744,8 +1808,7 @@ Text(0.5,1,'Sub-band onset strength')
 
 ## Loading Data
 
-### 三级标题
-以下是对您提供的代码行的详细中文注释：
+### 输出训练数据集 `train_ab` 中的样本数量和类别数量
 
 ```python
 # 打印训练集中的样本数量和类别数量。
@@ -1780,8 +1843,7 @@ Number of training examples= 832   Number of classes= 6
 Loading od the audio data file will be based on content from directory since each filename is associate with the category type. hence, we can use csv file for cross reference check. Based on directory content approach will be more flexible.
 
 
-### 三级标题
-以下是对您提供的函数 `audio_norm` 的逐行中文注释：
+### 定义一个音频数据标准化的函数 `audio_norm`
 
 ```python
 # 定义一个名为 audio_norm 的函数，它接受一个参数 data。
@@ -1812,8 +1874,7 @@ def audio_norm(data):
 
 
 
-### 三级标题
-以下是对您提供的函数 `load_file_data_without_change` 的逐行中文注释：
+### 定义一个函数 `load_file_data_without_change`，它接受文件夹路径 `folder`、文件名列表 `file_names`、可选参数 `duration`（默认为3秒）和 `sr`（默认采样率为16000Hz）来加载音频文件、计算其MFCC特征，并存储这些特征
 
 ```python
 # 导入必要的库
@@ -1861,9 +1922,8 @@ def load_file_data_without_change(folder, file_names, duration=3, sr=16000):
 这段代码定义了一个函数 `load_file_data_without_change`，它接受文件夹路径 `folder`、文件名列表 `file_names`、可选参数 `duration`（默认为3秒）和 `sr`（默认采样率为16000Hz）来加载音频文件、计算其MFCC特征，并存储这些特征。函数中使用了异常处理来捕获并打印加载音频文件时可能遇到的错误。提取的MFCC特征被重塑并添加到列表 `data` 中，该列表最终被返回。这种特征提取方法在音频分析和机器学习任务中非常有用，尤其是当涉及到音频分类或检测任务时。
 
 
-### 三级标题
+### 定义一个函数 `load_file_data`，它接受文件夹路径 `folder`、文件名列表 `file_names`、可选参数 `duration`（默认为12秒）和 `sr`（默认采样率为16000Hz）来加载音频文件、进行长度的统一处理（通过填充或截断）、计算其MFCC特征，并存储这些特征
 
-以下是对您提供的函数 `load_file_data` 的逐行中文注释：
 
 ```python
 import numpy as np
@@ -1920,8 +1980,7 @@ def load_file_data(folder, file_names, duration=12, sr=16000):
 这段代码定义了一个函数 `load_file_data`，它接受文件夹路径 `folder`、文件名列表 `file_names`、可选参数 `duration`（默认为12秒）和 `sr`（默认采样率为16000Hz）来加载音频文件、进行长度的统一处理（通过填充或截断）、计算其MFCC特征，并存储这些特征。函数中使用了异常处理来捕获并打印加载音频文件时可能遇到的错误。提取的MFCC特征被重塑并添加到列表 `data` 中，该列表最终被返回。这种特征提取方法在音频分析和机器学习任务中非常有用，尤其是当涉及到音频分类或检测任务时，且需要所有音频信号具有相同的长度。
 
 
-### 三级标题
-以下是对您提供的代码段的逐行中文注释：
+### 定义两个映射字典，用于将类别的文本标签转换为整数编码（`label_to_int`），以及将整数编码转换回文本标签（`int_to_label`）
 
 ```python
 # 导入train_test_split函数，该函数来自sklearn.model_selection模块，用于将数据集分割为训练集和测试集。
@@ -1985,8 +2044,7 @@ print(int_to_label)
 
 ### load dataset-a, keep them separate for testing purpose
 
-#### 四级标题
-以下是对您提供的代码段的逐行中文注释：
+#### 加载特定类别（'artifact'）的音频文件，提取它们的MFCC特征，并为每个音频文件创建一个对应的标签列表
 
 ```python
 # 导入os和fnmatch模块。
@@ -2019,8 +2077,7 @@ A_artifact_labels = [0 for items in A_artifact_files]
 
 
 
-#### 四级标题
-以下是对您提供的代码段的逐行中文注释：
+#### 加载另一个类别（'normal'）的音频文件，提取它们的MFCC特征，并为每个音频文件创建一个对应的标签列表
 
 ```python
 # 使用fnmatch模块的filter函数和os模块的listdir函数查找所有以'normal'开头并以'.wav'结尾的文件。
@@ -2044,8 +2101,7 @@ A_normal_labels = [2 for items in A_normal_sounds]
 
 
 
-#### 四级标题
-以下是对您提供的代码段的逐行中文注释：
+#### 加载'extrahls'（额外的心音）类别的音频文件，提取它们的MFCC特征，并为每个音频文件创建一个对应的标签列表
 
 ```python
 # 使用fnmatch模块的filter函数和os模块的listdir函数查找所有以'extrahls'开头并以'.wav'结尾的文件。
@@ -2069,8 +2125,7 @@ A_extrahls_labels = [1 for items in A_extrahls_sounds]
 
 
 
-#### 四级标题
-以下是对您提供的代码段的逐行中文注释：
+#### 加载'murmur'（心脏杂音）类别的音频文件，提取它们的MFCC特征，并为每个音频文件创建一个对应的标签列表
 
 ```python
 # 使用fnmatch模块的filter函数和os模块的listdir函数查找所有以'murmur'开头并以'.wav'结尾的文件。
@@ -2098,8 +2153,7 @@ A_murmur_labels = [1 for items in A_murmur_files]
 
 
 
-#### 四级标题
-以下是对您提供的代码段的逐行中文注释：
+#### 加载未标记的测试音频文件，提取它们的MFCC特征
 
 ```python
 # 使用fnmatch模块的filter函数和os模块的listdir函数查找所有以'Aunlabelledtest'开头并以'.wav'结尾的文件。
@@ -2505,8 +2559,7 @@ loaded dataset-a
 
 
 
-### 三级标题
-以下是对您提供的代码段的逐行中文注释：
+### 加载'set_b'数据集中不同类别的音频文件，包括正常心跳声音、心脏杂音和额外心搏，以及未标记的测试文件
 
 ```python
 # 使用魔法命令%%time来测量下面代码块的执行时间。
@@ -3809,8 +3862,7 @@ Wall time: 36.1 s
 这些步骤是数据预处理的重要组成部分，确保了数据集的一致性和模型训练的顺利进行。最后，打印的语句确认了数据集加载的完成。此外，输出还包括了程序运行的时间统计信息，显示了用户CPU时间、系统CPU时间、总CPU时间以及实际经过的墙钟时间。
 
 
-### 三级标题
-以下是对您提供的代码段的逐行中文注释：
+### 将来自两个不同数据集（set-a和set-b）的音频特征和标签合并成单一的训练和测试集合
 
 ```python
 # 导入NumPy库，这是一个广泛使用的科学计算库，提供了对多维数组的支持。
@@ -3872,8 +3924,7 @@ combined training data record:  585 247
 这个结果对于理解数据集的规模非常重要，它告诉我们模型将在585个样本上进行训练，并在247个样本上进行测试。这种分割有助于评估模型的性能，确保它没有过拟合训练数据，并且能够很好地推广到新的、未见过的数据上。
 
 
-### 三级标题
-以下是对您提供的代码段的逐行中文注释：
+### 准备机器学习模型的训练和测试数据
 
 ```python
 # 设置随机数生成器的种子，以确保结果的可重复性。
@@ -3905,8 +3956,7 @@ test_y = np.array(keras.utils.to_categorical(test_y, len(CLASSES)))
 
 这段代码的作用是准备机器学习模型的训练和测试数据。首先，它使用交叉验证的方法将原始数据集分割为训练集、验证集和测试集。然后，它对训练集、测试集和验证集的标签进行独热编码，这是多分类问题中常用的一种标签表示方法。独热编码可以确保神经网络的输出层能够正确地处理多个类别。最后，通过设置随机数生成器的种子，确保每次运行代码时数据分割的结果都是相同的，从而保证了结果的可重复性。
 
-### 三级标题
-以下是对您提供的代码段的逐行中文注释：
+### 打印出不同数据集的统计信息，包括标签数据集、音频特征数据集、训练集、验证集和测试集的维度、元素总数、单个元素的大小以及所有元素总共占用的字节数
 
 ```python
 # 打印y_data数组的形状，即标签数据集的维度信息。
@@ -3996,14 +4046,6 @@ test label shape:  (59, 3)
 
 #### 结果解释：
 
-
-
-
-
-
-
-
-
 输出结果提供了关于数据集和数组的详细信息，包括形状、大小、元素的字节长度以及总的字节消耗。以下是对输出结果的详细解释：
 
 1. `label shape: (585,)`:
@@ -4067,7 +4109,212 @@ LSTM network is comprised of different memory blocks called cells (the rectangle
 
 -RNN and LSTM are memory-bandwidth limited problems -Temporal convolutional network (TCN) “outperform canonical recurrent networks such as LSTMs across a diverse range of tasks and datasets, while demonstrating longer effective memory”.
 
+### RNN (Recurrent Neural Networks)
+循环神经网络（Recurrent Neural Networks，简称RNN）是一种特殊类型的神经网络，它在处理序列数据时具有独特的优势。RNN的核心思想是引入内部状态（memory），使其能够在序列的不同时间步之间传递信息。这使得RNN能够捕捉到时间序列数据中的长期依赖关系。
 
+#### RNN的基本结构
+
+RNN由输入层、隐藏层和输出层组成。隐藏层是RNN的核心，它不仅接收来自输入层的信息，还接收来自前一个时间步的隐藏层状态。这种结构允许RNN在处理当前输入时考虑到之前的输入信息。
+
+
+循环神经网络（Recurrent Neural Network，RNN）是一种用于处理序列数据的神经网络架构。它与传统的前馈神经网络（Feedforward Neural Networks）不同，RNN允许信息在网络中的循环传播，从而使得网络能够在序列的不同时间步之间保持和利用信息。RNN的结构特别适合于处理如文本、语音、时间序列数据等具有时间依赖性的数据。
+
+##### RNN的基本结构
+
+RNN的结构通常由以下几个部分组成：
+
+1. **输入层（Input Layer）**：这是网络接收输入数据的地方。在序列的每个时间步 \( t \)，输入层接收一个输入向量 \( x_t \)。
+
+2. **隐藏层（Hidden Layer）**：隐藏层是RNN的核心，它负责处理输入数据并保持对之前时间步的信息的记忆。隐藏层由多个循环的神经元组成，每个神经元在序列的每个时间步都会更新自己的状态。
+
+3. **输出层（Output Layer）**：输出层负责产生网络的最终输出。在每个时间步，输出层接收来自隐藏层的信息，并产生一个输出向量 \( y_t \)。
+
+##### RNN的工作原理
+
+在RNN中，隐藏层的状态 \( h_t \) 在每个时间步 \( t \) 都是基于当前输入 \( x_t \) 和前一个时间步的隐藏状态 \( h_{t-1} \) 来更新的。这个过程可以用以下公式表示：
+
+\[ h_t = f(W_{hh} \cdot h_{t-1} + W_{xh} \cdot x_t + b_h) \]
+
+其中：
+- \( f \) 是一个非线性激活函数，如tanh或ReLU。
+- \( W_{hh} \) 是隐藏层的权重矩阵，负责在时间步之间传递信息。
+- \( W_{xh} \) 是输入到隐藏层的权重矩阵。
+- \( b_h \) 是隐藏层的偏置项。
+
+##### 输出的计算
+
+RNN的输出 \( y_t \) 是基于当前时间步的隐藏状态 \( h_t \) 计算的：
+
+\[ y_t = g(W_{hy} \cdot h_t + b_y) \]
+
+其中：
+- \( g \) 是输出层的激活函数，对于分类问题通常是softmax函数，对于回归问题则可能是线性函数。
+- \( W_{hy} \) 是隐藏层到输出层的权重矩阵。
+- \( b_y \) 是输出层的偏置项。
+
+##### 反向传播和梯度消失
+
+在训练RNN时，需要使用一种称为反向传播通过时间（Backpropagation Through Time，BPTT）的技术。BPTT允许网络在时间上展开，并通过梯度下降等优化算法调整权重。
+
+然而，RNN在训练时可能会遇到梯度消失或梯度爆炸的问题，这是因为梯度需要在多个时间步上进行传播。梯度消失会导致网络难以学习长期依赖关系，而梯度爆炸则会导致训练不稳定。
+
+##### RNN的变体
+
+为了解决这些问题，研究者们提出了多种改进的RNN架构，如长短期记忆网络（LSTM）和门控循环单元（GRU），它们通过引入门控机制来控制信息的流动，从而更好地处理长距离依赖问题。
+
+##### RNN的应用
+
+RNN因其能够处理序列数据，被广泛应用于自然语言处理（如情感分析、机器翻译）、语音识别、手写识别、时间序列预测等领域。
+
+尽管RNN在很多任务上都取得了成功，但是它们也有局限性，比如对长距离依赖的处理能力有限。随着深度学习领域的发展，新的模型如Transformer等也在不断涌现，它们在某些任务上展示了超越RNN的潜力。
+
+
+#### 时间步和隐藏状态
+
+在RNN中，每个时间步 \( t \) 的隐藏状态 \( h_t \) 是根据当前输入 \( x_t \) 和前一个时间步的隐藏状态 \( h_{t-1} \) 计算得到的：
+
+\[ h_t = f_W(h_{t-1}, x_t) \]
+
+其中 \( f_W \) 是一个非线性激活函数，通常是tanh或ReLU，\( W \) 是权重参数。
+
+#### 输出
+
+RNN在每个时间步产生的输出 \( o_t \) 是基于当前的隐藏状态 \( h_t \) 计算的：
+
+\[ o_t = g_V(h_t) \]
+
+其中 \( g_V \) 是另一个非线性激活函数，\( V \) 是权重参数。
+
+#### 反向传播和梯度消失
+
+在训练RNN时，需要使用一种特殊的反向传播算法，称为反向传播通过时间（Backpropagation Through Time，BPTT）。由于RNN在时间上的展开，梯度可能会随着时间步的增加而迅速减小（梯度消失）或增大（梯度爆炸），这使得训练变得困难。为了解决这个问题，研究者们提出了多种策略，如使用不同的激活函数（如ReLU），梯度裁剪，或更高级的架构。
+
+#### 变体
+
+由于标准RNN的一些局限性，研究者们提出了一些改进的RNN架构，包括：
+
+- **长短期记忆网络（LSTM）**：引入了门控机制来控制信息的流动，有效地解决了梯度消失问题。
+- **门控循环单元（GRU）**：是LSTM的一个变体，它将遗忘门和输入门合并为一个更新门，参数更少，但同样能够有效捕捉长期依赖。
+
+#### 应用
+
+RNN及其变体在许多领域都有广泛的应用，包括：
+
+- 语音识别
+- 自然语言处理（如机器翻译、情感分析）
+- 手写识别
+- 时间序列预测
+
+RNN特别擅长处理和预测序列数据，因为它们能够利用序列中的时间信息来做出决策。然而，它们也有其局限性，如对长距离依赖的捕捉能力有限，这在某些任务中可能导致性能不佳。在这些情况下，更复杂的模型，如Transformer，可能会提供更好的性能。
+
+
+### LSTM (Long Short-Term Memory)
+长短期记忆网络（Long Short-Term Memory，LSTM）是一种特殊类型的循环神经网络（RNN），它在1997年由Hochreiter和Schmidhuber提出。LSTM被设计用来解决传统RNN在处理长距离依赖问题时遇到的梯度消失或梯度爆炸问题。LSTM通过引入门控机制（gating mechanisms）来维持长期的状态，使其能够学习长期依赖关系。
+
+#### LSTM的基本结构
+
+LSTM由一个或多个LSTM单元组成，每个LSTM单元包含输入门（input gate）、遗忘门（forget gate）和输出门（output gate）。这些门控机制允许LSTM单元在序列的不同时间步之间有效地选择性地传递信息。
+
+长短期记忆网络（LSTM）的结构是为了解决传统循环神经网络（RNN）在处理长序列数据时遇到的梯度消失问题而设计的。LSTM通过引入门控机制来维持长期的状态，允许网络学习长期依赖关系。以下是LSTM结构的详细描述：
+
+##### LSTM单元的基本组成部分
+
+1. **遗忘门（Forget Gate）**：决定从当前单元状态中丢弃哪些信息。
+2. **输入门（Input Gate）**：决定将哪些新的信息加入到单元状态中。
+3. **单元状态（Cell State）**：携带着序列中的长期信息，并通过遗忘门和输入门进行更新。
+4. **输出门（Output Gate）**：决定隐藏状态如何使用单元状态的信息。
+
+##### LSTM单元的计算步骤
+
+1. **遗忘门激活**：首先计算遗忘门的激活值 \( f_t \)，这通常使用sigmoid激活函数，以确定在单元状态中保留或遗忘哪些信息。
+
+    \[ f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) \]
+
+2. **更新单元状态**：接着，单元状态 \( C_t \) 被更新。遗忘门的输出 \( f_t \) 与前一个单元状态 \( C_{t-1} \) 相乘，丢弃一些信息。然后，输入门 \( i_t \) 与新的候选单元状态 \( \tilde{C}_t \) 相乘，添加新信息。
+
+    \[ \tilde{C}_t = \tanh(W_C \cdot [h_{t-1}, x_t] + b_C) \]
+    \[ C_t = f_t * C_{t-1} + i_t * \tilde{C}_t \]
+
+3. **输入门激活**：计算输入门的激活值 \( i_t \)，同样使用sigmoid激活函数，以确定新信息的强度。
+
+    \[ i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i) \]
+
+4. **输出门激活**：最后，计算输出门的激活值 \( o_t \)，这也使用sigmoid激活函数。
+
+    \[ o_t = \sigma(W_o \cdot [h_{t-1}, x_t] + b_o) \]
+
+5. **隐藏状态更新**：隐藏状态 \( h_t \) 是通过输出门 \( o_t \) 与激活后的单元状态 \( \tanh(C_t) \) 相乘得到的。
+
+    \[ h_t = o_t * \tanh(C_t) \]
+
+##### 参数和门控机制
+
+- \( W_f \), \( W_i \), \( W_C \), \( W_o \)：这些是每个门的权重矩阵，它们决定了输入和前一状态如何影响每个门的决策。
+- \( b_f \), \( b_i \), \( b_C \), \( b_o \)：这些是每个门的偏置项。
+- \( [h_{t-1}, x_t] \)：表示隐藏状态和当前输入的拼接。
+
+##### LSTM网络的展开
+
+在时间序列数据上，LSTM网络通过将每个LSTM单元沿时间轴展开来处理序列。每个时间步对应一个LSTM单元，并且每个单元接收来自前一个时间步的输出作为当前时间步的输入。这种展开允许网络在处理当前输入时考虑到之前的所有输入。
+
+##### LSTM的优点
+
+- **处理长序列**：由于门控机制，LSTM特别适合处理和记忆长序列数据中的信息。
+- **梯度消失问题**：LSTM缓解了传统RNN中的梯度消失问题，使得网络能够学习长期依赖关系。
+
+##### LSTM的缺点
+
+- **复杂性**：LSTM包含更多的参数和计算步骤，比传统RNN更复杂。
+- **计算成本**：由于其复杂性，LSTM的计算成本更高，尤其是在处理长序列时。
+
+LSTM因其在序列建模任务中的强大能力，被广泛应用于自然语言处理、语音识别、时间序列分析等多个领域。
+
+
+#### LSTM单元的工作原理
+
+1. **遗忘门（Forget Gate）**：决定哪些信息将从单元状态中被遗忘。它基于当前输入 \( x_t \) 和上一个时间步的隐藏状态 \( h_{t-1} \) 来计算一个向量 \( f_t \)，其中每个元素的值介于0和1之间。
+
+    \[ f_t = \sigma(W_f[h_{t-1}, x_t]) \]
+
+2. **输入门（Input Gate）**：决定哪些新的信息将被存储在单元状态中。它同样基于当前输入和上一个时间步的隐藏状态，计算两个向量：一个是决定新信息的 \( i_t \)，另一个是候选状态 \( \tilde{C}_t \)。
+
+    \[ i_t = \sigma(W_i[h_{t-1}, x_t]) \]
+    \[ \tilde{C}_t = \tanh(W_C[h_{t-1}, x_t]) \]
+
+3. **单元状态（Cell State）**：是LSTM中的关键部分，它负责存储和传递长期信息。在每个时间步，单元状态会更新为：
+
+    \[ C_t = f_t * C_{t-1} + i_t * \tilde{C}_t \]
+
+    其中 \( * \) 表示逐元素乘法。
+
+4. **输出门（Output Gate）**：决定隐藏状态 \( h_t \) 的值，它是基于更新后的单元状态 \( C_t \) 和当前输入 \( x_t \) 计算的。
+
+    \[ o_t = \sigma(W_o[h_{t-1}, x_t]) \]
+    \[ h_t = o_t * \tanh(C_t) \]
+
+    \( h_t \) 作为当前时间步的输出隐藏状态，同时也作为下一个时间步的隐藏状态 \( h_{t-1} \)。
+
+#### LSTM的优点
+
+- **梯度消失问题**：由于门控机制的存在，LSTM能够有效地维持梯度，避免了传统RNN中的梯度消失问题。
+- **长期依赖**：LSTM能够学习到序列数据中的长期依赖关系，这使得它在处理诸如语言模型、语音识别等任务时表现出色。
+
+#### LSTM的缺点
+
+- **复杂性**：LSTM的门控机制增加了模型的复杂性，导致更多的参数需要训练。
+- **计算成本**：相比于传统的RNN，LSTM的计算成本更高，尤其是在处理长序列时。
+
+#### 应用领域
+
+LSTM因其强大的记忆能力和对长期依赖的处理能力，在以下领域得到了广泛的应用：
+
+- 语言模型和文本生成
+- 机器翻译
+- 语音识别
+- 手写识别
+- 预测任务，如股票市场预测、天气预测等
+
+LSTM是处理序列数据的强大工具，尤其适用于那些需要捕捉长期信息的任务。然而，随着深度学习领域的发展，新的模型如Transformer等也在不断涌现，它们在某些任务上展示了超越LSTM的潜力。
 
 
 ### Build Model
@@ -4214,7 +4461,6 @@ _________________________________________________________________
 
 
 ### Train Model
-以下是对您提供的代码段的逐行中文注释：
 
 ```python
 # 使用Jupyter Notebook的魔法命令%%time来测量下面代码块的执行时间。
@@ -4519,7 +4765,7 @@ Wall time: 4min 36s
 ### Model Evaluation
 
 
-#### 四级标题
+#### 评估模型在不同数据集上的性能
 ```python
 # 使用Keras的evaluate函数在训练集上评估模型性能，计算并打印准确度。
 # model.evaluate函数接受测试数据和标签，返回损失值和准确度。
@@ -4575,8 +4821,7 @@ model unlabeled data score   :  80.0 %
 
 
 
-#### 四级标题
-以下是对您提供的代码段的逐行中文注释：
+#### 定义一个函数`plot_history`，用于绘制Keras训练历史中的损失和准确度曲线
 
 ```python
 # 使用Jupyter Notebook的魔法命令%%time来测量下面代码块的执行时间。
@@ -4663,9 +4908,7 @@ CPU times: user 1.2 s, sys: 264 ms, total: 1.46 s
 Wall time: 1.12 s
 ```
 
-#### 四级标题
-
-以下是对您提供的`plot_confusion_matrix`函数的逐行中文注释：
+#### 可视化混淆矩阵
 
 ```python
 # 定义一个名为plot_confusion_matrix的函数，它用于打印和绘制混淆矩阵。
@@ -4746,8 +4989,7 @@ def plot_confusion_matrix(cm, classes,
 make a prediction x: The input data, as a Numpy array (or list of Numpy arrays if the model has multiple inputs). batch_size: Integer. If unspecified, it will default to 32. steps = Total number of steps (batches of samples) before declaring the prediction round finished. callbacks: List of keras.callbacks.Callback instances. returns Numpy array(s) of predictions.
 
 
-#### 四级标题
-以下是对您提供的代码段的逐行中文注释：
+#### 使用训练好的模型对测试集`x_test`进行预测，并打印出第二个样本的预测类别及其对应的文本标签
 
 ```python
 # 使用模型的predict_classes方法进行预测，该方法预测x_test数据的类别。
@@ -4781,8 +5023,7 @@ prediction test return : 2 - normal
    这是打印出的预测结果，表明模型预测测试集中第二个样本的类别为索引2，根据`int_to_label`映射，索引2对应的文本标签是"normal"。这意味着模型预测这个样本属于"正常"类别。
 
 这个结果表明，模型对测试集中第二个样本的预测是类别"normal"。在心脏声音分析的上下文中，这可能意味着模型判断这个心跳声音样本是正常无杂音的。这样的预测结果对于评估模型的性能和准确性非常重要，尤其是在医疗诊断领域，准确的分类对于病情判断至关重要。
-#### 四级标题
-以下是对您提供的代码段的逐行中文注释：
+#### 创建一个图形窗口，并在其中绘制模型预测的类别索引
 
 ```python
 # 导入matplotlib.pyplot模块，并使用别名plt。
@@ -4822,9 +5063,7 @@ plt.show()
 ## Loading a saved training model
 
 
-### 三级标题
-以下是对您提供的代码行的详细中文注释：
-
+### 将模型检查点文件的保存路径输出到控制台
 ```python
 # 打印变量best_model_file的值。
 # best_model_file是一个字符串变量，它存储了模型检查点文件的路径。
@@ -4854,8 +5093,7 @@ print(best_model_file)
 
 
 
-### 三级标题
-以下是对您提供的代码段的逐行中文注释：
+### 创建一个LSTM神经网络模型，然后从指定的检查点文件加载了权重
 
 ```python
 # 导入Keras中的Sequential模型，用于创建按顺序叠加的神经网络模型。
@@ -4972,7 +5210,6 @@ Created model and loaded weights from file
 
 
 ### 三级标题
-以下是对您提供的代码段的逐行中文注释：
 
 ```python
 # 使用训练好的模型对测试集x_test进行预测，获取预测的类别索引。
