@@ -852,9 +852,6 @@ Extrasystole sounds may appear occasionally and can be identified because there 
 
 ##### 加载一个额外心搏的音频样本声音，并计算其持续时间
 
-
-以下是对您提供的代码段的逐行中文注释：
-
 ```python
 # 定义变量extrastole_file，用于存储音频文件"extrastole__127_1306764300147_C2.wav"的完整路径。
 # INPUT_DIR是一个预先定义的变量，指向存放音频文件的父文件夹路径"../input"。
@@ -1057,7 +1054,6 @@ In the Artifact category there are a wide range of different sounds, including f
 
 ##### 加载一个extrahls的音频样本声音，并计算其持续时间
 
-以下是对您提供的代码段的逐行中文注释：
 
 ```python
 # 定义变量extrahls_file，用于存储音频文件"extrahls__201101070953.wav"的完整路径。
@@ -1123,7 +1119,6 @@ duration: 4.963809523809524
 
 ##### 播放音频
 
-以下是对您提供的代码段的逐行中文注释：
 
 ```python
 # 导入IPython.display模块，并使用别名ipd。
@@ -1407,7 +1402,7 @@ plt.tight_layout()
 #### 结果展示：
 ![6.0](01图片/6.0.png)
 
-### 
+### 计算并可视化使用不同DCT基计算的MFCCs特征
 
 ```python
 # 使用librosa库的feature模块中的mfcc函数计算音频数据y的Mel频率倒谱系数（MFCCs）。
@@ -5209,7 +5204,7 @@ Created model and loaded weights from file
 ## Test loaded model
 
 
-### 三级标题
+### 使用训练好的模型对测试集进行预测，并评估模型的性能
 
 ```python
 # 使用训练好的模型对测试集x_test进行预测，获取预测的类别索引。
