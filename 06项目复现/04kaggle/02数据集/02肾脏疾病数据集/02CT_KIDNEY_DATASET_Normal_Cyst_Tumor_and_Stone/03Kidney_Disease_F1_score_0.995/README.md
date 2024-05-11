@@ -109,7 +109,7 @@ pd.set_option('display.max_colwidth', None)  # or 199
 print('Modules loaded')
 ```
 
-这段代码导入了多个 Python 库和模块，用于数据处理、图像处理、机器学习模型构建、可视化和环境配置等任务。通过设置环境变量和模块选项，代码还配置了 TensorFlow 和 pandas 的显示行为，以及忽略了警告信息，以便在开发过程中减少不必要的干扰。最后，打印了 'Modules loaded' 信息，表示所有需要的模块已经成功加载。
+这段代码导入了多个 Python 库和模块，用于数据处理、图像处理、机器学习模型构建、可视化和环境配置等任务。通过设置环境变量和模块选项，代码还配置了 TensorFlow 和 pandas 的显示行为，以及忽略了警告信息，以便在开发过程中减少不必要的干扰。最后，打印了 'Modules loaded' 信息，表示所有需要的模块已经成功加载。    
 #### 结果展示：
 
 
@@ -145,7 +145,6 @@ form of the call is: print_in_color(txt_msg, fore_tupple, back_tupple where:
 * txt_msg is the string to be printed out
 * fore_tuple is tuple of the form (r,g,b) specifying the foreground color of the text
 * back_tuple is tuple of the form (r,g,b) specifying the background color of the text
-
 
 ```python
 # 定义一个函数 print_in_color，用于以指定的前景色和背景色打印文本消息。
@@ -189,7 +188,6 @@ print_in_color(msg)
 test of default colors
 ```
 ## 4. Read in images and create a dataframe of image paths and class labels
-
 
 
 
@@ -1004,7 +1002,7 @@ history = model.fit(
 
 这段代码是启动模型训练的关键步骤。它使用 `fit` 方法对模型进行训练，并传入多个参数来配置训练过程。`train_gen` 是一个生成器，它按批次提供训练数据；`epochs` 是训练周期的数量；`callbacks` 是一个包含自定义回调函数的列表，这些回调函数可以在训练的不同阶段执行特定的操作；`valid_gen` 是用于验证的生成器，它提供验证数据集，以便在每个周期结束时评估模型的性能；`shuffle` 参数设置为 False，因为生成器已经负责打乱数据；`initial_epoch` 设置为 0，表示从训练的最开始进行。`history` 变量将记录训练过程中的各种指标，如损失和准确率，这对于分析模型性能和进行后续的模型调整非常有用。
 
-
+### 结果展示：
 ```python
 Training will proceed until epoch 5 then you will be asked to
 
@@ -1120,6 +1118,7 @@ loading model with weights from epoch 15
 training elapsed time was 0.0 hours, 18.0 minutes, 33.91 seconds)
 
 ```
+### 结果解释
 执行上述代码后，模型开始训练，并且在训练过程中输出了一系列信息。以下是对输出结果的详细分析：
 
 1. **训练开始提示**:
@@ -1330,12 +1329,14 @@ errors, tests, error_list, error_pred_list, f1score = predictor(test_gen)
 
 这段代码定义了一个函数 `predictor`，用于对测试数据集中的图像进行预测，并计算模型的准确率、F1 分数和混淆矩阵。函数首先从测试数据生成器中获取真实标签和类别名称，然后使用模型进行预测。接着，函数遍历每个预测结果，比较预测类别和真实类别，并记录错误的预测。函数计算准确率，并在控制台中打印错误信息和准确率。如果类别数量不多于 30 个，函数还会生成混淆矩阵并显示它。最后，函数生成一个分类报告并打印出来。这个函数可以帮助用户了解模型在测试数据集上的性能表现。在代码的最后，调用了 `predictor` 函数并传入了测试数据生成器 `test_gen`。
 
-
+### 结果展示：
 
 ```python
 1867/1867 [==============================] - 40s 19ms/step
 there were 10 errors in 1867 tests for an accuracy of  99.46
 ```
+
+### 结果解释：
 执行上述代码后，得到了模型在测试集上的性能评估结果。以下是对结果的详细分析：
 
 1. **预测过程**:
@@ -1461,7 +1462,7 @@ print_errors(error_list)
 
 执行这行代码将执行 `print_errors` 函数，如果 `error_list` 不为空且长度小于50，它将打印出每个错误分类的测试文件的文件名和预测的类别。这个调用的作用是向用户报告模型在测试集上的误分类情况，以便用户可以查看和分析模型在特定样本上的表现。如果 `error_list` 为空或者长度大于等于50，根据 `print_errors` 函数的逻辑，将不会打印任何误分类的详细信息。这种方式有助于用户快速识别和审查模型性能的潜在问题。在实际应用中，了解模型在哪些样本上出错是非常重要的，它可以为模型的进一步改进提供线索。
 
-
+### 结果展示：
 
 ```python
 Below is a list of test files that were miss classified 
@@ -1478,6 +1479,9 @@ CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone-Cyst            Stone
 CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone-Normal             Cyst             
 CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone-Cyst            Stone   
 ```
+
+### 结果展示：
+
 执行 `print_errors(error_list)` 代码后，得到了以下误分类的测试文件列表。以下是对结果的分析：
 
 1. **误分类概览**:
@@ -1523,11 +1527,11 @@ print_in_color(msg, (0, 255, 255), (100, 100, 100))  # 以青色前景和灰色�
 
 这段代码负责将训练好的模型保存到文件，并记录保存的位置。首先，定义了工作目录 `working_dir`，然后根据类别数量和图像尺寸构造了模型的名称 `name`。接着，使用 `f-string` 和 F1 分数构造了模型的保存 ID `save_id`。通过 `os.path.join` 函数结合工作目录和保存 ID 来构造完整的保存路径 `model_save_loc`。之后，使用 `model.save` 方法将模型保存到这个路径。最后，打印出保存成功的消息，其中包含了模型保存的位置信息，并通过 `print_in_color` 函数以青色前景和灰色背景显示消息。这样的保存和记录机制有助于跟踪和管理不同版本的模型。
 
-
+### 结果展示：
 ```python
 model was saved as ./kidney-4-(224 X 250)-99.47.h5
 ```
-
+### 结果解释：
 
 执行上述代码后，得到了模型保存成功的消息。以下是对结果的详细分析：
 
