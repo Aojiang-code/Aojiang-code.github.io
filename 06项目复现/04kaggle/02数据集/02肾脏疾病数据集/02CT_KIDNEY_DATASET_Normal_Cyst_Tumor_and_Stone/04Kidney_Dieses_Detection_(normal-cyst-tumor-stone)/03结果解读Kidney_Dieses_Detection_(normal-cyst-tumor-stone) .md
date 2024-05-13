@@ -1,12 +1,4 @@
-# 04Kidney_Dieses_Detection_(normal-cyst-tumor-stone)
-
-> 网址： [Kidney Disease F1 score= 99.5%](https://www.kaggle.com/code/ramoliyafenil/kidney-dieses-detection-normal-cyst-tumor-stone)
-
-* 2024年创建(16天之前，也就是2024年4月13日)
-* 12人投票
-* 6次复现
-
-
+# Kidney Dieses Detection (normal-cyst-tumor-stone)
 
 # Kidney Dieses Classification in 4 classes using 3 different model (VGG, MOBILENET, RESNET)¶
 
@@ -1834,25 +1826,3 @@ plt.show()
 11. **模型性能**：最终，模型在训练集和验证集上都达到了非常高的准确率，这表明模型训练效果很好，并且很可能在新数据上也能表现良好。
 
 通过这些曲线，我们可以对模型的训练过程有一个直观的了解，它们是评估模型性能的重要工具。高准确率和两条曲线的相似趋势表明模型训练效果很好，并且很可能在新数据上也能表现良好。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
