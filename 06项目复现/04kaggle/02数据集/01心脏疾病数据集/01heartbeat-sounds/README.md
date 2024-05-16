@@ -1,12 +1,10 @@
-# Heart_Disease_Dataset
+# Heartbeat_Sounds
 
-> 网址：[Heart Disease Dataset](https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset)
+> 网址：[Heartbeat Sounds](https://www.kaggle.com/datasets/kinguistics/heartbeat-sounds/code?datasetId=453&sortBy=voteCount)
 
-2017年创建
-
-570人投票
-
-21,200 downloads
+* 2017年创建
+* 570人投票
+* 21,200 downloads
 
 
 ## 相关代码(按vote排序)
@@ -14,6 +12,7 @@
 ### [01Loading_and_Manipulating_Heartbeat_Audio](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01heartbeat-sounds\01Loading_and_Manipulating_Heartbeat_Audio\README.md)
 
 > 网址：[Loading_and_Manipulating_Heartbeat_Audio](https://www.kaggle.com/code/kinguistics/loading-and-manipulating-heartbeat-audio)
+
 * 2017年发布
 * 16，316次浏览
 * 60人认可

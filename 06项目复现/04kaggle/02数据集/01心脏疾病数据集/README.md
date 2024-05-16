@@ -3,26 +3,29 @@ kaggle上的与心脏相关的一些音频数据或一些数值数据
 
 # 目录 
 
-## [01Heart_Disease_Dataset](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01heartbeat-sounds\README.md)
+## [01Heartbeat Sounds](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01heartbeat-sounds\README.md)
 
 
 > 网址：[Heartbeat Sounds](https://www.kaggle.com/datasets/kinguistics/heartbeat-sounds/data)
 
-2017年创建
-
-570人投票
-
-21,200 downloads
+* 2017年创建
+* 570人投票
+* 21,200 downloads
 
 
+## [02Heartbeat Sound](https://www.kaggle.com/datasets/kinguistics/heartbeat-sounds/code?datasetId=453&sortBy=voteCount)
+
+> 网址：[Heartbeat Sound](https://www.kaggle.com/datasets/abdallahaboelkhair/heartbeat-sound/code?datasetId=1863559&sortBy=voteCount)
+
+
+* 2022年创建
+* 6人投票
+*  downloads
 
 
 
 
-
-
-
-
+## [00Heart_Disease_Dataset](06项目复现\04kaggle\02数据集\01心脏疾病数据集\01heartbeat-sounds\README.md)
 
 
 
