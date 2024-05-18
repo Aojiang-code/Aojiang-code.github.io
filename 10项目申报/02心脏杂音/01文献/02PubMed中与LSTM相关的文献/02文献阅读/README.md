@@ -10,7 +10,6 @@
 ## 可获取的8篇文献总结
 ### 核心内容总结
 
-以下是根据您提供的文献标题，对每篇文献的核心内容进行的总结：
 
 1. **"Automatic heart sound classification from segmented/unsegmented phonocardiogram signals using time and frequency features" by Faiq Ahmad Khan et al.**
    - **核心内容**: 研究了使用分割和未分割的心脏声音图（PCG）信号进行自动心脏声音分类的方法，通过分析时间和频率域特征，并使用不同的分类算法进行性能评估。
