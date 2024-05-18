@@ -1,6 +1,6 @@
 # [01Diabetic retinopathy Detection [CNN]]()
 
-> 网址：[Chronic Kidney Disease Prediction (98% Accuracy)](https://www.kaggle.com/code/zahraaalaatageldein/diabetic-retinopathy-detection-cnn)
+> 网址：[Diabetic retinopathy Detection [CNN]](https://www.kaggle.com/code/zahraaalaatageldein/diabetic-retinopathy-detection-cnn)
 
 * 2023年发布(五个月前，也就是2023年12月)
 * 2,469次浏览
@@ -25,7 +25,7 @@ DR: Diabetic Retinopathy
 
 ## 1 Import libraries
 
-下面这段代码是一个Python脚本，主要用于图像处理、数据预处理和机器学习模型的构建，特别是用于深度学习中图像识别任务。以下是对每一行代码的中文注释：
+下面这段代码是一个Python脚本，主要用于图像处理、数据预处理和机器学习模型的构建，特别是用于深度学习中图像识别任务。
 
 ```python
 # 安装最新版本的imbalanced-learn库，用于处理不平衡数据集问题
@@ -171,7 +171,7 @@ All done
 
 ### A- convert files to lists
 
-这段代码是用于列出特定目录下所有文件的Python脚本。下面是对每一行代码的详细中文注释：
+下面这段代码是用于列出特定目录下所有文件的Python脚本。
 
 ```python
 # 定义一个字符串变量Path_data，它包含了一个文件路径，这个路径指向存放糖尿病视网膜病变数据集的目录。
@@ -350,7 +350,7 @@ Df.head(5)
 ![02](01图片/02.png)
 
 
-Diabetic retinopathy is a complication of diabetes and a leading cause of blindness. It occurs when diabetes damages the tiny blood vessels inside the retina, the light-sensitive tissue at the back of the eye. A healthy retina is necessary for good vision.¶
+Diabetic retinopathy is a complication of diabetes and a leading cause of blindness. It occurs when diabetes damages the tiny blood vessels inside the retina, the light-sensitive tissue at the back of the eye. A healthy retina is necessary for good vision.
 If you have diabetic retinopathy, at first you may notice no changes to your vision. But over time, diabetic retinopathy can get worse and cause vision loss. Diabetic retinopathy usually affects both eyes.
 
 Diabetic Retinopathy has four stages:
@@ -378,11 +378,14 @@ ref: https://petroueyecare.com/services/medical-eye-exams/diabetic-retinopathy/
 
 ## 3 Data Preptocessing
 
-Oversampling techniques for classification problems¶
+Oversampling techniques for classification problems.
+
 1 Random oversampling
+
 Random Oversampling involves supplementing the training data with multiple copies of some of the minority classes. Oversampling can be done more than once (2x, 3x, 5x, 10x, etc.) This is one of the earliest proposed methods, that is also proven to be robust.[3] Instead of duplicating every sample in the minority class, some of them may be randomly chosen with replacement.
 
 2 Augmentation
+
 Data augmentation in data analysis are techniques used to increase the amount of data by adding slightly modified copies of already existing data or newly created synthetic data from existing data. It acts as a regularizer and helps reduce overfitting when training a machine learning model.[8] (See: Data augmentation)
 
 ref: https://en.wikipedia.org/wiki/Oversampling_and_undersampling_in_data_analysis#Oversampling_techniques_for_classification_problems
@@ -391,7 +394,7 @@ ref: https://en.wikipedia.org/wiki/Oversampling_and_undersampling_in_data_analys
 
 more preferred with text data not with images
 
-这段代码的目的是准备机器学习模型训练所需的输入特征（X）和标签（y），并且计算标签的分布情况。不过，代码被注释掉了，因此实际上并不会执行。下面是对每一行注释代码的详细中文解释：
+这段代码的目的是准备机器学习模型训练所需的输入特征（X）和标签（y），并且计算标签的分布情况。不过，代码被注释掉了，因此实际上并不会执行。
 
 ```python
 # 使用Df.drop方法从DataFrame Df中删除列'Labels'，axis=1指定操作的是列而不是行。
@@ -419,7 +422,7 @@ y.value_counts()
 这些步骤是在机器学习中常见的数据预处理环节，用于准备数据以供模型训练使用。
 
 
-这段代码使用了`imbalanced-learn`库中的`RandomOverSampler`类来处理数据集中的不平衡问题，并通过图形展示了过采样后标签的分布情况。以下是对每一行注释代码的详细中文解释：
+下面这段代码使用了`imbalanced-learn`库中的`RandomOverSampler`类来处理数据集中的不平衡问题，并通过图形展示了过采样后标签的分布情况。
 
 ```python
 # 导入imbalanced-learn库中的RandomOverSampler类。
@@ -546,7 +549,7 @@ Name: count, dtype: int64
 
 ### C- Data Augmentation
 
-下面这段代码是用于创建图像数据生成器（ImageDataGenerator），并使用这些生成器从DataFrame中读取图像数据，为模型训练和测试准备数据。以下是对每一行代码的详细中文注释：
+下面这段代码是用于创建图像数据生成器（ImageDataGenerator），并使用这些生成器从DataFrame中读取图像数据，为模型训练和测试准备数据。
 
 ```python
 # 定义batch_size为20，这意味着每次训练时将使用20张图像。
@@ -629,7 +632,7 @@ Found 275 validated image filenames belonging to 5 classes.
 
 ### D- Represent a sample
 
-这段代码用于定义标签与其索引的映射关系，获取标签列表，从训练数据生成器中获取一批样本数据，并可视化这些图像及其对应的标签。以下是对每一行代码的详细中文注释：
+下面这段代码用于定义标签与其索引的映射关系，获取标签列表，从训练数据生成器中获取一批样本数据，并可视化这些图像及其对应的标签。
 
 ```python
 # 定义一个字典L_index，它将类别标签映射到它们在模型中的索引。
@@ -686,7 +689,8 @@ plt.show()
 
 ### A- Create a model using transfer learning with EfficientNetB2
 
-* NOTE "experts advise you make the base model initially not trainable. Then train for some number of epochs¶
+* NOTE "experts advise you make the base model initially not trainable. Then train for some number of epochs
+
 then fine tune model by making base model trainable and run more epochs
 It was found to be WRONG!!!!
 Making the base model trainable from the outset leads to faster convegence and a lower validation loss
@@ -698,7 +702,7 @@ as mentioned at: https://www.kaggle.com/code/devanshajmera/chair
 And I will using include_top=False option since it allows me to add my own output layer.
 
 
-这段代码是用于定义一个深度学习模型，该模型基于预训练的EfficientNetB3作为基础模型，并在其上添加自定义的全连接层。以下是对每一行代码的详细中文注释：
+下面这段代码是用于定义一个深度学习模型，该模型基于预训练的EfficientNetB3作为基础模型，并在其上添加自定义的全连接层。
 
 ```python
 # 定义类别的数量n_classes，它等于训练数据生成器Train中类别标签的数量。
@@ -766,7 +770,7 @@ lr = .0001
 这段代码通过使用预训练的EfficientNetB3模型作为特征提取器，并在其上添加了自定义的全连接层和正则化层，构建了一个完整的深度学习模型。模型的权重是可训练的，这意味着在训练过程中，基础模型的权重也会被更新。此外，模型使用了批量归一化、Dropout和正则化技术来提高泛化能力和防止过拟合。最后，代码定义了一个初始学习率，这将用于模型的训练过程中。
 
 
-这段代码使用Keras的`Sequential`模型类来构建一个顺序模型，该模型在预训练的EfficientNetB3模型的基础上添加了额外的全连接层。以下是对每一行代码的详细中文注释：
+下面这段代码使用Keras的`Sequential`模型类来构建一个顺序模型，该模型在预训练的EfficientNetB3模型的基础上添加了额外的全连接层。以下是对每一行代码的详细中文注释：
 
 ```python
 # 创建Sequential模型的实例，Sequential是Keras中用于构建顺序（逐层堆叠）模型的类。
@@ -801,7 +805,7 @@ model.add(Dense(5, activation='softmax'))
 
 
 
-这段代码使用Keras的`compile`方法来配置模型的训练参数，包括优化器、损失函数和评估指标。以下是对每一行代码的详细中文注释：
+下面这段代码使用Keras的`compile`方法来配置模型的训练参数，包括优化器、损失函数和评估指标。
 
 ```python
 # 调用模型的compile方法来编译（配置）模型。
