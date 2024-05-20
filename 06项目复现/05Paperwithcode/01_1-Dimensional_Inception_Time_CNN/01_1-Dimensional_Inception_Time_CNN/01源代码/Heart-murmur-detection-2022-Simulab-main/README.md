@@ -28,8 +28,8 @@ Full reference to the original paper :
 This repository contains the code for our contribution to the George B. Moody PhysioNet Challenge 2022. The objective of this challenge was to identify murmurs as present, absent or unclear and predict clinical outcome as normal or abnormal from phonocardiograms collected from multiple auscultation locations on the chest walls using digital stethoscope. 
 
 We trained and tested two 1-dimensional convolutional
-neural networks (CNN) on a PCG data set (5272 PCGs) from a pediatric
-population of 1568 individuals. One model predicted murmurs, while the other model predicted clinical outcomes.
+neural networks (CNN) on a PCG data set (5272 PCGs) from a pediatric population of 1568 individuals. One model predicted murmurs, while the other model predicted clinical outcomes.
+
 Both models were trained to give recording-wise predictions, while the final predictions were given for every patient (patient wise predictions).
 
 Our team, **Simulab**, trained a clinical outcome classifier that achieved a challenge cost score of `8720 (ranked 1st out of 305 submissions)` and the murmur classifier achieved a weighted
