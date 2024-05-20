@@ -8,6 +8,31 @@
 
 > Phonocardiogram Classification Using 1-Dimensional Inception Time Convolutional Neural Networks : George B. Moody PhysioNet Challenge 2022
 
+> Team name: Simulab
+
+
+![01原理概述](03图片/01原理概述.png)
+
+
+### What's in this repository?
+
+
+### 
+
+
+### 
+
+
+
+
+### 
+
+
+
+
+### 
+
+
 
 
 
