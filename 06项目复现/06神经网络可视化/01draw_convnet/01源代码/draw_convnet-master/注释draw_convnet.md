@@ -34,10 +34,10 @@ from matplotlib.patches import Circle  # 从matplotlib的patches模块中导入C
 NumDots = 4
 
 # 定义一个常量NumConvMax，值为8，这可能表示卷积层中的最大特征图数量。
-NumConvMax = 8
+NumConvMax = 8#表示，最多8张特征图
 
 # 定义一个常量NumFcMax，值为20，这可能表示全连接层中的最大单元数量。
-NumFcMax = 20
+NumFcMax = 20#表示，全连接层中有20个方块展示出来
 
 # 定义一个常量White，值为1.0，这可能表示绘图中白色的颜色值。
 White = 1.
@@ -60,7 +60,10 @@ Black = 0.
 
 这些常量看起来是用于一个绘图脚本中，用于定义不同的颜色和层的数量，以便在可视化神经网络结构时使用。
 
+
+
 ## 定义一个名为 `add_layer` 的函数，在给定的图形上添加一层矩形元素，并且为这些元素指定颜色
+
 这段代码定义了一个名为 `add_layer` 的函数，它的作用是在给定的图形上添加一层矩形元素，并且为这些元素指定颜色。下面是对这段代码的逐行中文注释：
 
 ```python
@@ -302,10 +305,7 @@ for ind in range(len(size_list)-1,-1,-1):
 这段代码中，`size_list` 存储了每个卷积层输出的特征图尺寸，`num_list` 存储了每个卷积层的特征图数量。`x_diff_list` 定义了每层之间的水平间隔，`text_list` 定义了每层的文本标签，`loc_diff_list` 定义了每层内部特征图之间的间距。`num_show_list` 根据 `NumConvMax` 限制 `num_list` 中的数值，`top_left_list` 计算每层的起始位置。最后，通过 `for` 循环反向遍历每层，并根据 `flag_omit` 的值决定是使用 `add_layer_with_omission` 函数还是 `add_layer` 函数来绘制层，最后使用 `label` 函数在每层绘制文本标签。
 
 
-## 
-
-
-
+## 层间连接
 
 这段代码是用于设置和绘制卷积神经网络中的层间连接（例如卷积和池化层）部分的Python脚本。以下是逐行中文注释：
 
@@ -347,7 +347,8 @@ for ind in range(len(patch_size_list)):
 这段代码中，`start_ratio_list` 和 `end_ratio_list` 定义了层间连接的起始和结束偏移比例，`patch_size_list` 定义了映射区域的大小。`ind_bgn_list` 是一个索引列表，用于遍历每一层间连接。`text_list` 包含了每一层间连接的文本标签，如 "Convolution"（卷积）和 "Max-pooling"（最大池化）。通过 `for` 循环，代码调用 `add_mapping` 函数来绘制层间连接，并使用 `label` 函数在适当的位置添加描述性文本标签。`xy_off` 参数用于调整文本标签的位置，确保标签不会与图形元素重叠，提高可视化的可读性。
 
 
-## 
+## 全连接层部分
+
 这段代码是用于设置和绘制卷积神经网络中的全连接层部分的Python脚本。以下是逐行中文注释：
 
 ```python
@@ -406,7 +407,7 @@ for ind in range(len(size_list)):
 
 这段代码中，`size_list` 存储了全连接层的尺寸，`num_list` 存储了每个全连接层的单元数量。`num_show_list` 根据 `NumFcMax` 限制 `num_list` 中的数值。`x_diff_list` 定义了全连接层之间的水平间隔，`top_left_list` 计算每层的起始位置。`loc_diff_list` 定义了全连接层内部单元之间的间距。通过两个 `for` 循环，第一个用于绘制层并添加数量标签，第二个用于添加描述性标签，如 "Flatten"（展平层）、"Fully connected"（全连接层）。`xy_off` 参数用于调整文本标签的位置，确保标签的可读性。
 
-## 
+## 保存为图片文件
 
 这段代码是用于完成神经网络结构图的绘制，并将其保存为图片文件的Python脚本。以下是逐行中文注释：
 
