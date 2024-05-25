@@ -3,6 +3,8 @@ kaggle上的与糖尿病视网膜病变相关的一些数据,主要为数值型�
 
 # 目录 
 
+> 以下是一些数据集
+
 ## [01Diabetic Retinopathy (resized)]()
 
 > 网址： [Diabetic Retinopathy (resized)](https://www.kaggle.com/datasets/tanlikesmath/diabetic-retinopathy-resized)
