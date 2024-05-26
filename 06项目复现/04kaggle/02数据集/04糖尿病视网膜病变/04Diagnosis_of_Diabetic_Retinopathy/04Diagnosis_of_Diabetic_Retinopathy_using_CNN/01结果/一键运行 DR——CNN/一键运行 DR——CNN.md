@@ -1,4 +1,4 @@
-# Diagnosis of Diabetic Retinopathy using CNN
+Diagnosis of Diabetic Retinopathy using CNN
 
 
 ```python
@@ -84,47 +84,47 @@ Dataset
 在终端中安装包
 
 1. `numpy`:
-```
+   ```
 pip show numpy || pip install numpy -i https://pypi.tuna.tsinghua.edu.cn/simple
- ```
+   ```
 
 2. `pandas`:
-```
+   ```
 pip show pandas || pip install pandas -i https://pypi.tuna.tsinghua.edu.cn/simple
    ```
 
 3. `matplotlib`:
-```
+   ```
 pip show matplotlib || pip install matplotlib -i https://pypi.tuna.tsinghua.edu.cn/simple
-```
+   ```
 
 4. `opencv-python` (cv2):
-```
+   ```
 pip show opencv-python || pip install opencv-python -i https://pypi.tuna.tsinghua.edu.cn/simple
-```
+   ```
 
 5. `scikit-learn` (sklearn):
-```
+   ```
 pip show scikit-learn || pip install scikit-learn -i https://pypi.tuna.tsinghua.edu.cn/simple
-```
+   ```
 
 6. `tensorflow`:
-```
+   ```
 pip show tensorflow || pip install tensorflow -i https://pypi.tuna.tsinghua.edu.cn/simple
-```
+   ```
 
 7. `Pillow` (PIL):
-```
+   ```
 pip show Pillow || pip install Pillow -i https://pypi.tuna.tsinghua.edu.cn/simple
-```
+   ```
 
 8. `glob2` (glob):
-```
+   ```
 pip show glob2 || pip install glob2 -i https://pypi.tuna.tsinghua.edu.cn/simple
-```
+   ```
 
 9. `keras`:
-```
+   ```
 pip show keras || pip install keras -i https://pypi.tuna.tsinghua.edu.cn/simple
    ```
 
@@ -132,16 +132,16 @@ pip show keras || pip install keras -i https://pypi.tuna.tsinghua.edu.cn/simple
     这个模块是scikit-learn的一部分，所以安装scikit-learn时它也会被安装。
 
 11. `plotly`:
-```
+    ```
 pip show plotly || pip install plotly -i https://pypi.tuna.tsinghua.edu.cn/simple
-```
+    ```
 
 12. `tqdm`:
-```
+    ```
 pip show tqdm || pip install tqdm -i https://pypi.tuna.tsinghua.edu.cn/simple
-```
+    ```
 
-```
+``
 pip show pyparsing || pip install pyparsing -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
