@@ -459,6 +459,19 @@ weighted avg       0.94      0.94      0.94       231
 >  未来两周(第十三周和第十四周)将复现一个关于慢性肾病的预测模型，包含24个数值型特征(包括年龄以及一些临床生化检查指标)，共400个样品(一共400个患者和健康人)，使用十大经典机器学习模型进行预测。
 
 
+> > 这十大经典机器学习模型分别是：
+* Knn
+* Decision Tree Classifier
+* Random Forest Classifier
+* Ada Boost Classifier
+* Gradient Boosting Classifier
+* Stochastic Gradient Boosting (SGB)
+* XgBoost
+* Cat Boost Classifier
+* Extra Trees Classifier
+* LGBM Classifier
+
+
 >  再接下来三周(第十五周、第十六周和第十七周)将准备期末考试，不跑模型。
 
 
