@@ -10,10 +10,10 @@
 ## 相关代码(按vote排序)
 
 
-### [01Diagnosis_of_Diabetic_Retinopathy_By_CNN(PyTorch)](06项目复现\04kaggle\02数据集\04糖尿病视网膜病变\04Diagnosis_of_Diabetic_Retinopathy\01Diagnosis_of_Diabetic_Retinopathy_By_CNN(PyTorch)/)
+### [01Diagnosis_of_Diabetic_Retinopathy_By_CNN(PyTorch)](06项目复现\04kaggle\02数据集\04糖尿病视网膜病变\04Diagnosis_of_Diabetic_Retinopathy\01Diagnosis_of_Diabetic_Retinopathy_By_CNN(PyTorch)\README.md)
 
 
-> 网址：[Diagnosis of Diabetic Retinopathy By CNN(PyTorch)](https://www.kaggle.com/code/niteshyadav3103/chronic-kidney-disease-prediction-98-accuracy)
+> 网址：[Diagnosis of Diabetic Retinopathy By CNN(PyTorch)](https://www.kaggle.com/code/pkdarabi/diagnosis-of-diabetic-retinopathy-by-cnn-pytorch)
 
 * 2021年发布
 * 37,139次浏览
