@@ -8,6 +8,9 @@
 
 文献开源代码链接为：[github](https://github.com/cfeng16/MTCSNN_for_Diabetic_Retinopathy_Severity_Prediction)
 
+> 虽然代码开源了，但是关键的Siamese Neural的代码没有。
+> 此外，该文章第一版发表于2022年8月，第二版撤回于2022年10月 [arxiv](https://arxiv.org/abs/2208.06917)
+
 
 ## 数据集
 在这份开源项目的README文档中，我注意到，它使用的数据集为开源数据集MedMNIST

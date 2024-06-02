@@ -1042,7 +1042,6 @@ plt.show()
     
 
 
-
 ```python
 # heatmap of data
 
