@@ -1,6 +1,5 @@
 ## 7.3 LSTM进行中文新闻分类
 
-**Daitu:2505131775@qq.com**
 
 
 ```python
@@ -344,8 +343,10 @@ print("类别标签情况:",LABEL.vocab.freqs)
 ```
 
 
-    
-![png](output_18_0.png)
+
+![png](03PyTorch深度学习入门与实战\0703LSTM进行中文新闻分类\output_18_0.png)
+
+
     
 
 
@@ -852,7 +853,7 @@ plt.show()
 
 
     
-![png](output_28_0.png)
+![png](03PyTorch深度学习入门与实战\0703LSTM进行中文新闻分类\output_28_0.png)
     
 
 
@@ -891,7 +892,7 @@ plt.show()
 
 
     
-![png](output_29_1.png)
+![png](03PyTorch深度学习入门与实战\0703LSTM进行中文新闻分类\output_29_1.png)
     
 
 
@@ -910,7 +911,7 @@ plt.show()
 
 
     
-![png](output_30_0.png)
+![png](03PyTorch深度学习入门与实战\0703LSTM进行中文新闻分类\output_30_0.png)
     
 
 
