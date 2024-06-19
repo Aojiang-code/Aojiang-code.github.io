@@ -1,7 +1,7 @@
 # 一些学习碎片
 
 
-## 01 科研思维
+## 01 科研思维与技巧
 ### 01 怎么做科研
 > B站链接：[怎么做科研 总论-哔哩哔哩](https://b23.tv/FKkishw)
 
@@ -30,20 +30,21 @@
 
 
 
-### 07 
-> B站链接：
+### 07 导师喜欢什么样的研究生？
+> 知乎链接：[导师喜欢什么样的研究生？](https://www.zhihu.com/question/569115656/answer/2781621938?utm_psn=1786783674181701632)
+
+
+### 08 该如何阅读开源代码？
+> 知乎链接：[该如何阅读开源代码？](https://www.zhihu.com/question/497298517/answer/3406182603)
 
 
 
+### 09 论文代码看不懂，怎么做才能入门深度学习，自己改写代码？
+> 知乎链接：[论文代码看不懂，怎么做才能入门深度学习，自己改写代码？](https://www.zhihu.com/question/442031612/answer/2936016095)
 
 
-
-### 08 
-> B站链接：
-
-
-
-
+### 10 送给即将入学的你们—炼丹师修炼手册
+> 知乎链接：[送给即将入学的你们—炼丹师修炼手册](https://zhuanlan.zhihu.com/p/80891282)
 
 
 
@@ -59,13 +60,14 @@
 ### 03 YOLOv10实现fps 自动瞄准
 > B站链接：[基于YOLOv10实现fps 自动瞄准-哔哩哔哩](https://b23.tv/iJh2ufL)
 
-### 04 
-> B站链接：
+### 04 计算机视觉实战演练：算法与应用
+> 链接：[计算机视觉实战演练：算法与应用](https://charmve.github.io/computer-vision-in-action/#/README)
+> Github链接：https://github.com/Charmve/computer-vision-in-action
+> 博客封面：https://charmve.github.io/computer-vision-in-action/#/
 
 
-
-### 05 
-> B站链接：
+### 05 哪些 Python 库让你相见恨晚？
+> 链接：[哪些 Python 库让你相见恨晚？](https://www.zhihu.com/question/24590883/answer/1220720307)
 
 
 
@@ -359,31 +361,68 @@
 
 
 
-### 03 
-> B站链接：
-
-### 04 
-> B站链接：
+### 03 PyTorch深度学习通用常见代码小技巧
+> 知乎链接：[PyTorch深度学习通用常见代码小技巧](https://zhuanlan.zhihu.com/p/448709536?utm_campaign=shareopn&utm_medium=social&utm_psn=1786783781086117889&utm_source=wechat_session)
 
 
-
-### 05 
-> B站链接：
+### 04 如何最简单、通俗地理解卷积神经网络？
+> 知乎链接：[如何最简单、通俗地理解卷积神经网络？](https://www.zhihu.com/question/437945223/answer/1662167531?utm_psn=1786784311745339392)
 
 
 
-### 06 
-> B站链接：
+### 05 机器学习模型可解释性进行到底 —— SHAP值理论（一）
+> 知乎链接：[机器学习模型可解释性进行到底 —— SHAP值理论（一）](https://zhuanlan.zhihu.com/p/364919024?utm_psn=1786784993126727681)
 
 
 
-### 07 
-> B站链接：
+### 06 循环神经网络详解（RNN/LSTM/GRU）
+> 知乎链接：[循环神经网络详解（RNN/LSTM/GRU）](https://zhuanlan.zhihu.com/p/636756912?utm_psn=1786785189881593856)
+
+
+
+### 07 对于神经网络，硕士博士不需要弄明白原理，只需要应用，是这样吗？
+> 知乎链接：[对于神经网络，硕士博士不需要弄明白原理，只需要应用，是这样吗？](https://www.zhihu.com/question/433274875/answer/1706115635)
 
 
 
 
 
+### 08 目前深度学习的模型有哪几种，适用于哪些问题？
+> 知乎链接：[目前深度学习的模型有哪几种，适用于哪些问题？](https://www.zhihu.com/question/38679133/answer/147868290)
 
-### 08 
-> B站链接：
+
+
+
+### 09 赞赞赞❤️❤️N个神经网络可视化工具❤️❤️❤️
+> 知乎链接：[赞赞赞❤️❤️N个神经网络可视化工具❤️❤️❤️](https://zhuanlan.zhihu.com/p/397430202)
+
+
+
+
+### 10 有没有专业神经网络图可视化的软件？
+> 知乎链接：[有没有专业神经网络图可视化的软件？](https://www.zhihu.com/question/38525059/answer/3370093449)
+
+
+
+### 11 
+> 知乎链接：
+
+
+
+### 12 
+> 知乎链接：
+
+
+
+### 13 
+> 知乎链接：
+
+
+
+### 14 
+> 知乎链接：
+
+
+
+### 15 
+> 知乎链接：
