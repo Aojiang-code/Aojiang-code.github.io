@@ -46,6 +46,28 @@
 ### 10 送给即将入学的你们—炼丹师修炼手册
 > 知乎链接：[送给即将入学的你们—炼丹师修炼手册](https://zhuanlan.zhihu.com/p/80891282)
 
+### 11 机器学习该怎么入门？
+>　知乎链接：[机器学习该怎么入门？](https://www.zhihu.com/question/20691338/answer/191099403)
+> GitHub链接：https://github.com/ty4z2008/Qix/blob/master/dl.md
+
+
+### 12 新手如何入门pytorch？
+>　知乎链接：[新手如何入门pytorch？](https://www.zhihu.com/question/55720139/answer/151430115)
+> GitHub链接：https://github.com/yunjey/pytorch-tutorial
+
+
+
+
+### 13 Pytorch实验代码的亿些小细节
+>　知乎链接：[Pytorch实验代码的亿些小细节](https://zhuanlan.zhihu.com/p/409662511)
+> GitHub链接：https://github.com/ahangchen/torch_base
+
+
+
+
+
+
+
 
 
 
