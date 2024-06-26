@@ -23,6 +23,11 @@
 
 
 
+
+
+
+
+
 </head>
 <body>
   <div id="app"></div>
@@ -41,5 +46,22 @@
   </script>
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+
+
+    <!-- 回到顶部功能  -->
+    <script src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/jquery.goup.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $.goup({
+          trigger: 100,
+          bottomOffset: 52,
+          locationOffset: 25,
+          title: 'TOP',
+          titleAsText: true
+        });
+      });
+    </script>
+    
 </body>
 </html>
