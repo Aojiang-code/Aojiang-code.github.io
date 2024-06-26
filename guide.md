@@ -1,3 +1,5 @@
+<a href="https://aojiang-code.github.io"><img align="right" alt="Go for it!" src="https://img.freepik.com/free-vector/red-beauty-butterfly-insect-icon_18591-82365.jpg?semt=sph" height="170" title="Do what you like, and do it best!"/></a>
+
 # 简介
 
 该文档记录了一些学习笔记，主要以机器学习为主（包括传统的机器学习以及深度学习），还包括一些文献阅读笔记。
@@ -51,6 +53,9 @@
 
 ### 第七阶段：大师
 提出具有创新性，甚至里程碑式的模型和算法。
+
+
+- <a href="https://aojiang-code.github.io"><img align="" alt="Go for it!" src="https://raw.githubusercontent.com/Charmve/computer-vision-in-action/dd292873828228a753a9bd2de4576dbf8cc3902c/res/ui/footer-rocket.svg" height="260" title="Do what you like, and do it best!"/></a>
 
 <br>
 - <b>更新中 ...</b>
@@ -286,7 +291,7 @@ Use this bibtex to cite this repository:
 [<<返回首页](README.md)
 
 
->   <a href="https://github.com/Charmve/computer-vision-in-action#-以用促学先会后懂-"><img align="right" alt="Go for it!" src="https://raw.githubusercontent.com/Charmve/computer-vision-in-action/dd292873828228a753a9bd2de4576dbf8cc3902c/res/ui/footer-rocket.svg" height="260" title="Do what you like, and do it best!"/></a>
+>   <a href="https://aojiang-code.github.io"><img align="right" alt="Go for it!" src="https://raw.githubusercontent.com/Charmve/computer-vision-in-action/dd292873828228a753a9bd2de4576dbf8cc3902c/res/ui/footer-rocket.svg" height="260" title="Do what you like, and do it best!"/></a>
 
 
 

@@ -260,13 +260,12 @@ ROC曲线有问题
 ### 已完成的内容和结果
 
 #### 已发表的文章
-1. The effect of diabetes mellitus on tuberculosis in eastern China : A decision - tree analysis based on areal - world study .( IF =4.5，中科院二区）
+1. The effect of diabetes mellitus on tuberculosis in eastern China : A decision - tree analysis based on areal - world study .( IF =4.5，中科院二区)
 
 [搜狐链接](https://m.sohu.com/a/711365542_121649647/?pvid=000115_3w_a)
 
-2. Sleep behaviors and Parkinson ' s disease : A bidirectional Mendelian randomization analysis .( IF =2.7，中科院三区）
-3. Effect of Population Aging on Pulmonary Tuberculosis Burden in Zhejiang Province , China :
- A Population - Based Study （在中华医学会2024年结核病学术大会上以摘要 Poster 展示，同时 sci 在投）
+2. Sleep behaviors and Parkinson ' s disease : A bidirectional Mendelian randomization analysis .( IF =2.7，中科院三区)
+3. Effect of Population Aging on Pulmonary Tuberculosis Burden in Zhejiang Province , China : A Population - Based Study （在中华医学会2024年结核病学术大会上以摘要 Poster 展示，同时 sci 在投）
 4．另有一篇 sci 在投
 #### 实习参与
 - 浙江省农村人群结核病感染及传播溯源调查
@@ -306,11 +305,16 @@ Cox 风险模型
 
 
 
+<a href="https://github.com/Charmve/computer-vision-in-action#-以用促学先会后懂-"><img align="" alt="Go for it!" src="https://img.freepik.com/premium-vector/modern-space-rocket-with-realistic-design_23-2147906961.jpg?semt=sph" height="260" title="Do what you like, and do it best!"/></a>
+
+
+
+<a href="https://github.com/Charmve/computer-vision-in-action#-以用促学先会后懂-"><img align="" alt="Go for it!" src="https://img.freepik.com/premium-vector/space-rocket-launch-model-icon_40073-15.jpg?semt=sph" height="260" title="Do what you like, and do it best!"/></a>
 
 
 
 
-
+<a href="https://github.com/Charmve/computer-vision-in-action#-以用促学先会后懂-"><img align="right" alt="Go for it!" src="https://img.freepik.com/free-vector/red-beauty-butterfly-insect-icon_18591-82365.jpg?semt=sph" height="170" title="Do what you like, and do it best!"/></a>
 
 
 
