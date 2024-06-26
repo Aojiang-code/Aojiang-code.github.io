@@ -284,3 +284,10 @@ Use this bibtex to cite this repository:
 [☝回到顶端](#简介)
 
 [<<返回首页](README.md)
+
+
+>   <a href="https://github.com/Charmve/computer-vision-in-action#-以用促学先会后懂-"><img align="right" alt="Go for it!" src="https://raw.githubusercontent.com/Charmve/computer-vision-in-action/dd292873828228a753a9bd2de4576dbf8cc3902c/res/ui/footer-rocket.svg" height="260" title="Do what you like, and do it best!"/></a>
+
+
+
+
