@@ -35,8 +35,7 @@
 
 
 
-## 正文
-好的，我们从引言部分开始。
+## 草稿
 
 ### 摘要 (Abstract)
 
@@ -347,7 +346,7 @@ U-Net在视网膜图像中的应用效果显著，能够准确地标记出病变
 30. De Fauw, J., Ledsam, J. R., Romera-Paredes, B., et al. (2018). Clinically applicable deep learning for diagnosis and referral in retinal disease. Nature Medicine, 24(9), 1342-1350. doi:10.1038/s41591-018-0107-6
 
 
-
+## 
 
 
 
