@@ -1,5 +1,8 @@
 <a href="https://aojiang-code.github.io"><img align="right" alt="Go for it!" src="https://img.freepik.com/free-vector/red-beauty-butterfly-insect-icon_18591-82365.jpg?semt=sph" height="170" title="Do what you like, and do it best!"/></a>
 
+
+
+
 # 简介
 
 该文档记录了一些学习笔记，主要以机器学习为主（包括传统的机器学习以及深度学习），还包括一些文献阅读笔记。
@@ -9,8 +12,12 @@
 
 ## 索引
 
+<a href="https://aojiang-code.github.io"><img align="right" alt="电脑" src="https://cdn-icons-png.freepik.com/256/5968/5968350.png?uid=R154074257&ga=GA1.1.1792664441.1719400769&semt=ais_hybrid" height="150" title="python"/></a>
+
 
 <img align="right" src="res/ui/L0CV.png" width=63% alt="使用的技术" title="使用的技术">
+
+
 
 - [💠 深度学习学习路线](#深度学习学习路线)
 - [🌈 我的培养方案](#我的培养方案)
