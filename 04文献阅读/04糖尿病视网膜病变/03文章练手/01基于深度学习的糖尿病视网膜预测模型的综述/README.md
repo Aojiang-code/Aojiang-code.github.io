@@ -1,6 +1,6 @@
 # 基于深度学习的糖尿病视网膜预测模型的综述
 
-> 一下内容由Openai公司的Write For Me模型完成。
+> 以下内容由Openai公司的Write For Me模型完成。
 
 
 ## 提纲
@@ -33,9 +33,7 @@
    - **目的**: 总结综述中的关键点，强调深度学习在糖尿病视网膜病变预测中的潜力和未来前景。
    - **字数**: 500字
 
-总字数: 5500字
 
-请确认这个提纲，或者告诉我需要调整的地方。确认后，我将逐步为您撰写每个部分的内容。
 
 ## 正文
 好的，我们从引言部分开始。
@@ -316,8 +314,6 @@ U-Net在视网膜图像中的应用效果显著，能够准确地标记出病变
 如果有额外的数据、代码或补充信息，可以在附录部分详细说明。
 
 ### 引文 (References)
-
-以下是本文引用的主要文献和数据来源：
 
 1. International Diabetes Federation. (2019). IDF Diabetes Atlas (9th ed.). Retrieved from [https://diabetesatlas.org](https://diabetesatlas.org)
 2. LeCun, Y., Bengio, Y., & Hinton, G. (2015). Deep learning. Nature, 521(7553), 436-444. doi:10.1038/nature14539
