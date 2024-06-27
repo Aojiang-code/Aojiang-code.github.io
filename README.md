@@ -42,28 +42,15 @@ Hello ！
 
 
 
-<span style="font-size: 20px; font-weight: bold; animation: rainbow 5s infinite;">
+<span style="font-size: 20px; font-weight: bold; color: black;">
   欢<br>迎<br>联<br>系<br>我
 </span>
 
 <style>
-@keyframes rainbow {
-    0% { color: red; }
-    14% { color: orange; }
-    28% { color: yellow; }
-    42% { color: green; }
-    57% { color: blue; }
-    71% { color: indigo; }
-    85% { color: violet; }
-    100% { color: red; }
-}
-
 span {
-    font-size: 20px; /* Adjusted font size */
-    animation: rainbow 10s infinite;
+    font-size: 20px; /* 调整后的字体大小 */
 }
 </style>
-
 
 
 
@@ -72,4 +59,33 @@ span {
 ---
 
 
+<style>
+img:hover {
+    filter: hue-rotate(900deg);
+    box-shadow: 0 0 20px rgba(255, 20, 255, 0.7);
+    transition: box-shadow 0.5s;
+}
+
+
+img.rotate-animation {
+    animation: rotate360 2s linear infinite;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
 
