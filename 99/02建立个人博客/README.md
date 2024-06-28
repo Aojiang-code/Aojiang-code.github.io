@@ -80,7 +80,28 @@ PubMed中与LSTM相关的心脏杂音文献
 - [白嫖这8个插件，让你的Zotero成为最强文献管理器，导师看了都说顶呱呱！-哔哩哔哩](https://b23.tv/L0iQGb0)
 - [Zotero文献管理软件】附安装包+插件+操作笔记+思维导图-哔哩哔哩](https://b23.tv/HPy9dhZ)
 - [AI读文献轻松又简单之：Zotero+ChatGPT/Kimi 使用教程-哔哩哔哩](https://b23.tv/nXRzpkl)
+#### Zotero-GPT使用教程，配置免费密钥
 
+1. 在GitHub上搜索Zotero-GPT
+或者点击这个链接[Zotero-GPT](https://github.com/MuiseDestiny/zotero-gpt)
+
+由于我的Zotero的版本是6.0.36，所以我选择[0.2.9版本](https://github.com/MuiseDestiny/zotero-gpt/releases/tag/0.2.9)的Zotero-GPT，点击可以查看[官方教程](https://github.com/MuiseDestiny/zotero-gpt)。
+
+免费密钥在[GPT_API_free](https://github.com/chatanywhere/GPT_API_free?tab=readme-ov-file)
+
+
+##### How to use
+- [x] Get `.xpi` file
+  - [ ] [download latest](https://github.com/MuiseDestiny/zotero-gpt/releases/latest/download/zotero-gpt.xpi) release `.xpi` file
+  - [ ] or build this project [1] to generate a `.xpi` file
+- [x] Install `.xpi` file in Zotero [2]
+- [x] Open Zotero GPT [3]
+- [x] Set your `OpenAI` secret key [4]
+
+
+启动插件后设置：
+
+把`api = https://api.openai.com`该为`api = https://api.chatanywhere.cn`
 
 ### 注意事项
 - 熟悉 Zotero 的基本操作，如添加文献、管理文献、创建引用等。
