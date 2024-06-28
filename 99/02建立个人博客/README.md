@@ -87,7 +87,7 @@ PubMed中与LSTM相关的心脏杂音文献
 
 由于我的Zotero的版本是6.0.36，所以我选择[0.2.9版本](https://github.com/MuiseDestiny/zotero-gpt/releases/tag/0.2.9)的Zotero-GPT，点击可以查看[官方教程](https://github.com/MuiseDestiny/zotero-gpt)。
 
-免费密钥在[GPT_API_free](https://github.com/chatanywhere/GPT_API_free?tab=readme-ov-file)
+**免费密钥**在[GPT_API_free](https://github.com/chatanywhere/GPT_API_free?tab=readme-ov-file)
 
 
 ##### How to use
@@ -102,6 +102,18 @@ PubMed中与LSTM相关的心脏杂音文献
 启动插件后设置：
 
 把`api = https://api.openai.com`该为`api = https://api.chatanywhere.cn`
+
+或者参考下面的链接：
+- 转发Host1: https://api.chatanywhere.tech (国内中转，延时更低，host1和host2二选一)
+- 转发Host2: https://api.chatanywhere.com.cn (国内中转，延时更低，host1和host2二选一)
+- 转发Host3: https://api.chatanywhere.cn (国外使用,国内需要全局代理)
+
+你也可以使用kimi的密钥和[API](https://platform.moonshot.cn/docs/api/chat#%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF)
+
+把`api = https://api.openai.com`该为`api = https://api.moonshot.cn`
+
+`/model moonshot-v1-32k`
+
 
 ### 注意事项
 - 熟悉 Zotero 的基本操作，如添加文献、管理文献、创建引用等。
