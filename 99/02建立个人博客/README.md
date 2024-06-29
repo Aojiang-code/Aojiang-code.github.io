@@ -138,11 +138,11 @@ PubMed中与LSTM相关的心脏杂音文献
 
 由于我的Zotero的版本是6.0.36，所以我选择[2.6.7版本](https://github.com/MuiseDestiny/zotero-style/releases/tag/2.6.7)的Zotero Style，点击可以查看[官方教程](https://github.com/MuiseDestiny/zotero-style)。
 
-**下载`xpi`文件**
+下载xpi文件
 
 
 ##### 第二步：在Zotero中安装Zotero Style插件
-在Zotero -> 工具 -> 附加组件 中，点击右上角的齿轮，选择Install Add-on From File...，选择刚刚下载的`xpi`文件即可。
+在Zotero -> 工具 -> 附加组件 中，点击右上角的齿轮，选择Install Add-on From File...，选择刚刚下载的xpi文件即可。
 
 ##### 第三步：获取[easyscholar](https://www.easyscholar.cc/)的密钥
 
