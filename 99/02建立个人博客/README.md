@@ -82,15 +82,23 @@ PubMed中与LSTM相关的心脏杂音文献
 - [AI读文献轻松又简单之：Zotero+ChatGPT/Kimi 使用教程-哔哩哔哩](https://b23.tv/nXRzpkl)
 #### Zotero-GPT使用教程，配置免费密钥
 
-1. 在GitHub上搜索Zotero-GPT
+> 在使用Zotero-GPT前，你需要先完成以下工作：
+> 1. 安装Zotero，我安装的Zotero的版本是6.0.36
+> 2. 在Zotero中导入几篇你感兴趣的文献
+> 3. 注册Githun账号，以便在Github上领取免费的密钥
+> 4. 注册kimi账号，这样你就可以使用kimi的密钥了
+##### 第一步：在GitHub上搜索Zotero-GPT
 或者点击这个链接[Zotero-GPT](https://github.com/MuiseDestiny/zotero-gpt)
 
 由于我的Zotero的版本是6.0.36，所以我选择[0.2.9版本](https://github.com/MuiseDestiny/zotero-gpt/releases/tag/0.2.9)的Zotero-GPT，点击可以查看[官方教程](https://github.com/MuiseDestiny/zotero-gpt)。
 
+##### 第二步：获取密钥
+
+###### 方法一：通过GPT_API_free使用免费的Chat GPT密钥
 **免费密钥**在[GPT_API_free](https://github.com/chatanywhere/GPT_API_free?tab=readme-ov-file)
 
 
-##### How to use
+**How to use：**
 - [x] Get `.xpi` file
   - [ ] [download latest](https://github.com/MuiseDestiny/zotero-gpt/releases/latest/download/zotero-gpt.xpi) release `.xpi` file
   - [ ] or build this project [1] to generate a `.xpi` file
@@ -107,12 +115,12 @@ PubMed中与LSTM相关的心脏杂音文献
 - 转发Host1: https://api.chatanywhere.tech (国内中转，延时更低，host1和host2二选一)
 - 转发Host2: https://api.chatanywhere.com.cn (国内中转，延时更低，host1和host2二选一)
 - 转发Host3: https://api.chatanywhere.cn (国外使用,国内需要全局代理)
-
+###### 方法二：使用kimi的免费密钥
 你也可以使用kimi的密钥和[API](https://platform.moonshot.cn/docs/api/chat#%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF)
 
 把`api = https://api.openai.com`该为`api = https://api.moonshot.cn`
 
-`/model moonshot-v1-32k`
+模型选择：`/model moonshot-v1-32k`
 
 
 ### 注意事项
