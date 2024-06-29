@@ -85,6 +85,7 @@ PubMed中与LSTM相关的心脏杂音文献
 
 #### [Zotero GPT - 使用教程，配置免费密钥！！！-哔哩哔哩](https://b23.tv/2zVuGle)
 
+
 > 在使用Zotero-GPT前，你需要先完成以下工作：
 > 1. 安装Zotero，我安装的Zotero的版本是6.0.36
 > 2. 在Zotero中导入几篇你感兴趣的文献
@@ -127,6 +128,10 @@ PubMed中与LSTM相关的心脏杂音文献
 
 #### [Zotero Style - 使用精讲，常见配置用法-哔哩哔哩](https://b23.tv/lHmD0nP)
 
+你也可以参考B站UP主[桃不一吖](https://spectrum-war-e41.notion.site/f5ebbd2ff2e140d09107b68ecae9d009?v=d2e245afe84f44d8971192057dd69ac6)的个人主页，包含了Zotero Style的介绍
+
+以及他录制的视频:[Zotero Style|一个漂亮强大但不简单的插件！](https://www.bilibili.com/video/BV1eh4y1W7s4/?share_source=copy_web&vd_source=4392e82d948d25d19963c54bcdfdb089)
+
 > 在使用Zotero Style前，你需要先完成以下工作：
 > 1. 安装Zotero，我安装的Zotero的版本是6.0.36
 > 2. 在Zotero中导入几篇你感兴趣的文献
@@ -138,13 +143,15 @@ PubMed中与LSTM相关的心脏杂音文献
 
 由于我的Zotero的版本是6.0.36，所以我选择[2.6.7版本](https://github.com/MuiseDestiny/zotero-style/releases/tag/2.6.7)的Zotero Style，点击可以查看[官方教程](https://github.com/MuiseDestiny/zotero-style)。
 
-下载xpi文件
+**下载xpi文件**
 
 
 ##### 第二步：在Zotero中安装Zotero Style插件
-在Zotero -> 工具 -> 附加组件 中，点击右上角的齿轮，选择Install Add-on From File...，选择刚刚下载的xpi文件即可。
+在Zotero -> 工具 -> 附加组件 中，点击右上角的齿轮，选择Install Add-on From File...，选择刚刚下载的`xpi`文件即可。
 
 ##### 第三步：获取[easyscholar](https://www.easyscholar.cc/)的密钥
+
+**请勿泄露个人密钥！**
 
 在[easyscholar](https://www.easyscholar.cc/)  -> 用户中心 -> 我的信息 -> 开放接口 中复制密钥
 
