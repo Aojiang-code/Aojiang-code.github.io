@@ -80,7 +80,10 @@ PubMed中与LSTM相关的心脏杂音文献
 - [白嫖这8个插件，让你的Zotero成为最强文献管理器，导师看了都说顶呱呱！-哔哩哔哩](https://b23.tv/L0iQGb0)
 - [Zotero文献管理软件】附安装包+插件+操作笔记+思维导图-哔哩哔哩](https://b23.tv/HPy9dhZ)
 - [AI读文献轻松又简单之：Zotero+ChatGPT/Kimi 使用教程-哔哩哔哩](https://b23.tv/nXRzpkl)
-#### Zotero-GPT使用教程，配置免费密钥
+- [Zotero GPT - 使用教程，配置免费密钥！！！-哔哩哔哩](https://b23.tv/2zVuGle)
+- [Zotero Style - 使用精讲，常见配置用法-哔哩哔哩](https://b23.tv/lHmD0nP)
+
+#### [Zotero GPT - 使用教程，配置免费密钥！！！-哔哩哔哩](https://b23.tv/2zVuGle)
 
 > 在使用Zotero-GPT前，你需要先完成以下工作：
 > 1. 安装Zotero，我安装的Zotero的版本是6.0.36
@@ -121,6 +124,33 @@ PubMed中与LSTM相关的心脏杂音文献
 把`api = https://api.openai.com`该为`api = https://api.moonshot.cn`
 
 模型选择：`/model moonshot-v1-32k`
+
+#### [Zotero Style - 使用精讲，常见配置用法-哔哩哔哩](https://b23.tv/lHmD0nP)
+
+> 在使用Zotero Style前，你需要先完成以下工作：
+> 1. 安装Zotero，我安装的Zotero的版本是6.0.36
+> 2. 在Zotero中导入几篇你感兴趣的文献
+> 3. 注册一个[easyscholar](https://www.easyscholar.cc/)的账号，以便你可以免费使用easyscholar的API   
+
+##### 第一步：在GitHub上搜索Zotero Style
+或者点击这个链接[Zotero Style](https://github.com/MuiseDestiny/zotero-style)
+
+
+由于我的Zotero的版本是6.0.36，所以我选择[2.6.7版本](https://github.com/MuiseDestiny/zotero-style/releases/tag/2.6.7)的Zotero Style，点击可以查看[官方教程](https://github.com/MuiseDestiny/zotero-style)。
+
+##### 第二步：在Zotero中安装Zotero Style插件
+
+
+
+
+
+##### 第三步：获取[easyscholar](https://www.easyscholar.cc/)的密钥
+
+在[easyscholar](https://www.easyscholar.cc/)  -> 用户中心 -> 我的信息 -> 开放接口 中复制密钥
+
+##### 第四步：在Zotero中安装easyscholar插件
+如果你跟我一样，Zotero的版本是6.0.36，那么你可以在Zotero -> 编辑 -> 首选项 -> 高级 -> 编辑器 中搜索easyscholar，双击后粘贴easyscholar的密钥即可
+
 
 
 ### 注意事项
