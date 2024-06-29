@@ -1,0 +1,125 @@
+
+TY  - CONF
+T1  - Towards large-scale learning with less data: Combining parameter reduction and curriculum learning
+A1  - Angermann, H.
+A1  - Kazemzadeh, F.
+A1  - Wu, Y.
+A1  - Maier, A.
+C1  - International Conference on Medical Image Computing and Computer-Assisted Intervention
+SP  - 690
+EP  - 697
+PY  - 2018
+ER  -
+
+TY  - BOOK
+T1  - Deep Learning
+A1  - Goodfellow, I.
+A1  - Bengio, Y.
+A1  - Courville, A.
+PB  - MIT Press
+PY  - 2016
+ER  -
+
+TY  - JOUR
+T1  - Dermatologist-level classification of skin cancer with deep neural networks
+A1  - Esteva, A.
+A1  - Kuprel, B.
+A1  - Novoa, R. A.
+JO  - Nature
+VL  - 542
+IS  - 7639
+SP  - 115
+EP  - 118
+PY  - 2017
+DO  - 10.1038/nature21056
+ER  -
+
+TY  - JOUR
+T1  - High-performance medicine: the convergence of human and artificial intelligence
+A1  - Topol, E. J.
+JO  - Nature Medicine
+VL  - 25
+IS  - 1
+SP  - 44
+EP  - 56
+PY  - 2019
+DO  - 10.1038/s41591-018-0300-7
+ER  -
+
+TY  - CONF
+T1  - A human-centered evaluation of a deep learning system deployed in clinics for the detection of diabetic retinopathy
+A1  - Beede, E.
+A1  - Baylor, E.
+A1  - Hersch, F.
+C1  - CHI Conference on Human Factors in Computing Systems
+SP  - 1
+EP  - 12
+PY  - 2020
+ER  -
+
+TY  - JOUR
+T1  - A survey on image data augmentation for deep learning
+A1  - Shorten, C.
+A1  - Khoshgoftaar, T. M.
+JO  - Journal of Big Data
+VL  - 6
+IS  - 1
+SP  - 60
+PY  - 2019
+DO  - 10.1186/s40537-019-0197-0
+ER  -
+
+TY  - JOUR
+T1  - An open source multivariate framework for N-tissue segmentation with evaluation on public data
+A1  - Avants, B. B.
+A1  - Tustison, N. J.
+A1  - Wu, J.
+A1  - Cook, P. A.
+A1  - Gee, J. C.
+JO  - Neuroinformatics
+VL  - 9
+IS  - 4
+SP  - 381
+EP  - 400
+PY  - 2011
+DO  - 10.1007/s12021-011-9109-y
+ER  -
+
+TY  - JOUR
+T1  - Generalizing from a few examples: A survey on few-shot learning
+A1  - Wang, Y.
+A1  - Yao, Q.
+A1  - Kwok, J. T.
+A1  - Ni, L. M.
+JO  - ACM Computing Surveys (CSUR)
+VL  - 53
+IS  - 3
+SP  - 1
+EP  - 34
+PY  - 2020
+DO  - 10.1145/3386252
+ER  -
+
+TY  - CONF
+T1  - A unified approach to interpreting model predictions
+A1  - Lundberg, S. M.
+A1  - Lee, S. I.
+C1  - Advances in Neural Information Processing Systems
+SP  - 4765
+EP  - 4774
+PY  - 2017
+ER  -
+
+TY  - JOUR
+T1  - Clinically applicable deep learning for diagnosis and referral in retinal disease
+A1  - De Fauw, J.
+A1  - Ledsam, J. R.
+A1  - Romera-Paredes, B.
+JO  - Nature Medicine
+VL  - 24
+IS  - 9
+SP  - 1342
+EP  - 1350
+PY  - 2018
+DO  - 10.1038/s41591-018-0107-6
+ER  -

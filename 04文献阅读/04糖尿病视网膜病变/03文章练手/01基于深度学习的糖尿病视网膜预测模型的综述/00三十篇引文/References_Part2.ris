@@ -1,0 +1,110 @@
+
+TY  - CONF
+T1  - U-Net: Convolutional networks for biomedical image segmentation
+A1  - Ronneberger, O.
+A1  - Fischer, P.
+A1  - Brox, T.
+C1  - International Conference on Medical Image Computing and Computer-Assisted Intervention
+SP  - 234
+EP  - 241
+PY  - 2015
+ER  -
+
+TY  - CONF
+T1  - Fully convolutional networks for semantic segmentation
+A1  - Long, J.
+A1  - Shelhamer, E.
+A1  - Darrell, T.
+C1  - IEEE Conference on Computer Vision and Pattern Recognition
+SP  - 3431
+EP  - 3440
+PY  - 2015
+ER  -
+
+TY  - CONF
+T1  - EfficientNet: Rethinking model scaling for convolutional neural networks
+A1  - Tan, M.
+A1  - Le, Q.
+C1  - International Conference on Machine Learning
+SP  - 6105
+EP  - 6114
+PY  - 2019
+ER  -
+
+TY  - JOUR
+T1  - Efficacy of a deep learning system for detecting glaucomatous optic neuropathy based on color fundus photographs
+A1  - Li, Z.
+A1  - He, Y.
+A1  - Keel, S.
+JO  - Ophthalmology
+VL  - 126
+IS  - 12
+SP  - 1561
+EP  - 1571
+PY  - 2019
+DO  - 10.1016/j.ophtha.2019.05.029
+ER  -
+
+TY  - ELEC
+T1  - Methods to evaluate segmentation and indexing techniques in the field of retinal ophthalmology
+A1  - Messidor
+PY  - 2004
+UR  - http://www.adcis.net/en/Download-Third-Party/Messidor.html
+ER  -
+
+TY  - ELEC
+T1  - EyePACS Dataset
+A1  - EyePACS
+PY  - 2020
+UR  - https://www.eyepacs.org
+ER  -
+
+TY  - CONF
+T1  - Deep learning in diabetic retinopathy screening
+A1  - Nemeth, J.
+A1  - Harangi, B.
+A1  - Hajdu, A.
+C1  - IEEE 15th International Symposium on Biomedical Imaging
+SP  - 1560
+EP  - 1563
+PY  - 2018
+ER  -
+
+TY  - JOUR
+T1  - Pivotal trial of an autonomous AI-based diagnostic system for detection of diabetic retinopathy in primary care offices
+A1  - Abràmoff, M. D.
+A1  - Lavin, P. T.
+A1  - Birch, M.
+A1  - Shah, N.
+A1  - Folk, J. C.
+JO  - NPJ Digital Medicine
+VL  - 1
+IS  - 1
+SP  - 39
+PY  - 2018
+DO  - 10.1038/s41746-018-0040-6
+ER  -
+
+TY  - CONF
+T1  - Translating and segmenting multimodal medical volumes with cycle- and shape-consistency generative adversarial network
+A1  - Zhang, Z.
+A1  - Yang, L.
+A1  - Zheng, H.
+C1  - IEEE Conference on Computer Vision and Pattern Recognition
+SP  - 9242
+EP  - 9251
+PY  - 2018
+ER  -
+
+TY  - JOUR
+T1  - Deep ensemble learning of sparse regression models for brain disease diagnosis
+A1  - Suk, H. I.
+A1  - Lee, S. W.
+A1  - Shen, D.
+JO  - Medical Image Analysis
+VL  - 37
+SP  - 101
+EP  - 113
+PY  - 2017
+DO  - 10.1016/j.media.2017.01.008
+ER  -

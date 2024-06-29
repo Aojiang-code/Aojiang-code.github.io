@@ -1,0 +1,116 @@
+
+TY  - ELEC
+T1  - IDF Diabetes Atlas (9th ed.)
+A1  - International Diabetes Federation
+PY  - 2019
+UR  - https://diabetesatlas.org
+ER  -
+
+TY  - JOUR
+T1  - Deep learning
+A1  - LeCun, Y.
+A1  - Bengio, Y.
+A1  - Hinton, G.
+JO  - Nature
+VL  - 521
+IS  - 7553
+SP  - 436
+EP  - 444
+PY  - 2015
+DO  - 10.1038/nature14539
+ER  -
+
+TY  - JOUR
+T1  - Proposed international clinical diabetic retinopathy and diabetic macular edema disease severity scales
+A1  - Wilkinson, C. P.
+A1  - Ferris, F. L.
+A1  - Klein, R. E.
+JO  - Ophthalmology
+VL  - 110
+IS  - 9
+SP  - 1677
+EP  - 1682
+PY  - 2003
+DO  - 10.1016/S0161-6420(03)00475-5
+ER  -
+
+TY  - JOUR
+T1  - Global prevalence and major risk factors of diabetic retinopathy
+A1  - Yau, J. W.
+A1  - Rogers, S. L.
+A1  - Kawasaki, R.
+JO  - Diabetes Care
+VL  - 35
+IS  - 3
+SP  - 556
+EP  - 564
+PY  - 2012
+DO  - 10.2337/dc11-1909
+ER  -
+
+TY  - JOUR
+T1  - Deep learning in neural networks: An overview
+A1  - Schmidhuber, J.
+JO  - Neural Networks
+VL  - 61
+SP  - 85
+EP  - 117
+PY  - 2015
+DO  - 10.1016/j.neunet.2014.09.003
+ER  -
+
+TY  - CONF
+T1  - ImageNet classification with deep convolutional neural networks
+A1  - Krizhevsky, A.
+A1  - Sutskever, I.
+A1  - Hinton, G. E.
+C1  - Advances in Neural Information Processing Systems
+SP  - 1097
+EP  - 1105
+PY  - 2012
+ER  -
+
+TY  - ELEC
+T1  - APTOS 2019 Blindness Detection
+A1  - Kaggle
+PY  - 2019
+UR  - https://www.kaggle.com/c/aptos2019-blindness-detection
+ER  -
+
+TY  - CONF
+T1  - Densely connected convolutional networks
+A1  - Huang, G.
+A1  - Liu, Z.
+A1  - Van Der Maaten, L.
+A1  - Weinberger, K. Q.
+C1  - IEEE Conference on Computer Vision and Pattern Recognition
+SP  - 4700
+EP  - 4708
+PY  - 2017
+ER  -
+
+TY  - CONF
+T1  - Deep residual learning for image recognition
+A1  - He, K.
+A1  - Zhang, X.
+A1  - Ren, S.
+A1  - Sun, J.
+C1  - IEEE Conference on Computer Vision and Pattern Recognition
+SP  - 770
+EP  - 778
+PY  - 2016
+ER  -
+
+TY  - JOUR
+T1  - Development and validation of a deep learning algorithm for detection of diabetic retinopathy in retinal fundus photographs
+A1  - Gulshan, V.
+A1  - Peng, L.
+A1  - Coram, M.
+JO  - JAMA
+VL  - 316
+IS  - 22
+SP  - 2402
+EP  - 2410
+PY  - 2016
+DO  - 10.1001/jama.2016.17216
+ER  -
