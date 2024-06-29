@@ -345,6 +345,415 @@ U-Net在视网膜图像中的应用效果显著，能够准确地标记出病变
 29. Lundberg, S. M., & Lee, S. I. (2017). A unified approach to interpreting model predictions. In Advances in Neural Information Processing Systems (pp. 4765-4774).
 30. De Fauw, J., Ledsam, J. R., Romera-Paredes, B., et al. (2018). Clinically applicable deep learning for diagnosis and referral in retinal disease. Nature Medicine, 24(9), 1342-1350. doi:10.1038/s41591-018-0107-6
 
+#### 引文导入Zotero(由Chat GPT生成)
+
+It seems there was an error in generating the RIS file due to an input limitation. Let me correct this and proceed to generate the RIS content for all 30 references correctly. I'll create the file in parts to manage the input size. Let's start with the first part.
+
+I have generated the RIS file for the first 10 references. You can download it using the link below:
+```python
+
+# Create the RIS formatted text for the first 10 references
+ris_text_part1 = """
+TY  - ELEC
+T1  - IDF Diabetes Atlas (9th ed.)
+A1  - International Diabetes Federation
+PY  - 2019
+UR  - https://diabetesatlas.org
+ER  -
+
+TY  - JOUR
+T1  - Deep learning
+A1  - LeCun, Y.
+A1  - Bengio, Y.
+A1  - Hinton, G.
+JO  - Nature
+VL  - 521
+IS  - 7553
+SP  - 436
+EP  - 444
+PY  - 2015
+DO  - 10.1038/nature14539
+ER  -
+
+TY  - JOUR
+T1  - Proposed international clinical diabetic retinopathy and diabetic macular edema disease severity scales
+A1  - Wilkinson, C. P.
+A1  - Ferris, F. L.
+A1  - Klein, R. E.
+JO  - Ophthalmology
+VL  - 110
+IS  - 9
+SP  - 1677
+EP  - 1682
+PY  - 2003
+DO  - 10.1016/S0161-6420(03)00475-5
+ER  -
+
+TY  - JOUR
+T1  - Global prevalence and major risk factors of diabetic retinopathy
+A1  - Yau, J. W.
+A1  - Rogers, S. L.
+A1  - Kawasaki, R.
+JO  - Diabetes Care
+VL  - 35
+IS  - 3
+SP  - 556
+EP  - 564
+PY  - 2012
+DO  - 10.2337/dc11-1909
+ER  -
+
+TY  - JOUR
+T1  - Deep learning in neural networks: An overview
+A1  - Schmidhuber, J.
+JO  - Neural Networks
+VL  - 61
+SP  - 85
+EP  - 117
+PY  - 2015
+DO  - 10.1016/j.neunet.2014.09.003
+ER  -
+
+TY  - CONF
+T1  - ImageNet classification with deep convolutional neural networks
+A1  - Krizhevsky, A.
+A1  - Sutskever, I.
+A1  - Hinton, G. E.
+C1  - Advances in Neural Information Processing Systems
+SP  - 1097
+EP  - 1105
+PY  - 2012
+ER  -
+
+TY  - ELEC
+T1  - APTOS 2019 Blindness Detection
+A1  - Kaggle
+PY  - 2019
+UR  - https://www.kaggle.com/c/aptos2019-blindness-detection
+ER  -
+
+TY  - CONF
+T1  - Densely connected convolutional networks
+A1  - Huang, G.
+A1  - Liu, Z.
+A1  - Van Der Maaten, L.
+A1  - Weinberger, K. Q.
+C1  - IEEE Conference on Computer Vision and Pattern Recognition
+SP  - 4700
+EP  - 4708
+PY  - 2017
+ER  -
+
+TY  - CONF
+T1  - Deep residual learning for image recognition
+A1  - He, K.
+A1  - Zhang, X.
+A1  - Ren, S.
+A1  - Sun, J.
+C1  - IEEE Conference on Computer Vision and Pattern Recognition
+SP  - 770
+EP  - 778
+PY  - 2016
+ER  -
+
+TY  - JOUR
+T1  - Development and validation of a deep learning algorithm for detection of diabetic retinopathy in retinal fundus photographs
+A1  - Gulshan, V.
+A1  - Peng, L.
+A1  - Coram, M.
+JO  - JAMA
+VL  - 316
+IS  - 22
+SP  - 2402
+EP  - 2410
+PY  - 2016
+DO  - 10.1001/jama.2016.17216
+ER  -
+"""
+
+# Save the first part to a file
+file_path = "/mnt/data/References_Part1.ris"
+with open(file_path, "w") as file:
+    file.write(ris_text_part1)
+
+file_path
+
+```
+
+[Download References Part 1](sandbox:/mnt/data/References_Part1.ris)
+
+Next, I will proceed to create the RIS entries for the remaining references. Let's continue with the next set.
+```python
+
+# Create the RIS formatted text for the next 10 references
+ris_text_part2 = """
+TY  - CONF
+T1  - U-Net: Convolutional networks for biomedical image segmentation
+A1  - Ronneberger, O.
+A1  - Fischer, P.
+A1  - Brox, T.
+C1  - International Conference on Medical Image Computing and Computer-Assisted Intervention
+SP  - 234
+EP  - 241
+PY  - 2015
+ER  -
+
+TY  - CONF
+T1  - Fully convolutional networks for semantic segmentation
+A1  - Long, J.
+A1  - Shelhamer, E.
+A1  - Darrell, T.
+C1  - IEEE Conference on Computer Vision and Pattern Recognition
+SP  - 3431
+EP  - 3440
+PY  - 2015
+ER  -
+
+TY  - CONF
+T1  - EfficientNet: Rethinking model scaling for convolutional neural networks
+A1  - Tan, M.
+A1  - Le, Q.
+C1  - International Conference on Machine Learning
+SP  - 6105
+EP  - 6114
+PY  - 2019
+ER  -
+
+TY  - JOUR
+T1  - Efficacy of a deep learning system for detecting glaucomatous optic neuropathy based on color fundus photographs
+A1  - Li, Z.
+A1  - He, Y.
+A1  - Keel, S.
+JO  - Ophthalmology
+VL  - 126
+IS  - 12
+SP  - 1561
+EP  - 1571
+PY  - 2019
+DO  - 10.1016/j.ophtha.2019.05.029
+ER  -
+
+TY  - ELEC
+T1  - Methods to evaluate segmentation and indexing techniques in the field of retinal ophthalmology
+A1  - Messidor
+PY  - 2004
+UR  - http://www.adcis.net/en/Download-Third-Party/Messidor.html
+ER  -
+
+TY  - ELEC
+T1  - EyePACS Dataset
+A1  - EyePACS
+PY  - 2020
+UR  - https://www.eyepacs.org
+ER  -
+
+TY  - CONF
+T1  - Deep learning in diabetic retinopathy screening
+A1  - Nemeth, J.
+A1  - Harangi, B.
+A1  - Hajdu, A.
+C1  - IEEE 15th International Symposium on Biomedical Imaging
+SP  - 1560
+EP  - 1563
+PY  - 2018
+ER  -
+
+TY  - JOUR
+T1  - Pivotal trial of an autonomous AI-based diagnostic system for detection of diabetic retinopathy in primary care offices
+A1  - Abràmoff, M. D.
+A1  - Lavin, P. T.
+A1  - Birch, M.
+A1  - Shah, N.
+A1  - Folk, J. C.
+JO  - NPJ Digital Medicine
+VL  - 1
+IS  - 1
+SP  - 39
+PY  - 2018
+DO  - 10.1038/s41746-018-0040-6
+ER  -
+
+TY  - CONF
+T1  - Translating and segmenting multimodal medical volumes with cycle- and shape-consistency generative adversarial network
+A1  - Zhang, Z.
+A1  - Yang, L.
+A1  - Zheng, H.
+C1  - IEEE Conference on Computer Vision and Pattern Recognition
+SP  - 9242
+EP  - 9251
+PY  - 2018
+ER  -
+
+TY  - JOUR
+T1  - Deep ensemble learning of sparse regression models for brain disease diagnosis
+A1  - Suk, H. I.
+A1  - Lee, S. W.
+A1  - Shen, D.
+JO  - Medical Image Analysis
+VL  - 37
+SP  - 101
+EP  - 113
+PY  - 2017
+DO  - 10.1016/j.media.2017.01.008
+ER  -
+"""
+
+# Save the second part to a file
+file_path_part2 = "/mnt/data/References_Part2.ris"
+with open(file_path_part2, "w") as file:
+    file.write(ris_text_part2)
+
+file_path_part2
+```
+I have generated the RIS file for the second set of 10 references. You can download it using the link below:
+
+[Download References Part 2](sandbox:/mnt/data/References_Part2.ris)
+
+Now, let's proceed to generate the final set of references.
+```python
+
+# Create the RIS formatted text for the last 10 references
+ris_text_part3 = """
+TY  - CONF
+T1  - Towards large-scale learning with less data: Combining parameter reduction and curriculum learning
+A1  - Angermann, H.
+A1  - Kazemzadeh, F.
+A1  - Wu, Y.
+A1  - Maier, A.
+C1  - International Conference on Medical Image Computing and Computer-Assisted Intervention
+SP  - 690
+EP  - 697
+PY  - 2018
+ER  -
+
+TY  - BOOK
+T1  - Deep Learning
+A1  - Goodfellow, I.
+A1  - Bengio, Y.
+A1  - Courville, A.
+PB  - MIT Press
+PY  - 2016
+ER  -
+
+TY  - JOUR
+T1  - Dermatologist-level classification of skin cancer with deep neural networks
+A1  - Esteva, A.
+A1  - Kuprel, B.
+A1  - Novoa, R. A.
+JO  - Nature
+VL  - 542
+IS  - 7639
+SP  - 115
+EP  - 118
+PY  - 2017
+DO  - 10.1038/nature21056
+ER  -
+
+TY  - JOUR
+T1  - High-performance medicine: the convergence of human and artificial intelligence
+A1  - Topol, E. J.
+JO  - Nature Medicine
+VL  - 25
+IS  - 1
+SP  - 44
+EP  - 56
+PY  - 2019
+DO  - 10.1038/s41591-018-0300-7
+ER  -
+
+TY  - CONF
+T1  - A human-centered evaluation of a deep learning system deployed in clinics for the detection of diabetic retinopathy
+A1  - Beede, E.
+A1  - Baylor, E.
+A1  - Hersch, F.
+C1  - CHI Conference on Human Factors in Computing Systems
+SP  - 1
+EP  - 12
+PY  - 2020
+ER  -
+
+TY  - JOUR
+T1  - A survey on image data augmentation for deep learning
+A1  - Shorten, C.
+A1  - Khoshgoftaar, T. M.
+JO  - Journal of Big Data
+VL  - 6
+IS  - 1
+SP  - 60
+PY  - 2019
+DO  - 10.1186/s40537-019-0197-0
+ER  -
+
+TY  - JOUR
+T1  - An open source multivariate framework for N-tissue segmentation with evaluation on public data
+A1  - Avants, B. B.
+A1  - Tustison, N. J.
+A1  - Wu, J.
+A1  - Cook, P. A.
+A1  - Gee, J. C.
+JO  - Neuroinformatics
+VL  - 9
+IS  - 4
+SP  - 381
+EP  - 400
+PY  - 2011
+DO  - 10.1007/s12021-011-9109-y
+ER  -
+
+TY  - JOUR
+T1  - Generalizing from a few examples: A survey on few-shot learning
+A1  - Wang, Y.
+A1  - Yao, Q.
+A1  - Kwok, J. T.
+A1  - Ni, L. M.
+JO  - ACM Computing Surveys (CSUR)
+VL  - 53
+IS  - 3
+SP  - 1
+EP  - 34
+PY  - 2020
+DO  - 10.1145/3386252
+ER  -
+
+TY  - CONF
+T1  - A unified approach to interpreting model predictions
+A1  - Lundberg, S. M.
+A1  - Lee, S. I.
+C1  - Advances in Neural Information Processing Systems
+SP  - 4765
+EP  - 4774
+PY  - 2017
+ER  -
+
+TY  - JOUR
+T1  - Clinically applicable deep learning for diagnosis and referral in retinal disease
+A1  - De Fauw, J.
+A1  - Ledsam, J. R.
+A1  - Romera-Paredes, B.
+JO  - Nature Medicine
+VL  - 24
+IS  - 9
+SP  - 1342
+EP  - 1350
+PY  - 2018
+DO  - 10.1038/s41591-018-0107-6
+ER  -
+"""
+
+# Save the third part to a file
+file_path_part3 = "/mnt/data/References_Part3.ris"
+with open(file_path_part3, "w") as file:
+    file.write(ris_text_part3)
+
+file_path_part3
+```
+
+I have generated the RIS file for the last set of 10 references. You can download it using the link below:
+
+[Download References Part 3](sandbox:/mnt/data/References_Part3.ris)
+
+Now you have all three parts of the references saved in RIS format, which you can import into Zotero. If you need further assistance, feel free to ask!
+
 
 ## 
 
