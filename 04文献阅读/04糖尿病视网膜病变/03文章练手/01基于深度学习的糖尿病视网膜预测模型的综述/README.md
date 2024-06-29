@@ -347,6 +347,10 @@ U-Net在视网膜图像中的应用效果显著，能够准确地标记出病变
 
 #### 引文导入Zotero(由Chat GPT生成)
 
+
+
+<details><summary>📘 详细描述(点击展开)</summary>
+
 It seems there was an error in generating the RIS file due to an input limitation. Let me correct this and proceed to generate the RIS content for all 30 references correctly. I'll create the file in parts to manage the input size. Let's start with the first part.
 
 I have generated the RIS file for the first 10 references. You can download it using the link below:
@@ -754,6 +758,11 @@ I have generated the RIS file for the last set of 10 references. You can downloa
 
 Now you have all three parts of the references saved in RIS format, which you can import into Zotero. If you need further assistance, feel free to ask!
 
+
+
+<br>[返回节标题](#引文导入zotero由chat-gpt生成)
+
+</details>
 
 ## 
 
