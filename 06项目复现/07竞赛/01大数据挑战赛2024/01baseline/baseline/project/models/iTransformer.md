@@ -235,5 +235,14 @@ def forecast(self, x_enc):  # 定义forecast方法，x_enc是输入的编码数�
 
 
 
+以下是逐行中文注释的代码：
 
+```python
+def forward(self, x_enc):  # 定义forward方法，x_enc是输入的编码数据
+    dec_out = self.forecast(x_enc)  # 调用forecast方法进行预测，得到预测输出
+    # 返回预测结果，调整输出格式以匹配预测长度
+    return dec_out[:, -self.pred_len:, :]  # 返回预测结果的最后pred_len个时间步，形状为[B, L, C]，其中B是批量大小，L是序列长度，C是特征维度
+```
+
+在这个`forward`方法中，它调用了前面定义的`forecast`方法来生成预测结果。然后，它从预测结果中提取最后`pred_len`个时间步的数据，确保输出的长度与配置中的预测长度一致。返回的数据形状为`[B, L, C]`，即批量大小、序列长度和特征维度。这个方法通常是PyTorch模型的标准接口，在前向传播时会被调用。
 
