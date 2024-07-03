@@ -1177,10 +1177,11 @@ $$发病率=\frac{一定时期内某人群中某病新病例数}{同期该人群
   - [X] 小睡一会儿(13：36-14：11)(35分钟)
   - [X] 流行病学：[第四章队列研究](#el流行病学第四章队列研究)(14：15-14:23)(8分钟)
   - [X] 职业卫生学：[第一章 概论](#el劳卫第一章-概论)(14：44-15：19)(35分钟)
-  - [ ] 读文献：
-  - [ ] 职业卫生学：[]()
-  - [ ] 
+  - [X] 读文献：A convolutional neural network for the screening and staging of diabetic retinopathy.(15：20-16:00)(40分钟)
+  - [X] kaggle_Alzheimer：Augmented Alzheimer MRI Dataset with 93.5%：(16:00-16:30)(30分钟)
+  - [X] 吃晚饭：(16:30-17：15)(45分钟)
 - 晚上
+  - [ ] 职业卫生学：[]()
   - [ ] 简历制作
   - [ ] 脑电
   - [ ] Alzheimer
