@@ -9,7 +9,7 @@
 
 ## 相关代码(按vote排序)
 
-### [01Augmented_Alzheimer_MRI_Dataset_with_93.5%](06项目复现\04kaggle\02数据集\05Alzheimer数据集\01Augmented_Alzheimer_MRI_Dataset\01Augmented_Alzheimer_MRI_Dataset_with_93.5%\README.md)
+### [01Augmented_Alzheimer_MRI_Dataset_with_93.5%](06项目复现\04kaggle\02数据集\05Alzheimer数据集\01Augmented_Alzheimer_MRI_Dataset\01Augmented_Alzheimer_MRI_Dataset_with_93_5\README.md)
 
 > 网址：[Augmented Alzheimer MRI Dataset with 93.5%](https://www.kaggle.com/code/mohamedgobara/augmented-alzheimer-mri-dataset-with-93-5)
 
