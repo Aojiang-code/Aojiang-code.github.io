@@ -16,7 +16,8 @@
 用于记录kaggle上的与糖尿病视网膜病变相关的数据库
 
 
-## [05]()
+## [05Alzheimer数据集](06项目复现\04kaggle\02数据集\05Alzheimer数据集\README.md)
+用于记录kaggle上的与Alzheimer相关的数据库
 
 
 
