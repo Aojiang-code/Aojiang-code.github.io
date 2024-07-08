@@ -739,22 +739,36 @@ LSTM 的第一步是决定我们需要从 cell 状态中扔掉什么样的信息
 # 第一周计划
 - [周一](#20240701周一)：
   - [X] 背单词：50个
-  - [ ] 复习：
+  - [X] 复习：流行病学：[第一章绪论](#el流行病学第一章绪论)、[第二章疾病的分布](#el流行病学第二章疾病的分布)
   - [X] 锻炼：练背1小时
 - [周二](#20240702周二)：
-  - [ ] 
+  - [X] 申请创新学分
+  - [X] 给iTransfer添加注释
+  - [X] 背英语单词
+  - [X] 健身房练胸(21:20-22:00)(40分钟)
+  - [X] 散步(22:20-23:00)(40分钟)
 - [周三](#20240703周三)：
-  - [ ] 
+  - [X] 背英语单词(9:05-9:27)(22分钟)
+  - [X] 背英语单词(10:27-10：58)(31分钟)
+  - [X] 流行病学：[第三章描述性研究](#el流行病学第三章描述性研究)(68分钟)
+  - [X] 流行病学：[第四章队列研究](#el流行病学第四章队列研究)(13:11-13：36)(33分钟)
+  - [X] 职业卫生学：[第一章 概论](#el劳卫第一章-概论)(14：44-15：19)(35分钟)
+  - [X] 职业卫生学：[第二章 职业生理、职业心理和职业工效学](#el劳卫第二章-职业生理职业心理和职业工效学)(12分钟)
+  - [X] 健身房练肩(19：20-20：30)(60分钟)
+  - [X] [小论文：浅谈就业前的准备工作](#小论文浅谈就业前的准备工作)(20：46-21：36)(50分钟)
+
 - [周四](#20240704周四)：
-  - [ ] 
+休息一天。。。。
+
 - [周五](#20240705周五)：
   - [正装] 杏林讲坛第127讲---基础医学篇：2024年7月5日(周五)15:00-16:30地点:医学部至真楼404智慧教室
 - [周六](#20240705周六)：
-  - [正装] 
+  - [X] 朱斌斌老师四百例病例，baseline (18:00-21：00、22：30-23：00)(210分钟)
+
 - [周日](#20240707周日)：
-    - [ ] 
-- [周一](#20240708周一)：
-  - [正装] 杏林讲坛第128讲---基础医学篇:2024年7月8日(周一)9:00-10:30地点:医学部至真楼404智慧教室
+  - [X] 阅读朱斌斌老师发的文献：[Modified Frailty Index Combined with a Prognostic Nutritional Index for Predicting Postoperative Complications of Hip Fracture Surgery in Elderly](#modified-frailty-index-combined-with-a-prognostic-nutritional-index-for-predicting-postoperative-complications-of-hip-fracture-surgery-in-elderly)
+  - [X] 甬江散步(20:00-24:00)(240分钟)
+
 
 [返回暑假索引](#暑假索引)
 
@@ -2761,8 +2775,8 @@ $$发病率=\frac{一定时期内某人群中某病新病例数}{同期该人群
 - 上午
   - [X] 睡懒觉
 - 下午
-  - [ ] Alzheimer的MRI模型(13.：30-17：50)(140分钟)
-花费90分钟在Vscode中建立好目录.
+  - [X] Alzheimer的MRI模型(13.：30-17：50)(140分钟)
+花费90分钟在Vscode中建立好目录，之后下载数据和代码。
 - 晚上
   - [X] 朱斌斌老师四百例病例，baseline (18:00-21：00、22：30-23：00)(210分钟)
   - [X] 健身房练胸(21：20-22：20)(60分钟)
@@ -2780,18 +2794,29 @@ $$发病率=\frac{一定时期内某人群中某病新病例数}{同期该人群
 - 上午
   - [X] 睡懒觉
 - 下午
-  - [ ] 阅读朱斌斌老师发的文献：[Modified Frailty Index Combined with a Prognostic Nutritional Index for Predicting Postoperative Complications of Hip Fracture Surgery in Elderly](#modified-frailty-index-combined-with-a-prognostic-nutritional-index-for-predicting-postoperative-complications-of-hip-fracture-surgery-in-elderly)
-  - [ ] 
+  - [X] 阅读朱斌斌老师发的文献：[Modified Frailty Index Combined with a Prognostic Nutritional Index for Predicting Postoperative Complications of Hip Fracture Surgery in Elderly](#modified-frailty-index-combined-with-a-prognostic-nutritional-index-for-predicting-postoperative-complications-of-hip-fracture-surgery-in-elderly)
 - 晚上
-  - [ ] 
-  - [ ] 
+  - [X] 跑模型(18:00-20:00)(120分钟)
+运行失败，因为镜像版本不兼容。
+  - [X] 甬江散步(20:00-24:00)(240分钟)
 
 
 
 ### **Modified Frailty Index** Combined with a **Prognostic Nutritional Index** for Predicting **Postoperative Complications** of Hip Fracture Surgery in Elderly
 <details><summary>📘 **Modified Frailty Index** Combined with a **Prognostic Nutritional Index** for Predicting **Postoperative Complications** of Hip Fracture Surgery in Elderly(点击展开)</summary>
 
-> 改良虚弱指数与预后营养指数相结合预测老年髋部骨折术后并发症
+> 标题：改良虚弱指数与预后营养指数相结合预测老年髋部骨折术后并发症
+> 期刊：Journal of Investigative Surgery
+> 中科院分区：4区
+> SCI收录：SCIE
+> 审稿周期：	较慢,6-12周
+> 录用比例：	容易
+> 期刊指标：
+> - h-index:37
+> - CiteScore:4.20
+
+
+
 
 #### 摘要
 
@@ -2849,6 +2874,62 @@ $$发病率=\frac{一定时期内某人群中某病新病例数}{同期该人群
 - 手术时长（min）(the duration of operation (min))、
 - 麻醉类型(type of anesthesia)、
 - ASA分类(ASA classification)。
+
+
+
+
+```python
+# Extracting categorical and numerical columns
+
+# Categorical columns (Variables that can be categorized into groups)
+cat_cols = [
+    'Gender',          # Gender (Male 1, Female 2)
+    'Hypertension',     # Hypertension (Binary: 0 or 1)
+    'Diabetes',         # Diabetes (Binary: 0 or 1)
+    'CHF',              # Congestive Heart Failure (Binary: 0 or 1)
+    'COPD',             # Chronic Obstructive Pulmonary Disease (Binary: 0 or 1)
+    'Self-Care',        # Self-Care (Binary: 0 or 1)
+    'Osteoporosis',     # Osteoporosis (Binary: 0 or 1)
+    'Anesthesia Type',  # Anesthesia Type (General 1, Regional 2)
+    'Perioperative Blood Product Preparation', # Perioperative Blood Product Use (Binary: 0 or 1)
+    'Lower Extremity Deep Venous Thrombosis', # Binary: 0 or 1
+    'Delirium',         # Binary: 0 or 1
+    'Heart Failure',     # Binary: 0 or 1
+    'Respiratory Failure', # Binary: 0 or 1
+    'Gastrointestinal Hemorrhage', # Binary: 0 or 1
+    'Renal Insufficiency', # Binary: 0 or 1
+    'Urinary Tract Infection', # Binary: 0 or 1
+    'Wound Redness and Swelling', # Binary: 0 or 1
+    'Respiratory System Infection', # Binary: 0 or 1
+    'Total Complications', # Binary: 0 or 1
+    'Mortality',         # Binary: 0 or 1
+    'ICU',              # Binary: 0 or 1
+    'Unplanned Readmission' # Binary: 0 or 1
+]
+
+# Numerical columns (Variables that represent quantities or measurements)
+num_cols = [
+    'Age',
+    '5-MFI',            # A specific measure of physical function
+    'BMI',              # Body Mass Index
+    'PNI',              # Prognostic Nutritional Index
+    'Albumin',
+    'Absolute Lymphocyte Count',
+    'CRP',              # C-Reactive Protein
+    'Hb',        # Hemoglobin
+    'Lactate',
+    'Surgery Duration',
+    'ASA',        # American Society of Anesthesiologists Score
+    'Hospital Stay Duration',
+    'Hospitalization Cost',
+    'ADL Preoperative', # Activities of Daily Living
+    'ADL Postoperative'  # Activities of Daily Living
+]
+
+# Note: The Gender column is included as categorical based on the provided mapping (Male 1, Female 2).
+# If the context recognizes 1 and 2 as indicators of Male and Female respectively, it could also be considered numerical.
+```
+
 
 ##### 2.2. 风险评分的计算
 
