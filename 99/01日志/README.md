@@ -4184,38 +4184,6 @@ SENet的Excitation模块中全连接层和门控单元构成，全连接层主�
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <br>[返回标题](#第一章通道注意力模块及其变体)
 
 
@@ -4770,9 +4738,9 @@ SENet的Excitation模块中全连接层和门控单元构成，全连接层主�
   - [X]健身房(16：20-16:53)(33分钟)
   - [X]吃饭(17:07-17:55)(48分钟)
 - 晚上
-  - [ ] 刷抖音(17:55-18:23)(28分钟)
-  - [X] 看科研水神大队长的《[大队长手把手带你发论文](#大队长手把手带你发论文-2)》的第一章通道注意力模块及其变体(18：23-18：)(分钟)
-  - [ ] 
+  - [X] 刷抖音(17:55-18:23)(28分钟)
+  - [X] 看科研水神大队长的《[大队长手把手带你发论文](#大队长手把手带你发论文-2)》的第一章通道注意力模块及其变体(18：23-18：40)(17分钟)
+  - 小睡之后，醒来听钱艺师姐的问题，这个时候已经八点多了，听完之后，我很疲惫，所以去散步了，散步回来已经九点多了，吃完葡萄，聊聊天已经十点了。接着去吃两次三明治，吃两次冰淇淋，回到寝室差不多十一点多了，洗洗，上床估计已经12点左右了。刷会儿手机，估计已经快一点了。
 
 ### El劳卫：第三章职业性有害因素与健康损害
 
@@ -5067,91 +5035,6 @@ Fanconi综合征:伴有氨基酸尿、糖尿、磷酸盐尿。女性患者的月
 ###### （四）氨基甲酸酯类农药
 ###### （五）百草枯（paraquat）
 #### 第二节生产性粉尘
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -6212,42 +6095,6 @@ SENet的Excitation模块中全连接层和门控单元构成，全连接层主�
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <br>[返回标题](#第一章通道注意力模块及其变体)
 
 
@@ -6263,15 +6110,7 @@ SENet的Excitation模块中全连接层和门控单元构成，全连接层主�
 
 [返回暑假索引](#暑假索引)
 ## 2024.07.11周四
-- 上午
-  - [ ] 
-  - [ ] 
-- 下午
-  - [ ] 
-  - [ ] 
-- 晚上
-  - [ ] 
-  - [ ] 
+- [X] 休息一天。
 
 
 
@@ -6280,14 +6119,117 @@ SENet的Excitation模块中全连接层和门控单元构成，全连接层主�
 [返回暑假索引](#暑假索引)
 ## 2024.07.12周五
 - 上午
-  - [ ] 
-  - [ ] 
+  - [X] 花二十分钟整理博客结构
+  - [X] 背英语单词(9:20-10:18)(58分钟，60个单词)
+  - [ ] kan卷积代码下载与上传(10:37-11：30)
+  - [ ] 小睡(11：30-12：30)
+  - [ ] 吃午饭(12：30-13：30)
+  - [ ] kan卷积实战(13：30-13：30)
+  - [ ] kan卷积实战
 - 下午
   - [ ] 
   - [ ] 
 - 晚上
   - [ ] 
   - [ ] 
+
+
+### Word List 4
+
+<details><summary>📘 Word List 4(点击展开)</summary>
+
+relation
+relative
+neglect
+negative
+negotiate
+reality
+relalistic
+defend
+defendant
+conduct
+productive
+productivity
+reduction
+extreme
+image
+imagine
+practice
+pratical
+announce
+monopoly
+vital
+survive
+survival
+vivid
+volume
+revolution
+involve
+evolve
+trace
+trake
+trait
+portray
+abstract
+contract
+concern
+crisis
+critic
+criticize
+criticism
+critical
+prime
+primary
+primitive
+prior
+priority
+stimulate
+distinction
+instinct
+dominate
+dominant
+domestic
+gene
+general
+generate
+genneration
+gennerous
+ensure
+insurance
+surplus
+evade
+
+<br>[返回标题](#word-list-4)
+
+
+<br>[返回日计划](#20240712周五)
+
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
