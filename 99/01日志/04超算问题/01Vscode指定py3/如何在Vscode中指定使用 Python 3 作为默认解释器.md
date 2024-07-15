@@ -81,17 +81,18 @@
 
 
 
-## GPU不兼容问题
+## 无法调用GPU
 
 当我使用CPU运行代码时，可以成功运行。
 
-![alt text](image.png)
+![cpu](CPU.png)
 
 
 
 
 
 
+![cuda不可用](cuda不可用.png)
 
 
 
