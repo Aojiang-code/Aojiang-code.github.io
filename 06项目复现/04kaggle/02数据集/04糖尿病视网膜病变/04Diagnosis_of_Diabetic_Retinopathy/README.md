@@ -24,7 +24,7 @@
 
 ### [03]()
 
-### [04Diagnosis_of_Diabetic_Retinopathy_using_CNN]()
+### [04Diagnosis_of_Diabetic_Retinopathy_using_CNN](06项目复现\04kaggle\02数据集\04糖尿病视网膜病变\04Diagnosis_of_Diabetic_Retinopathy\04Diagnosis_of_Diabetic_Retinopathy_using_CNN\01结果\一键运行DR——CNN\一键运行DR——CNN.md)
 
 > 网址：[Diagnosis of Diabetic Retinopathy using CNN](https://www.kaggle.com/code/bhaktapri/diagnosis-of-diabetic-retinopathy-using-cnn)
 
