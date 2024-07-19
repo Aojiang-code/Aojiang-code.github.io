@@ -450,7 +450,7 @@
 
 Use this bibtex to cite this repository:
 ```
-@misc{computer-vision-in-action,
+@misc{蒋傲的个人知识库,
   title={蒋傲的个人知识库（aojiang-code）},
   author={蒋傲},
   year={2024.01},
