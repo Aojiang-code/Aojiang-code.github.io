@@ -1,0 +1,12 @@
+(function(){$(function(){if(typeof ncbiBaseUrl!=='undefined'){var ncbiHeadLinks=document.getElementsByClassName('set-base-url');for(var i=0;i<ncbiHeadLinks.length;i++){ncbiHeadLinks[i].href=ncbiBaseUrl+ncbiHeadLinks[i].getAttribute("href");}}});})(jQuery);(function(){$(function(){if(typeof useDevLoginURL!=='undefined'&&useDevLoginURL===true){let loginLink=document.getElementById('account_login');loginLink.href='https://account-dev.ncbi.nlm.nih.gov';}});})(jQuery);(function(){$(function(){if(typeof useOfficialGovtHeader!=='undefined'&&useOfficialGovtHeader===true){let banners=document.getElementsByClassName('usa-banner');if(banners.length>0){let banner=banners[0];banner.style.display=null;}}});})(jQuery);(function(){$(function(){var acctLinks=document.querySelectorAll('#account_login, #account_logout');for(var i=0;i<acctLinks.length;i++){acctLinks[i].href=acctLinks[i].getAttribute("href")+'?back_url='+encodeURIComponent(document.location.href);}
+var cubby=getCookie('WebCubbyUser');cubby=decodeURIComponent(decodeURIComponent(cubby));var username=getUser(cubby);if(username){$('#uname_short').text(username.trunc(20));$('#uname_long').text(username.trunc(40));$('#account_login').hide();$('#account_info').show();}
+else{$('#account_login').show();$('#account_info').hide();}
+function getUser(c){var re_logd=/.*logged-in\=(\w*);.*/;var re_user=/.*my-name\=([\w|\-|\.|\ |\@|\+]*);.*/;if(c){var l=re_logd.exec(c);if(l&&l[1]&&l[1]==='true'){var u=re_user.exec(c);if(u&&u[1]){return u[1];}}}
+return'';}
+function getCookie(f){var e;if(window.sessionStorage){try{e=sessionStorage.getItem(f)||'';}catch(g){e='';}
+if(e.length>0){return e;}}
+if(document.cookie.length>0){e=document.cookie.indexOf(f+'=');if(e!==-1){e=e+f.length+1;f=document.cookie.indexOf(';',e);if(f===-1){f=document.cookie.length;}
+return unescape(document.cookie.substring(e,f))}}
+return'';}
+var $popupMenu=$('#account_info').ncbipopup();});})(jQuery);(function(){$(function(){if(typeof alertsUrl==='undefined'){console.log('Note: alertsUrl is undefined, hence the NCBI Global Alert system will not work for this page');ncbi.sg.ping({'jsevent':'warning','warning':'alertsUrl is undefined'});}
+else{jQuery.getScript(alertsUrl,function(){galert(['.custom-alerts-placeholder','.ncbi-alerts-placeholder','header.ncbi-header','body > *:nth-child(1)'])});}});})(jQuery);;
