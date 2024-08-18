@@ -1,21 +1,22 @@
 # 01Intermediate_ML_Techniques_for_Detection_of_Cancer注释
 
 
-这本笔记本旨在开发一种用于检测卵巢癌的机器学习模型。本项目的主要目标是利用各种机器学习方法。代码被组织成几个部分。
+这本笔记本旨在开发一种用于检测卵巢癌的机器学习模型。本项目的主要目标是利用各种机器学习方法。代码被组织成几个部分：
 
-## 数据整理
+## 目录
+**[数据整理](#数据整理)**
 数据整理部分对数据集进行预处理，将原始数据转换成适合训练机器学习模型的清洁数据集。
 
-## 初步数据分析
+**[初步数据分析](#初步数据分析)
 初步数据分析部分探索所提供的数据集并执行基本的统计分析，以更好地理解数据。
 
-## 特征工程
+**[特征工程](#特征工程)
 特征工程部分从数据中提取相关特征，以提高模型的准确性。
 
-## 模型训练
+**[模型训练](#模型训练)
 模型训练部分使用几种集成学习算法训练机器学习模型，并根据各种指标评估它们的性能。
 
-## 集成方法分析
+**[集成方法分析](#analysis-of-ensemble-methods)
 集成方法分析部分分析了对所选集成学习算法性能有贡献的因素。
 
 此外，代码还包括一个可解释的人工智能部分，该部分使用各种方法来解释机器学习模型并提供对其决策过程的洞察。
@@ -153,6 +154,9 @@ print(cancer_data.info())
 
 
 ## 数据整理
+》[返回目录](#目录)
+
+
 本部分代码负责通过清理、转换和重构数据，将数据集准备好以供分析使用。本部分涉及处理缺失数据、处理异常值以及转换变量，以确保它们符合分析方法的假设。目标是创建一个可靠的数据集，在使用机器学习算法时最大限度地提高准确性。数据整理是数据分析过程中的关键步骤，因为结果的准确性在很大程度上依赖于所使用数据集的质量。
 
 
@@ -192,7 +196,6 @@ cancer_data['TYPE'] = cancer_data['TYPE'].astype('int64')
 ```
 
 
-### 逐行代码注释
 ```python
 # 计算每一列中缺失数据的比例
 # 使用isnull()方法获取布尔值表示的数据框，mean()方法计算布尔值的平均值，即为缺失值比例
@@ -250,6 +253,8 @@ cancer_data.drop('SUBJECT_ID', inplace=True, axis=1)
 
 ## 特征工程
 
+》[返回目录](#目录)
+
 这部分代码指的是选择和转换数据的相关特征，以创建更好地表示问题领域的新特征的过程。特征工程的目的是通过减少数据中的噪声、提高预测的准确性以及使模型更具可解释性，从而改善机器学习算法的性能。特征工程需要对问题领域和所使用的数据有深刻的理解，并且需要了解可用的特征工程技术及其对模型性能的影响。
 
 ```python
@@ -279,10 +284,11 @@ selected_features = mrmr_classif(X=cancer_X_train, y=cancer_y_train, K=18)
 
 
 ## 初步数据分析
+》[返回目录](#目录)
 
 这一部分的代码涉及对数据集的初步检查，以了解其结构、内容和质量。此过程包括检查缺失或错误数据的范围、探索变量的分布、识别任何异常值，并计算摘要统计信息。该部分的目的是获取数据集的洞察并为后续的数据处理步骤提供信息。它还包括使用各种绘图技术对数据进行可视化，以揭示变量之间的模式或关系。
 
-### 代码逐行注释
+### `mrmr`选择18个最重要的特征
 
 ```python
 selected_features = mrmr_classif(X=cancer_X_train, y=cancer_y_train, K=18)
@@ -319,8 +325,7 @@ selected_features = mrmr_classif(X=cancer_X_train, y=cancer_y_train, K=18)
 这些特征被认为是最具预测性的变量，可以帮助提高模型的性能。
 
 
-
-### 代码逐行注释
+### 输出每个特征与目标列之间的相关性值
 
 ```python
 # 选择用于可视化相关性的特征列和目标列
@@ -409,8 +414,7 @@ TYPE         1.000000
 
 总体来看，这些相关性值帮助我们了解哪些特征与目标变量关系密切，从而在模型构建中可以给予更多的关注。
 
-
-### 代码逐行注释
+### 输出每个特征与目标列之间的相关性值的绝对值
 
 ```python
 # 选择与目标列（TYPE）相关的行或列
@@ -470,8 +474,7 @@ Name: TYPE, dtype: float64
 
 通过查看这些相关性，能够帮助我们了解哪些特征对目标变量影响较大，从而在模型构建中可能给予更多的关注。
 
-
-### 代码逐行注释
+### 散点图矩阵
 
 ```python
 import matplotlib.pyplot as plt
@@ -489,6 +492,7 @@ plt.show()
 ```
 - 显示创建的散点图矩阵。
 
+![散点图](image.png)
 ### 结果解读
 
 生成的图是一个散点图矩阵，其中每个子图显示两个特征之间的关系：
@@ -505,8 +509,7 @@ plt.show()
 
 
 
-
-### 代码逐行注释
+### 目标变量计数图
 
 ```python
 # 可视化训练数据中目标变量的分布
@@ -529,6 +532,8 @@ plt.show()
 ```
 - 显示生成的图表。
 
+![目标变量计数图](image-1.png)
+
 ### 图表解读
 
 该图显示了 `TYPE` 变量的分布情况。`TYPE` 变量有两个类别，通常代表二分类问题中的两个类别，如 `0` 和 `1`。图中显示出每个类别的计数：
@@ -540,8 +545,7 @@ plt.show()
 这种分布图有助于快速了解数据集中类别标签的分布，验证数据的均衡性，并帮助设计进一步的模型训练步骤。
 
 
-
-### 代码逐行注释
+### 相关性热图
 
 ```python
 import seaborn as sns
@@ -575,6 +579,8 @@ plt.show()
 ```
 - 显示生成的热图。
 
+![相关性热图](image-2.png)
+
 ### 图表解读
 
 该图是一个相关性热图，用于显示在数据集中选定特征之间的相关性。
@@ -597,7 +603,7 @@ plt.show()
 
 
 
-### 代码逐行注释
+### TYPE" 目标列值为 0 的年龄直方图
 
 ```python
 # 过滤数据，仅包含 "TYPE" 目标列值为 0 的数据
@@ -611,6 +617,8 @@ sns.histplot(data=positive_data, x="Age")
 ```
 - 使用 Seaborn 的 `histplot` 函数为筛选后的数据集 `positive_data` 绘制 `Age` 列的直方图。`x="Age"` 表示将 `Age` 列的数据作为 X 轴来绘制直方图。
 
+![年龄直方图](image-3.png)
+
 ### 图表解读
 
 - **直方图显示了“Age”列的年龄分布**，但仅限于 `TYPE` 等于 0 的数据（可能是健康人群或特定类别的样本）。直方图的 X 轴显示不同的年龄段，Y 轴显示每个年龄段中的样本数量。
@@ -620,7 +628,7 @@ sns.histplot(data=positive_data, x="Age")
 - 这种分布可能表明研究样本集中在中年到老年群体之间，而在极端的年龄段（如非常年轻或非常老的群体）样本较少。这种分布可能与研究的目标群体有关，比如某种疾病的易感年龄群体。
 
 
-### 代码逐行注释
+### 缺失值的比例
 
 ```python
 # 计算每一列中缺失值的比例
@@ -644,7 +652,7 @@ plt.show()
 ```
 - 通过 `plot(kind='bar')` 函数绘制条形图，显示各列中缺失值的比例。`plt.title`、`plt.xlabel` 和 `plt.ylabel` 分别设置了图表的标题、X 轴和 Y 轴的标签。
 
-
+![缺失值比例](image-4.png)
 
 ### 图表解读
 
@@ -662,6 +670,7 @@ plt.show()
 
 
 ## 模型训练
+》[返回目录](#目录)
 
 这部分代码涉及使用机器学习算法来构建检测卵巢癌的预测模型。该部分包括选择适当的算法，将数据分为训练集和测试集，在训练数据上训练模型，并在测试数据上评估其性能。
 
@@ -669,25 +678,21 @@ plt.show()
 
 
 
-
-
-
-
-
 Base Models Checked:
 
-SVM
-KNN
-Decision Trees
+* SVM
+* KNN
+* Decision Trees
+
 Ensemble Learning Techniques Checked:
 
-Max Voting
-Stacking
-Bagging
-Boosting
-Stacking of Various Ensemble Learning Techniques
+* Max Voting
+* Stacking
+* Bagging
+* Boosting
+* Stacking of Various Ensemble Learning Techniques
 
-
+### 分割数据集
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -700,7 +705,6 @@ X_train = X_train[selected_features]
 X_test = X_test[selected_features]
 ```
 
-### 代码解读
 1. **导入`train_test_split`函数**: 从`sklearn.model_selection`模块中导入`train_test_split`函数，用于将数据集划分为训练集和测试集。
 
 2. **将数据划分为训练集和验证集**:
@@ -713,14 +717,13 @@ X_test = X_test[selected_features]
    - `X_train = X_train[selected_features]`: 在训练集中只保留之前选择的特征列。
    - `X_test = X_test[selected_features]`: 在测试集中只保留之前选择的特征列。
 
-
+### 存储基模型的准确率
 
 ```python
 # 创建一个DataFrame来存储基模型的准确率，以便后续分析
 basemodel_df = pd.DataFrame(columns=['Base Model', 'Accuracy'])
 ```
 
-### 代码解读
 1. **创建一个DataFrame**:
    - `basemodel_df` 是一个新的空的 `DataFrame`，将用于存储基模型的名称和其对应的准确率。
    
@@ -731,7 +734,7 @@ basemodel_df = pd.DataFrame(columns=['Base Model', 'Accuracy'])
 
 
 
-### 逐行中文注释
+### SVM
 
 ```python
 from sklearn.svm import SVC
@@ -752,7 +755,7 @@ print("SVM:")  # 打印 "SVM:" 作为输出的标题
 print(classification_report(y_test, test_preds))  # 输出模型的分类报告，包括精确度、召回率、F1分数等指标
 ```
 
-### 结果解读
+### 结果展示
 
 ```plaintext
 SVM:
@@ -789,7 +792,7 @@ weighted avg       0.85      0.85      0.85       105
 
 
 
-### 逐行中文注释
+### KNN
 
 ```python
 from sklearn.neighbors import KNeighborsClassifier
@@ -811,7 +814,7 @@ print("KNN:")  # 打印 "KNN:" 作为输出的标题
 print(classification_report(y_test, test_preds))  # 输出模型的分类报告，包括精确度、召回率、F1分数等指标
 ```
 
-### 结果解读
+### 结果展示
 
 ```plaintext
 KNN:
@@ -847,7 +850,7 @@ weighted avg       0.78      0.77      0.77       105
 总体来说，KNN 模型在测试集上的表现较为一般，相比于前面提到的 SVM 模型，KNN 的准确率略低，但在类别 `1` 上表现更好，召回率达到了 `85%`。
 
 
-### 逐行中文注释
+### DTC
 
 ```python
 from sklearn.tree import DecisionTreeClassifier
@@ -869,7 +872,7 @@ print("Decision Trees:")  # 打印 "Decision Trees:" 作为输出的标题
 print(classification_report(y_test, y_pred))  # 输出模型的分类报告，包括精确度、召回率、F1分数等指标
 ```
 
-### 结果解读
+### 结果展示
 
 ```plaintext
 Decision Trees:
@@ -904,7 +907,7 @@ weighted avg       0.82      0.82      0.82       105
 
 总体来说，决策树模型在测试集上的表现相对均衡，精确率和召回率都较高，准确率达到 `82%`，在类别 `0` 和 `1` 上的表现相对接近。
 
-
+### 存储集成模型的名称及其对应的准确率
 ```python
 from sklearn.metrics import accuracy_score  # 从sklearn.metrics导入accuracy_score函数，用于计算模型的准确率
 
@@ -912,7 +915,6 @@ from sklearn.metrics import accuracy_score  # 从sklearn.metrics导入accuracy_s
 ensemble_df = pd.DataFrame(columns=['Ensemble Model', 'Accuracy'])  # 创建一个DataFrame，用于存储集成模型的名称及其对应的准确率，列名为'Ensemble Model'和'Accuracy'
 ``` 
 
-### 代码解释：
 1. **导入库**:
    - `accuracy_score`: 这是一个用于计算分类模型准确率的函数。它将预测值与真实标签进行比较，并返回正确预测的比例。
 
@@ -921,7 +923,7 @@ ensemble_df = pd.DataFrame(columns=['Ensemble Model', 'Accuracy'])  # 创建一�
    - 该 DataFrame 将用于保存不同集成模型的名称及其对应的准确率，以便进一步分析和比较模型的性能。
 
 
-### 代码逐行注释
+### voting classifier
 
 ```python
 # importing voting classifier
@@ -947,7 +949,7 @@ print("Max Voting:")  # 打印投票分类器模型的名称
 print(classification_report(y_test, pred_final))  # 打印投票分类器模型在测试集上的评估报告，包括precision、recall、f1-score和支持数
 ```
 
-### 代码结果解读
+### 结果展示
 
 ```plaintext
 Max Voting:
@@ -960,6 +962,7 @@ Max Voting:
    macro avg       0.85      0.85      0.85       105
 weighted avg       0.85      0.85      0.85       105
 ```
+### 结果解读
 
 - **Precision** (精确率): 对于类别 `0`，模型的精确率为 `0.86`，对于类别 `1`，模型的精确率为 `0.83`。精确率表示模型预测的正例中有多少是正确的。
 
@@ -975,7 +978,7 @@ weighted avg       0.85      0.85      0.85       105
 
 
 
-### 代码逐行注释
+### Stack Method
 
 ```python
 # importing stacking lib for Stack Method
@@ -1012,7 +1015,7 @@ print("Stacking:")  # 打印堆叠模型的名称
 print(classification_report(y_test, pred_final))  # 打印堆叠模型在测试集上的评估报告，包括precision、recall、f1-score和支持数
 ```
 
-### 代码结果解读
+### 结果展示
 
 #### 堆叠过程中的基模型评估：
 
@@ -1067,7 +1070,7 @@ weighted avg       0.84      0.84      0.84       105
 
 
 
-### 代码逐行注释
+### Bagging Method
 
 ```python
 # importing bagging module for Bagging Method
@@ -1093,7 +1096,7 @@ print("Bagging:")  # 打印模型名称
 print(classification_report(y_test, pred))  # 打印Bagging模型在测试集上的评估报告，包括precision、recall、f1-score和支持数
 ```
 
-### 代码结果解读
+### 结果展示
 
 ```plaintext
 Bagging:
@@ -1106,6 +1109,7 @@ Bagging:
    macro avg       0.84      0.84      0.84       105
 weighted avg       0.84      0.84      0.84       105
 ```
+### 结果解读
 
 - **Precision** (精确率): 对于类别 `0`（阴性），Bagging模型的精确率为 `0.83`，对于类别 `1`（阳性），精确率为 `0.84`。精确率表示模型在所有预测为该类的样本中，正确预测的比例。
   
@@ -1118,7 +1122,7 @@ weighted avg       0.84      0.84      0.84       105
 总体来说，Bagging模型在测试集上的表现较好，达到了84%的准确率。这表明通过使用Bagging集成方法，可以有效地提高分类模型的鲁棒性和预测性能。
 
 
-### 代码逐行注释
+### XGBoost
 
 ```python
 # importing machine learning models for prediction
@@ -1145,7 +1149,7 @@ print("Boosting:")  # 打印模型名称
 print(classification_report(y_test, pred_final))  # 打印Boosting模型在测试集上的评估报告
 ```
 
-### 代码结果解读
+### 结果展示
 
 ```plaintext
 Boosting:
@@ -1158,7 +1162,7 @@ Boosting:
    macro avg       0.87      0.87      0.87       105
 weighted avg       0.87      0.87      0.87       105
 ```
-
+### 结果解读
 - **Precision** (精确率): 对于类别 `0`（阴性），Boosting模型的精确率为 `0.85`，对于类别 `1`（阳性），精确率为 `0.88`。精确率表示模型在所有预测为该类的样本中，正确预测的比例。
   
 - **Recall** (召回率): 对于类别 `0`，Boosting模型的召回率为 `0.89`，对于类别 `1`，召回率为 `0.85`。召回率表示在所有真实属于该类的样本中，被正确预测为该类的比例。
@@ -1170,7 +1174,7 @@ weighted avg       0.87      0.87      0.87       105
 总体来说，Boosting模型在测试集上的表现较优，达到了87%的准确率，这表明使用Boosting集成方法可以有效地提高分类模型的性能和预测精度。
 
 
-### 代码逐行注释
+### (bagging, boosting, max_vote) with stacking
 
 ```python
 # Combining all ensemble models; (bagging, boosting, max_vote) with stacking
@@ -1209,7 +1213,7 @@ print("Stacking:")  # 打印模型名称
 print(classification_report(y_test, pred_final))  # 打印组合模型在测试集上的评估报告
 ```
 
-### 代码结果解读
+### 结果展示
 
 ```plaintext
 task:         [classification]
