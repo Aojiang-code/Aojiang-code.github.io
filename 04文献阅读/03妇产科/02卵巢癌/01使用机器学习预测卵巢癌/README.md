@@ -9,6 +9,16 @@
 > [Intermediate ML Techniques for Detection of Cancer](https://www.kaggle.com/code/tobaadesugba/intermediate-ml-techniques-for-detection-of-cancer)
 > [01Intermediate_ML_Techniques_for_Detection_of_Cancer注释](04文献阅读\03妇产科\02卵巢癌\01使用机器学习预测卵巢癌\01Intermediate_ML_Techniques_for_Detection_of_Cancer注释\README.md)
 
+## 原始数据
+目录
+* 补充数据1: 包含原始数据。
+* 补充数据2: 它包含了一系列的生物标志物，它们的缩写，以及在研究中使用的描述。
+* 补充数据3: 它包含没有生物标志物 CA72-4的训练数据的估算版本。
+* 补充数据4: 其中包含原始培训数据。
+* 补充数据5: 它包含原始测试数据。
+* 
+* 靶列 = 类型(1-BOT ——-卵巢良性肿瘤和0-OC ——-卵巢癌)
+
 ##  亮点 
 * 利用两种生物标志物（人附睾蛋白 4 (HE4) 和癌胚抗原 (CEA)）的简单决策树模型可以准确分类良性卵巢肿瘤 (BOT) 和卵巢癌 (OC)。
 * CEA 是低 HE4 患者 OC 预测的一个有价值的标志物。
@@ -96,6 +106,79 @@ MRMR 选择了 **8 个显着特征**，其中两个被**决策树模型**确定�
 组织学类型根据世界卫生组织（WHO）标准进行分类。
 患者的人口统计和组织学类型信息列于Table 1 表1 .
 
+
+
+
+### Table 1. Statistics Summary of the Full Data Set for 349 Patients
+
+| **Category**                  | **Ovarian Cancer** | **Benign Ovarian Tumors** | **P-value** |
+|-------------------------------|--------------------|---------------------------|-------------|
+| **Histology**                 | **N = 171**        | **N = 178**               |             |
+| OC, n(%)                      | 171 (100%)         | NA                        |             |
+| - Epithelial Ovarian Cancer   | 157 (91.81%)       |                           |             |
+| - Ovarian Germ Cell Cancer    | 5 (2.92%)          |                           |             |
+| - Others                      | 9 (5.26%)          |                           |             |
+| BOT, n(%)                     | NA                 | 178 (100%)                |             |
+| - Ovarian Teratoma            |                    | 36 (20.22%)               |             |
+| - Ovarian Cyst                |                    | 142 (79.78%)              |             |
+| **Demographics**              |                    |                           |             |
+| Age                           | 171                | 178                       | <0.001      |
+| - Median                      | 53.00              | 36.00                     |             |
+| - IQR                         | 45-63              | 27.00-46.00               |             |
+| Premenopausal                 | 75                 | 155                       |             |
+| Postmenopausal                | 96                 | 23                        |             |
+| **Blood Routine Test**        |                    |                           |             |
+| Mean Platelet Volume (fL)     | 171                | 176                       | 0.407       |
+| - Median                      | 10.10              | 10.40                     |             |
+| - IQR                         | 9.10-11.20         | 8.98-11.20                |             |
+| Basophil Cell Count (10^9/L)  | 171                | 178                       | 0.312       |
+| - Median                      | 0.02               | 0.03                      |             |
+| - IQR                         | 0.01-0.04          | 0.01-0.04                 |             |
+| Basophil Cell Ratio (%)       | 171                | 178                       | 0.054       |
+| - Median                      | 0.40               | 0.44                      |             |
+| - IQR                         | 0.20-0.60          | 0.20-0.72                 |             |
+| Eosinophil Count (10^9/L)     | 171                | 178                       | 0.421       |
+| - Median                      | 0.05               | 0.05                      |             |
+| - IQR                         | 0.02-0.08          | 0.02-0.10                 |             |
+| Mean Corpuscular Hemoglobin (Pg)| 171               | 178                       | <0.001      |
+| - Median                      | 28.90              | 29.85                     |             |
+| - IQR                         | 27.40-30.00        | 28.30-30.50               |             |
+| Red Blood Cell Distribution Width (%) | 171       |                           |             |
+| - Median                      | 13.10              |                           |             |
+
+好的，这里是表格的继续部分：
+
+| **Category**                  | **Ovarian Cancer** | **Benign Ovarian Tumors** | **P-value** |
+|-------------------------------|--------------------|---------------------------|-------------|
+| **Blood Routine Test**        |                    |                           |             |
+| Mean Platelet Volume (fL)     | 171                | 176                       | 0.407       |
+| - Median                      | 10.10              | 10.40                     |             |
+| - IQR                         | 9.10-11.20         | 8.98-11.20                |             |
+| Basophil Cell Count (10^9/L)  | 171                | 178                       | 0.312       |
+| - Median                      | 0.02               | 0.03                      |             |
+| - IQR                         | 0.01-0.04          | 0.01-0.04                 |             |
+| Basophil Cell Ratio (%)       | 171                | 178                       | 0.054       |
+| - Median                      | 0.40               | 0.44                      |             |
+| - IQR                         | 0.20-0.60          | 0.20-0.72                 |             |
+| Eosinophil Count (10^9/L)     | 171                | 178                       |             |
+| - Median                      | 0.05               | 0.05                      |             |
+| - IQR                         | 0.02-0.08          | 0.02-0.10                 |             |
+
+继续完成表格如下：
+
+| **Category**                  | **Ovarian Cancer** | **Benign Ovarian Tumors** | **P-value** |
+|-------------------------------|--------------------|---------------------------|-------------|
+| **Blood Routine Test**        |                    |                           |             |
+| Eosinophil Count (10^9/L)     | 171                | 178                       | 0.710       |
+| - Median                      | 0.05               | 0.05                      |             |
+| - IQR                         | 0.02-0.08          | 0.02-0.10                 |             |
+| Eosinophil Ratio (%)          | 171                | 178                       | 0.882       |
+| - Median                      | 0.40               | 0.40                      |             |
+| - IQR                         | 0.20-0.60          | 0.20-0.60                 |             |
+
+如果有任何其他需要补充的内容或修正，请告知！
+
+
 ### 2.2. 血常规检查、一般生化检查、肿瘤标志物检测方法
 
 血常规检测采用Sysmex XE-2100全自动血液分析仪（Sysmex，日本）对全血进行分析。一般生化检测采用贝克曼库尔特AU5800系列临床生化分析仪（美国贝克曼库尔特）对血清进行分析。采用Roche Cobas 8000模块化分析仪系列（Roche，瑞士）对血清进行肿瘤标志物分析。各测试项目的详细实验方法列于补充数据2中。
@@ -112,8 +195,7 @@ MRMR 选择了 **8 个显着特征**，其中两个被**决策树模型**确定�
 
 
 ### 3.2. 特征选择
-在我们的数据集中，它由 49 个变量组成，包括组织学、人口统计学、血常规检查、一般化学、肿瘤标志物，如图所示
-表1 .
+在我们的数据集中，它由 49 个变量组成，包括组织学、人口统计学、血常规检查、一般化学、肿瘤标志物，如表1所示 .
 
 为了有效地为机器学习准备高维数据，我们采用了数据降维策略，即特征选择，它可以帮助导出干净且最相关的数据子集来预测结果（良性/OC）。使用 Python scikit-feature 库 (http://featureselection.asu.edu/) 执行特征选择。
 
