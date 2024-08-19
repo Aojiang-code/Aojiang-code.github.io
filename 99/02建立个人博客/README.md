@@ -754,7 +754,60 @@ GitHub 是一个非常流行的代码托管平台，同时也是一个强大的�
 
 
 
+### VSCode提交hithub
 
+要将代码从本地 VSCode 仓库提交到 GitHub 上名为 "08Kansformer" 的远程仓库，你需要按照以下步骤操作：
+
+1. **打开终端**：
+   在 VSCode 中，你可以通过按 `Ctrl + ``（反引号键，通常位于 Esc 键下方）来打开集成终端。
+
+2. **导航到你的项目目录**：
+   使用 `cd` 命令进入你的项目目录，例如：
+   ```bash
+   cd path/to/your/project
+   ```
+
+3. **初始化 Git 仓库**（如果尚未初始化）：
+   ```bash
+   git init
+   ```
+
+4. **添加远程仓库**（如果尚未添加）：
+   你需要先将本地仓库与远程仓库（GitHub 上的 "08Kansformer"）关联起来，使用下面的命令，并替换 `<your-username>` 为你的 GitHub 用户名：
+   ```bash
+   git remote add origin https://github.com/<your-username>/08Kansformer.git
+   ```
+
+5. **检查文件状态**：
+   在提交之前，可以检查哪些文件发生了变化：
+   ```bash
+   git status
+   ```
+
+6. **添加更改到暂存区**：
+   如果你要提交所有更改，使用：
+   ```bash
+   git add .
+   ```
+   或者，如果你只想添加特定文件，可以指定文件名：
+   ```bash
+   git add file1 file2
+   ```
+
+7. **提交更改**：
+   将这些更改提交到你的本地仓库：
+   ```bash
+   git commit -m "Your commit message"
+   ```
+
+8. **推送更改到 GitHub**：
+   将本地更改推送到 GitHub：
+   ```bash
+   git push origin main
+   ```
+   注意：根据你的默认分支名称，可能需要将 `main` 替换为 `master` 或你的分支名称。
+
+这些是将代码从 VSCode 提交到 GitHub 的基本步骤。确保你的 GitHub 凭据已经在本地机器上配置好，这样你才能推送代码到远程仓库。如果你在 `git push` 时遇到权限问题，可能需要设置 Git 凭据缓存或使用 SSH 密钥。
 
 
 
