@@ -1,6 +1,16 @@
-# 使用kaggle下载数据集
 
-## 需求：从kaggle下载数据集
+
+
+## 目的：使用kaggle下载数据集
+
+```bash
+#进入指定的文件夹
+cd /work/home/aojiang/06项目复现/08Kansformer/code/data
+```
+
+
+
+### 需求：从kaggle下载数据集
 我希望在终端中下载kaggle上的一个数据集到当前工作目录，这个数据集的网址为https://www.kaggle.com/competitions/aptos2019-blindness-detection/data?select=train_images
 
 在上述网址中包含下载命令：
@@ -213,8 +223,124 @@ Kaggle API 1.6.17
    ```
 这个命令会将数据集下载到当前工作目录下的 `aptos2019-blindness-detection.zip` 文件中。
 
+
+## 报错
+
+```bash
+(base) aojiang@e3654158688d:~/06项目复现/08Kansformer/code/data$ kaggle competitions download -c aptos2019-blindness-detection
+2024-08-20 17:19:24,513 WARNING Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7f3dc3eabd90>: Failed to establish a new connection: [Errno -3] Temporary failure in name resolution')': /api/v1/competitions/data/download-all/aptos2019-blindness-detection
+2024-08-20 17:19:29,516 WARNING Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7f3dc3eab7c0>: Failed to establish a new connection: [Errno -3] Temporary failure in name resolution')': /api/v1/competitions/data/download-all/aptos2019-blindness-detection
+2024-08-20 17:19:39,526 WARNING Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7f3dc3eab520>: Failed to establish a new connection: [Errno -3] Temporary failure in name resolution')': /api/v1/competitions/data/download-all/aptos2019-blindness-detection
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/urllib3/connection.py", line 174, in _new_conn
+    conn = connection.create_connection(
+  File "/opt/conda/lib/python3.10/site-packages/urllib3/util/connection.py", line 72, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "/opt/conda/lib/python3.10/socket.py", line 955, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.10/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "/opt/conda/lib/python3.10/site-packages/urllib3/connectionpool.py", line 386, in _make_request
+    self._validate_conn(conn)
+  File "/opt/conda/lib/python3.10/site-packages/urllib3/connectionpool.py", line 1042, in _validate_conn
+    conn.connect()
+  File "/opt/conda/lib/python3.10/site-packages/urllib3/connection.py", line 358, in connect
+    self.sock = conn = self._new_conn()
+  File "/opt/conda/lib/python3.10/site-packages/urllib3/connection.py", line 186, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPSConnection object at 0x7f3dc3eab130>: Failed to establish a new connection: [Errno -3] Temporary failure in name resolution
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/work/home/aojiang/.local/bin/kaggle", line 8, in <module>
+    sys.exit(main())
+  File "/work/home/aojiang/.local/lib/python3.10/site-packages/kaggle/cli.py", line 63, in main
+    out = args.func(**command_args)
+  File "/work/home/aojiang/.local/lib/python3.10/site-packages/kaggle/api/kaggle_api_extended.py", line 1037, in competition_download_cli
+    self.competition_download_files(competition, path, force,
+  File "/work/home/aojiang/.local/lib/python3.10/site-packages/kaggle/api/kaggle_api_extended.py", line 998, in competition_download_files
+    self.competitions_data_download_files_with_http_info(
+  File "/work/home/aojiang/.local/lib/python3.10/site-packages/kaggle/api/kaggle_api.py", line 384, in competitions_data_download_files_with_http_info
+    return self.api_client.call_api(
+  File "/work/home/aojiang/.local/lib/python3.10/site-packages/kaggle/api_client.py", line 313, in call_api
+    return self.__call_api(resource_path, method,
+  File "/work/home/aojiang/.local/lib/python3.10/site-packages/kaggle/api_client.py", line 145, in __call_api
+    response_data = self.request(
+  File "/work/home/aojiang/.local/lib/python3.10/site-packages/kaggle/api_client.py", line 335, in request
+    return self.rest_client.GET(url,
+  File "/work/home/aojiang/.local/lib/python3.10/site-packages/kaggle/rest.py", line 231, in GET
+    return self.request("GET", url,
+  File "/work/home/aojiang/.local/lib/python3.10/site-packages/kaggle/rest.py", line 204, in request
+    r = self.pool_manager.request(method, url,
+  File "/opt/conda/lib/python3.10/site-packages/urllib3/request.py", line 74, in request
+    return self.request_encode_url(
+  File "/opt/conda/lib/python3.10/site-packages/urllib3/request.py", line 96, in request_encode_url
+    return self.urlopen(method, url, **extra_kw)
+  File "/opt/conda/lib/python3.10/site-packages/urllib3/poolmanager.py", line 376, in urlopen
+    response = conn.urlopen(method, u.request_uri, **kw)
+  File "/opt/conda/lib/python3.10/site-packages/urllib3/connectionpool.py", line 815, in urlopen
+    return self.urlopen(
+  File "/opt/conda/lib/python3.10/site-packages/urllib3/connectionpool.py", line 815, in urlopen
+    return self.urlopen(
+  File "/opt/conda/lib/python3.10/site-packages/urllib3/connectionpool.py", line 815, in urlopen
+    return self.urlopen(
+  File "/opt/conda/lib/python3.10/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    retries = retries.increment(
+  File "/opt/conda/lib/python3.10/site-packages/urllib3/util/retry.py", line 592, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='www.kaggle.com', port=443): Max retries exceeded with url: /api/v1/competitions/data/download-all/aptos2019-blindness-detection (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7f3dc3eab130>: Failed to establish a new connection: [Errno -3] Temporary failure in name resolution'))
+(base) aojiang@e3654158688d:~/06项目复现/08Kansformer/code/data$ 
+```
+### 解决方法
+错误消息表明系统无法解析域名（"Temporary failure in name resolution"），这通常是因为网络连接问题或DNS配置问题。这可能是由于以下几个原因造成的：
+
+1. **网络连接不稳定或不可用**：确保你的设备已连接到互联网。
+2. **代理或VPN**：如果你通过代理或VPN连接到互联网，可能需要正确配置这些服务以确保可以访问外部网站。
+3. **DNS服务器问题**：DNS服务器可能无法解析域名。尝试更改你的DNS服务器到Google的DNS（8.8.8.8和8.8.4.4）或其他公共DNS服务。
+
+### 解决步骤
+
+1. **检查网络连接**：
+   - 确保你的网络连接正常。尝试访问其他网站或服务以验证网络连接。
+
+2. **检查代理设置**：
+   - 如果你使用代理，检查代理设置是否正确。确保命令行工具配置为使用这些代理设置。
+   - 在终端运行以下命令查看当前的代理设置：
+     ```bash
+     echo $http_proxy
+     echo $https_proxy
+     ```
+
+3. **更改DNS服务器**：
+   - 更改DNS设置，使用如Google DNS（8.8.8.8和8.8.4.4）或Cloudflare DNS（1.1.1.1）。
+   - 在Linux系统中，你可以通过编辑 `/etc/resolv.conf` 文件来更改DNS服务器：
+     ```bash
+     sudo nano /etc/resolv.conf
+     ```
+     添加或修改行：
+     ```
+     nameserver 8.8.8.8
+     nameserver 8.8.4.4
+     ```
+     保存并退出编辑器。
+
+4. **重新尝试下载**：
+   - 在确认网络连接和DNS配置无误后，再次尝试下载数据集：
+     ```bash
+     kaggle competitions download -c aptos2019-blindness-detection
+     ```
+
+
+
+
 ### 步骤 4: 解压数据集
-下载完成后，你可能需要解压数据集：
+下载完成后，需要解压数据集：
 ```bash
 unzip aptos2019-blindness-detection.zip
 ```
