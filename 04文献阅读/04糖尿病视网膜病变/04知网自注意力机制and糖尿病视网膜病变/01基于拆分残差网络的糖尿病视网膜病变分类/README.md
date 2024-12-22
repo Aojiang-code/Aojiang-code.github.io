@@ -28,16 +28,16 @@
 ### 现有研究
 针对上述情况，基于深度学习的 ＤＲ 图像自动分级技术逐渐被学者所关注。
 
-* Ｄｕｔｔａ 等［３］采用深度学习方法对 ＤＲ 图像进行等级分级，利用深度学习神经元提取不同病变等级视网膜特征；
-* Ｇｕｌｓｈａｎ 等［４］在公开数据集上利用深度学习方法进行 ＤＲ 二分类，并比较了与人工诊断 ＤＲ 的优势；
-* Ｌｉｕ 等［５］对比了残差网络和自注意网络，得出残差网络进行 ＤＲ 分级效果较好的结论。 
+* Ｄｕｔｔａ 等［３Classification of diabetic retinopathy images by using deep learning models[ J] . International Journal of Grid and Distributed Computing, 2018］[利用深度学习模型对糖尿病视网膜病变图像进行分类[ J ]《国际网格与分布式计算杂志》 ，2018年]()采用深度学习方法对 ＤＲ 图像进行等级分级，利用深度学习神经元提取不同病变等级视网膜特征；
+* Ｇｕｌｓｈａｎ 等［４Development and validation of a deep learning algorithm for detection of diabetic retinopathy in retinal fundus photographs[ J] . JAMA, 2016］[开发和验证深度学习算法以检测视网膜眼底照片中的糖尿病视网膜病变[ J ]。《美国医学会杂志》2016年]()在公开数据集上利用深度学习方法进行 ＤＲ 二分类，并比较了与人工诊断 ＤＲ 的优势；
+* Ｌｉｕ 等［５A ConvNet for the 2020s[ C]∥ 2022 IEEE / CVF Conference on Computer Vision and Pattern Recognition ( CVPR ) . Los Alamitos, CA: IEEE Computer Society, 2022］[面向2020年代[ C ]∥2022 IEEE/CVF 计算机视觉与模式识别会议(CVPR)的 ConvNet。洛斯阿拉米托斯: IEEE计算机协会，2022年]()对比了残差网络和自注意网络，得出残差网络进行 ＤＲ 分级效果较好的结论。 
 * 由此，许多学者利用残差网络对 ＤＲ 分级进行探讨： 
-* * Ｘｉｅ 等［６］在残差网络的基础上提出变体 ＲｅｓＮｅｘｔ 残差结构，优化了原模型的宽度和深度，提升了分级准确率；
-* * Ｂｅｌｌｏ 等［７］则修改残差结构的网络宽度并引入注意力机制，与 ＮＡＳ［８］自动搜索网络对比，残差网络的 ＤＲ 分级准确率高于 ＮＡＳ 自动搜索网络；
-* *Ｈｕ 等［９］在残差网络中引入激励和挤压模块，使模型重点关注 ＤＲ 图像的通道信息，提高了模型空间和通道的表征能力；
-* *郑雯等［１０］则对 ＲｅｓＮｅｘｔ 残差网络变体进行改进，利用预训练和数据增强策略提高分级准确率；
-* *顾婷菲等［１１］引入多通道注意力选择机制的细粒度分级方法进行分级。 
-* *此后，随着 Ｔｒａｎｓｆｏｒｍｅｒ［１２］网络的兴起，Ｍａ 等［１３］利用 Ｔｒａｎｓｆｏｒｍｅｒ 进行 ＤＲ 分级，取得较好结果的同时发现不同病灶时期 ＤＲ 图像的特征信息具有相关性。
+* * Ｘｉｅ 等［６Aggregated residual transformations for deep neural networks[ C]∥ 2017 IEEE Conference on Computer Vision and Pattern Recognition ( CVPR) . Los Alamitos, CA: IEEE Computer Society, 2017］[深度神经网络聚合残差变换[ C ]∥2017 IEEE 计算机视觉与模式识别会议(CVPR)。洛斯阿拉米托斯: IEEE计算机协会，2017年]()在残差网络的基础上提出变体 ＲｅｓＮｅｘｔ 残差结构，优化了原模型的宽度和深度，提升了分级准确率；
+* * Ｂｅｌｌｏ 等［７Revisiting ResNets: improved training and scaling strategies[ EB / OL] . ( 2021⁃03⁃ 13) [2023⁃05⁃18] . https:∥arxiv.org / abs / 2103.07579.］[重新访问 ResNets: 改进的培训和扩展策略[ EB/OL ]。(2021-03-13)[2023-05-18].Https: ∥ arxiv.org/abs/2103.07579。]()则修改残差结构的网络宽度并引入注意力机制，与 ＮＡＳ［８Neural optimizer search with reinforcement learning[ EB / OL] . (2017⁃09⁃22) [2023⁃05⁃18] . https:∥arxiv.org / abs / 1709.07417］[基于强化学习的神经优化器搜索。(2017-09-22)[2023-05-18].Https: ∥ arxiv.org/abs/1709.07417]()自动搜索网络对比，残差网络的 ＤＲ 分级准确率高于 ＮＡＳ 自动搜索网络；
+* *Ｈｕ 等［９Squeeze⁃and⁃excitation networks [ J] . IEEE Transactions on Pattern Analysis and  Machine Intelligence, 2020］[挤压激励网络[ J ]。IEEE 模式分析会刊和机器智能，2020]()在残差网络中引入激励和挤压模块，使模型重点关注 ＤＲ 图像的通道信息，提高了模型空间和通道的表征能力；
+* *郑雯等［１０基于 Ｉｍｐｒｏｖｅｄ ＤＲ⁃Ｎｅｔ 算法的糖尿病视网膜病变识别与分级［ Ｊ］ ． 光学学报， ２０２１］[基于 Ｉｍｐｒｏｖｅｄ ＤＲ⁃Ｎｅｔ 算法的糖尿病视网膜病变识别与分级［ Ｊ］ ． 光学学报， ２０２１]()则对 ＲｅｓＮｅｘｔ 残差网络变体进行改进，利用预训练和数据增强策略提高分级准确率；
+* *顾婷菲等［１１结合多通道注意力的糖尿病性视网膜病变分级［ Ｊ］ ． 中国图象图形学报， ２０２１］[结合多通道注意力的糖尿病性视网膜病变分级［ Ｊ］ ． 中国图象图形学报， ２０２１]()引入多通道注意力选择机制的细粒度分级方法进行分级。 
+* *此后，随着 Ｔｒａｎｓｆｏｒｍｅｒ［１２Attention is all you need [ C ] ∥ Advances in Neural Information Processing Systems 30 ( NIPS 2017)］[注意力是你所需要的一切[ C ]∥神经信息处理系统30的进展(NIPS 2017)]()网络的兴起，Ｍａ 等［１３HCTNet: a hybrid ConvNet⁃transformer network for retinal optical coherence tomography image classification[ J] . Biosensors, 2022］[HCTNet: 视网膜光学相干断层扫描图像分类的混合转换网络[ J ]。生物传感器，2022]()利用 Ｔｒａｎｓｆｏｒｍｅｒ 进行 ＤＲ 分级，取得较好结果的同时发现不同病灶时期 ＤＲ 图像的特征信息具有相关性。
 
 ### 现有问题
 以上研究针对 ＤＲ 分级问题提出不同的解决办法，然而，
@@ -49,7 +49,7 @@
 许多学者就如何定位不同时期 ＤＲ 病灶特点，联系其病灶特征信息，缓解数据集中正负样本分布悬殊问题以及在模型复杂度低、训练速度快的同时达到较高准确率方面展开讨论。
 
 ### 本文创新点
-基于上述问题，为提高网络模型特征提取能力，进一步提升模型五分级准确率，本文对残差网络中的ＲｅｓＮｅＳｔ５０［１４］网络变体进行改进。 
+基于上述问题，为提高网络模型特征提取能力，进一步提升模型五分级准确率，本文对残差网络中的ＲｅｓＮｅＳｔ５０［１４ResNeSt: split⁃attention networks [ C] ∥ 2022 IEEE / CVF Conference on Computer Vision and Pattern Recognition Workshops ( CVPRW) . Los Alamitos, CA: IEEE Computer Society, 2022］[ResNeSt: 分散注意力网络[ C ]∥2022 IEEE/CVF 计算机视觉与模式识别研讨会(CVPRW)。洛斯阿拉米托斯: IEEE计算机协会，2022年]()网络变体进行改进。 
 
 本文算法模型中包含的注意力机制缓解了残差网络系列中模型特征提取能力较弱问题，基于 ｒａｎｓｆｏｒｍｅｒ 思想设计的**全局上下文信息模块**加强了网络层中的信息交流，**融合归一化注意力的多分支输出分类器**则缓解数据样本分布悬殊问题。
 
