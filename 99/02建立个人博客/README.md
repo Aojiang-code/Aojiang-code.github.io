@@ -754,7 +754,7 @@ GitHub 是一个非常流行的代码托管平台，同时也是一个强大的�
 
 
 
-### VSCode提交hithub
+### VSCode提交github
 
 要将代码从本地 VSCode 仓库提交到 GitHub 上名为 "08Kansformer" 的远程仓库，你需要按照以下步骤操作：
 
