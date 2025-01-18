@@ -262,12 +262,22 @@ Tools （工具） 选项卡提供指向以下内容的链接：
 ADDI FAIR Data Services 使研究人员和创新者能够通过数据集搜索、分类和高效的元数据浏览功能来发现和理解数据，这些功能通过数据集目录、词典和相关附加资产进行描述。研究人员可以请求访问数据集，数据所有者可以在其中查看并批准或拒绝，其中批准可解锁操作，例如将数据传输到 ADDI Workspace。
 
 ##### 主要特点
-- 
+- Data Discovery
+- Request Access to Data
+- Metadata Browsing
+- Metadata Management
+- Role-based Access Control
+- Built on Standard  
+- Integration with Aridhia Workspace
+- Privacy by Design 
+- Cloud-native Service 
 
-
-
-
-
+##### FAIR 权限模型
+![alt text](图片/管理权限.png)
+##### 角色
+##### 管理员级别权限
+##### 数据集级权限
+##### 数据集可见性
 ### 三、
 
 ### 四、
