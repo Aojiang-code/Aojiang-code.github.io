@@ -640,3 +640,12 @@ C-index = 1：表示模型完美预测。
 蒋傲   
 宁波大学医学部公共卫生学院
 联系电话（微信同号）：15384109112
+
+
+
+
+GEOjson下载
+
+https://mp.weixin.qq.com/s/Q6C0b5CeBVS9W9s8o97ynA
+
+
