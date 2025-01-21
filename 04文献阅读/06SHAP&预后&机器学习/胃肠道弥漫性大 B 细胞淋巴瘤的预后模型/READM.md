@@ -171,6 +171,183 @@ We used the pROC package of R 3.5.3 to draw ROC curves for some major quantitati
 
 ![alt text](图片/图1.png)
 
+The LDH values ranged from 125 to 1833 U/L with a median of 230.5 U/L and a mean of 346.8 U/L. The AUC of its ROC curve was 0.659 and the inflection point was at 301 U/L (Figure 1C). The median value of ALB was 36.9 g/L with a minimum value of 23.1 g/L and a maximum value of 46.5 g/L. The AUC of its ROC curve was 0.712 and the inflection point was at 38.15 g/L (Figure 1D). The median value of β2MG was 2.22 mg/L with a minimum value of 0.94 mg/L, and a maximum value of 12.2 mg/L. The AUC of its ROC curve was 0.737 and the inflection point was 2.39 mg/L (Figure 1E). The median level of MIALD was 2.8 cm, with a maximum value of 17.5 cm. The AUC of the ROC curve was 0.638 and the inflection point was at 3.9 cm (Figure 1F). Based on these results, we selected the following cut-off values for the survival analysis: age 75 years, HGB level of 105 g/L, ALB level of 38 g/L, β2MG level of 2.4 mg/L, and MIALD of 4 cm.
+
+LDH 值范围为 125 至 1833 U/L，中位数为 230.5 U/L，平均值为 346.8 U/L。其 ROC 曲线的 AUC 为 0.659，拐点为 301 U/L （ Figure 1C ）。ALB 的中位数为 36.9 g/L，最小值为 23.1 g/L，最大值为 46.5 g/L。其 ROC 曲线的 AUC 为 0.712，拐点为 38.15 g/L （ Figure 1D ）。β2MG 的中位数为 2.22 mg/L，最小值为 0.94 mg/L，最大值为 12.2 mg/L。其 ROC 曲线的 AUC 为 0.737，拐点为 2.39 mg/L （ Figure 1E ）。MIALD 的中位水平为 2.8 cm，最大值为 17.5 cm。ROC 曲线的 AUC 为 0.638，拐点在 3.9 cm （ Figure 1F ）。基于这些结果，我们选择了以下临界值进行生存分析：年龄 75 岁，HGB 水平为 105 g/L，ALB 水平为 38 g/L，β2MG 水平为 2.4 mg/L，MIALD 为 4 cm。
+
+
+![alt text](图片/图1.png)
+
+
+- 年龄 3 年生存率的 ROC 曲线表明拐点发生在 74.5 岁，AUC 为 0.691 （ Figure 1A ）。
+- Ki67 的 ROC 曲线的 AUC 仅为 0.548，表明 Ki67 对确定预后影响不大。
+- 基于 HGB 的 ROC 曲线的 AUC 为 0.684，拐点为 104.5 g/L （ Figure 1B ）。
+- LDH 其 ROC 曲线的 AUC 为 0.659，拐点为 301 U/L （ Figure 1C ）。
+- ALB 其 ROC 曲线的 AUC 为 0.712，拐点为 38.15 g/L （ Figure 1D ）。
+- β2MG 其 ROC 曲线的 AUC 为 0.737，拐点为 2.39 mg/L （ Figure 1E ）。
+- MIALD 的ROC 曲线的 AUC 为 0.638，拐点在 3.9 cm （ Figure 1F ）。
+
+
+
+基于这些结果，我们选择了以下临界值进行生存分析：
+- 年龄 75 岁，
+- HGB 水平为 105 g/L，
+- ALB 水平为 38 g/L，
+- β2MG 水平为 2.4 mg/L，
+- MIALD 为 4 cm。
+
+### Survival Analysis  生存分析
+Using the cut-off values selected, we were able to perform a univariate survival analysis on all variables and compare their P values. The significant variables (with P values less than 0.05) were: HGB level, age, LDH level, ALB level, MIALD, IPI score, primary gastrointestinal lymphoma (PGL; yes or no), Ann Arbor stage, and β2MG level (Figure 2A). The effect of HGB was the most significant, followed by age and LDH level. Both the Ann Arbor stage and the IPI score were significant in assessing prognosis but were relatively weak, while the diagnosis of PGL (yes or no) was somewhere in between. However, the predictive value of ALB and MIALD for prognosis was better than the IPI score.
+使用所选的临界值，我们能够对所有变量进行单变量生存分析并比较它们的 P 值。显著变量 （P 值小于 0.05） 是：HGB 水平、年龄、LDH 水平、ALB 水平、MIALD、IPI 评分、原发性胃肠道淋巴瘤 （PGL;是或否）、Ann Arbor 分期和 β2MG 水平 （ Figure 2A ）。HGB 的影响最显着，其次是年龄和 LDH 水平。Ann Arbor 分期和 IPI 评分在评估预后方面均显著，但相对较弱，而 PGL 的诊断 （是或否） 介于两者之间。然而，ALB 和 MIALD 对预后的预测价值优于 IPI 评分。
+
+![alt text](图片/图2.png)
+
+### The HLAMA and the Simplified Models    HLAMA 和简化模型
+To identify the most significant variables for the prognostic evaluation, we established 2 models: the COX regression model and the random forest model. Based on the COX regression model, HGB and LDH were selected as variables that could be included in the regression equation (Table 2, P<0.01). On the other hand, the random forest model, which was based on patient outcome and had numerical and categorical variables, had an accuracy rate in predicting the three3-year survival rate of 76.5% and a recall rate of 81.3%. The most significant variables were HGB, MIALD, age, and ALB (Table 3, Figure 3).
+为了确定预后评估的最重要变量，我们建立了 2 个模型：COX 回归模型和随机森林模型。基于 COX 回归模型，选择 HGB 和 LDH 作为可以包含在回归方程中的变量 （ Table 2 ， P<0.01）。另一方面，基于患者结局并具有数值和分类变量的随机森林模型，预测 3 年 3 年生存率为 76.5%，召回率为 81.3%。最重要的变量是 HGB 、 MIALD、 年龄和 ALB （ Table 3 ， Figure 3 ）。
+
+
+![alt text](图片/表3.png)
+
+![alt text](图片/表2_zh.png)
+
+![alt text](图片/图3.png)
+
+
+Based on these results, we built 2 models that incorporated the most significant variables (HGB level, age, LDH level, ALB level, and MIALD): an integral model with 5 variables and a simplified model with only 3 variables. Given that the HGB regression coefficient was higher in the COX regression model (Table 2) and that it was the most significant variable in both models, we gave HGB the highest weight (weight=2), while the other variables were given lower weights (weight=1).
+基于这些结果，我们构建了 2 个包含最重要变量 （HGB 水平、年龄、LDH 水平、ALB 水平和 MIALD） 的模型：一个具有 5 个变量的积分模型和一个仅具有 3 个变量的简化模型。鉴于 COX 回归模型中的 HGB 回归系数较高 （ Table 2 ） 并且它是两个模型中最显著的变量，我们给 HGB 最高的权重 （weight=2），而其他变量的权重较低 （weight=1）。
+
+
+The model including all 5 variables was named HLAMA and in this model, HGB values <105 g/L scored 2 points; LDH levels ≥300 U/L, age ≥75 y, ALB <38 g/L, and a maximum intra-abdominal lesion diameter (MIALD) ≥4 cm scored 1 point each. The simplified model included only HGB level, LDH level, and age (Table 4). For the HLAMA model, a high-risk group scored 4 points or higher, while a score of 0 is considered a low-risk group and a score between 0 and 4 is considered as intermediate-risk. For the simplified model, the high-risk group scored 3 or higher, the low-risk group scored 0, and the intermediate-risk group scored between 0 and 3. Using these 2 models, we were able to distinguish patients with poor prognosis from patients with good prognosis. According to the HLAMA model, there were 23 high-risk patients, of whom 22 died and the median survival period was only 6 months. The median survival period for patients in the intermediate-risk group was 55 months. There were 20 low-risk patients and all who continued their follow-up survived (Figure 2B, 2C).
+包括所有 5 个变量的模型被命名为 HLAMA，在该模型中，HGB 值 <105 g/L 得分 2 分;LDH 水平 ≥300 U/L，年龄 ≥75 岁，ALB <38 g/L 和最大腹腔内病变直径 （MIALD） ≥4 cm 各得 1 分。简化模型仅包括 HGB 水平、LDH 水平和年龄 （ Table 4 ）。对于 HLAMA 模型，高危组得分为 4 分或更高，而 0 分被认为是低风险组，0 到 4 分之间的分数被认为是中等风险组。对于简化模型，高危组得分为 3 分或更高，低风险组得分为 0 分，中危组得分在 0 到 3 分之间。使用这 2 个模型，我们能够区分预后不良的患者和预后良好的患者。根据 HLAMA 模型，有 23 名高危患者，其中 22 名死亡，中位生存期仅为 6 个月。中危组患者的中位生存期为 55 个月。有 20 名低风险患者，所有继续随访的患者都存活了 （ Figure 2B, 2C ）。
+
+![alt text](图片/表4.png)
+
+
+### Prognosis by Age Group and IPI Score    按年龄组和 IPI 评分划分的预后
+Since a larger age cut-off value is provided in the final model, we evaluated the effectiveness of the model in different age groups. Among the population with an age over 60 years, patients with good prognosis could still be selected by the HLAMA model (Figure 4). A similar distinction was found in the simplified model. On the other hand, both models included younger patients in the low- or intermediate-risk group.
+由于最终模型中提供了更大的年龄临界值，因此我们评估了该模型在不同年龄组中的有效性。在年龄超过 60 岁的人群中，预后良好的患者仍然可以通过 HLAMA 模型 （ Figure 4 ） 选择。在简化模型中也发现了类似的区别。另一方面，两种模型都包括低风险或中风险组中的年轻患者。
+
+![alt text](图片/图4.png)
+
+> Prognostic analysis for different age groups. (A) HLAMA model in patients older than 60 years. (B) HLAMA model in patients younger than 60 years. (C) Simplified model in patients older than 60 years. (D) Simplified model in patients younger than 60 years.
+> 不同年龄组的预后分析。（A） 60 岁以上患者的 HLAMA 模型。（B） 60 岁以下患者的 HLAMA 模型。（C） 60 岁以上患者的简化模型。（D） 60 岁以下患者的简化模型。
+
+We compared the high-, intermediate-, and low-risk groups of the model with the corresponding groups determined by IPI scores (Figure 5A–5D). The prognosis of the high-risk group based on the HLAMA model was significantly lower than the prognosis based on IPI scores (P=0.016). The prognosis of the low-risk group based on the HLAMA model was significantly better than the prognosis based on the IPI score (P=0.04). There was no significant difference in the prognosis of the intermediate-risk group between the 2 models. We also compared the groups obtained by NCCN-IPI scores with those obtained by HLAMA scores. Because the NCCN-IPI score divides patients into 5 risk stratifications, and extranodal involvement is used as an integral item, we compared the low-risk group of HLAMA with the medium-risk and low-risk groups of the NCCN-IPI score. The results showed that the survival of the HLAMA low-risk group was similar to that of the NCCN-IPI low-risk group, but more patients were enrolled. The HLAMA high-risk group had worse survival than the NCCN-IPI high-risk group (P=0.016) (Figure 5E, 5F).
+我们将模型的高、中、低风险组与 IPI 评分确定的相应组进行比较 （ Figure 5A–5D ）。基于 HLAMA 模型的高危组预后显著低于基于 IPI 评分的预后 （P=0.016）。基于 HLAMA 模型的低风险组预后显著优于基于 IPI 评分的预后 （P=0.04）。2 种模型之间中危组的预后无显著差异。我们还比较了 NCCN-IPI 评分获得的组与 HLAMA 评分获得的组。由于 NCCN-IPI 评分将患者分为 5 个风险分层，并且结外受累作为整体项目，我们将 HLAMA 低风险组与 NCCN-IPI 评分的中风险和低风险组进行了比较。结果显示，HLAMA 低风险组的生存率与 NCCN-IPI 低风险组相似，但入组患者更多。HLAMA 高危组的生存率低于 NCCN-IPI 高危组 （P=0.016） （ Figure 5E, 5F ）。
+
+![alt text](图片/图5.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
