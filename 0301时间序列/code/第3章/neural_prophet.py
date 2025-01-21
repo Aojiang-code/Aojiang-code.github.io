@@ -4,26 +4,28 @@ from neural_prophet import NeuralProphet
 from sklearn.metrics import mean_absolute_error
 
 
-# 结果展示
+# 定义结果展示函数
 def show(col, x, yseq, ypred):
-    yseq = yseq
-    ypred = ypred
-
+    # 计算平均绝对误差
     mae = mean_absolute_error(yseq, ypred)
-
+    # 打印预测的平均绝对误差
     print(col + ' forecast mae: ', mae)
 
+    # 创建一个图形对象，大小为9x4
     plt.figure(figsize=(9, 4))
+    # 调整子图之间的间距
     plt.subplots_adjust(left=0.1, right=0.98, top=0.9, bottom=0.1, hspace=0.2, wspace=0.05)
 
+    # 绘制真实值和预测值
     plt.plot(x, yseq)
     plt.plot(x, ypred)
     plt.legend(['yseq', 'ypred'])
 
+    # 显示图形
     plt.show()
 
 
-# 节假日与事件设置
+# 定义节假日与事件设置函数
 def build_holidays():
     # 只考虑影响最大的两个节假日, 春节与国庆
     holiday_history = pd.DataFrame({
@@ -63,11 +65,17 @@ def build_holidays():
         ])
     })
 
+    # 返回节假日历史和特征数据
     return holiday_history, holiday_feature
 
 
-dateparse = lambda dates: pd.datetime.strptime(dates, '%Y-%m-%d')
+# 定义日期解析函数，将字符串转换为日期对象
+dateparse = lambda dates: pd.to_datetime(dates, format='%Y-%m-%d')
+
+# 读取CSV文件，将'date'列解析为日期，并将其设为索引
 df = pd.read_csv('../data/informations.csv', parse_dates=['date'], date_parser=dateparse)
+
+# 筛选数据的时间范围
 df = df[df['date'] >= '2018-01-01']
 
 # 模型的输入必须为ds与y
@@ -76,9 +84,11 @@ df = df[['ds', 'y']]
 
 # 预测步长
 periods = 30
+# 划分训练集和测试集
 train_df = df[:-periods]
 test_df = df[-periods:]
 
+# 创建NeuralProphet模型
 model = NeuralProphet(
     # 趋势项、季节参数, 趋势项只能为linear（growth=off没有趋势）
     growth="linear",
@@ -107,14 +117,25 @@ model.add_seasonality('week', 14, 5)
 # 加入事件（节假日）
 model.add_events(['h'], lower_window=-1, upper_window=3, regularization=1)
 
+# 构建节假日数据
 holiday_history, holiday_feature = build_holidays()
 
+# 创建包含事件的训练数据
 history_df = model.create_df_with_events(train_df, holiday_history)
 
+# 拟合模型
 metrics = model.fit(history_df, freq="D")
 
+# 创建未来数据框
 future = model.make_future_dataframe(history_df, holiday_feature, periods=periods, n_historic_predictions=False)
+
+# 进行预测
 forecast = model.predict(future)
 
+# 显示预测结果
 # 注意这里如果只采用趋势、季节、事件, 预测列为yhat1; 如果采用AR-Net, 预测列为yhat + 预测步长
 show('hs300_yield_rate', forecast[-periods:]['ds'], test_df['y'], forecast[-periods:]['yhat30'])
+
+
+
+# 在这段代码中，使用 `NeuralProphet` 模型进行时间序列预测。代码首先定义了一个展示预测结果的函数 `show` 和一个构建节假日数据的函数 `build_holidays`。然后，读取数据文件并进行预处理，创建并训练 `NeuralProphet` 模型，最后进行预测并展示结果。

@@ -4,65 +4,85 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import mean_absolute_error
 
 
-# 趋势项采用逻辑回归函数, 采用逻辑回归必须设置最大渐进值C(t):cap
+# 使用逻辑回归函数进行预测，必须设置最大渐进值cap
 def prophet_with_logistic(df, cap, holidays, periods):
+    # 创建Prophet模型，使用逻辑增长
     model = Prophet(growth='logistic',
                     n_changepoints=60, changepoint_range=0.9,
                     changepoint_prior_scale=0.1,
                     holidays=holidays, holidays_prior_scale=5)
 
+    # 添加季节性
     model.add_seasonality(name='weekly', period=14, fourier_order=3, prior_scale=0.5)
 
+    # 设置cap列
     df['cap'] = cap
 
+    # 拟合模型
     model.fit(df)
+    # 创建未来数据框
     future = model.make_future_dataframe(periods=periods, freq='D')
     future['cap'] = cap
+    # 进行预测
     forecast = model.predict(future)
 
+    # 绘制预测结果
     model.plot(forecast, figsize=(9, 5))
     plt.show()
 
     return forecast
 
 
-# 趋势项采用分段线性函数
+# 使用线性函数进行预测
 def prophet_with_linear(df, holidays, periods):
+    # 创建Prophet模型，使用线性增长
     model = Prophet(growth='linear',
                     n_changepoints=5, changepoint_range=0.9,
                     changepoint_prior_scale=0.1,
                     holidays=holidays, holidays_prior_scale=5)
 
+    # 添加季节性
     model.add_seasonality(name='weekly', period=14, fourier_order=3, prior_scale=5)
 
+    # 拟合模型
     model.fit(df)
+    # 创建未来数据框
     future = model.make_future_dataframe(periods=periods, freq='D')
+    # 进行预测
     forecast = model.predict(future)
 
+    # 绘制预测结果
     model.plot(forecast, figsize=(9, 5))
     plt.show()
 
     return forecast
 
 
-# 数据展示
+# 数据展示函数
 def show(forecast, col, yseq, periods, mean=0, std=1):
+    # 只取预测的最后periods个数据
     forecast = forecast[-periods:]
 
     x = forecast['ds']
 
+    # 反标准化
     yseq = yseq * std + mean
     yhat = forecast['yhat'] * std + mean
     yhat_lower = forecast['yhat_lower'] * std + mean
     yhat_upper = forecast['yhat_upper'] * std + mean
 
+    # 计算平均绝对误差
     test_mae = mean_absolute_error(yhat, yseq)
 
+    # 打印误差
     print(col + ' forecast mae: ', test_mae)
 
+    # 创建一个图形对象，大小为9x4
     plt.figure(figsize=(9, 4))
+    # 调整子图之间的间距
     plt.subplots_adjust(left=0.1, right=0.98, top=0.9, bottom=0.1, hspace=0.2, wspace=0.05)
 
+    # 绘制真实值和预测值
     plt.plot(x, yseq)
     plt.plot(x, yhat)
     plt.plot(x, yhat_lower)
@@ -70,10 +90,11 @@ def show(forecast, col, yseq, periods, mean=0, std=1):
 
     plt.legend(['yseq', 'yhat', 'yhat lower', 'yhat upper'])
 
+    # 显示图形
     plt.show()
 
 
-# 构造节假日
+# 构造节假日函数
 # lower_window 节假日前影响范围
 # upper_window 节假日后影响范围
 def build_holidays(lower_window, upper_window):
@@ -171,15 +192,22 @@ def build_holidays(lower_window, upper_window):
         'upper_window': upper_window,
     })
 
+    # 合并所有节假日数据
     holidays = pd.concat([new_year_day, cn_new_year, clear_and_bright,
                           labor_day, dragon_boat, mid_autumn, national_day])
 
     return holidays
 
 
-dateparse = lambda dates: pd.datetime.strptime(dates, '%Y-%m-%d')
+# 定义日期解析函数，将字符串转换为日期对象
+dateparse = lambda dates: pd.to_datetime(dates, format='%Y-%m-%d')
+
+# 读取CSV文件，将'date'列解析为日期
 df = pd.read_csv('../data/informations.csv', parse_dates=['date'], date_parser=dateparse)
+
+# 筛选数据的时间范围
 df = df[df['date'] >= '2018-01-01']
+# 重命名列名
 df.rename(columns={'date': 'ds'}, inplace=True)
 
 # 预测步长
@@ -187,6 +215,7 @@ periods = 30
 
 # 沪深300指数建模
 col = 'hs300_closing_price'
+# 计算均值和标准差
 mean = df[col].mean()
 std = df[col].std()
 # 序列标准化
@@ -194,14 +223,25 @@ df[col] = (df[col] - mean) / std
 # 划分训练集、测试集
 train_df = df[:-periods]
 test_df = df[-periods:]
+# 重命名列名
 train_df.rename(columns={col: 'y'}, inplace=True)
+# 使用线性增长模型进行预测
 forecast = prophet_with_linear(train_df, build_holidays(-7, 7), periods)
+# 显示预测结果
 show(forecast, col, test_df[col], periods, mean, std)
 
+# 删除训练集中的'y'列
 del train_df['y']
 
 # 沪深300日收益率建模
 col = 'hs300_yield_rate'
+# 重命名列名
 train_df.rename(columns={col: 'y'}, inplace=True)
+# 使用逻辑增长模型进行预测
 forecast = prophet_with_logistic(train_df, 0.05, build_holidays(-2, 1), periods)
+# 显示预测结果
 show(forecast, col, test_df[col], periods)
+
+
+
+# 在这段代码中，使用 `Prophet` 模型进行时间序列预测。代码首先定义了两个预测函数 `prophet_with_logistic` 和 `prophet_with_linear`，分别用于逻辑增长和线性增长。然后，定义了一个展示预测结果的函数 `show` 和一个构建节假日数据的函数 `build_holidays`。代码读取数据文件并进行预处理，创建并训练 `Prophet` 模型，最后进行预测并展示结果。
