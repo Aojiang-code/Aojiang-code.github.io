@@ -6,6 +6,7 @@ import tensorflow_addons as tf_addon
 class TemporalLayer(tf.keras.layers.Layer):
     def __init__(self, input_channel, output_channel, padding,
                  kernel_size, strides, dilation_rate, dropout_ratio):
+        # 初始化父类
         super(TemporalLayer, self).__init__()
 
         # input_channel 输入通道数（序列数量）
@@ -23,6 +24,7 @@ class TemporalLayer(tf.keras.layers.Layer):
         self.dilation_rate = dilation_rate
         self.dropout_ratio = dropout_ratio
 
+        # 定义第一个卷积层，使用权重归一化
         self.conv_layer1 = tf_addon.layers.WeightNormalization(
             tf.keras.layers.Conv1D(filters=self.output_channel,
                                    kernel_size=self.kernel_size,
@@ -32,6 +34,7 @@ class TemporalLayer(tf.keras.layers.Layer):
                                    bias_initializer='zeros')
         )
 
+        # 定义第二个卷积层，使用权重归一化
         self.conv_layer2 = tf_addon.layers.WeightNormalization(
             tf.keras.layers.Conv1D(filters=self.output_channel,
                                    kernel_size=self.kernel_size,
@@ -41,39 +44,45 @@ class TemporalLayer(tf.keras.layers.Layer):
                                    bias_initializer='zeros')
         )
 
+        # 定义shortcut连接的卷积层
         self.short_cut = tf.keras.layers.Conv1D(filters=self.output_channel,
                                                 kernel_size=1,
                                                 strides=1,
                                                 kernel_initializer='glorot_uniform',
                                                 bias_initializer='zeros')
 
+    # 定义前向传播函数
+    def call(self, inputs):
+        # 对输入进行padding
+        inputs_padding = tf.pad(inputs, [[0, 0], [self.padding, 0], [0, 0]])
 
-def call(self, inputs):
-    inputs_padding = tf.pad(inputs, [[0, 0], [self.padding, 0], [0, 0]])
+        # 通过第一个卷积层
+        h1_outputs = self.conv_layer1(inputs_padding)
+        h1_outputs = tf.keras.activations.relu(h1_outputs)
+        h1_outputs = tf.keras.layers.Dropout(self.dropout_ratio)(h1_outputs)
 
-    h1_outputs = self.conv_layer1(inputs_padding)
-    h1_outputs = tf.keras.activations.relu(h1_outputs)
-    h1_outputs = tf.keras.layers.Dropout(self.dropout_ratio)(h1_outputs)
+        # 对第一个卷积层的输出进行padding
+        h1_padding = tf.pad(h1_outputs, [[0, 0], [self.padding, 0], [0, 0]])
 
-    h1_padding = tf.pad(h1_outputs, [[0, 0], [self.padding, 0], [0, 0]])
+        # 通过第二个卷积层
+        h2_outputs = self.conv_layer2(h1_padding)
+        h2_outputs = tf.keras.activations.relu(h2_outputs)
+        h2_outputs = tf.keras.layers.Dropout(self.dropout_ratio)(h2_outputs)
 
-    h2_outputs = self.conv_layer2(h1_padding)
-    h2_outputs = tf.keras.activations.relu(h2_outputs)
-    h2_outputs = tf.keras.layers.Dropout(self.dropout_ratio)(h2_outputs)
+        # short_cut连接方式, 前面经过padding保证输入与输出time_step相同, 这里检查channel是否相同
+        if self.input_channel != self.output_channel:
+            res_x = self.short_cut(inputs)
+        else:
+            res_x = inputs
 
-    # short_cut连接方式, 前面经过padding保证输入与输出time_step相同, 这里检查channel是否相同
-    if self.input_channel != self.output_channel:
-        res_x = self.short_cut(inputs)
-
-    else:
-        res_x = inputs
-
-    return tf.keras.layers.add([res_x, h2_outputs])
+        # 返回残差连接的结果
+        return tf.keras.layers.add([res_x, h2_outputs])
 
 
 # TCN 网络
 class TemporalConvNet(tf.keras.Model):
     def __init__(self, channels, kernel_size, strides, dropout_ratio):
+        # 初始化父类
         super(TemporalConvNet, self).__init__(name='TemporalConvNet')
         self.channels = channels
         self.kernel_size = kernel_size
@@ -81,6 +90,7 @@ class TemporalConvNet(tf.keras.Model):
         self.dropout_ratio = dropout_ratio
         self.temporal_layers = []
 
+        # 构建多个TemporalLayer
         num_layers = len(self.channels)
         for i in range(num_layers - 1):
             dilation_rate = 2 ** i
@@ -95,8 +105,10 @@ class TemporalConvNet(tf.keras.Model):
 
             self.temporal_layers.append(temporal_layer)
 
+    # 定义前向传播函数
     def call(self, inputs):
         outputs = inputs
+        # 依次通过每个TemporalLayer
         for temporal_layer in self.temporal_layers:
             outputs = temporal_layer(outputs)
 
