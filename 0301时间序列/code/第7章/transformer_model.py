@@ -23,10 +23,12 @@ class MultiHeadAttention(tf.keras.layers.Layer):
         self.W_combine = tf.keras.layers.Dense(units=atten_output_dim, activation=None, use_bias=False)
 
     def call(self, q, k, v):
+        # 获取输入的batch大小和序列长度
         batch_size_q, seq_len_q = int(tf.shape(q)[0]), int(tf.shape(q)[1])
         batch_size_k, seq_len_k = int(tf.shape(k)[0]), int(tf.shape(k)[1])
         batch_size_v, seq_len_v = int(tf.shape(v)[0]), int(tf.shape(v)[1])
 
+        # 计算q、k、v向量
         q = self.W_q(q)
         k = self.W_k(k)
         v = self.W_v(v)
@@ -69,6 +71,7 @@ class PositionEncoding(tf.keras.layers.Layer):
         self.base_val = float(base_val)
 
     def call(self, inputs):
+        # 获取输入的序列长度和维度
         seq_len = int(tf.shape(inputs)[1])
         dimension = int(tf.shape(inputs)[2])
 
@@ -90,6 +93,7 @@ class PositionEncoding(tf.keras.layers.Layer):
 
         pos_embedding = tf.cast(pos_embedding, dtype='float32')
 
+        # 将位置编码添加到输入中
         outputs = inputs + pos_embedding
 
         return outputs

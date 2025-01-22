@@ -21,6 +21,7 @@ def train_model(encoder_num_layers, decoder_num_layers, atten_dim,
                 output_len, output_dim, lr, batch_size,
                 x_encoder_train, x_decoder_train, y_decoder_train,
                 x_encoder_valid, x_decoder_valid, y_decoder_valid):
+    # 初始化Transformer模型
     model = Transformer(encoder_num_layers, decoder_num_layers, atten_dim, head_num, atten_output_dim, dff,
                         dropout_rate, output_len, output_dim)
 
@@ -34,12 +35,15 @@ def train_model(encoder_num_layers, decoder_num_layers, atten_dim,
     train_metric = tf.keras.metrics.MeanSquaredError()
     valid_metric = tf.keras.metrics.MeanSquaredError()
 
+    # 创建训练数据集
     train_dataset = tf.data.Dataset.from_tensor_slices((x_encoder_train, x_decoder_train, y_decoder_train))
     train_dataset = train_dataset.batch(batch_size)
 
+    # 创建验证数据集
     valid_dataset = tf.data.Dataset.from_tensor_slices((x_encoder_valid, x_decoder_valid, y_decoder_valid))
     valid_dataset = valid_dataset.batch(batch_size)
 
+    # 初始化最小验证误差和对应的epoch
     min_valid_mse, min_epoch = 100, None
     epochs = 1000
     for epoch in range(epochs):
@@ -68,29 +72,34 @@ def train_model(encoder_num_layers, decoder_num_layers, atten_dim,
         valid_mse = float(valid_metric.result())
         valid_metric.reset_states()
 
+        # 打印当前epoch的训练和验证误差
         print("epoch: {0},  train_mse: {1},  valid_mse: {2}".format(epoch, train_mse, valid_mse))
 
+        # 更新最小验证误差和对应的epoch
         if min_valid_mse >= valid_mse:
             min_valid_mse = valid_mse
             min_epoch = epoch
 
+        # 保存模型权重
         os.makedirs('/root/data/model/transformer{0}'.format(epoch), exist_ok=True)
         model.save_weights('/root/data/model/transformer{0}'.format(epoch) + '/')
 
+    # 打印最小验证误差和对应的epoch
     print("min_valid_mse: {0},  min_epoch: {1}".format(min_valid_mse, min_epoch))
 
 
 def model_pred(scaler_y, y_cols, encoder_x_data, decoder_x_data, decoder_y_data, index, model, decoder_input_time_step,
                encoder_decoder_intersection, pred_step):
+    # 反归一化y数据
     y_value = None
     for elem in decoder_y_data:
-
         inv_value = scaler_y.inverse_transform(np.array([elem[-1, :]]))
         if y_value is None:
             y_value = inv_value
         else:
             y_value = np.append(y_value, inv_value, axis=0)
 
+    # 进行预测并反归一化
     y_pred = None
     gap = decoder_input_time_step - encoder_decoder_intersection
     for i in range(0, len(encoder_x_data), pred_step):
