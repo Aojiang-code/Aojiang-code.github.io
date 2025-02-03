@@ -136,8 +136,40 @@
 
 
 
-### 05 
-> B站链接：
+### 05 云端服务器
+kaggle只适合jupyter文件，我如果想使用免费的云端工作台，用来运行稳定python文件,我有好多.py的文件，而不是ipyjpnb文件，你有更好的推荐吗？
+
+如果你需要一个免费的云端工作台来运行稳定的 Python 文件，而不是 Jupyter Notebook 文件，以下是一些推荐的平台：
+#### 1. 腾讯云 Cloud Studio
+腾讯云 Cloud Studio 是一个功能强大的云端开发环境，支持多种编程语言，包括 Python。它提供了以下特点：
+GPU 环境：支持 GPU 运行环境，适合深度学习和 AI 任务。
+免费资源：每月提供 10000 分钟的 GPU 使用时长。
+多环境支持：内置 Python、Node.js、Java 等常用开发环境。
+持久化存储：无需担心数据丢失。
+AI 代码助手：内置 AI 代码助手，提升编码效率。
+#### 2. Lightning AI
+Lightning AI 是一个专注于 AI 开发的云端平台，提供以下优势：
+免费 GPU 小时数：每月提供 22 小时的 GPU 使用时长。
+稳定连接：连接稳定，适合长时间运行。
+VS Code 界面：提供类似 VS Code 的开发界面，便于代码编辑和调试。
+#### 3. GitHub Codespaces
+GitHub Codespaces 是一个基于 GitHub 的云端开发环境，适合团队协作和代码管理：
+多种配置：提供多种机器配置，包括 2 核 CPU 和 8GB RAM。
+VS Code 界面：提供完整的 VS Code 开发体验。
+免费使用：对于小型项目，GitHub Codespaces 提供一定的免费使用时长。
+#### 4. SmartIDE
+SmartIDE 是一个国内的云端开发环境，提供以下功能：
+一键启动：无需安装任何 SDK 或开发工具，直接启动开发环境。
+熟悉的 IDE：内置 VS Code 或 JetBrains WebIDE，提供熟悉的编码体验。
+上云简单：一键部署云端 WebIDE 环境，享受云环境的强大算力。
+#### 5. Colab
+虽然 Colab 主要用于 Jupyter Notebook，但它也支持运行 Python 脚本：
+免费 GPU：提供免费的 GPU 支持。
+与 GitHub 集成：可以直接从 GitHub 加载代码。
+保存到 Google Drive：支持将代码和数据保存到 Google Drive。
+#### 推荐选择
+如果你主要处理 Python 文件且需要 GPU 支持，腾讯云 Cloud Studio 和 Lightning AI 是不错的选择，它们提供了强大的计算能力和稳定的开发环境。如果你更倾向于使用 VS Code，GitHub Codespaces 和 SmartIDE 是很好的选择，它们提供了完整的 VS Code 开发体验。
+希望这些信息能帮助你找到合适的云端开发环境！
 
 
 
