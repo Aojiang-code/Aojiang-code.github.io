@@ -530,13 +530,13 @@ print("模拟数据已生成并保存为 'simulated_data.csv'")
 - BMI：体质量指数，根据均值和标准差生成。
 - MenarcheAge：初潮年龄，根据均值和标准差生成。
 - PeriodLength：月经时长，根据比例生成。
-- PreoperativeDysmenorrhea：术前痛经史，0表示无，1表示有。
-- PreoperativePregnancyTimes：术前孕次，0、1、≥2。
-- CystDiameter：囊肿最大直径，根据比例生成。
-- DeepEndometriosisFocus：深部子宫内膜异位灶，0表示无，1表示有。
-- PosteriorFornixTenderness：后穹窿触痛，0表示无，1表示有。
-- ASRMStage：ASRM分期，0表示Ⅰ~Ⅱ期，1表示Ⅲ~Ⅳ期。
-- PelvicLesionLocation：盆腔病变位置，0表示单侧，1表示双侧。
+- **PreoperativeDysmenorrhea**：**术前痛经史**，0表示无，1表示有。
+- **PreoperativePregnancyTimes**：**术前孕次**，0、1、≥2。
+- **CystDiameter**：**囊肿最大直径**，根据比例生成。
+- **DeepEndometriosisFocus**：**深部子宫内膜异位灶**，0表示无，1表示有。
+- **PosteriorFornixTenderness**：**后穹窿触痛**，0表示无，1表示有。
+- **ASRMStage**：**ASRM分期**，0表示Ⅰ~Ⅱ期，1表示Ⅲ~Ⅳ期。
+- **PelvicLesionLocation**：**盆腔病变位置**，0表示单侧，1表示双侧。
 - PreoperativeCA125：术前血清CA125，根据均值和标准差生成。
 - E2Before：治疗前血清雌二醇（E2）。
 - E2After：治疗后1年血清雌二醇（E2）。
@@ -903,7 +903,7 @@ Cook's Distance：
 
 
 
-# 模拟复发时间数据
+# 生成复发时间数据
 > 在前文的模拟数据的代码上继续修改：
 
 
@@ -1144,4 +1144,6 @@ data.to_csv('simulated_data2.csv', index=False)
 # 打印提示信息
 print("模拟数据已生成并保存为 'simulated_data2.csv'")
 ```
+
+# 生成有统计学差异的复发时间数据
 
