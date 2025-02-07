@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="28b1749d-1bd2-4a6f-9f68-4c20c092cdf8" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/04文献阅读/03妇产科/02卵巢癌/01使用机器学习预测卵巢癌/03代码实操/.ipynb_checkpoints/02ml_ovarian_cancer-checkpoint.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/04文献阅读/03妇产科/02卵巢癌/01使用机器学习预测卵巢癌/03代码实操/.ipynb_checkpoints/Untitled-checkpoint.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/04文献阅读/03妇产科/02卵巢癌/01使用机器学习预测卵巢癌/03代码实操/01ml_ovarian_cancer.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/04文献阅读/03妇产科/02卵巢癌/01使用机器学习预测卵巢癌/03代码实操/01ml_ovarian_cancer.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/04文献阅读/03妇产科/02卵巢癌/01使用机器学习预测卵巢癌/03代码实操/02ml_ovarian_cancer.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/04文献阅读/03妇产科/02卵巢癌/01使用机器学习预测卵巢癌/03代码实操/02ml_ovarian_cancer.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/04文献阅读/03妇产科/02卵巢癌/01使用机器学习预测卵巢癌/03代码实操/Untitled.ipynb" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2shx7XYqxCpTczmcvKXj8PnD7ha" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="28b1749d-1bd2-4a6f-9f68-4c20c092cdf8" name="Changes" comment="" />
+      <created>1738921448659</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1738921448659</updated>
+    </task>
+    <servers />
+  </component>
+</project>
