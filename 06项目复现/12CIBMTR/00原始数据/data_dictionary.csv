@@ -1,0 +1,78 @@
+variable,description,type,values
+dri_score,Refined disease risk index,Categorical,"['Intermediate' 'High' 'N/A - non-malignant indication' 'N/A - pediatric'
+ 'High - TED AML case <missing cytogenetics' 'TBD cytogenetics' 'Low'
+ 'Intermediate - TED AML case <missing cytogenetics'
+ 'N/A - disease not classifiable' nan 'Very high' 'Missing disease status']"
+psych_disturb,Psychiatric disturbance,Categorical,['Yes' 'No' nan 'Not done']
+cyto_score,Cytogenetic score,Categorical,['Intermediate' 'Favorable' 'Poor' 'TBD' nan 'Normal' 'Other' 'Not tested']
+diabetes,Diabetes,Categorical,['No' 'Yes' nan 'Not done']
+hla_match_c_high,Recipient / 1st donor allele level (high resolution) matching at HLA-C,Numerical,
+hla_high_res_8,"Recipient / 1st donor allele-level (high resolution) matching at HLA-A,-B,-C,-DRB1",Numerical,
+tbi_status,TBI,Categorical,"['No TBI' 'TBI + Cy +- Other' 'TBI +- Other, <=cGy' 'TBI +- Other, >cGy'
+ 'TBI +- Other, -cGy, single' 'TBI +- Other, unknown dose'
+ 'TBI +- Other, -cGy, unknown dose' 'TBI +- Other, -cGy, fractionated']"
+arrhythmia,Arrhythmia,Categorical,['No' nan 'Yes' 'Not done']
+hla_low_res_6,"Recipient / 1st donor antigen-level (low resolution) matching at HLA-A,-B,-DRB1",Numerical,
+graft_type,Graft type,Categorical,['Peripheral blood' 'Bone marrow']
+vent_hist,History of mechanical ventilation,Categorical,['No' 'Yes' nan]
+renal_issue,"Renal, moderate / severe",Categorical,['No' nan 'Yes' 'Not done']
+pulm_severe,"Pulmonary, severe",Categorical,['No' 'Yes' nan 'Not done']
+prim_disease_hct,Primary disease for HCT,Categorical,"['ALL' 'MPN' 'IPA' 'AML' 'MDS' 'Other acute leukemia' 'AI' 'SAA' 'IEA'
+ 'NHL' 'PCD' 'IIS' 'HIS' 'Other leukemia' 'Solid tumor' 'IMD' 'HD' 'CML']"
+hla_high_res_6,"Recipient / 1st donor allele-level (high resolution) matching at HLA-A,-B,-DRB1",Numerical,
+cmv_status,Donor/recipient CMV serostatus,Categorical,['+/-' '+/+' '-/-' '-/+' nan]
+hla_high_res_10,"Recipient / 1st donor allele-level (high resolution) matching at HLA-A,-B,-C,-DRB1,-DQB1",Numerical,
+hla_match_dqb1_high,Recipient / 1st donor allele level (high resolution) matching at HLA-DQB1,Numerical,
+tce_imm_match,T-cell epitope immunogenicity/diversity match,Categorical,['P/P' nan 'G/G' 'H/H' 'G/B' 'H/B' 'P/H' 'P/G' 'P/B']
+hla_nmdp_6,"Recipient / 1st donor matching at HLA-A(lo),-B(lo),-DRB1(hi)",Numerical,
+hla_match_c_low,Recipient / 1st donor antigen level (low resolution) matching at HLA-C,Numerical,
+rituximab,Rituximab given in conditioning,Categorical,['No' 'Yes' nan]
+hla_match_drb1_low,Recipient / 1st donor antigen level (low resolution) matching at HLA-DRB1,Numerical,
+hla_match_dqb1_low,Recipient / 1st donor antigen level (low resolution) matching at HLA-DQB1,Numerical,
+prod_type,Product type,Categorical,['PB' 'BM']
+cyto_score_detail,Cytogenetics for DRI (AML/MDS),Categorical,['Intermediate' nan 'TBD' 'Favorable' 'Poor' 'Not tested']
+conditioning_intensity,Computed planned conditioning intensity,Categorical,"['RIC' nan 'NMA' 'MAC' 'TBD' 'No drugs reported'
+ 'N/A, F(pre-TED) not submitted']"
+ethnicity,Ethnicity,Categorical,"['Not Hispanic or Latino' 'Hispanic or Latino' nan
+ 'Non-resident of the U.S.']"
+year_hct,Year of HCT,Numerical,
+obesity,Obesity,Categorical,['No' 'Yes' nan 'Not done']
+mrd_hct,MRD at time of HCT (AML/ALL),Categorical,[nan 'Negative' 'Positive']
+in_vivo_tcd,In-vivo T-cell depletion (ATG/alemtuzumab),Categorical,['Yes' 'No' nan]
+tce_match,T-cell epitope matching,Categorical,"['Permissive' 'Fully matched' nan 'GvH non-permissive'
+ 'HvG non-permissive']"
+hla_match_a_high,Recipient / 1st donor allele level (high resolution) matching at HLA-A,Numerical,
+hepatic_severe,"Hepatic, moderate / severe",Categorical,['No' nan 'Yes' 'Not done']
+donor_age,Donor age,Numerical,
+prior_tumor,"Solid tumor, prior",Categorical,['Yes' 'No' nan 'Not done']
+hla_match_b_low,Recipient / 1st donor antigen level (low resolution) matching at HLA-B,Numerical,
+peptic_ulcer,Peptic ulcer,Categorical,['No' nan 'Yes' 'Not done']
+age_at_hct,Age at HCT,Numerical,
+hla_match_a_low,Recipient / 1st donor antigen level (low resolution) matching at HLA-A,Numerical,
+gvhd_proph,Planned GVHD prophylaxis,Categorical,"['FK+ MMF +- others' 'Parent Q = yes, but no agent' nan
+ 'FK+ MTX +- others(not MMF)' 'FKalone' 'Cyclophosphamide alone'
+ 'CSA + MMF +- others(not FK)' 'TDEPLETION +- other'
+ 'Cyclophosphamide +- others' 'No GvHD Prophylaxis'
+ 'Other GVHD Prophylaxis' 'CSA alone' 'TDEPLETION alone' 'CDselect alone'
+ 'CSA + MTX +- others(not MMF,FK)' 'FK+- others(not MMF,MTX)'
+ 'CDselect +- other' 'CSA +- others(not FK,MMF,MTX)']"
+rheum_issue,Rheumatologic,Categorical,['No' nan 'Yes' 'Not done']
+sex_match,Donor/recipient sex match,Categorical,['M-M' 'F-F' 'F-M' 'M-F' nan]
+hla_match_b_high,Recipient / 1st donor allele level (high resolution) matching at HLA-B,Numerical,
+race_group,Race,Categorical,"['White' 'Black or African-American'
+ 'Native Hawaiian or other Pacific Islander' 'Asian'
+ 'American Indian or Alaska Native' 'More than one race']"
+comorbidity_score,Sorror comorbidity score,Numerical,
+karnofsky_score,KPS at HCT,Numerical,
+hepatic_mild,"Hepatic, mild",Categorical,['No' 'Yes' nan 'Not done']
+tce_div_match,T-cell epitope matching,Categorical,"['Permissive mismatched' 'Bi-directional non-permissive' nan
+ 'GvH non-permissive' 'HvG non-permissive']"
+donor_related,Related vs. unrelated donor,Categorical,['Unrelated' 'Related' 'Multiple donor (non-UCB)' nan]
+melphalan_dose,Melphalan dose (mg/m^2),Categorical,"['N/A, Mel not given' 'MEL' nan]"
+hla_low_res_8,"Recipient / 1st donor antigen-level (low resolution) matching at HLA-A,-B,-C,-DRB1",Numerical,
+cardiac,Cardiac,Categorical,['No' 'Yes' nan 'Not done']
+hla_match_drb1_high,Recipient / 1st donor allele level (high resolution) matching at HLA-DRB1,Numerical,
+pulm_moderate,"Pulmonary, moderate",Categorical,['Yes' 'Not done' 'No' nan]
+hla_low_res_10,,Numerical,
+efs,Event-free survival,Categorical,['Event' 'Censoring']
+efs_time,"Time to event-free survival, months",Numerical,
