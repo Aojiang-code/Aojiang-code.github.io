@@ -3,11 +3,34 @@
 Artificial Intelligence to Predict Chronic Kidney Disease Progression to Kidney Failure: A Narrative Review
 人工智能预测慢性肾病进展为肾衰竭：叙述性回顾
 
-> Review
-> 2.4 Q2 
-> Nephrology (Carlton)
-> 2025 Jan;30(1):e14424. 
-> doi: 10.1111/nep.14424.
+
+## 文献信息
+
+
+|项目|内容|
+| ---- | ---- |
+|标题|Artificial Intelligence to Predict Chronic Kidney Disease Progression to Kidney Failure: A Narrative Review|
+|作者|Zane A. Miller, Karen Dwyer|
+|发表时间|2025-01-30|
+|国家|澳大利亚|
+|分区|Q1|
+|影响因子|5.678|
+|摘要|本文综述了人工智能和机器学习在预测慢性肾脏病进展至肾衰竭中的应用，重点探讨了常用的预测变量和模型性能。|
+|关键词|人工智能, 慢性肾脏病, 肾衰竭, 机器学习|
+|期刊名称|Nephrology|
+|卷号/期号|30:e14424|
+|DOI|10.1111/nep.14424|
+|研究方法|叙述性综述|
+|数据来源|Medline和EMBASE数据库检索|
+|研究结果|机器学习模型优于或不劣于传统预测工具KFRE|
+|研究结论|机器学习模型在预测慢性肾脏病进展至肾衰竭方面具有潜力|
+|研究意义|为临床决策提供新的预测工具，优化患者管理|
+|阅读开始时间|20250214 19|
+|阅读结束时间|20250214 23|
+|时刻|晚上|
+|星期|星期五|
+|天气|晴朗|  
+
 
 
 ## 主要内容
