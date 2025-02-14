@@ -29,7 +29,7 @@ Artificial Intelligence to Predict Chronic Kidney Disease Progression to Kidney 
 |阅读结束时间|20250214 23|
 |时刻|晚上|
 |星期|星期五|
-|天气|晴朗|  
+|天气|小雨|  
 
 
 
@@ -100,22 +100,22 @@ Artificial Intelligence to Predict Chronic Kidney Disease Progression to Kidney 
 
 |编号|文献标题|作者/年份|研究地区|样本量|数据收集时间|主要 ML 模型|最准确模型及 AUC 值|与 KFRE 比较|主要变量|
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-|1|Machine Learning to Predict End Stage Kidney Disease in Chronic Kidney Disease|未提及 (未明确给出)|中国|748|2006.04–2015.12|逻辑回归、随机森林、朴素贝叶斯、决策树、K 近邻|随机森林 (AUC 0.81)|KFRE = ML (AUC 0.80)|年龄、性别、eGFR、高血压、糖尿病、血管疾病、血清肌酐、尿酸、血尿素氮|
-|2|Validation of a Novel Predictive Algorithm for Kidney Failure in Patients Suffering From Chronic Kidney Disease: The Prognostic Reasoning System for Chronic Kidney Disease (PROGRES-CKD)|未提及 (未明确给出)|跨国|FMC NephroCare: 24535<br>GCKD: 4058|FMC NephroCare: 2017–2018<br>GCKD: 2011–2012|高斯朴素贝叶斯分类器|FMC NephroCare 验证：6 个月 (AUC 0.90), 24 个月 (AUC 0.85)<br>GCKD: 6 个月 (AUC 0.91), 24 个月 (AUC 0.85)|6 月预测 KFRE < ML<br>24 月预测 KFRE = ML|年龄、性别、eGFR、高血压、糖尿病、冠状动脉疾病、血清白蛋白、尿白蛋白：肌酐比值|
-|3|Applying the Temporal Abstraction Technique to the Prediction of Chronic Kidney Disease Progression|未提及 (未明确给出)|台湾|436|2004.01–2013.12|分类和回归树、支持向量机|分类和回归树 (AUC 0.6–0.7)|肌酐模型 < ML|年龄、性别、是否≥65 岁、肌酐、血尿素氮、身高、体重、腰围|
-|4|Machine Learning Improves Upon Clinicians' Prediction of End Stage Kidney Disease|未提及 (未明确给出)|澳大利亚|2388|1996.09–2018.03|XGBoost|86.2%预测准确率|KFRE < ML<br>临床预测 < ML|年龄、性别、eGFR、血清肌酐、葡萄糖、坐位和站位血压|
-|5|Development and External Validation of a Machine Learning Model for Progression of CKD|未提及 (未明确给出)|加拿大|开发队列：77196<br>验证队列：107097|开发：2006.04–2016.12<br>验证：2009.04–2016.12|随机森林|1 年期 AUC 0.90，5 年期 AUC 0.84|未记录|年龄、性别、eGFR、高血压、糖尿病、心肌梗塞、血清肌酐、尿白蛋白：肌酐比值|
-|6|ESKD Risk Prediction Model in a Multicenter Chronic Kidney Disease Cohort in China: A Derivation, Validation, and Comparison Study|未提及 (未明确给出)|中国|开发：3216<br>验证：342|开发：2011.11–2017.12<br>验证：2003.01–2020.12|XGBoost、平滑支持向量机|XGBoost 2 年 (AUC 0.83), 5 年 (AUC 0.91)|Cox < ML<br>KFRE < ML|年龄、性别、高血压、糖尿病、心血管疾病、eGFR、血清肌酐、尿白蛋白：肌酐比值|
-|7|Machine-Learning-Based Web System for the Prediction of Chronic Kidney Disease Progression and Mortality|未提及 (未明确给出)|日本|开发：3714<br>验证：26906|随机森林、梯度提升决策树、XGBoost|随机森林 (AUC 约 0.9)|未记录|年龄、性别、高血压、糖尿病、心血管疾病、eGFR、血清肌酐、尿白蛋白：肌酐比值|
-|8|Deep Learning Identifies Intelligible Predictors of Poor Prognosis in Chronic Kidney Disease|未提及 (未明确给出)|中国|1765|2009.01–2020.12|深度神经网络、逻辑回归、正则化岭分类等|深度神经网络 (AUC 0.90)|未记录|年龄、性别、高血压、糖尿病、eGFR、血清肌酐、尿白蛋白：肌酐比值|
-|9|Improved Survival Analyses Based on Characterized Time-Dependent Covariates to Predict Individual Chronic Kidney Disease Progression|未提及 (未明确给出)|台湾|497|2006.11–2019.12|Cox 比例风险模型、随机生存森林、人工神经网络|随机生存森林 (平均 C 指数 0.89)|未记录|年龄、性别、高血压、糖尿病、心血管疾病、eGFR、血清肌酐、尿白蛋白：肌酐比值、体重指数、收缩压|
-|10|Machine-Learning–Based Early Prediction of End-Stage Renal Disease in Patients With Diabetic Kidney Disease Using Clinical Trials Data|未提及 (未明确给出)|跨国|RENAA: 1513<br>IDNT: 1715<br>ALTITUDE: 8561|RENAA: 1996–1998<br>IDNT: 1996–1998<br>ALTITUDE: 2007.10–2013.02|逻辑回归、支持向量机等|前馈神经网络：AUC 0.82 (RENAAL), 0.81 (IDNT), 0.84 (ALTITUDE)|Cox 比例风险回归 < ML<br>KFRE < ML|年龄、性别、高血压、糖尿病、心肌梗塞、冠状动脉疾病、心血管疾病、血清肌酐、尿白蛋白：肌酐比值|
-|11|Machine Learning Models for the Prediction of Renal Failure in Chronic Kidney Disease: A Retrospective Cohort Study|未提及 (未明确给出)|台湾|858|2006.11–2019.12|逻辑回归、随机森林等|随机森林，早期 (AUC 0.96), 晚期 (AUC 0.97)|未记录|年龄、性别、eGFR、高血压、糖尿病、心血管疾病、血清肌酐、尿白蛋白：肌酐比值|
-|12|Supervised Machine Learning for the Assessment of Chronic Kidney Disease Advancement|未提及 (未明确给出)|意大利|906|自 2000 年代初以来|逻辑回归、决策树等|极度随机树 (准确率 94%)|未记录|年龄、性别、高血压、糖尿病、血清肌酐、尿白蛋白：肌酐比值|
-|13|Development and Implementation of Patient-Level Prediction Models of End-Stage Renal Disease for Type 2 Diabetes Patients Using Fast Healthcare Interoperability Resources|未提及 (未明确给出)|韩国|19159|自 2003 年以来的电子病历数据|XGBoost、支持向量机等|XGBoost (AUC 0.95)|未记录|年龄、性别、高血压、糖尿病、血清肌酐、尿白蛋白：肌酐比值|
-|14|Development of Prognostic Model for Patients at CKD Stage 3a and 3b in South Central China Using Computational Intelligence|未提及 (未明确给出)|中国|1090|2010.08–2018.04|随机森林、支持向量机等|随机森林，3a 进展 (AUC 0.88), 3b 进展 (AUC 0.83)|未记录|年龄、性别、高血压、心血管疾病、eGFR、血清肌酐、尿白蛋白：肌酐比值|
-|15|A Predictive Model for Progression of CKD to Kidney Failure Based on Routine Laboratory Tests|未提及 (未明确给出)|欧洲|开发：GCKD 4915<br>验证：CDK-REIN 1912 等|GCKD：2010.03–2012.03<br>CKD-REIN：2013.07–2021.07 等|最小绝对收缩和选择运算符 Cox 比例风险模型|开发队列中的 2 年 C 统计量 0.91。验证队列中的 C 统计量范围为 0.89 - 0.92|KFRE < ML|年龄、高血压、糖尿病、血管疾病、eGFR、血清肌酐、尿白蛋白：肌酐比值|
-|16|Use of Disease Embedding Technique to Predict the Risk of Progression to End-Stage Renal Disease|未提及 (未明确给出)|美国|2507|2003.01–2011.12|自然语言处理|自然语言处理，（准确率 71%）|未记录|年龄、性别、高血压、糖尿病、冠状动脉疾病、eGFR、血清肌酐、尿白蛋白：肌酐比值|
+|1|Machine Learning to Predict End Stage Kidney Disease in Chronic Kidney Disease| Bai, Q. et al. 2022 [20]<br>Bai， Q. 等人 2022 [20] |中国|748|2006.04–2015.12|逻辑回归、随机森林、朴素贝叶斯、决策树、K 近邻|随机森林 (AUC 0.81)|KFRE = ML (AUC 0.80)|年龄、性别、eGFR、高血压、糖尿病、血管疾病、血清肌酐、尿酸、血尿素氮|
+|2|Validation of a Novel Predictive Algorithm for Kidney Failure in Patients Suffering From Chronic Kidney Disease: The Prognostic Reasoning System for Chronic Kidney Disease (PROGRES-CKD)| Bellocchio, F. 2021 [29]<br>贝洛奇奥，F. 2021 [29] |跨国|FMC NephroCare: 24535<br>GCKD: 4058|FMC NephroCare: 2017–2018<br>GCKD: 2011–2012|高斯朴素贝叶斯分类器|FMC NephroCare 验证：6 个月 (AUC 0.90), 24 个月 (AUC 0.85)<br>GCKD: 6 个月 (AUC 0.91), 24 个月 (AUC 0.85)|6 月预测 KFRE < ML<br>24 月预测 KFRE = ML|年龄、性别、eGFR、高血压、糖尿病、冠状动脉疾病、血清白蛋白、尿白蛋白：肌酐比值|
+|3|Applying the Temporal Abstraction Technique to the Prediction of Chronic Kidney Disease Progression| Cheng, L. 2017 [16]<br>Cheng， L. 2017 [16] |台湾|436|2004.01–2013.12|分类和回归树、支持向量机|分类和回归树 (AUC 0.6–0.7)|肌酐模型 < ML|年龄、性别、是否≥65 岁、肌酐、血尿素氮、身高、体重、腰围|
+|4|Machine Learning Improves Upon Clinicians' Prediction of End Stage Kidney Disease| Chuah, A. 2022 [27]<br>Chuah， S. 2022 [27] |澳大利亚|2388|1996.09–2018.03|XGBoost|86.2%预测准确率|KFRE < ML<br>临床预测 < ML|年龄、性别、eGFR、血清肌酐、葡萄糖、坐位和站位血压|
+|5|Development and External Validation of a Machine Learning Model for Progression of CKD| Ferguson, T. 2022 [15]<br>弗格森，T. 2022 [15] |加拿大|开发队列：77196<br>验证队列：107097|开发：2006.04–2016.12<br>验证：2009.04–2016.12|随机森林|1 年期 AUC 0.90，5 年期 AUC 0.84|未记录|年龄、性别、eGFR、高血压、糖尿病、心肌梗塞、血清肌酐、尿白蛋白：肌酐比值|
+|6|ESKD Risk Prediction Model in a Multicenter Chronic Kidney Disease Cohort in China: A Derivation, Validation, and Comparison Study| Hui, M. 2023 [26]<br>许 M. 2023 [26] |中国|开发：3216<br>验证：342|开发：2011.11–2017.12<br>验证：2003.01–2020.12|XGBoost、平滑支持向量机|XGBoost 2 年 (AUC 0.83), 5 年 (AUC 0.91)|Cox < ML<br>KFRE < ML|年龄、性别、高血压、糖尿病、心血管疾病、eGFR、血清肌酐、尿白蛋白：肌酐比值|
+|7|Machine-Learning-Based Web System for the Prediction of Chronic Kidney Disease Progression and Mortality| Kanda, E. 2021 [22]<br>神田， E. 2021 [22] |日本|开发：3714<br>验证：26906|随机森林、梯度提升决策树、XGBoost|随机森林 (AUC 约 0.9)|未记录|年龄、性别、高血压、糖尿病、心血管疾病、eGFR、血清肌酐、尿白蛋白：肌酐比值|
+|8|Deep Learning Identifies Intelligible Predictors of Poor Prognosis in Chronic Kidney Disease| Liang, P. 2023 [18]<br>梁， P. 2023 [18] |中国|1765|2009.01–2020.12|深度神经网络、逻辑回归、正则化岭分类等|深度神经网络 (AUC 0.90)|未记录|年龄、性别、高血压、糖尿病、eGFR、血清肌酐、尿白蛋白：肌酐比值|
+|9|Improved Survival Analyses Based on Characterized Time-Dependent Covariates to Predict Individual Chronic Kidney Disease Progression| Liao, C. M. 2023 [19]<br>廖 C. M. 2023 [19] |台湾|497|2006.11–2019.12|Cox 比例风险模型、随机生存森林、人工神经网络|随机生存森林 (平均 C 指数 0.89)|未记录|年龄、性别、高血压、糖尿病、心血管疾病、eGFR、血清肌酐、尿白蛋白：肌酐比值、体重指数、收缩压|
+|10|Machine-Learning–Based Early Prediction of End-Stage Renal Disease in Patients With Diabetic Kidney Disease Using Clinical Trials Data| Nagarj, B. 2020 [21]<br>Nagarj， B. 2020 [21] |跨国|RENAA: 1513<br>IDNT: 1715<br>ALTITUDE: 8561|RENAA: 1996–1998<br>IDNT: 1996–1998<br>ALTITUDE: 2007.10–2013.02|逻辑回归、支持向量机等|前馈神经网络：AUC 0.82 (RENAAL), 0.81 (IDNT), 0.84 (ALTITUDE)|Cox 比例风险回归 < ML<br>KFRE < ML|年龄、性别、高血压、糖尿病、心肌梗塞、冠状动脉疾病、心血管疾病、血清肌酐、尿白蛋白：肌酐比值|
+|11|Machine Learning Models for the Prediction of Renal Failure in Chronic Kidney Disease: A Retrospective Cohort Study| Su, C. T. 2022 [17]<br>苏 C. T. 2022 [17] |台湾|858|2006.11–2019.12|逻辑回归、随机森林等|随机森林，早期 (AUC 0.96), 晚期 (AUC 0.97)|未记录|年龄、性别、eGFR、高血压、糖尿病、心血管疾病、血清肌酐、尿白蛋白：肌酐比值|
+|12|Supervised Machine Learning for the Assessment of Chronic Kidney Disease Advancement| Vertrella, P. 2021 [23]<br>Vertrella， P. 2021 [23] |意大利|906|自 2000 年代初以来|逻辑回归、决策树等|极度随机树 (准确率 94%)|未记录|年龄、性别、高血压、糖尿病、血清肌酐、尿白蛋白：肌酐比值|
+|13|Development and Implementation of Patient-Level Prediction Models of End-Stage Renal Disease for Type 2 Diabetes Patients Using Fast Healthcare Interoperability Resources| Wang, S. 2022 [24]<br>王 S. 2022 [24] |韩国|19159|自 2003 年以来的电子病历数据|XGBoost、支持向量机等|XGBoost (AUC 0.95)|未记录|年龄、性别、高血压、糖尿病、血清肌酐、尿白蛋白：肌酐比值|
+|14|Development of Prognostic Model for Patients at CKD Stage 3a and 3b in South Central China Using Computational Intelligence| Yuan, Q. J. 2020 [25]<br>袁倩杰 2020 [25] |中国|1090|2010.08–2018.04|随机森林、支持向量机等|随机森林，3a 进展 (AUC 0.88), 3b 进展 (AUC 0.83)|未记录|年龄、性别、高血压、心血管疾病、eGFR、血清肌酐、尿白蛋白：肌酐比值|
+|15|A Predictive Model for Progression of CKD to Kidney Failure Based on Routine Laboratory Tests| Zacharias, H. U. 2022 [28]<br>撒迦利亚，H. U. 2022 [28] |欧洲|开发：GCKD 4915<br>验证：CDK-REIN 1912 等|GCKD：2010.03–2012.03<br>CKD-REIN：2013.07–2021.07 等|最小绝对收缩和选择运算符 Cox 比例风险模型|开发队列中的 2 年 C 统计量 0.91。验证队列中的 C 统计量范围为 0.89 - 0.92|KFRE < ML|年龄、高血压、糖尿病、血管疾病、eGFR、血清肌酐、尿白蛋白：肌酐比值|
+|16|Use of Disease Embedding Technique to Predict the Risk of Progression to End-Stage Renal Disease| Zhou, F. 2020 [30]<br>周， F. 2020 [30] |美国|2507|2003.01–2011.12|自然语言处理|自然语言处理，（准确率 71%）|未记录|年龄、性别、高血压、糖尿病、冠状动脉疾病、eGFR、血清肌酐、尿白蛋白：肌酐比值|
 
 
 #### 说明
@@ -336,7 +336,7 @@ The systematic search is summarised in Figure 2. The search, which was conducted
 > 表 2.纳入研究中使用的机器学习模型。
 
 <details>
-<summary>点击展开/折叠(表2)</summary>
+<summary>点击展开/折叠(表2强烈推荐阅读)</summary>
 <p>
 
 
