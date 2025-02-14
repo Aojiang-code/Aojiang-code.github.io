@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: auto; /* 自动调整列宽 */
+        }
+
+        th, td {
+            border: 1px solid black;
+            text-align: left;
+            padding: 8px;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+
+        /* 设置特定列的宽度 */
+        th:nth-of-type(1), td:nth-of-type(1) { width: 5%; }
+        th:nth-of-type(2), td:nth-of-type(2) { width: 25%; }
+        th:nth-of-type(3), td:nth-of-type(3) { width: 10%; }
+        th:nth-of-type(4), td:nth-of-type(4) { width: 10%; }
+        th:nth-of-type(5), td:nth-of-type(5) { width: 10%; }
+        th:nth-of-type(6), td:nth-of-type(6) { width: 5%; }
+        th:nth-of-type(7), td:nth-of-type(7) { width: 10%; }
+        th:nth-of-type(8), td:nth-of-type(8) { width: 15%; }
+        th:nth-of-type(9), td:nth-of-type(9) { width: 10%; }
+        th:nth-of-type(10), td:nth-of-type(10) { width: 10%; }
+        th:nth-of-type(11), td:nth-of-type(11) { width: 10%; }
+        th:nth-of-type(12), td:nth-of-type(12) { width: 20%; }
+
+        /* 设置特定列的最小宽度和最大宽度 */
+        th:nth-of-type(2), td:nth-of-type(2) { 
+            min-width: 150px; 
+            max-width: 300px; 
+        }
+
+        th:nth-of-type(12), td:nth-of-type(12) { 
+            min-width: 200px; 
+            max-width: 400px; 
+        }
+    </style>
+</head>
+
+
+<body>
+    <table>
+        <tr>
+            <th>文献编号</th>
+            <th>文献标题</th>
+            <th>区域</th>
+            <th>样本量</th>
+            <th>数据收集时间</th>
+            <th>平均年龄 (岁)</th>
+            <th>eGFR (mL/min/1.73²)</th>
+            <th>主要合并症 (%)</th>
+            <th>ML 模型类型</th>
+            <th>最准确模型及准确率 (AUC/%)</th>
+            <th>与非 ML 模型比较结果</th>
+            <th>常见变量 (人口学/临床/生化)</th>
+        </tr>
+        <tr>
+            <td>[15]</td>
+            <td>Development and External Validation of a Machine Learning Model for Progression of CKD</td>
+            <td>Canada</td>
+            <td>184293</td>
+            <td>2006.04 - 2016.12</td>
+            <td>59.3/55.5</td>
+            <td>82.2/86.0</td>
+            <td>HTN: 70/51<br>DM: 45/41</td>
+            <td>Random Forest</td>
+            <td>RF: 1 年 AUC 0.90, 5 年 AUC 0.84</td>
+            <td>未比较 KFRE</td>
+            <td>年龄、性别、eGFR、uACR、生化全项、肝功能测试</td>
+        </tr>
+        <tr>
+            <td>[16]</td>
+            <td>Applying the Temporal Abstraction Technique to the Prediction of Chronic Kidney Disease Progression</td>
+            <td>Taiwan</td>
+            <td>436</td>
+            <td>2004.01 - 2013.12</td>
+            <td>71.91</td>
+            <td>未报告</td>
+            <td>HTN: 74.6<br>DM: 55.5</td>
+            <td>C4.5, CART, SVM</td>
+            <td>CART: AUC 0.6 - 0.7</td>
+            <td>创伤性模型优于 ML</td>
+            <td>年龄、性别、eGFR、血清肌酐、BUN、血清尿酸、WBC 计数、Hb、血清白蛋白、ALT、AST、Na⁺、K⁺、Cl⁻、胆固醇、TG、TC、Ca²⁺、磷、HCO₃⁻、eGFR</td>
+        </tr>
+        <tr>
+            <td>[17]</td>
+            <td>Machine Learning Models for the Prediction of Renal Failure in Chronic Kidney Disease: A Retrospective Cohort Study</td>
+            <td>Taiwan</td>
+            <td>858</td>
+            <td>2006.11 - 2019.12</td>
+            <td>80.8/79.4</td>
+            <td>55.3/24.3</td>
+            <td>HTN: 23/76<br>DM: 53/53.5</td>
+            <td>Logistic Regression, RF, XGBoost, SVM, GNB</td>
+            <td>RF: 早期 AUC 0.96, 晚期 AUC 0.97</td>
+            <td>未比较 KFRE</td>
+            <td>年龄、性别、eGFR、Hb、Hct、血清肌酐、BUN、Na⁺、K⁺、Ca²⁺、磷、uPCR、血脂、HbA1c</td>
+        </tr>
+        <tr>
+            <td>[18]</td>
+            <td>Deep Learning Identifies Intelligible Predictors of Poor Prognosis in Chronic Kidney Disease</td>
+            <td>China</td>
+            <td>1765</td>
+            <td>2009.01 - 2020.12</td>
+            <td>44.89</td>
+            <td>66.3</td>
+            <td>HTN: 36<br>DM: 34</td>
+            <td>DNN, LR, RRC, LASSO, SVM - RBF, SVM - linear, RF, XGBoost</td>
+            <td>DNN: AUC 0.90</td>
+            <td>未比较 KFRE</td>
+            <td>年龄、性别、eGFR、血清肌酐、BUN、尿酸、WBC 计数、RBC 计数、Hb、血清白蛋白、AST、ALT、Na⁺、K⁺、Ca²⁺、磷、Cl⁻、胆固醇、TG、葡萄糖、uACR</td>
+        </tr>
+        <tr>
+            <td>[19]</td>
+            <td>Improved Survival Analyses Based on Characterized Time - Dependent Covariates to Predict Individual Chronic Kidney Disease Progression</td>
+            <td>Taiwan</td>
+            <td>497</td>
+            <td>2006.11 - 2019.12</td>
+            <td>81.35</td>
+            <td>36.72</td>
+            <td>HTN: 70<br>DM: 53</td>
+            <td>Cox PHM, RSF, ANN</td>
+            <td>RSF: 平均 C - index 0.89</td>
+            <td>未比较 KFRE</td>
+            <td>年龄、性别、eGFR、血清肌酐、HbA1c、BMI、SBP、DBP</td>
+        </tr>
+        <tr>
+            <td>[20]</td>
+            <td>Machine Learning to Predict End Stage Kidney Disease in Chronic Kidney Disease</td>
+            <td>China</td>
+            <td>748</td>
+            <td>2006.04 - 2015.12</td>
+            <td>57.8</td>
+            <td>46.1</td>
+            <td>HTN: 74.6<br>DM: 55.5</td>
+            <td>LR, RF, Naïve Bayes, DT, K - 最近邻</td>
+            <td>RF: AUC 0.81</td>
+            <td>KFRE = ML (AUC 0.80)</td>
+            <td>年龄、性别、教育水平、婚姻状况、保险状况、CKD 病因、DM、HTN、CVD 病史、吸烟和饮酒状况、血清肌酐、尿酸、BUN、WCC、Hb、血小板计数、ALT、AST、TP、白蛋白、ALP、HDL、LDL、TG、TC、Ca²⁺、磷、K⁺、Na⁺、Cl⁻、HCO₃⁻、eGFR</td>
+        </tr>
+        <tr>
+            <td>[21]</td>
+            <td>Machine - Learning–Based Early Prediction of End - Stage Renal Disease in Patients With Diabetic Kidney Disease Using Clinical Trials Data</td>
+            <td>多国</td>
+            <td>1513/1715/8561</td>
+            <td>1996 - 1998/2007.10 - 2013.02</td>
+            <td>60/58.9/64.5</td>
+            <td>未报告/66.1/57</td>
+            <td>HTN: 96.5/100/94.5<br>DM: NR/100/100</td>
+            <td>LR, SVM, RF, FNN</td>
+            <td>FNN: AUC 0.82 (RENAAL), 0.81 (IDNT), 0.84 (ALTITUDE)</td>
+            <td>创伤性模型优于 KFRE</td>
+            <td>年龄、性别、吸烟状况、CVD 病史、血清肌酐、K⁺、Hb、HbA1c、Cl⁻、磷、尿酸、HDL、LDL、uACR</td>
+        </tr>
+        <tr>
+            <td>[22]</td>
+            <td>Machine - Learning - Based Web System for the Prediction of Chronic Kidney Disease Progression and Mortality</td>
+            <td>Japan</td>
+            <td>3714/26906</td>
+            <td>2014.01 - 2020.12</td>
+            <td>60.1/61.2</td>
+            <td>54.2/73.1</td>
+            <td>HTN: 50.6/20.7<br>DM: 23.1/21</td>
+            <td>RF, 梯度提升决策树, XGBoost</td>
+            <td>RF: AUC 约 0.90</td>
+            <td>未比较 KFRE</td>
+            <td>年龄、性别、DM、HTN、CVD 病史、RAAS 抑制剂等药物使用、eGFR、血清白蛋白、Na⁺、K⁺、钙、磷、LDL、尿酸、uPCR</td>
+        </tr>
+        <tr>
+            <td>[23]</td>
+            <td>Supervised Machine Learning for the Assessment of Chronic Kidney Disease Advancement</td>
+            <td>Italy</td>
+            <td>906</td>
+            <td>2000 年代初 - 2018</td>
+            <td>68</td>
+            <td>未报告</td>
+            <td>HTN: 74<br>DM: 41</td>
+            <td>LR, DT, RF, 极端随机树, 梯度提升树, NN</td>
+            <td>极端随机树: 准确率 94%</td>
+            <td>未比较 KFRE</td>
+            <td>年龄、性别、贫血病史、心脏病史、HTN、AST、Cl⁻、血清肌酐、肌酐变化、红细胞计数、红细胞变化、GFR 变化、GFR 标准差、Hct、Hb、MCV、MCH、K⁺、Na⁺、尿比重标准差、尿酸、尿素、尿素变化</td>
+        </tr>
+        <tr>
+            <td>[24]</td>
+            <td>Development and Implementation of Patient - Level Prediction Models of End - Stage Renal Disease for Type 2 Diabetes Patients Using Fast Healthcare Interoperability Resources</td>
+            <td>Korea</td>
+            <td>19159</td>
+            <td>2003.01 - 2022</td>
+            <td>62.3</td>
+            <td>76.7</td>
+            <td>HTN: 87.2<br>DM: 100</td>
+            <td>XGBoost, SVM, DT, RF</td>
+            <td>XGBoost: AUROC 曲线 0.95</td>
+            <td>未比较 KFRE</td>
+            <td>年龄、性别、HTN、DM、吸烟、就诊历史、胰岛素、二甲双胍、抗高血压药、降脂药、抗血小板药、抗凝药、Charlson 合并症指数、TC、HDL 胆固醇、LDL 胆固醇、TG、血清肌酐、血清白蛋白、uACR、AST、ALT、胰岛素、HbA1c、空腹血糖、餐后 2 小时血糖、载脂蛋白、CRP、c 肽、血小板、肝功能测试</td>
+        </tr>
+        <tr>
+            <td>[25]</td>
+            <td>Development of Prognostic Model for Patients at CKD Stage 3a and 3b in South Central China Using Computational Intelligence</td>
+            <td>China</td>
+            <td>1090</td>
+            <td>2010.08 - 2018.04</td>
+            <td>50.01</td>
+            <td>45.6</td>
+            <td>HTN: 30.6<br>DM: NR</td>
+            <td>RF, SVM, LR, NN</td>
+            <td>RF: 3a 期 AUC 0.88, 3b 期 AUC 0.83</td>
+            <td>未比较 KFRE</td>
+            <td>年龄、性别、HTN、CVD、CKD 病因、尿检: 胆红素、WBC、维生素 C、比重、酮体、葡萄糖、酮体、pH、尿胆原、FBE、LDL、HDL/TC、TG、血清尿素、尿酸、胆汁酸、肝功能测试、UEC、胆汁酸、Cl⁻、葡萄糖、eGFR</td>
+        </tr>
+        <tr>
+            <td>[26]</td>
+            <td>ESKD Risk Prediction Model in a Multicenter Chronic Kidney Disease Cohort in China: A Derivation, Validation, and Comparison Study</td>
+            <td>China</td>
+            <td>3216/342</td>
+            <td>2011.11 - 2020.12</td>
+            <td>48/55</td>
+            <td>52.97/50.83</td>
+            <td>HTN: 73.5/24.3<br>DM: 19.9/28.9</td>
+            <td>XGBoost, SSVM</td>
+            <td>XGBoost: 2 年 AUC 0.83, 5 年 AUC 0.91</td>
+            <td>Cox < ML<br>KFRE < ML</td>
+            <td>年龄、性别、DM、HTN、CVD 病史、eGFR、uACR、血清白蛋白、Hb</td>
+        </tr>
+        <tr>
+            <td>[27]</td>
+            <td>Machine Learning Improves Upon Clinicians' Prediction of End Stage Kidney Disease</td>
+            <td>Australia</td>
+            <td>2388</td>
+            <td>1996.09 - 2018.03</td>
+            <td>62/64</td>
+            <td>未报告</td>
+            <td>HTN: 70<br>DM: 100</td>
+            <td>XGBoost</td>
+            <td>86.2% 预测准确率</td>
+            <td>KFRE < ML<br>临床医生预测 < ML</td>
+            <td>年龄、性别、死亡日期、肌酐、eGFR、葡萄糖、HbA1c、uPCR、24 小时蛋白尿、坐位和站立位血压、心率、体重、身高、BMI、坐位和站立位脉压</td>
+        </tr>
+        <tr>
+            <td>[28]</td>
+            <td>A Predictive Model for Progression of CKD to Kidney Failure Based on Routine Laboratory Tests</td>
+            <td>欧洲</td>
+            <td>4915/1912/949/202</td>
+            <td>2010.03 - 2018.03</td>
+            <td>60/66.21/65.20/46.33</td>
+            <td>49.9/34.13/30.81/47.4</td>
+            <td>HTN: 96.1/90.8/93.9/89.1<br>DM: 26.4/42.3/29.3/0</td>
+            <td>LASSO, Cox 比例风险模型</td>
+            <td>2 年 C - 统计量 0.91 (开发队列)</td>
+            <td>KFRE < ML</td>
+            <td>年龄、血清肌酐、血清胱抑素 C、uACR、血清尿素、Hb、血清白蛋白、CRP、Na⁺、HbA1c、HDL、LDL、尿酸、eGFR</td>
+        </tr>
+        <tr>
+            <td>[29]</td>
+            <td>Validation of a Novel Predictive Algorithm for Kidney Failure in Patients Suffering From Chronic Kidney Disease: The Prognostic Reasoning System for Chronic Kidney Disease (PROGRES - CKD)</td>
+            <td>多国</td>
+            <td>24535/4058</td>
+            <td>2017 - 2018/2011 - 2012</td>
+            <td>72.15/62.12</td>
+            <td>31.93/41.92</td>
+            <td>HTN: 79.3/97.38<br>DM: 40.03/38.07</td>
+            <td>Naïve Bayes 分类器</td>
+            <td>FMC NephroCare 验证: 6 个月 AUC 0.90, 24 个月 AUC 0.85<br>GCKD: 6 个月 AUC 0.91, 24 个月 AUC 0.85</td>
+            <td>KFRE < ML (6 个月预测)<br>KFRE = ML (24 个月预测)</td>
+            <td>年龄、性别、吸烟状况、CKD 病因、脑血管病、COPD、CCF、结缔组织病、CAD、痴呆、DM、偏瘫、HTN、肝病、PVD、住院次数、血清白蛋白、uACR、Ca²⁺、eGFR、GFR 变化、Hb、磷、尿蛋白、PTH、Na⁺、铁蛋白</td>
+        </tr>
+        <tr>
+            <td>[30]</td>
+            <td>Use of Disease Embedding Technique to Predict the Risk of Progression to End - Stage Renal Disease</td>
+            <td>美国</td>
+            <td>2507</td>
+            <td>2003.01 - 2011.12</td>
+            <td>67/75</td>
+            <td>未报告</td>
+            <td>HTN: NR<br>DM: 47.1/26.4</td>
+            <td>NLP</td>
+            <td>71% 准确率</td>
+            <td>未比较 KFRE</td>
+            <td>年龄、性别、合并症簇、CKD 病因、维生素 D、HCO₃⁻、Ca²⁺、Hct、K⁺、Na⁺、TP、PTH、TG、uPCR、尿酸</td>
+        </tr>
+    </table>
+</body>
+
+</html>
