@@ -9,6 +9,103 @@ Artificial Intelligence to Predict Chronic Kidney Disease Progression to Kidney 
 > 2025 Jan;30(1):e14424. 
 > doi: 10.1111/nep.14424.
 
+
+## 主要内容
+### 研究背景
+慢性肾脏病（CKD）是一种以肾功能逐渐丧失为特征的疾病，影响超过8亿人，是全球主要的健康负担之一。CKD的最终阶段是肾衰竭（KF），需要肾脏替代治疗（KRT），如透析或移植。然而，预测哪些患者会进展至KF非常困难，这对医疗资源的分配和患者的个体化管理提出了挑战。AI和ML在这一领域显示出巨大潜力，尤其是在处理大量临床和生化数据方面。
+
+### 研究目的
+本研究旨在通过系统性回顾当前文献，识别在ML模型中用于预测CKD进展至KF的最常见和最重要的变量（包括人口统计学、临床和生化数据），并评估这些模型与传统预测工具（如肾脏衰竭风险方程，KFRE）的比较。
+
+### 研究方法
+- **数据库搜索**：
+  - 搜索了Ovid Medline和EMBASE数据库（2017年1月至2023年8月）。
+  - 搜索关键词包括“慢性肾脏病”、“机器学习”和“终末期肾病”。
+  - 限制为2017年以后的研究，以反映该领域的最新进展。
+- **纳入和排除标准**：
+  - 纳入标准：≥18岁的成人，基线时患有CKD，使用ML模型预测KF。
+  - 排除标准：非英语论文、综述文章、非临床可翻译的变量（如影像学、生物标志物等）。
+- **数据提取**：
+  提取内容包括研究基本信息、样本量、ML模型类型、模型准确性、变量重要性等。
+
+### 研究结果
+- **研究筛选**：
+  初步检索出595篇文章，最终纳入16篇符合条件的研究。
+- **研究特征**：
+  纳入研究共涉及297,185名CKD患者，样本量从436到184,293不等。
+  平均eGFR和年龄在各研究间差异较大。
+- **机器学习模型**：
+  最常用的ML模型为随机森林（RF）、支持向量机（SVM）和XGBoost。
+  RF在多数研究中表现最为准确，AUC值范围为0.81 - 0.97。
+  与KFRE相比，ML模型在4/6的研究中表现更优，其余研究中与KFRE相当或在特定时间点更优。
+- **变量使用情况**：
+  - **人口统计学变量**：年龄（16项研究）和性别（15项研究）是最常用的变量。
+  - **临床变量**：8项研究中纳入了临床变量，如血压和BMI。
+  - **生化变量**：肾功能指标（15项研究）、全血检查（14项研究）和蛋白尿指标（13项研究）是最常用的生化变量。
+- **变量重要性**：
+  肾功能指标是最重要的变量，出现在11项研究的前五名重要变量中。
+  其他重要变量包括蛋白尿指标、年龄、全血检查和血清白蛋白。
+
+### 讨论
+- **变量分析**：
+  ML模型中最重要的变量与肾功能、蛋白尿和炎症状态（如血清白蛋白）密切相关。
+  ML模型能够整合更多与CKD病因相关的变量（如糖尿病、高血压）和时间依赖性变量（如eGFR变化率），这可能是其优于KFRE的原因。
+- **与KFRE的比较**：
+  ML模型在预测CKD进展至KF方面优于或至少不劣于KFRE。
+  ML模型能够整合KFRE未包含的变量（如糖尿病病史、血脂水平等）。
+- **未来方向**：
+  基于本研究结果，未来可开发新的ML模型，优化CKD患者的转诊路径，优先识别高风险患者。
+  未来研究需进一步探索ML模型与考虑竞争风险的模型（如KD Predict）的比较。
+
+### 结论
+本综述识别了ML模型中用于预测CKD进展至KF的最常见和最重要的变量，为开发新的预测模型奠定了基础。ML模型在准确性上优于或不劣于传统预测工具，显示出在临床实践中应用的潜力。
+
+### 表格总结
+|类别|变量|出现频率|重要性|
+| ---- | ---- | ---- | ---- |
+|人口统计学变量|年龄|16/16|高|
+|人口统计学变量|性别|15/16|中|
+|临床变量|血压|8/16|中|
+|临床变量|BMI|8/16|中|
+|生化变量|肾功能指标（eGFR、肌酐等）|15/16|高|
+|生化变量|蛋白尿指标（uACR等）|13/16|高|
+|生化变量|全血检查|14/16|中|
+|生化变量|血清白蛋白|9/16|高|
+
+## 重要文献
+### 重要研究及其关键信息总结（机器学习模型预测慢性肾脏病（CKD）进展至肾衰竭（KF））
+|作者/年份|研究地区|样本量|数据收集时间|主要 ML 模型|最准确模型及 AUC 值|与 KFRE 比较|主要变量|文献标题|
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+|Bai, Q. et al. (2022)|中国|748|2006.04–2015.12|LR、RF、NB、DT、KNN|RF (AUC 0.81)|KFRE = ML (AUC 0.80)|年龄、性别、肾功能指标、蛋白尿、全血检查等|Machine Learning to Predict End Stage Kidney Disease in Chronic Kidney Disease|
+|Bellocchio, F. (2021)|多国|FMC: 24535<br>GCKD: 4058|FMC: 2017–2018<br>GCKD: 2011–2012|朴素贝叶斯分类器|FMC: 6 月 (AUC 0.90), 24 月 (AUC 0.85)<br>GCKD: 6 月 (AUC 0.91), 24 月 (AUC 0.85)|6 月预测 KFRE < ML<br>24 月预测 KFRE = ML|年龄、性别、肾功能指标、血清白蛋白等|Validation of a Novel Predictive Algorithm for Kidney Failure in Patients Suffering From Chronic Kidney Disease: The Prognostic Reasoning System for Chronic Kidney Disease (PROGRES-CKD)|
+|Cheng, L. (2017)|台湾|436|2004.01–2013.12|C4.5、CART、SVM|CART (AUC 0.6–0.7)|创新型模型优于传统模型|肾功能指标、蛋白尿、全血检查等|Applying the Temporal Abstraction Technique to the Prediction of Chronic Kidney Disease Progression|
+|Ferguson, T. (2022)|加拿大|开发队列: 77196<br>验证队列: 107097|开发: 2006.04–2016.12<br>验证: 2009.04–2016.12|RF|1 年 AUC 0.90, 5 年 AUC 0.84|未比较 KFRE|年龄、性别、eGFR、蛋白尿等|Development and External Validation of a Machine Learning Model for Progression of CKD|
+|Hui, M. (2023)|中国|开发: 3216<br>验证: 342|开发: 2011.11–2017.12<br>验证: 2003.01–2020.12|XGBoost、SSVM|XGBoost 2 年 (AUC 0.83), 5 年 (AUC 0.91)|KFRE < ML|年龄、性别、肾功能指标、蛋白尿等|ESKD Risk Prediction Model in a Multicenter Chronic Kidney Disease Cohort in China: A Derivation, Validation, and Comparison Study|
+|Kanda, E. (2021)|日本|开发: 3714<br>验证: 26906|开发: 2014.01–2017.12<br>验证: 2018.01–2020.12|RF、梯度提升树、XGBoost|RF (AUC 约 0.9)|未比较 KFRE|年龄、性别、肾功能指标、血清白蛋白等|Machine-Learning-Based Web System for the Prediction of Chronic Kidney Disease Progression and Mortality|
+|Liang, P. (2023)|中国|1765|2009.01–2020.12|DNN、LR、RRC、LASSO、SVM|DNN (AUC 0.90)|未比较 KFRE|肾功能指标、蛋白尿、全血检查等|Deep Learning Identifies Intelligible Predictors of Poor Prognosis in Chronic Kidney Disease|
+|Liao, C. M. (2023)|台湾|497|2006.11–2019.12|Cox PHM、RSF、ANN|RSF (平均 C-index 0.89)|未比较 KFRE|年龄、性别、肾功能指标、蛋白尿等|Improved Survival Analyses Based on Characterized Time-Dependent Covariates to Predict Individual Chronic Kidney Disease Progression|
+|Nagarj, B. (2020)|多国|RENAAL: 1513<br>IDNT: 1715<br>ALTITUDE: 8561|RENAAL: 1996–1998<br>IDNT: 1996–1998<br>ALTITUDE: 2007.10–2013.02|LR、SVM、RF、FNN|FNN: RENAAL (AUC 0.82), IDNT (AUC 0.81), ALTITUDE (AUC 0.84)|KFRE < ML|年龄、性别、肾功能指标、蛋白尿等|Machine-Learning–Based Early Prediction of End-Stage Renal Disease in Patients With Diabetic Kidney Disease Using Clinical Trials Data|
+|Su, C. T. (2022)|台湾|858|2006.11–2019.12|LR、RF、XGBoost、SVM、GNB 分类器|RF (早阶段 AUC 0.96, 晚阶段 AUC 0.97)|未比较 KFRE|年龄、性别、肾功能指标、蛋白尿等|Machine Learning Models for the Prediction of Renal Failure in Chronic Kidney Disease: A Retrospective Cohort Study|
+|Wang, S. (2022)|韩国|19159|2003.01–2022.01|XGBoost、SVM、DT、RF|XGBoost (AUROC 0.95)|未比较 KFRE|年龄、性别、肾功能指标、蛋白尿等|Development and Implementation of Patient-Level Prediction Models of End-Stage Renal Disease for Type 2 Diabetes Patients Using Fast Healthcare Interoperability Resources|
+|Zacharias, H. U. (2022)|欧洲|开发: GCKD 4915<br>验证: CDK-REIN 1912 等|开发: 2010.03–2012.03<br>验证: 2013.07–2021.07 等|LASSO、Cox 比例风险模型|2 年 C-statistic 0.91|KFRE < ML|肾功能指标、血清白蛋白等|A Predictive Model for Progression of CKD to Kidney Failure Based on Routine Laboratory Tests|
+|Zhou, F. (2020)|美国|2507|2003.01–2011.12|NLP|NLP (71% 准确率)|未比较 KFRE|年龄、性别、肾功能指标等|Use of Disease Embedding Technique to Predict the Risk of Progression to End-Stage Renal Disease|
+
+### 说明
+- AUC 值：表示模型的预测准确性，值越接近 1.0，模型越准确。
+- KFRE：Kidney Failure Risk Equation，传统用于预测 CKD 进展至 KF 的临床模型。
+- 主要变量：包括人口统计学变量（年龄、性别）、肾功能指标（eGFR、肌酐）、蛋白尿指标（uACR 等）、全血检查等。
+- 模型类型：
+  - RF：随机森林
+  - SVM：支持向量机
+  - XGBoost：一种梯度提升算法
+  - DNN：深度神经网络
+  - LR：逻辑回归
+  - CART：分类回归树
+  - GNB：高斯朴素贝叶斯
+  - NLP：自然语言处理
+
+这些研究展示了 ML 模型在预测 CKD 进展至 KF 方面的潜力，并在多数情况下优于或不劣于传统预测工具。
+
 ## ABSTRACT  
 Chronic kidney disease is characterised by the progressive loss of kidney function. However, predicting who will progress to kidney failure is difficult. Artificial Intelligence, including Machine Learning, shows promise in this area. This narrative review highlights the most common and important variables used in machine learning models to predict progressive chronic kidney disease. Ovid Medline and EMBASE were searched in August 2023 with keywords relating to ‘chronic kidney disease’, ‘machine learning’, and ‘end-stage renal disease’. Studies were assessed against inclusion and exclusion criteria and excluded if variables inputted into machine learning models were not discussed. Data extraction focused on specific variables inputted into the machine learning models. After screening of 595 articles, 16 were included in the review. The most utilised machine learning models were random forest, support vector machines and XGBoost. The most commonly occurring variables were age, gender, measures of renal function, measures of proteinuria, and full blood examination. Only half of all studies included clinical variables in their models. The most important variables overall were measures of renal function, measures of proteinuria, age, full blood examination and serum albumin. Machine learning was consistently superior or non-inferior when compared to the Kidney Failure Risk Equation. This review identified key variables used in machine learning models to predict chronic kidney disease progression to kidney failure. These findings lay the foundations for the development of future machine learning models capable of rivalling the Kidney Failure Risk Equation in the provision of accurate kidney failure prediction.
 
