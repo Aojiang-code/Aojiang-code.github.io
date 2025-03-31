@@ -1,0 +1,984 @@
+---
+title: "Machine learning improves upon clinicians’ prediction of end stage renal failure"
+author:
+- name: Aaron Chuah & Thomas Daniel Andrews
+  affiliation: Genome Informatics Lab, The John Curtin School of Medical Research,
+    The Australian National University, ACT, Australia
+- name: Giles Walters & Simon Jiang
+  affiliation: Department of Renal Medicine, The Canberra Hospital, Garran, ACT, Australia
+date: "`r format(Sys.time(),'%d %B %Y')`"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  html_notebook: null
+subtitle: XGBoost ML vs 6 TCH Clincians on ESRD & Death prediction
+tags:
+- renal
+- machine learning
+- time series
+- prediction
+- clinical data
+- dialysis
+- end stage
+- kidney
+- disease
+- ESRD
+- death
+---
+
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE, results="asis",include=FALSE}
+libraries<-c('shiny','shinydashboard','knitr','devtools','dplyr','dbplyr','data.table','fasttime','plotly','ggplot2','extrafont','hexbin','DT','shinyjs','reticulate','outliers','xgboost','mlr','fANCOVA','heatmaply','viridis','hash','lubridate','digest','here','dendextend','DMwR','processx','rgenoud','caret','webshot','stringr','GGally','corrplot','Rfast','webshot','processx','orca')
+#bioc.libraries<-c('BiocStyle','DESeq2','ReportingTools','Glimma','genefilter')
+bioc.libraries<-c()
+src.github<-c('rstudio/pool','IMSMWU/RClickhouse','jimhester/bloom','liuyanguu/SHAPforxgboost') #,'ModelOriented/DALEX2','ModelOriented/shapper'
+# add required libs in the sections above (normal, bioconductor, source) for autoinstall & load
+installed<-installed.packages()[,"Package"]
+new.libs<-libraries[!(libraries %in% installed)]
+if(length(new.libs)) install.packages(new.libs,repos="http://cran.csiro.au",dependencies=TRUE)
+lib.ok<-sapply(libraries,require,character.only=TRUE)
+new.bioc.libs<-bioc.libraries[!(bioc.libraries %in% installed)]
+if(length(new.bioc.libs)) BiocManager::install(new.bioc.libs)
+bioc.lib.ok<-sapply(bioc.libraries,require,character.only=TRUE)
+src.libraries<-sapply(str_split(src.github,'/',2),"[",2) # 2nd elems of src.github are lib names
+new.src.idx<-which(is.na(match(src.libraries,installed)))
+if(length(new.src.idx)) devtools::install_github(src.github[new.src.idx])
+src.lib.ok<-sapply(src.libraries,require,character.only=TRUE)
+
+use_python('/usr/bin/python3.6')
+#use_python('/mnt/baaron/.virtualenvs/r-reticulate/bin/python')
+tsfresh<-import('tsfresh') #reticulate loading of python lib
+
+set.seed(289) #117mo/147/289te/561/613/1114/1669/3279td/5432/7382/8435/9310
+input<-list(egfryears=c(2,4),minegfrobs=3,minbpobs=0,minhrobs=0,train_pc=80)
+#input<-list(egfryears=c(2,8),minegfrobs=3,minbpobs=0,minhrobs=0,train_pc=80)
+predict_mode<<-'esrd' # or 'death'
+#predict_mode<<-'death'
+outcomes<<-list('esrd'=c('Non-ES','ESRD'),'death'=c('Survival','Death'))
+objective<<-'binary:logistic'
+eval_metric<<-'mcc' #aucpr,auc,error
+#eval_metric<<-'aucpr' #aucpr,auc,error
+smote_flag<<-FALSE
+smote_over<<-2000
+smote_under<<-200
+autoxgb_flag<<-FALSE
+clintest_flag<<-TRUE
+resample_flag<<-TRUE # resample train/test sets
+quick_flag<<-TRUE # full grid or quick
+num_ts<<-2 #zero or one of the values in vars.extra below
+features<<-c('egfr','creatinine','glucose','height','bmi','weight','sit_dia','sit_sys','sta_dia','sta_sys','sit_hr','sta_hr','hgba1c','protcreatinine','proteinuria','diff_dia','diff_sys','diff_hr','sit_pp','sta_pp','diff_pp')
+vars.extra<<-unlist(case_when(
+  num_ts==19 ~ list(features[-c(2,4)]), #except creatinine(=egfr) and height(constant)
+  num_ts==13 ~ list(list('egfr','glucose','bmi','sta_sys','sta_dia','sta_hr','sit_sys','sit_dia','sit_hr','diff_hr','sit_pp','sta_pp','diff_pp')),
+  num_ts==9 ~ list(list('egfr','glucose','bmi','sta_sys','sta_dia','sta_hr','sit_sys','sit_dia','sit_hr')),
+  num_ts==6 ~ list(list('egfr','glucose','bmi','sta_sys','sta_dia','sta_hr')),
+  num_ts==2 ~ list(list('egfr','glucose')),
+  TRUE ~ list(list())
+))
+cv.fold<<-10 #cross-validation fold number
+thresh_chisq<<-0.999999999
+color_feature<<-'age.init' #glucose__mean,age.init,egfr__minimum,egfr__median
+shap_top<<-20
+shap_ncol<<-5
+shap_groups<<-6
+shap_xbound<<-NULL
+legend_ncol<<-5
+paging<<-TRUE
+#plot.height<-"900px" #on laptop
+#axis.text.size<-4 #on laptop
+plot.height<-"1024px" #on monitor
+axis.text.size<-6 #on monitor
+plot.height.num<<-as.numeric(gsub("[^0-9]","",plot.height))
+col_vector<<-c(
+  '#008080','#e6beff','#9a6324','#fffac8','#800000','#aaffc3','#808000','#ffd8b1','#000075','#808080',
+  '#e6194b','#3cb44b','#ffe119','#4363d8','#f58231','#911eb4','#46f0f0','#f032e6','#bcf60c','#fabebe',
+  '#e8e8e8','#000000')
+
+'%ni%' <- Negate('%in%')
+
+printly <- function(m) {
+#  shinyjs::html(id="text_xgboost", html=m, add=TRUE)
+  print(m)
+}
+
+#IMPORTANT: CENSUS DATE = 15/11/2016+2 years (16/11/2016 to 12/11/2018 for clinician paper tests
+clin.init<-fastPOSIXct('2016-11-15')
+clin.last<-clin.init+years(2)
+minus2018h<-function(x) mean(x)-2018.5
+minus2019<-function(x) mean(x)-2019
+offset.date<-function(x) mean(x)-decimal_date(clin.last)
+thresh_p<-0.5
+thresh_2y<-2.14 # 2,2.14
+thresh_10y<-11.14
+dig.suffix<-'' # '','.stretch'
+
+dir<-'/mnt/appTrendal/data' # Change this to point to your local directory where the data files are
+setwd(dir)
+
+options(warn=-1,expressions=500000)
+knitr::opts_knit$set(root.dir=dir)
+knitr::opts_chunk$set(echo=FALSE,message=FALSE,error=FALSE,warning=FALSE,cache=FALSE,results='hide',fig.width=8,fig.height=11)
+# A4 portrait fig size
+```
+
+# Description
+
+## Primary Clinical Data
+
+```{r load}
+
+death<-fread('Death.csv',col.names=c('id','date'),na.strings='NULL')
+death[,date:=fastPOSIXct(date)]
+setkey(death,id,date)
+
+dt<-fread('Diabetes.csv',col.names=c('id','date','glucose','glucose.str','hgba1c','hgba1c.str'),na.strings='NULL')
+dt[,date:=fastPOSIXct(date)]
+diabetes<-data.table::melt(dt[,c(1,2,3,5)],id.vars=c('id','date'),na.rm=TRUE)
+
+#  exam<-fread('Exam.csv',col.names=c('id','date','height','weight','bmi','sit_dia','sit_sys','sit_hr','sta_dia','sta_sys','sta_hr'),na.strings='NULL')
+dt<-fread('Exam.corrected.csv',col.names=c('id','date','height','height_raw','weight','bmi_raw','bmi','sit_dia','sit_sys','sit_hr','sta_dia','sta_sys','sta_hr'),na.strings='\\N')
+dt[,date:=fastPOSIXct(date)]
+dt[,height_raw:=NULL]
+dt[,bmi_raw:=NULL]
+dt[,diff_dia:=sit_dia-sta_dia] #,'diff_dia','diff_sys','diff_hr','sit_pp','sta_pp','diff_pp'
+dt[,diff_sys:=sit_sys-sta_sys]
+dt[,diff_hr:=sit_hr-sta_hr]
+dt[,sit_pp:=sit_sys-sit_dia]
+dt[,sta_pp:=sta_sys-sta_dia]
+dt[,diff_pp:=sit_pp-sta_pp]
+exam<-suppressWarnings(melt(dt,id.vars=c('id','date'),na.rm=TRUE))
+exam$date<-fastPOSIXct(exam$date)
+
+dt<-fread('KidneyFunction.csv',col.names=c('id','date','creatinine','egfr'),na.strings='NULL')
+dt[,date:=fastPOSIXct(date)]
+kidney<-data.table::melt(dt,id.vars=c('id','date'),na.rm=TRUE) #sanity check because there are outlier values of egfr>200k!
+
+dt<-fread('UrineProteinCreatinineRatios.csv',col.names=c('id','date','test','other.test','result','other.result','protcreatinine','result.str','norm.range','units','provider'),na.strings='NULL')
+dt[,date:=fastPOSIXct(date)]
+protcreatinine<-data.table::melt(dt[,c(1,2,7)],id.vars=c('id','date'),na.rm=TRUE)
+
+dt<-fread('Urine24hrProtein.csv',col.names=c('id','date','test','other.test','result','other.result','proteinuria','result.str','norm.range','units','provider'),na.strings='NULL')
+dt[,date:=fastPOSIXct(date)]
+proteinuria<-data.table::melt(dt[,c(1,2,7)],id.vars=c('id','date'),na.rm=TRUE)
+
+patient<-fread('PtID.csv',col.names=c('id','birth.year','gender'),na.strings='NULL')
+setkey(patient,id)
+
+dt<-fread('Modality.csv',col.names=c('id','date','end.date','modality','setting'),na.strings='NULL')
+dt[,date:=fastPOSIXct(date)]
+dt[,end.date:=fastPOSIXct(end.date)]
+setkey(dt,id)
+setorderv(dt,c('id','date'))
+modality<-data.table::copy(dt) #[,c(1,2,4)]
+modality
+transplant<-modality[modality %in% c('Transplant','Donor','Non RRT'),.(date=min(date),modality=min(modality)),by=.(id)]
+dialysis<-modality[modality %in% c('HD','PD','Nocturnal HD','Haemodiafiltration','Haemofiltration'),.(date=min(date),modality=min(modality)),by=.(id)]
+```
+
+
+```{r process}
+dt<-unique(rbindlist(list(kidney,diabetes,exam,protcreatinine,proteinuria)))
+setorderv(dt,c('variable','id','date'))
+melted<-as.data.table(dt %>%
+                        group_by(variable) %>%
+                        mutate(outlier=scores(value,type='chisq',prob=thresh_chisq)) %>%
+                        ungroup())
+m<-melted[variable=='egfr',]
+egfr.init<-setDT(m)[m[,.I[which.min(date)],id]$V1]
+egfr.init$variable<-'egfr.init'
+egfr.last<-setDT(m)[m[,.I[which.max(date)],id]$V1]
+egfr.last$variable<-'egfr.last'
+esrd.hit<-setDT(m)[m[,.I[which(value<10,arr.ind=TRUE)[1]],id]$V1]
+esrd.hit$id=egfr.init$id
+esrd.hit$variable='esrd.hit'
+esrd.hit$outlier=FALSE
+esrd.close<-setDT(m)[m[,.I[which(value<15,arr.ind=TRUE)[1]],id]$V1]
+esrd.close$id=egfr.init$id
+esrd.close$variable='esrd.close'
+esrd.close$outlier=FALSE
+egfr.melt<-na.omit(rbindlist(list(egfr.init,egfr.last,esrd.hit,esrd.close)))
+
+dt<-data.table::dcast(egfr.melt,id~variable,value.var=c('date','value'),sep='.')
+dt[,egfr.y:=(date.egfr.last-date.egfr.init)/31557600]
+setattr(dt$egfr.y,'units','years')
+dt[,preesrd.y:=egfr.y]
+dt[!is.na(date.esrd.hit),preesrd.y:=(date.esrd.hit-date.egfr.init)/31557600]
+dt[,preclose.y:=egfr.y]
+dt[!is.na(date.esrd.close),preclose.y:=(date.esrd.close-date.egfr.init)/31557600]
+setkey(dt,id)
+melted$relyear<-(melted$date-dt[.(melted$id),date.egfr.init])/31557600
+setattr(melted$relyear,'units','years')
+for(v in features) {
+  m<-melted[variable==v]
+  obs<-m[,.N,by=id]
+  setnames(obs,old='N',new=v)
+  setkey(obs,id)
+  dt<-obs[dt]
+}
+#		for(j in 1:(ncol(dt)-6)) set(dt,which(is.na(dt[[j]])),j,0) #NA is better than zero!!
+dt<-death[dt]
+setnames(dt,old='date',new='date.death')
+dt<-patient[dt]
+cats<-seq(1,12,by=0.5)
+cats.col<-paste0('cat',sub('\\.0','',cats))
+dt[,category:=ifelse(!is.na(date.esrd.hit) & preesrd.y<=input$egfryears[2],outcomes[[predict_mode]][2],outcomes[[predict_mode]][1])]
+for(i in 1:length(cats)) 
+  dt[,(cats.col[i]):=ifelse(!is.na(date.esrd.hit) & preesrd.y<=cats[i],outcomes[[predict_mode]][2],outcomes[[predict_mode]][1])]
+dt[,age.init:=year(date.egfr.init)-birth.year]
+dt[,death.y:=(date.death-date.egfr.init)/365.25]
+setattr(dt$death.y,'units','years')
+setcolorder(dt,c("id","preesrd.y","preclose.y","egfr.y","death.y",features,"gender","age.init","value.egfr.init","value.esrd.close","value.esrd.hit","value.egfr.last","birth.year","date.egfr.init","date.esrd.close","date.esrd.hit","date.egfr.last","date.death"))
+meta<-data.table::copy(dt)
+sample.run<-paste0("samples-",input$egfryears[1],"-",input$egfryears[2],"-",input$minegfrobs,"-",input$minbpobs,"-",input$minhrobs)
+fwrite(meta,paste0(sample.run,'.meta.csv'))
+sample.fn<-paste0(sample.run,'.csv')
+if(file.exists(sample.fn)) {
+  dt<-fread(sample.fn)
+  if(resample_flag) {
+    training<-sample(dt$id,floor(dt[,.N]*input$train_pc/100))
+    dt[,train:=id %in% training]
+  }
+}else { # (preesrd.y>=input$egfryears[1]) & (preclose.y>=input$egfryears[1])
+  if(clintest_flag) {
+    dt<-meta[(preclose.y>=input$egfryears[1]) & 
+             (egfr.y>=input$egfryears[2] | !is.na(date.esrd.hit)) &
+             (input$minegfrobs==0 | egfr>=input$minegfrobs) &
+             (input$minbpobs==0 | sta_dia>=input$minbpobs) &
+             (input$minhrobs==0 | sta_hr>=input$minhrobs)]
+    training<-sample(setdiff(dt$id,clinician.test$id),floor(dt[,.N]*input$train_pc/100))
+  }else {
+    dt<-meta[(preesrd.y>=input$egfryears[1]) & 
+             (input$minegfrobs==0 | egfr>=input$minegfrobs) &
+             (input$minbpobs==0 | sta_dia>=input$minbpobs) &
+             (input$minhrobs==0 | sta_hr>=input$minhrobs)]
+    training<-sample(dt$id,floor(dt[,.N]*input$train_pc/100))
+  }
+  dt[,train:=id %in% training]
+  fwrite(dt,sample.fn)
+}
+filtered<-data.table::copy(dt) # dt[preclose.y>=input$egfryears[1]] or just dt
+#  setdiff(clinician.test$id,intersect(filtered$id,clinician.test$id))
+train_set<-filtered[train==TRUE]
+test_set<-filtered[train==FALSE]
+dt<-unique(rbindlist(list(kidney,diabetes,exam,protcreatinine,proteinuria)))
+setorderv(dt,c('variable','id','date'))
+melted<-as.data.table(dt %>%
+  group_by(variable) %>%
+  mutate(outlier=scores(value,type='chisq',prob=thresh_chisq)) %>%
+  ungroup())
+flag.outliers<-function(vari) {
+  mv<-melted[variable==vari]
+  cat(paste0(vari,": "))
+  vals<-mv$value
+  summ<-as.data.table(t(as.matrix(c(list('variable'=vari,'points'=length(vals)),summary(vals)))))
+  stats<<-if(is.null(stats)) summ else rbindlist(list(stats,summ)) 
+  if(vari=='weight') {
+    outidx<-which((melted$value>500) & (melted$variable==vari))
+  }else if(vari=='bmi') {
+    outidx<-which((melted$value>200) & (melted$variable==vari))
+  }else if(vari=='height') {
+    outidx<-which((melted$value>250) & (melted$variable==vari))
+  }else {
+    outs<-scores(vals,type='chisq',prob=thresh_chisq)
+    outvals<-unique(sort(vals[outs]))
+    outidx<-which((melted$value %in% outvals) & (melted$variable==vari))
+  }
+  print(melted[outidx,]$value)
+  outidx
+}
+check<-features[features %ni% c('creatinine','glucose','hgba1c','proteinuria','protcreatinine')] # "outliers" on these features fall within normal ranges
+stats<<-NULL
+outliers<-unlist(lapply(check,flag.outliers))
+fwrite(as.data.table(stats),'stats.tsv',sep='\t')
+fwrite(melted[outliers,],'outliers.tsv',sep='\t')
+remains<-melted[-outliers,]
+setkeyv(remains,c('id','date'))
+egfr.init<-remains[variable=='egfr',min(date),by=id]
+setnames(egfr.init,c('id','egfr.init'))
+outed<-remains[egfr.init][,rel.year:=(date-egfr.init)/31557600]
+setattr(outed$rel.year,'units','years')
+outed[,egfr.init:=NULL]
+outed[,outlier:=NULL]
+#fwrite(outed,'outed.tsv',sep='\t')
+setkey(outed,id)
+
+j<-subset(setDT(outed)[filtered],id %in% filtered$id)
+#  j<-data.table::copy(joined[(rel.year<=input$egfryears[1]) & (rel.year<preesrd.y)])
+joined<-data.table::copy(j[(rel.year<=input$egfryears[1])])
+vars<-features[!features=='creatinine']
+combi<-list(vars,vars.extra,j)
+dig<<-digest(combi,algo='xxhash64')
+print(dig)
+dig.file<-paste0(dig,".csv")
+inputs<-c('minegfrobs','minbpobs','minhrobs','egfryears','train_pc')
+input.filt<-input
+input.filt$egfryears<-paste0(input.filt$egfryears[1],'-',input.filt$egfryears[2])
+input.filt$train_pc<-input.filt$train_pc
+input.filt$num_ts<-num_ts
+input.filt$filtered<-filtered[,.N]
+input.filt$train<-train_set[,.N]
+input.filt$test<-test_set[,.N]
+filt<-as.data.table(input.filt)
+print(filt)
+fwrite(filt,paste0(dig,'.filt.csv'))
+fwrite(filtered,paste0(dig,'.meta.csv'))
+if(file.exists(dig.file)) {
+  fresh<-fread(dig.file)
+}else {
+  fresh<-data.table()
+  keep<-c('id','rel.year','value')
+  for(var in vars) {
+    dt<-joined[variable==var]
+    dt.n<-dt[,.N]
+    if(dt.n==0) next
+    dt<-na.omit(dt[,..keep])
+    setnames(dt,'value',var)
+    cat(paste0(var,': ',dt.n,'\n'))
+    if(var %in% vars.extra) {
+      # f<-as.data.table(tsfresh$extract_features(dt,column_id='id',column_sort='rel.year',default_fc_parameters=tsfresh$feature_extraction$settings$EfficientFCParameters()),keep.rownames=TRUE)
+      f<-as.data.table(tsfresh$extract_features(dt,column_id='id',column_sort='rel.year',disable_progressbar=TRUE),keep.rownames=TRUE)
+    }else {
+      f<-as.data.table(tsfresh$extract_features(dt,column_id='id',column_sort='rel.year',disable_progressbar=TRUE,default_fc_parameters=tsfresh$feature_extraction$settings$MinimalFCParameters()),keep.rownames=TRUE)
+    }
+    f$rn=as.numeric(f$rn)
+    fresh<-if(var==vars[1]) f else merge(fresh,f,by='rn',all=TRUE)
+  }
+  setnames(fresh,'rn','id')
+  colnames(fresh)<-make.names(colnames(fresh),unique=TRUE)
+  for(j in 1:ncol(fresh)) data.table::set(fresh,which(is.infinite(fresh[[j]])|is.nan(fresh[[j]])),j,NA)
+  fwrite(fresh,dig.file)
+}
+setkey(fresh,id)
+colnames(fresh)<-make.names(colnames(fresh),unique=TRUE)
+for(j in 1:ncol(fresh)) data.table::set(fresh,which(is.infinite(fresh[[j]])|is.nan(fresh[[j]])),j,NA)
+fresh[,grep("__sum_values",names(fresh)):=NULL]	
+fresh[,grep("__length",names(fresh)):=NULL]
+fresh
+```
+# ML prediction
+
+## Model training
+
+```{r xgb,echo=TRUE}
+eval_mcc<-function(y_true,y_prob,show=FALSE) {
+  DT<-data.table(y_true=y_true,y_prob=y_prob,key="y_prob")
+  nump<-sum(y_true)
+  numn<-length(y_true)-nump
+  DT[,tn_v:=cumsum(y_true==0)]
+  DT[,fp_v:=cumsum(y_true==1)]
+  DT[,fn_v:=numn-tn_v]
+  DT[,tp_v:=nump-fp_v]
+  DT[,tp_v:=nump-fp_v]
+  DT[,mcc_v:=(tp_v*tn_v-fp_v*fn_v)/sqrt((tp_v+fp_v)*(tp_v+fn_v)*(tn_v+fp_v)*(tn_v+fn_v))]
+  DT[,mcc_v:=ifelse(!is.finite(mcc_v),0,mcc_v)]
+  if(!show) return(max(DT[['mcc_v']]))
+  best_mcc<-max(DT[['mcc_v']])
+  best_proba<-DT[['y_prob']][which.max(DT[['mcc_v']])]
+  y_pred<-as.numeric(y_prob>best_proba)
+  score<-mcc(y_true,y_pred)
+  cat("\n",score,best_mcc)
+  return(list(best_proba,best_mcc,y_pred))
+}
+
+mcc_eval<-function(pred,dtrain) {    
+  y_true<-getinfo(dtrain,"label")
+  best_mcc<-eval_mcc(y_true,pred)
+  return(list(metric="mcc",value=best_mcc))
+}
+
+train.id<-train_set$id
+test.id<-test_set$id
+pats<-filtered
+if(predict_mode=='death') {
+  pats[,category:=ifelse(!is.na(death.y) & death.y<=input$egfryears[2],outcomes[[predict_mode]][2],outcomes[[predict_mode]][1])]  
+}else {
+#  pats[,category:=ifelse(!is.na(date.esrd.hit) & preesrd.y<=input$egfryears[2],outcomes[[predict_mode]][2],outcomes[[predict_mode]][1])]
+  pats[,category:=get(paste0('cat',input$egfryears[2]))]
+}
+
+meta.cols<-c('id','gender','age.init') #,'egfr.y','death.y'
+meta<-pats[,..meta.cols]
+meta[,gender:=ifelse(gender=='Male',1,0)]
+setkey(meta,id)
+#    	diff.cols<-c('egfr.y','death.y')
+#   	meta[,(diff.cols):=lapply(.SD,as.numeric),.SDcols=diff.cols]
+#    	fresh<-fresh()
+fresh.meta<-data.table::copy(meta[fresh])
+train<-fresh.meta[id %in% train.id,]
+if(smote_flag) {
+  idcat<-c('category','id')
+  presmote<-pats[,..idcat][train,on='id']
+  presmote$category<-factor(presmote$category,levels=outcomes[[predict_mode]])
+  print(table(presmote$category))
+  train<-SMOTE(category~.,presmote,perc.over=smote_over,perc.under=smote_under)
+  print(table(train$category))
+  train.label<-(train$category==outcomes[[predict_mode]][2])*1
+  train[,category:=NULL]
+}else {
+  train.label<-setNames((pats[id %in% train.id]$category==outcomes[[predict_mode]][2])*1,pats[id %in% train.id]$id)
+  print(table(pats[id %in% train.id]$category))
+}
+train[,id:=NULL]
+dtrain<-xgb.DMatrix(data=as.matrix(train),label=train.label)
+test<-fresh.meta[id %in% test.id,]
+test[,id:=NULL]
+test.label<-setNames((pats[id %in% test.id]$category==outcomes[[predict_mode]][2])*1,pats[id %in% test.id]$id)
+dtest<-xgb.DMatrix(data=as.matrix(test),label=test.label)
+pt<-prop.test(c(sum(train.label),sum(test.label)),c(length(train.label),length(test.label)))
+pt
+test_metric<-paste0('test_',eval_metric,'_mean')
+dig.run<<-paste0(dig,'-',input$egfryears[1],'-',input$egfryears[2],'-',eval_metric,ifelse(predict_mode=='death','-d',''),ifelse(smote_flag,'-s',''),ifelse(num_ts==0,'',paste0('-ts',num_ts)))
+print(dig.run)
+hyper.file<-paste0(dig.run,'.hyper.csv')
+if(file.exists(hyper.file)) {
+  err.hyper<-fread(paste0("grep -v '^#' ",hyper.file))
+  print(tail(err.hyper))
+  best<-as.list(unclass(err.hyper[ifelse(eval_metric=='error',which.min(get(test_metric,err.hyper)),which.max(get(test_metric,err.hyper)))]))
+  print(t(best))
+  print(dim(dtrain))
+  if(eval_metric=='mcc') {
+    bst<<-xgboost::xgboost(data=dtrain,objective=objective,feval=mcc_eval,nrounds=best$nrounds,params=best,verbose=0) #eval_metric=eval_metric, 
+  }else {
+    bst<<-xgboost::xgboost(data=dtrain,objective=objective,eval_metric=eval_metric,nrounds=best$nrounds,params=best,verbose=0)
+  }
+}else if(autoxgb_flag) { #bayesiantuning
+  auto.train<-data.table::copy(train)
+  auto.train[,names(auto.train):=lapply(.SD,as.numeric)]
+  auto.train[,label:=as.factor(train.label)]
+  cla_task<-makeClassifTask(data=as.data.frame(auto.train),target="label")
+  cla_auto<-autoxgboost(cla_task,build.final.model=TRUE)
+  bst<-cla_auto$final.learner
+  best<-mlr::getHyperPars(bst)
+  best$`eval(test_metric)`<-get(test_metric,best_iter)
+  fwrite(data.table(t(unlist(best))),hyper.file)
+  bst<<-xgboost::xgboost(data=dtrain,params=best,nrounds=best$nrounds,verbose=0)
+}else { #gridsearch
+  nES<-sum(train.label==0) #num of non-end-stage in training set
+  ES<-sum(train.label==1) #num of end-stage in training set
+  ratio<-nES/ES
+  if(!quick_flag) {
+    xgb.hyper<-expand.grid(
+      nrounds=c(100,200,500,1000),
+      max_depth=c(4,6,8,10),
+      subsample=c(0.5,0.75,1),
+      colsample_bytree=c(.4,.6,.8,1),
+      early_stopping_rounds=c(50),
+      scale_pos_weight=c(ratio^(3/4),ratio^(2/3)) #ratio,ratio^(4/5),ratio^(3/4),ratio^(2/3),sqrt(ratio)
+    )
+  }else {
+    xgb.hyper<-expand.grid(
+      nrounds=c(100,200,500,1000),
+      max_depth=c(4),
+      subsample=c(0.75,1),
+      colsample_bytree=c(.4,.6,.8),
+      early_stopping_rounds=c(50),
+      scale_pos_weight=c(ratio) #ratio,ratio^(4/5),ratio^(3/4),ratio^(2/3),sqrt(ratio)
+    )
+  }
+  fwrite(xgb.hyper,paste0(hyper.file,'.param.txt'))
+  cat(paste(names(xgb.hyper)),'eta',test_metric,"\n")
+  err.hyper<-rbindlist(apply(xgb.hyper,1,function(hp){
+    hp.df<-as.data.frame(t(hp))
+    hp.df$eta<-2/hp.df$nrounds
+    hp.l<-as.list(hp.df)
+    if(eval_metric=='mcc') {
+      xcv<-xgb.cv(data=dtrain,objective=objective,nfold=cv.fold,nrounds=hp.l$nrounds,params=hp.l,stratified=TRUE,verbose=FALSE,feval=mcc_eval)
+    }else {
+      xcv<-xgb.cv(data=dtrain,objective=objective,nfold=cv.fold,nrounds=hp.l$nrounds,params=hp.l,stratified=TRUE,verbose=FALSE,eval_metric=eval_metric)
+    }
+    best_iter<-as.list(xcv$evaluation_log[xcv$niter])
+    hp.df$`eval(test_metric)`<-get(test_metric,best_iter)
+    cat(paste(unname(hp.df)),"\n")
+    return(hp.df)
+  }))
+  names(err.hyper)[length(names(err.hyper))]<-test_metric
+  fwrite(err.hyper,hyper.file)
+  best<-as.list(unclass(err.hyper[ifelse(eval_metric=='error',which.min(get(test_metric,err.hyper)),which.max(get(test_metric,err.hyper)))]))
+  if(eval_metric=='mcc') {
+    bst<<-xgboost(data=dtrain,objective=objective,nrounds=best$nrounds,params=best,verbose=FALSE,feval=mcc_eval)
+  }else {
+    bst<<-xgboost(data=dtrain,objective=objective,nrounds=best$nrounds,params=best,verbose=FALSE,eval_metric=eval_metric)
+  }
+}
+pred<-predict(bst,dtest)
+pred.label<-ifelse(pred>=0.5,1,0)
+test.pats<-as.data.frame(pats[id %in% test.id])
+test.pats$endstage_hit<-(test.pats$category==outcomes[[predict_mode]][2])*1
+test.pats$endstage_pred<-pred.label*1
+error<-test.label-pred.label
+test.pats$error<-error
+cm<-caret::confusionMatrix(as.factor(pred.label),as.factor(test.label),positive="1")
+
+confusion<-test.pats %>% group_by(endstage_pred,endstage_hit) %>% summarise(n=dplyr::n()) %>% 
+  dcast(endstage_hit~endstage_pred,value.var='n') %>% # rename('FALSE'='0','TRUE'='1') %>% 
+  mutate(endstage_hit=paste0('Actual ',outcomes[[predict_mode]][2]))
+d<-rbind(data.frame(endstage_hit='Training set',table(train.label,dnn=c('actual'))),
+         data.frame(endstage_hit='Test set',table(test.label,dnn=c('actual'))),
+         data.frame(endstage_hit='Predicted',table(pred.label,dnn=c('actual')))) %>% 
+  dcast(endstage_hit~actual,value.var='Freq')
+#        counts<-rbind(d,confusion)
+cm.tab<-cbind(endstage_hit=paste0('Predicted ',outcomes[[predict_mode]][2]),as.data.frame(as.matrix(cm)))
+counts<-rbind(d,cm.tab)
+print(counts)
+cm$byClass[['MCC']]<-eval_mcc(test.label,pred.label)
+cm.overall<-as.matrix(cm,what="overall")[,1]
+cm.classes<-as.matrix(cm,what="classes")[,1]
+cm.stats<-rbind(data.frame(stat=names(cm.overall),value=cm.overall),data.table(stat=names(cm.classes),value=cm.classes))
+cm.dt<-rbindlist(list(counts,cm.stats),fill=TRUE)
+print(cm.stats)
+fwrite(cm.dt,paste0(dig.run,'.model.perf.csv'))
+printly(paste0('[',length(train.id),'+',length(test.id),'=',length(train.id)+length(test.id),' patients]: '))
+printly(paste0('Accuracy = ',round(100*cm.overall['Accuracy'],2),'%, 95% CI [',round(100*cm.overall['AccuracyLower'],2),'%,',round(100*cm.overall['AccuracyUpper'],2),'%]; '))
+printly(paste0('Sensitivity = ',round(100*cm.classes['Sensitivity'],2),'%; '))
+printly(paste0('Specificity = ',round(100*cm.classes['Specificity'],2),'%'))
+
+shap_values<-SHAPforxgboost::shap.values(xgb_model=bst,X_train=train)
+shap.mean<-data.table(feature=names(shap_values$mean_shap_score),shap=shap_values$mean_shap_score)
+shap.mean[,rank:=.I]
+setcolorder(shap.mean,c('rank','shap','feature'))
+fwrite(shap.mean,paste0(dig.run,".shap.csv"))
+shap_long<-SHAPforxgboost::shap.prep(xgb_model=bst,X_train=train,top_n=shap_top)
+xgb<-list(model=bst,shap_values=shap_values,shap_long=shap_long,counts=counts)
+```
+
+```{r contingency}
+DT::datatable(xgb$counts,escape=FALSE,class='compact nowrap',rownames=1,options=list(searching=FALSE,paging=paging,dom='ft')) %>%
+  formatStyle(1,target='cell',backgroundColor=styleEqual(c(0,1),c('yellow',NA)))
+```
+
+```{r fetaure_table}
+imp<-xgb.importance(model=xgb$model)
+fwrite(imp,paste0(dig.run,'.xgbi.csv'))
+DT::datatable(imp,escape=FALSE,class='compact nowrap',options=list(searching=FALSE,pageLength=20,lengthMenu=c(20,50,100,200))) %>%   formatPercentage(columns=c('Gain','Cover','Frequency'), digits=3)
+```
+## XGBoost Model
+
+```{r shap_long}
+shap_long<-xgb$shap_long
+charsub<-setNames(c(':',' '),c('__','_')) # | · : -
+levels(shap_long$variable)<-str_replace_all(levels(shap_long$variable),charsub)
+gg<-shap.plot.summary(shap_long,dilute=5,x_bound=shap_xbound) + 
+#  geom_point(alpha=.5) +
+  scale_color_viridis_c(option='C',direction=-1) +
+  theme(text=element_text(size=5),axis.text=element_text(size=5),axis.title.x=element_text(size=6),
+  legend.text=element_text(size=5),legend.title=element_text(size=5))
+gg$layers[[2]]$aes_params$size<-2
+ggsave(paste0(dig.run,'.shapTop.eps'),plot=gg,device=cairo_ps,dpi=1000,width=140,height=140,units='mm')
+gg
+```
+
+```{r shap_dep}
+shap.plot.dep.aaron<-function(x=x,data_long=data_long) { 
+  suppressMessages(shap.plot.dependence(x,data_long=data_long,add_hist=FALSE,color_feature=color_feature,size0=0.06)+labs(y="SHAP value") +
+    scale_color_viridis_c(option='D',direction=-1) +
+#    labs(x=str_wrap(str_replace_all(x,"__",":"),width=26),title=paste0(LETTERS[match(x,names(xgb$shap_values$mean_shap_score))],')')) +
+    labs(x=str_replace_all(x,charsub),title=paste0(LETTERS[match(x,names(xgb$shap_values$mean_shap_score))],')')) +
+    theme(legend.position="none",text=element_text(size=5),axis.text=element_text(size=5),axis.title.x=element_text(size=6),axis.title.y=element_text(size=6),plot.title=element_text(hjust=0)))
+}
+
+fig_list<-lapply(names(xgb$shap_values$mean_shap_score)[1:shap_top],shap.plot.dep.aaron,data_long=xgb$shap_long)
+gg<-gridExtra::grid.arrange(grobs=fig_list,ncol=shap_ncol)
+ggsave(paste0(dig.run,'.shapDep.eps'),plot=gg,device=cairo_ps,dpi=1200,width=277,height=190,units='mm')
+gg
+```
+
+```{r shap_force}
+suppressMessages(plot_data<-shap.prep.stack.data(shap_contrib=xgb$shap_values$shap_score,top_n=shap_top,n_groups=shap_groups))
+#            freq<-plot_data[,.N,by=group] #only needed for zoom plot
+suppressWarnings(
+#                gg<-shap.plot.force_plot(plot_data,zoom_in_group=freq[which.max(N),]$group) +
+  gg<-shap.plot.force_plot_bygroup(plot_data) + 
+  scale_fill_manual(values=col_vector) + 
+    theme(legend.position="bottom",legend.key.size=unit(3,'mm'),legend.title=element_text(size=3.5),legend.text=element_text(size=3.5),
+      text=element_text(size=4),axis.text=element_text(size=4),axis.title.x=element_text(size=5),axis.title.y=element_text(size=5)) + 
+    guides(fill=guide_legend(ncol=legend_ncol))
+)
+ggsave(paste0(dig.run,'.shapForce.eps'),plot=gg,device=cairo_ps,dpi=1000,width=190,height=140,units='mm')
+gg
+```
+
+
+```{r load_clin,echo=TRUE}
+if(!clintest_flag) stop() #knitr::knit_exit() #early termination if not doing clinician tests
+#load updated DB dump for 49 clinician test patients
+dt<-fread('../data_clin/diabetes.csv',col.names=c('id','date','glucose','glucose.str','hgba1c','hgba1c.str'),na.strings='NULL')
+dt[,date:=fastPOSIXct(date)]
+diabetes2<-data.table::melt(dt[,c(1,2,3,5)],id.vars=c('id','date'),na.rm=TRUE)
+
+#  exam<-fread('Exam.csv',col.names=c('id','date','height','weight','bmi','sit_dia','sit_sys','sit_hr','sta_dia','sta_sys','sta_hr'),na.strings='NULL')
+dt<-fread('../data_clin/sitstandbp.csv',col.names=c('id','date','sit_sys','sit_dia','sit_hr','sta_sys','sta_dia','sta_hr'),na.strings='NULL')
+dt[,date:=fastPOSIXct(date)]
+dt[,diff_dia:=sit_dia-sta_dia] #,'diff_dia','diff_sys','diff_hr','sit_pp','sta_pp','diff_pp'
+dt[,diff_sys:=sit_sys-sta_sys]
+dt[,diff_hr:=sit_hr-sta_hr]
+dt[,sit_pp:=sit_sys-sit_dia]
+dt[,sta_pp:=sta_sys-sta_dia]
+dt[,diff_pp:=sit_pp-sta_pp]
+exam2<-suppressWarnings(melt(dt,id.vars=c('id','date'),na.rm=TRUE))
+exam2$date<-fastPOSIXct(exam2$date)
+
+dt<-fread('../data_clin/gfr.csv',col.names=c('id','date','egfr','egfr.str'),na.strings='NULL')
+dt[,date:=fastPOSIXct(date)]
+dt[,egfr.str:=NULL]
+kidney2<-data.table::melt(dt,id.vars=c('id','date'),na.rm=TRUE) #sanity check because there are outlier values of egfr>200k!
+
+dt<-fread('../data_clin/proteinuria.csv',col.names=c('id','date','test','proteinuria','result.num','result.str'),na.strings='NULL')
+dt[,date:=fastPOSIXct(date)]
+protcreatinine2<-data.table::melt(dt[,c(1,2,4)],id.vars=c('id','date'),na.rm=TRUE)
+
+dt<-fread('../data_clin/24hrUrine.csv',col.names=c('id','date','test','proteinuria','result.num','result.str'),na.strings='NULL')
+dt[,date:=fastPOSIXct(date)]
+proteinuria2<-data.table::melt(dt[,c(1,2,4)],id.vars=c('id','date'),na.rm=TRUE)
+
+dt<-fread('../data_clin/modality.csv',col.names=c('id','date','end.date','modality'),na.strings='NULL')
+dt[,date:=fastPOSIXct(date)]
+dt[,end.date:=fastPOSIXct(end.date)]
+setkey(dt,id)
+setorderv(dt,c('id','date'))
+modality2<-data.table::copy(dt) #[,c(1,2,4)]
+
+death2<-fread('../data_clin/Death.csv',col.names=c('id','date'),na.strings='NULL')
+death2[,date:=fastPOSIXct(date)]
+death2<-na.omit(death2)
+setkey(death2,id,date)
+
+dt<-unique(data.table::rbindlist(list(kidney2,diabetes2,exam2,protcreatinine2,proteinuria2)))
+dt<-dt[,value:=as.numeric(value)]
+setorderv(dt,c('variable','id','date'))
+melted2<-as.data.table(dt %>%
+                        group_by(variable) %>%
+                        mutate(outlier=scores(value,type='chisq',prob=thresh_chisq)) %>%
+                        ungroup())
+
+m<-melted2[variable=='egfr',]
+egfr.init<-setDT(m)[m[,.I[which.min(date)],id]$V1]
+egfr.init$variable<-'egfr.init'
+egfr.last<-setDT(m)[m[,.I[which.max(date)],id]$V1]
+egfr.last$variable<-'egfr.last'
+esrd.hit<-setDT(m)[m[,.I[which(value<10,arr.ind=TRUE)[1]],id]$V1]
+esrd.hit$id=egfr.init$id
+esrd.hit$variable='esrd.hit'
+esrd.hit$outlier=FALSE
+esrd.close<-setDT(m)[m[,.I[which(value<15,arr.ind=TRUE)[1]],id]$V1]
+esrd.close$id=egfr.init$id
+esrd.close$variable='esrd.close'
+esrd.close$outlier=FALSE
+egfr.melt2<-na.omit(rbindlist(list(egfr.init,egfr.last,esrd.hit,esrd.close)))
+
+dt<-data.table::dcast(egfr.melt2,id~variable,value.var=c('date','value'),sep='.')
+dt[,egfr.y:=(date.egfr.last-date.egfr.init)/31557600]
+setattr(dt$egfr.y,'units','years')
+dt[,preesrd.y:=egfr.y]
+dt[!is.na(date.esrd.hit),preesrd.y:=(date.esrd.hit-date.egfr.init)/31557600]
+dt[,preclose.y:=egfr.y]
+dt[!is.na(date.esrd.close),preclose.y:=(date.esrd.close-date.egfr.init)/31557600]
+setkey(dt,id)
+#melted2$relyear<-(melted2$date-dt[.(melted$id),date.egfr.init])/31557600
+#setattr(melted2$relyear,'units','years')
+
+melted.both<-unique(data.table::rbindlist(list(melted2,melted[id %in% unique(melted2$id)])))[date>=clin.init & date<=clin.last,]
+for(v in features) {
+  #			m<-molten[variable==v & relyear<=input$egfryears[1]]
+  m<-melted.both[variable==v]
+  obs<-m[,.N,by=id]
+  setnames(obs,old='N',new=v)
+  setkey(obs,id)
+  dt<-obs[dt]
+}
+#		for(j in 1:(ncol(dt)-6)) set(dt,which(is.na(dt[[j]])),j,0) #NA is better than zero!!
+dt<-death2[dt]
+setnames(dt,old='date',new='date.death')
+dt<-patient[dt]
+
+transplant2<-modality2[modality %in% c('Transplant','Donor','Non RRT'),.(date=min(date),modality=min(modality)),by=.(id)]
+dialysis2<-modality2[modality %in% c('HD','PD','Nocturnal HD','Haemodiafiltration','Haemofiltration','RSC Clinic'),.(date=min(date),modality=min(modality)),by=.(id)]
+
+#dt[,age.init:=year(date.egfr.init)-birth.year]
+dt[,age.init:=year(clin.last)-birth.year]
+
+dt$date.esrd.hit<-NA
+dt[id %in% dialysis2$id,]$date.esrd.hit<-dialysis2$date
+dt[,esrd.y:=(date.esrd.hit-clin.last)/365.25]
+setattr(dt$esrd.y,'units','years')
+
+dt[id %in% death2$id,]$date.death<-death2$date
+dt[,death.y:=(date.death-clin.last)/365.25]
+setattr(dt$death.y,'units','years')
+
+if(predict_mode=='death') {
+  dt[,category:=ifelse(!is.na(dt$date.death) & (dt$death.y<=input$egfryears[2]),outcomes[[predict_mode]][2],outcomes[[predict_mode]][1])]
+}else {
+  dt[,category:=ifelse(!is.na(dt$date.esrd.hit) & (dt$esrd.y<=input$egfryears[2]),outcomes[[predict_mode]][2],outcomes[[predict_mode]][1])]  
+}
+
+setcolorder(dt,c("id","preesrd.y","preclose.y","egfr.y","esrd.y","death.y",features,"gender","age.init","value.egfr.init","value.esrd.close","value.esrd.hit","value.egfr.last","birth.year","date.egfr.init","date.esrd.close","date.esrd.hit","date.egfr.last","date.death"))
+fwrite(dt,paste0(sample.run,'.meta2.tsv'))
+
+pats2<-data.table::copy(dt)
+meta2<-data.table::copy(dt[,c("id","gender","age.init")])
+meta2[,gender:=ifelse(gender=='Male',1,0)]
+
+dt<-fread('../data_clin/LMprediction.csv',header=TRUE,na.strings='NULL')
+dt[,date.LM:=fastPOSIXct(date.LM)]
+LM<-data.table::copy(dt[,c(1,4)])
+LM[,LM.pred:=decimal_date(date.LM)]
+LM[,LM:=LM.pred-decimal_date(clin.last)]
+setkey(LM,id)
+
+dt<-fread('ClinicianPredictions.csv',header=TRUE,na.strings='.',colClasses=c('factor','integer','integer','factor','integer','integer','integer','integer','integer','integer'))
+dt[,`:=`(esrd.yh=esrd.y+fifelse(esrd.half==1,.5,1),death.yh=death.y+fifelse(death.half==1,.5,1))]
+sentinel<-2
+esrd.sen<-max(dt$esrd.yh,na.rm=TRUE)+sentinel
+dt[,esrd.yh.sen:=ifelse(is.na(esrd.yh),esrd.sen,esrd.yh)]
+death.sen<-max(dt$death.yh,na.rm=TRUE)+sentinel
+dt[,death.yh.sen:=ifelse(is.na(death.yh),death.sen,death.yh)]
+dt[,`:=`(
+  mean.esrd.yh=mean(esrd.yh,na.rm=TRUE),
+  mean.death.yh=mean(death.yh,na.rm=TRUE), 
+  mean.esrd.w=mean(esrd.within,na.rm=TRUE),
+  mean.death.w=mean(death.within,na.rm=TRUE),
+  mean.esrd.yh.sen=mean(esrd.yh.sen,na.rm=TRUE),
+  mean.death.yh.sen=mean(death.yh.sen,na.rm=TRUE), 
+  median.esrd.yh=median(esrd.yh,na.rm=TRUE),
+  median.death.yh=median(death.yh,na.rm=TRUE), 
+  median.esrd.w=median(esrd.within,na.rm=TRUE),
+  median.death.w=median(death.within,na.rm=TRUE),
+  median.esrd.yh.sen=median(esrd.yh.sen,na.rm=TRUE),
+  median.death.yh.sen=median(death.yh.sen,na.rm=TRUE)
+),by=list(id)]
+clinician.dt<-dt[,.(mean.esrd.yh=mean(esrd.yh,na.rm=TRUE),median.esrd.yh=median(esrd.yh,na.rm=TRUE),esrd.n=sum(!is.na(esrd.yh)),
+                    mean.death.yh=mean(death.yh,na.rm=TRUE),median.death.yh=median(death.yh,na.rm=TRUE),death.n=sum(!is.na(death.yh))
+                    ),by=clinician]
+setkey(clinician.dt,clinician)
+setorder(clinician.dt,-median.esrd.yh,-mean.esrd.yh)
+clinician.dt$clinician.sorted<-factor(clinician.dt$clinician,levels=clinician.dt$clinician)
+clinician.sorted<-as.character(clinician.dt$clinician.sorted)
+dt[,id.sorted:=factor(id,levels=unique(id[order(-median.esrd.yh,-mean.esrd.yh)]))]
+dt$age.band<-paste0(as.character(floor(dt$age/10)),"0s")
+setkey(dt,clinician)
+setorder(dt,id,clinician)
+fwrite(dt,'ClinicianPrediction.stats.csv')
+clinician.test<-clinician.dt[dt,on=c('clinician')]
+clinician.test$alias<-paste0("clin.",match(clinician.test$clinician,clinician.sorted))
+clinician.test$alias2<-paste0("clin.",match(clinician.test$clinician,clinician.sorted),"\n(n=",clinician.test[[paste0(predict_mode,'.n')]],")")
+```
+
+```{r fresh2}
+joined2<-meta2[melted.both]
+joined2[,rel.year:=(date-as.POSIXct(clin.init))/365.25]
+setattr(joined2$rel.year,'units','years')
+fresh2<-data.table()
+keep<-c('id','rel.year','value')
+for(var in vars) {
+  dt<-joined2[variable==var]
+  dt.n<-dt[,.N]
+  if(dt.n==0) next
+  dt<-na.omit(dt[,..keep])
+  setnames(dt,'value',var)
+  cat(paste0(var,': ',dt.n,'\n'))
+  if(var %in% vars.extra) {
+    # f<-as.data.table(tsfresh$extract_features(dt,column_id='id',column_sort='rel.year',default_fc_parameters=tsfresh$feature_extraction$settings$EfficientFCParameters()),keep.rownames=TRUE)
+    f<-as.data.table(tsfresh$extract_features(dt,column_id='id',column_sort='rel.year',disable_progressbar=TRUE),keep.rownames=TRUE)
+  }else {
+    f<-as.data.table(tsfresh$extract_features(dt,column_id='id',column_sort='rel.year',disable_progressbar=TRUE,default_fc_parameters=tsfresh$feature_extraction$settings$MinimalFCParameters()),keep.rownames=TRUE)
+  }
+  f$rn=as.numeric(f$rn)
+  fresh2<-if(var==vars[1]) f else merge(fresh2,f,by='rn',all=TRUE)
+}
+setnames(fresh2,'rn','id')
+colnames(fresh2)<-make.names(colnames(fresh2),unique=TRUE)
+for(j in 1:ncol(fresh2)) data.table::set(fresh2,which(is.infinite(fresh2[[j]])|is.nan(fresh2[[j]])),j,NA)
+setkey(fresh2,id)
+fwrite(fresh2,paste0(dig.file,".test.csv"))
+colnames(fresh2)<-make.names(colnames(fresh2),unique=TRUE)
+for(j in 1:ncol(fresh2)) data.table::set(fresh2,which(is.infinite(fresh2[[j]])|is.nan(fresh2[[j]])),j,NA)
+fresh2[,grep("__sum_values",names(fresh2)):=NULL]	
+fresh2[,grep("__length",names(fresh2)):=NULL]
+fresh2
+```
+
+```{r test2}
+test2<-meta2[fresh2]
+test2.label<-setNames((pats2$category==outcomes[[predict_mode]][2])*1,pats2$id)
+test2.id<-test2$id
+test2[,id:=NULL]
+dtest2<-xgb.DMatrix(data=as.matrix(test2),label=test2.label)
+pt2<-prop.test(c(sum(train.label),sum(test2.label)),c(length(train.label),length(test2.label)))
+pt2
+print(pt2)
+
+pred2<-predict(xgb$model,dtest2)
+pred2.dt<-data.table(id=as.integer(names(test2.label)),p=pred2)
+setkey(pred2.dt,id)
+pred2.label<-ifelse(pred2>=0.5,1,0)
+test.pats2<-as.data.frame(pats2[id %in% test2.id])
+test.pats2$endstage_hit<-(test.pats2$category==outcomes[[predict_mode]])*1
+test.pats2$endstage_pred<-pred2.label*1
+error2<-test2.label-pred2.label
+test.pats2$error<-error2
+```
+
+## Clinician Predictions
+
+```{r clinician}
+# with NAs
+ylab<-paste0('Predicted year of ',outcomes[[predict_mode]][2])
+print(str(clinician.test))
+p1p<-clinician.test %>% 
+  plot_ly(x=~alias2,y=~get(paste0(predict_mode,'.yh')),color=~alias,type='box',boxpoints="all",jitter=0.3,pointpos=-1.8,markers=list(opacity=0.5)) %>% layout(title="by patient",xaxis=list(title="Clinicians"),yaxis=list(title=ylab))
+p1p
+#orca(p1p,file=paste0(dig.run,dig.suffix,'.boxClin.eps'),format='eps')
+
+p1<-ggplot(clinician.test,aes(x=alias2,y=get(paste0(predict_mode,'.yh')),color=alias)) +
+  geom_point(alpha=0.3,size=2,position=position_jitter(width=0.2,height=0.05)) +
+  geom_boxplot(alpha=0.5) +
+  xlab("Clinician") + ylab(ylab) +
+#  theme_light() +
+  theme(legend.position='none') +
+  scale_y_continuous(breaks=seq(2020,2030,2))
+p1
+ggsave(paste0(dig.run,dig.suffix,'.boxClin.eps'),device=cairo_ps,dpi=1000,width=16,height=9)
+p2<-ggplot(clinician.test,aes(x=id.sorted,y=get(paste0(predict_mode,'.yh')),color=age.band)) +
+#  geom_point(alpha=0.3,size=2,position=position_jitter(width=0.3,height=0.05)) +
+  geom_boxplot(alpha=0.5) +
+  xlab("Patients") + ylab(ylab) +
+#  theme_light() +
+  guides(color=guide_legend(title="Age band")) +
+  theme(legend.position=c(0.92,0.75),axis.text.x=element_blank(),axis.ticks=element_blank()) +
+  scale_y_continuous(breaks=seq(2020,2030,2))
+p2
+ggsave(paste0(dig.run,dig.suffix,'.boxPat.svg'),device=cairo_ps,dpi=1000,width=16,height=9)
+p3<-ggplot(clinician.test,aes(x=alias,y=get(paste0(predict_mode,'.yh.sen')),color=clinician)) +
+  geom_point(alpha=0.3,size=2,position=position_jitter(width=0.3,height=0.05)) +
+  geom_boxplot(alpha=0.5) +
+  xlab("Clinician") + ylab(paste0(ylab,' (+sentinel)')) +
+  theme_light() +
+  theme(legend.position='none') +
+  scale_y_continuous(breaks=seq(2020,2030,2))
+ggsave(paste0(dig.run,dig.suffix,'.boxClinSen.eps'),device=cairo_ps,dpi=1000,width=16,height=9)
+p4<-ggplot(clinician.test,aes(x=id.sorted,y=get(paste0(predict_mode,'.yh.sen')),color=age.band)) +
+#  geom_point(alpha=0.3,size=2,position=position_jitter(width=0.3,height=0.05)) +
+  geom_boxplot(alpha=0.5) +
+  xlab("Patients") + ylab(paste0(ylab,' (+sentinel)')) +
+  theme_light() +
+  theme(legend.position='bottom',axis.text.x=element_blank()) +
+  scale_y_continuous(breaks=seq(2020,2030,2))
+ggsave(paste0(dig.run,dig.suffix,'.boxPatSen.eps'),device=cairo_ps,dpi=1000,width=16,height=9)
+clinician.wide<-data.table::dcast(clinician.test,id~alias,value.var=paste0(predict_mode,'.yh'),fun.agg=mean)
+clinician.wide[is.na(clinician.wide)]<-max(clinician.wide[,-1,with=F],na.rm=TRUE)+sentinel
+ggpairs(clinician.wide,columns=2:7)+
+  scale_x_continuous(labels=scales::number_format(accuracy=1,big.mark=""))+
+  scale_y_continuous(labels=scales::number_format(accuracy=1,big.mark=""))+
+  theme(axis.text.x=element_text(angle=-90,hjust=1))
+ggsave(paste0(dig.run,dig.suffix,'.sans_lm.eps'),device=cairo_ps,dpi=1000,width=16,height=9)
+if(predict_mode=='esrd') {
+  ggpairs(LM[clinician.wide],columns=c(3,5:10))+
+    scale_x_continuous(labels=scales::number_format(accuracy=1,big.mark=""))+
+    scale_y_continuous(labels=scales::number_format(accuracy=1,big.mark=""))+
+    theme(axis.text.x=element_text(angle=-90,hjust=1))
+  ggsave(paste0(dig.run,dig.suffix,'.with_lm.png'),height=9,width=16)
+}
+```
+
+```{r comparison}  
+clinicians<-as.character(levels(clinician.dt$clinician.sorted)) #,'LM'
+derived<-c('median','mean','min','min2nd')
+use.col<-paste0(predict_mode,'.yh.sen') # vals: '.within','.yh.sen','.yh'
+out.label<-outcomes[[predict_mode]][2]
+ct.cols<-c('id','clinician',use.col)
+shifted<-data.table::dcast(clinician.test[,..ct.cols],id~clinician,value.var=c(use.col),fun.aggregate=ifelse(endsWith(use.col,'.within'),min,offset.date))
+shifted[,c(2:7)]<-shifted[,c(2:7)]-0.1275114
+shifted[is.na(shifted)]<-10+sentinel
+if(predict_mode=='death') {
+  cmp<-death2[LM[shifted][pred2.dt]]
+  setDT(cmp)[,age:=clinician.test$age[match(cmp$id,clinician.test$id)]]
+  cmp[,Death:=as.double.difftime(date-clin.last)/365.25]
+}else {
+  cmp<-dialysis2[LM[shifted][pred2.dt]]
+  setDT(cmp)[,age:=clinician.test$age[match(cmp$id,clinician.test$id)]]
+  cmp[,ESRD:=as.double.difftime(date-clin.last)/365.25]
+}
+cmp[,ML.rank:=frank(cmp,-p)]
+cmp[,median:=rowMedians(as.matrix(.SD),na.rm=TRUE),.SDcols=clinicians]
+cmp[,mean:=rowMeans(as.matrix(.SD),na.rm=TRUE),.SDcols=clinicians]
+cmp[,min:=rowSort(as.matrix(.SD))[,1],.SDcols=clinicians]
+cmp[,min2nd:=rowSort(as.matrix(.SD))[,2],.SDcols=clinicians]
+cmp[,clin.rank:=frank(cmp,median,-mean)]
+cmp[,paste0('p.',out.label):=(!is.na(date))*1]
+cmp[,p.ML:=(p>=thresh_p)*1]
+for(col in c(clinicians,derived))
+  cmp[,paste0("p.",col):=fifelse(cmp[[col]]<=thresh_2y,1,0)]
+setorderv(cmp,c(out.label,'ML.rank'),na.last=TRUE)
+fwrite(cmp,paste0(dig.run,dig.suffix,'.comp',dig.suffix,'.csv'))
+if(predict_mode=='death') col.lm<-c() else col.lm<-c('LM')
+year.cols<-c(clinicians,derived,col.lm)
+out.cols<-c('id','age','p',out.label,year.cols)
+cmp.out<-cmp[,..out.cols]
+names.out<-names(cmp.out)
+names.out[5:10]<-paste0("clin.",1:6)
+cmp.DT<-DT::datatable(cmp.out,colnames=names.out,options=list(pageLength=50,dom='tip')) %>%
+  formatStyle(year.cols,backgroundColor=styleInterval(c(0.501,1.001,thresh_2y,thresh_10y),c('red','orange','yellow','white','silver'))) %>%
+  formatStyle('p',backgroundColor=styleInterval(0.5,c('white','cyan'))) %>%
+  formatStyle(out.label,backgroundColor=styleInterval(c(0.501,1.001,thresh_2y,thresh_10y),c('red','orange','yellow','white','silver'))) %>%
+  formatRound('p',digits=4) %>%
+  formatRound(c(out.label,'median','mean',col.lm),digits=2) %>%
+  formatRound(c(clinicians,'min','min2nd'),digits=1)
+DT::saveWidget(cmp.DT,paste0(dig.run,dig.suffix,'.comp.html'))
+webshot::webshot(paste0(dig.run,dig.suffix,'.comp.html'),paste0(dig.run,dig.suffix,'.comp.pdf'))
+cmp.DT
+```
+
+```{r confusion}
+cm2dt<-function(cm,lab) {
+  dt<-data.table()
+  for(i in 1:length(lab)) {
+    cm.i<-cm[[lab[i]]]
+    cm.count<-data.table(id=lab[i],stat=c('TN','FP','FN','TP',paste0('Predicted',out.label,'s')),value=c(cm.i$table,cm.i$table[2]+cm.i$table[4]))
+    cm.overall<-as.matrix(cm.i,what="overall")[,1]
+    cm.classes<-as.matrix(cm.i,what="classes")[,1]
+    dt<-data.table::rbindlist(list(dt,cm.count,data.table(id=lab[i],stat=names(cm.overall),value=cm.overall),data.table(id=lab[i],stat=names(cm.classes),value=cm.classes)))
+  }
+  dt
+}
+col.order<-c('ML',clinicians,derived) #,'LM'
+cm.l<-list()
+for(col in col.order) {
+  cm.l[[col]]<-caret::confusionMatrix(as.factor(cmp[[paste0('p.',col)]]),as.factor(cmp[[paste0('p.',out.label)]]),positive="1")
+  cm.l[[col]]$byClass[['MCC']]<-eval_mcc(cmp[[paste0('p.',out.label)]],cmp[[paste0('p.',col)]])
+}
+cm.dt<-cm2dt(cm.l,col.order) #,'LM'
+cm.wide<-as.data.table(dcast(cm.dt,stat~factor(id,levels=col.order),value.var='value'))
+stat.order<-c(paste0('Predicted',out.label,'s'),'TP','FN','FP','TN','Accuracy','Sensitivity','Specificity','Precision','Recall','Pos Pred Value','Neg Pred Value','Kappa','F1','Balanced Accuracy','MCC','AccuracyLower','AccuracyUpper','AccuracyNull','AccuracyPValue','McnemarPValue','Prevalence','Detection Rate','Detection Prevalence')
+cm.wide$stat<-factor(cm.wide$stat,levels=stat.order)
+setorder(cm.wide,stat)
+fwrite(cm.wide,paste0(dig.run,dig.suffix,'.perf.csv'))
+
+rowCallback <- c(
+  "function(row, dat, index) {",
+  "  var num_dat = dat.slice(1,dat.length);",
+  "  var row_max = Math.max.apply(Math,num_dat);",
+  "  var row_min = Math.min.apply(Math,num_dat);",
+  "  for(var j=1; j<dat.length; j++){",
+  "    if(index<5) {",
+  "      $('td:eq('+j+')', row).html(dat[j]+0);",
+  "    }",
+  "    if(dat[j]==row_max) {",
+  "      $('td:eq('+j+')', row).css('background-color', 'lightcyan');",
+  "    }",
+  "    if(dat[j]==row_min) {",
+  "      $('td:eq('+j+')', row).css('background-color', 'seashell');",
+  "    }",
+
+  "  }",
+  "}"
+)
+cm.out<-cm.wide[c(1:16),]
+cm.names<-names(cm.out)
+cm.names[3:8]<-paste0("clin.",1:6)
+cm.DT<-DT::datatable(cm.out,colnames=cm.names,rownames=FALSE,options=list(pageLength=25,dom='tip',rowCallback=JS(rowCallback))) %>%
+  formatRound(col.order,digits=3)
+DT::saveWidget(cm.DT,paste0(dig.run,dig.suffix,'.perf.html'))
+webshot::webshot(paste0(dig.run,dig.suffix,'.perf.html'),paste0(dig.run,dig.suffix,'.perf.pdf'))
+cm.DT
+# The End
+```

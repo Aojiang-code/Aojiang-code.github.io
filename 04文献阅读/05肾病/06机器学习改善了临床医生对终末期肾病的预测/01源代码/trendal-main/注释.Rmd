@@ -1,0 +1,1642 @@
+---
+title: "Machine learning improves upon clinicians’ prediction of end stage renal failure"
+author:
+- name: Aaron Chuah & Thomas Daniel Andrews
+  affiliation: Genome Informatics Lab, The John Curtin School of Medical Research,
+    The Australian National University, ACT, Australia
+- name: Giles Walters & Simon Jiang
+  affiliation: Department of Renal Medicine, The Canberra Hospital, Garran, ACT, Australia
+date: "`r format(Sys.time(),'%d %B %Y')`"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  html_notebook: null
+subtitle: XGBoost ML vs 6 TCH Clincians on ESRD & Death prediction
+tags:
+- renal
+- machine learning
+- time series
+- prediction
+- clinical data
+- dialysis
+- end stage
+- kidney
+- disease
+- ESRD
+- death
+---
+
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE, results="asis",include=FALSE}
+libraries<-c('shiny','shinydashboard','knitr','devtools','dplyr','dbplyr','data.table','fasttime','plotly','ggplot2','extrafont','hexbin','DT','shinyjs','reticulate','outliers','xgboost','mlr','fANCOVA','heatmaply','viridis','hash','lubridate','digest','here','dendextend','DMwR','processx','rgenoud','caret','webshot','stringr','GGally','corrplot','Rfast','webshot','processx','orca')
+// 定义所需的库
+bioc.libraries<-c() // 定义生物信息学库（目前为空）
+src.github<-c('rstudio/pool','IMSMWU/RClickhouse','jimhester/bloom','liuyanguu/SHAPforxgboost') // 定义GitHub源库
+// 在上述部分添加所需的库（正常、生物信息学、源）以便自动安装和加载
+installed<-installed.packages()[,"Package"] // 获取已安装的包
+new.libs<-libraries[!(libraries %in% installed)] // 找出未安装的库
+if(length(new.libs)) install.packages(new.libs,repos="http://cran.csiro.au",dependencies=TRUE) // 安装未安装的库
+lib.ok<-sapply(libraries,require,character.only=TRUE) // 加载库并检查是否成功
+new.bioc.libs<-bioc.libraries[!(bioc.libraries %in% installed)] // 找出未安装的生物信息学库
+if(length(new.bioc.libs)) BiocManager::install(new.bioc.libs) // 安装未安装的生物信息学库
+bioc.lib.ok<-sapply(bioc.libraries,require,character.only=TRUE) // 加载生物信息学库并检查是否成功
+src.libraries<-sapply(str_split(src.github,'/',2),"[",2) // 从src.github中提取库名
+new.src.idx<-which(is.na(match(src.libraries,installed))) // 找出未安装的源库索引
+if(length(new.src.idx)) devtools::install_github(src.github[new.src.idx]) // 从GitHub安装未安装的源库
+src.lib.ok<-sapply(src.libraries,require,character.only=TRUE) // 加载源库并检查是否成功
+
+use_python('/usr/bin/python3.6') // 设置Python环境
+// use_python('/mnt/baaron/.virtualenvs/r-reticulate/bin/python') // 可选的Python环境设置
+tsfresh<-import('tsfresh') // 导入Python库tsfresh
+
+set.seed(289) // 设置随机种子
+input<-list(egfryears=c(2,4),minegfrobs=3,minbpobs=0,minhrobs=0,train_pc=80) // 定义输入参数
+// input<-list(egfryears=c(2,8),minegfrobs=3,minbpobs=0,minhrobs=0,train_pc=80) // 可选的输入参数
+predict_mode<<-'esrd' // 预测模式设置为'ESRD'或'death'
+// predict_mode<<-'death' // 可选的预测模式设置
+outcomes<<-list('esrd'=c('Non-ES','ESRD'),'death'=c('Survival','Death')) // 定义预测结果
+objective<<-'binary:logistic' // 目标设置为二元逻辑回归
+eval_metric<<-'mcc' // 评估指标设置为MCC（Matthews相关系数）
+// eval_metric<<-'aucpr' // 可选的评估指标设置
+smote_flag<<-FALSE // SMOTE标志设置为FALSE
+smote_over<<-2000 // SMOTE过采样设置
+smote_under<<-200 // SMOTE欠采样设置
+autoxgb_flag<<-FALSE // 自动XGBoost标志设置为FALSE
+clintest_flag<<-TRUE // 临床测试标志设置为TRUE
+resample_flag<<-TRUE // 重新抽样训练/测试集标志设置为TRUE
+quick_flag<<-TRUE // 快速模式标志设置为TRUE
+num_ts<<-2 // 时间序列数量设置
+features<<-c('egfr','creatinine','glucose','height','bmi','weight','sit_dia','sit_sys','sta_dia','sta_sys','sit_hr','sta_hr','hgba1c','protcreatinine','proteinuria','diff_dia','diff_sys','diff_hr','sit_pp','sta_pp','diff_pp') // 特征列表
+vars.extra<<-unlist(case_when( // 根据num_ts的值定义额外特征
+  num_ts==19 ~ list(features[-c(2,4)]), // 排除肌酐和身高
+  num_ts==13 ~ list(list('egfr','glucose','bmi','sta_sys','sta_dia','sta_hr','sit_sys','sit_dia','sit_hr','diff_hr','sit_pp','sta_pp','diff_pp')),
+  num_ts==9 ~ list(list('egfr','glucose','bmi','sta_sys','sta_dia','sta_hr','sit_sys','sit_dia','sit_hr')),
+  num_ts==6 ~ list(list('egfr','glucose','bmi','sta_sys','sta_dia','sta_hr')),
+  num_ts==2 ~ list(list('egfr','glucose')),
+  TRUE ~ list(list())
+))
+cv.fold<<-10 // 交叉验证折数设置
+thresh_chisq<<-0.999999999 // 卡方阈值设置
+color_feature<<-'age.init' // 颜色特征设置
+shap_top<<-20 // SHAP特征数量设置
+shap_ncol<<-5 // SHAP列数设置
+shap_groups<<-6 // SHAP分组设置
+shap_xbound<<-NULL // SHAP X轴边界设置
+legend_ncol<<-5 // 图例列数设置
+paging<<-TRUE // 分页设置
+// plot.height<-"900px" // 在笔记本电脑上的图高设置
+// axis.text.size<-4 // 在笔记本电脑上的轴文本大小设置
+plot.height<-"1024px" // 在显示器上的图高设置
+axis.text.size<-6 // 在显示器上的轴文本大小设置
+plot.height.num<<-as.numeric(gsub("[^0-9]","",plot.height)) // 提取图高的数字值
+col_vector<<-c( // 定义颜色向量
+  '#008080','#e6beff','#9a6324','#fffac8','#800000','#aaffc3','#808000','#ffd8b1','#000075','#808080',
+  '#e6194b','#3cb44b','#ffe119','#4363d8','#f58231','#911eb4','#46f0f0','#f032e6','#bcf60c','#fabebe',
+  '#e8e8e8','#000000')
+
+'%ni%' <- Negate('%in%') // 定义非包含操作符
+
+printly <- function(m) { // 定义打印函数
+//  shinyjs::html(id="text_xgboost", html=m, add=TRUE) // 可选的打印方式
+  print(m) // 打印内容
+}
+
+// 重要：普查日期 = 2016年11月15日 + 2年（2016年11月16日至2018年11月12日用于临床论文测试）
+clin.init<-fastPOSIXct('2016-11-15') // 设置临床初始日期
+clin.last<-clin.init+years(2) // 设置临床结束日期
+minus2018h<-function(x) mean(x)-2018.5 // 定义2018年减法函数
+minus2019<-function(x) mean(x)-2019 // 定义2019年减法函数
+offset.date<-function(x) mean(x)-decimal_date(clin.last) // 定义日期偏移函数
+thresh_p<-0.5 // 阈值设置
+thresh_2y<-2.14 // 2年阈值设置
+thresh_10y<-11.14 // 10年阈值设置
+dig.suffix<-'' // 摘要后缀设置
+
+dir<-'/mnt/appTrendal/data' // 设置数据文件的本地目录
+setwd(dir) // 更改工作目录
+
+options(warn=-1,expressions=500000) // 设置警告选项和表达式限制
+knitr::opts_knit$set(root.dir=dir) // 设置knitr的根目录
+knitr::opts_chunk$set(echo=FALSE,message=FALSE,error=FALSE,warning=FALSE,cache=FALSE,results='hide',fig.width=8,fig.height=11) // 设置knitr的代码块选项
+// A4纵向图大小
+```
+
+# Description
+
+## Primary Clinical Data
+
+```{r load}
+
+death<-fread('Death.csv',col.names=c('id','date'),na.strings='NULL') 
+// 从'死亡.csv'文件读取数据，指定列名为'id'和'date'，将'NULL'字符串视为缺失值
+death[,date:=fastPOSIXct(date)] 
+// 将'date'列转换为POSIXct日期格式
+setkey(death,id,date) 
+// 设置数据表的键为'id'和'date'
+
+dt<-fread('Diabetes.csv',col.names=c('id','date','glucose','glucose.str','hgba1c','hgba1c.str'),na.strings='NULL') 
+// 从'糖尿病.csv'文件读取数据，指定列名并将'NULL'视为缺失值
+dt[,date:=fastPOSIXct(date)] 
+// 将'date'列转换为POSIXct日期格式
+diabetes<-data.table::melt(dt[,c(1,2,3,5)],id.vars=c('id','date'),na.rm=TRUE) 
+// 将数据重塑为长格式，只保留'id'、'date'、'glucose'和'hgba1c'列，去除缺失值
+
+// exam<-fread('Exam.csv',col.names=c('id','date','height','weight','bmi','sit_dia','sit_sys','sit_hr','sta_dia','sta_sys','sta_hr'),na.strings='NULL') 
+// 从'Exam.csv'文件读取数据（已注释掉）
+dt<-fread('Exam.corrected.csv',col.names=c('id','date','height','height_raw','weight','bmi_raw','bmi','sit_dia','sit_sys','sit_hr','sta_dia','sta_sys','sta_hr'),na.strings='\\N') 
+// 从'Exam.corrected.csv'文件读取数据，指定列名并将'\\N'视为缺失值
+dt[,date:=fastPOSIXct(date)] 
+// 将'date'列转换为POSIXct日期格式
+dt[,height_raw:=NULL] 
+// 删除不需要的'height_raw'列
+dt[,bmi_raw:=NULL] 
+// 删除不需要的'bmi_raw'列
+dt[,diff_dia:=sit_dia-sta_dia] // 计算坐位和站位的收缩压差
+dt[,diff_sys:=sit_sys-sta_sys] // 计算坐位和站位的舒张压差
+dt[,diff_hr:=sit_hr-sta_hr] // 计算坐位和站位的心率差
+dt[,sit_pp:=sit_sys-sit_dia] // 计算坐位的脉压
+dt[,sta_pp:=sta_sys-sta_dia] // 计算站位的脉压
+dt[,diff_pp:=sit_pp-sta_pp] // 计算坐位和站位的脉压差
+exam<-suppressWarnings(melt(dt,id.vars=c('id','date'),na.rm=TRUE)) 
+// 将数据重塑为长格式，去除缺失值，抑制警告
+exam$date<-fastPOSIXct(exam$date) 
+// 将'exam'数据框中的'date'列转换为POSIXct日期格式
+
+dt<-fread('KidneyFunction.csv',col.names=c('id','date','creatinine','egfr'),na.strings='NULL') 
+// 从'KidneyFunction.csv'文件读取数据，指定列名并将'NULL'视为缺失值
+dt[,date:=fastPOSIXct(date)] 
+// 将'date'列转换为POSIXct日期格式
+kidney<-data.table::melt(dt,id.vars=c('id','date'),na.rm=TRUE) 
+// 将数据重塑为长格式，去除缺失值，进行合理性检查，因为可能存在egfr>200k的异常值
+
+dt<-fread('UrineProteinCreatinineRatios.csv',col.names=c('id','date','test','other.test','result','other.result','protcreatinine','result.str','norm.range','units','provider'),na.strings='NULL') 
+// 从'UrineProteinCreatinineRatios.csv'文件读取数据，指定列名并将'NULL'视为缺失值
+dt[,date:=fastPOSIXct(date)] 
+// 将'date'列转换为POSIXct日期格式
+protcreatinine<-data.table::melt(dt[,c(1,2,7)],id.vars=c('id','date'),na.rm=TRUE) 
+// 将数据重塑为长格式，只保留'id'、'date'和'protcreatinine'列，去除缺失值
+
+dt<-fread('Urine24hrProtein.csv',col.names=c('id','date','test','other.test','result','other.result','proteinuria','result.str','norm.range','units','provider'),na.strings='NULL') 
+// 从'Urine24hrProtein.csv'文件读取数据，指定列名并将'NULL'视为缺失值
+dt[,date:=fastPOSIXct(date)] 
+// 将'date'列转换为POSIXct日期格式
+proteinuria<-data.table::melt(dt[,c(1,2,7)],id.vars=c('id','date'),na.rm=TRUE) 
+// 将数据重塑为长格式，只保留'id'、'date'和'proteinuria'列，去除缺失值
+
+patient<-fread('PtID.csv',col.names=c('id','birth.year','gender'),na.strings='NULL') 
+// 从'PtID.csv'文件读取数据，指定列名并将'NULL'视为缺失值
+setkey(patient,id) 
+// 设置数据表的键为'id'
+
+dt<-fread('Modality.csv',col.names=c('id','date','end.date','modality','setting'),na.strings='NULL') 
+// 从'Modality.csv'文件读取数据，指定列名并将'NULL'视为缺失值
+dt[,date:=fastPOSIXct(date)] 
+// 将'date'列转换为POSIXct日期格式
+dt[,end.date:=fastPOSIXct(end.date)] 
+// 将'end.date'列转换为POSIXct日期格式
+setkey(dt,id) 
+// 设置数据表的键为'id'
+setorderv(dt,c('id','date')) 
+// 按照'id'和'date'对数据进行排序
+modality<-data.table::copy(dt) // 复制数据表以备后用
+modality // 显示模态数据
+transplant<-modality[modality %in% c('Transplant','Donor','Non RRT'),.(date=min(date),modality=min(modality)),by=.(id)] 
+// 提取移植、供体和非RRT的记录，按'id'分组，获取最小日期和模态
+dialysis<-modality[modality %in% c('HD','PD','Nocturnal HD','Haemodiafiltration','Haemofiltration'),.(date=min(date),modality=min(modality)),by=.(id)] 
+// 提取透析记录，按'id'分组，获取最小日期和模态
+```
+
+
+```{r process}
+dt<-unique(rbindlist(list(kidney,diabetes,exam,protcreatinine,proteinuria))) 
+// 合并多个数据表（肾脏、糖尿病、检查、尿液蛋白和24小时尿液蛋白），并去除重复行
+setorderv(dt,c('variable','id','date')) 
+// 按照'variable'、'id'和'date'对数据进行排序
+melted<-as.data.table(dt %>% 
+                        group_by(variable) %>% 
+                        mutate(outlier=scores(value,type='chisq',prob=thresh_chisq)) %>% 
+                        ungroup()) 
+// 将数据重塑为长格式，并计算每个变量的异常值
+
+m<-melted[variable=='egfr',] 
+// 提取'egfr'变量的数据
+egfr.init<-setDT(m)[m[,.I[which.min(date)],id]$V1] 
+// 获取每个'id'的最小日期对应的'egfr'值
+egfr.init$variable<-'egfr.init' 
+// 将变量名设置为'egfr.init'
+egfr.last<-setDT(m)[m[,.I[which.max(date)],id]$V1] 
+// 获取每个'id'的最大日期对应的'egfr'值
+egfr.last$variable<-'egfr.last' 
+// 将变量名设置为'egfr.last'
+esrd.hit<-setDT(m)[m[,.I[which(value<10,arr.ind=TRUE)[1]],id]$V1] 
+// 获取第一个'egfr'值小于10的记录
+esrd.hit$id=egfr.init$id 
+// 将'id'设置为'egfr.init'的'id'
+esrd.hit$variable='esrd.hit' 
+// 将变量名设置为'esrd.hit'
+esrd.hit$outlier=FALSE 
+// 将异常值标记设置为FALSE
+esrd.close<-setDT(m)[m[,.I[which(value<15,arr.ind=TRUE)[1]],id]$V1] 
+// 获取第一个'egfr'值小于15的记录
+esrd.close$id=egfr.init$id 
+// 将'id'设置为'egfr.init'的'id'
+esrd.close$variable='esrd.close' 
+// 将变量名设置为'esrd.close'
+esrd.close$outlier=FALSE 
+// 将异常值标记设置为FALSE
+egfr.melt<-na.omit(rbindlist(list(egfr.init,egfr.last,esrd.hit,esrd.close))) 
+// 合并所有'egfr'相关数据，并去除缺失值
+
+dt<-data.table::dcast(egfr.melt,id~variable,value.var=c('date','value'),sep='.') 
+// 将数据重塑为宽格式，按'id'分组，使用'variable'作为列名
+dt[,egfr.y:=(date.egfr.last-date.egfr.init)/31557600] 
+// 计算'egfr'的年数差
+setattr(dt$egfr.y,'units','years') 
+// 设置'egfr.y'的单位为年
+dt[,preesrd.y:=egfr.y] 
+// 将'egfr.y'赋值给'preesrd.y'
+dt[!is.na(date.esrd.hit),preesrd.y:=(date.esrd.hit-date.egfr.init)/31557600] 
+// 如果存在'esrd.hit'日期，则计算'preesrd.y'
+dt[,preclose.y:=egfr.y] 
+// 将'egfr.y'赋值给'preclose.y'
+dt[!is.na(date.esrd.close),preclose.y:=(date.esrd.close-date.egfr.init)/31557600] 
+// 如果存在'esrd.close'日期，则计算'preclose.y'
+setkey(dt,id) 
+// 设置数据表的键为'id'
+melted$relyear<-(melted$date-dt[.(melted$id),date.egfr.init])/31557600 
+// 计算相对年份
+setattr(melted$relyear,'units','years') 
+// 设置'relyear'的单位为年
+for(v in features) { 
+  m<-melted[variable==v] 
+  // 提取当前特征的数据
+  obs<-m[,.N,by=id] 
+  // 计算每个'id'的观察数
+  setnames(obs,old='N',new=v) 
+  // 将观察数列重命名为当前特征名
+  setkey(obs,id) 
+  // 设置键为'id'
+  dt<-obs[dt] 
+  // 将观察数合并到主数据表中
+}
+// dt中NA值处理（注释掉的代码）
+// dt<-death[dt] 
+// 将死亡数据合并到主数据表中
+setnames(dt,old='date',new='date.death') 
+// 将'date'列重命名为'date.death'
+dt<-patient[dt] 
+// 将患者数据合并到主数据表中
+cats<-seq(1,12,by=0.5) 
+// 定义分类序列
+cats.col<-paste0('cat',sub('\\.0','',cats)) 
+// 生成分类列名
+dt[,category:=ifelse(!is.na(date.esrd.hit) & preesrd.y<=input$egfryears[2],outcomes[[predict_mode]][2],outcomes[[predict_mode]][1])] 
+// 根据条件设置分类
+for(i in 1:length(cats)) 
+  dt[,(cats.col[i]):=ifelse(!is.na(date.esrd.hit) & preesrd.y<=cats[i],outcomes[[predict_mode]][2],outcomes[[predict_mode]][1])]
+// 为每个分类列设置值
+dt[,age.init:=year(date.egfr.init)-birth.year] 
+// 计算初始年龄
+dt[,death.y:=(date.death-date.egfr.init)/365.25] 
+// 计算死亡年数
+setattr(dt$death.y,'units','years') 
+// 设置'death.y'的单位为年
+setcolorder(dt,c("id","preesrd.y","preclose.y","egfr.y","death.y",features,"gender","age.init","value.egfr.init","value.esrd.close","value.esrd.hit","value.egfr.last","birth.year","date.egfr.init","date.esrd.close","date.esrd.hit","date.egfr.last","date.death")) 
+// 设置数据表的列顺序
+meta<-data.table::copy(dt) 
+// 复制数据表以备后用
+sample.run<-paste0("samples-",input$egfryears[1],"-",input$egfryears[2],"-",input$minegfrobs,"-",input$minbpobs,"-",input$minhrobs) 
+// 生成样本运行名称
+fwrite(meta,paste0(sample.run,'.meta.csv')) 
+// 将元数据保存为CSV文件
+sample.fn<-paste0(sample.run,'.csv') 
+// 生成样本文件名
+if(file.exists(sample.fn)) { 
+  dt<-fread(sample.fn) 
+  // 如果样本文件存在，则读取数据
+  if(resample_flag) { 
+    training<-sample(dt$id,floor(dt[,.N]*input$train_pc/100)) 
+    // 随机选择训练样本
+    dt[,train:=id %in% training] 
+    // 标记训练样本
+  }
+}else { 
+  // 如果样本文件不存在
+  if(clintest_flag) { 
+    dt<-meta[(preclose.y>=input$egfryears[1]) & 
+             (egfr.y>=input$egfryears[2] | !is.na(date.esrd.hit)) & 
+             (input$minegfrobs==0 | egfr>=input$minegfrobs) & 
+             (input$minbpobs==0 | sta_dia>=input$minbpobs) & 
+             (input$minhrobs==0 | sta_hr>=input$minhrobs)] 
+    // 选择临床测试样本
+    training<-sample(setdiff(dt$id,clinician.test$id),floor(dt[,.N]*input$train_pc/100)) 
+    // 随机选择训练样本
+  }else { 
+    dt<-meta[(preesrd.y>=input$egfryears[1]) & 
+             (input$minegfrobs==0 | egfr>=input$minegfrobs) & 
+             (input$minbpobs==0 | sta_dia>=input$minbpobs) & 
+             (input$minhrobs==0 | sta_hr>=input$minhrobs)] 
+    // 选择样本
+    training<-sample(dt$id,floor(dt[,.N]*input$train_pc/100)) 
+    // 随机选择训练样本
+  }
+  dt[,train:=id %in% training] 
+  // 标记训练样本
+  fwrite(dt,sample.fn) 
+  // 将数据保存为CSV文件
+}
+filtered<-data.table::copy(dt) 
+// 复制数据表
+train_set<-filtered[train==TRUE] 
+// 获取训练集
+test_set<-filtered[train==FALSE] 
+// 获取测试集
+dt<-unique(rbindlist(list(kidney,diabetes,exam,protcreatinine,proteinuria))) 
+// 合并多个数据表并去除重复行
+setorderv(dt,c('variable','id','date')) 
+// 按照'variable'、'id'和'date'对数据进行排序
+melted<-as.data.table(dt %>% 
+  group_by(variable) %>% 
+  mutate(outlier=scores(value,type='chisq',prob=thresh_chisq)) %>% 
+  ungroup()) 
+// 将数据重塑为长格式，并计算每个变量的异常值
+flag.outliers<-function(vari) { 
+  mv<-melted[variable==vari] 
+  // 提取当前变量的数据
+  cat(paste0(vari,": ")) 
+  // 打印变量名
+  vals<-mv$value 
+  // 获取值
+  summ<-as.data.table(t(as.matrix(c(list('variable'=vari,'points'=length(vals)),summary(vals))))) 
+  // 计算统计信息
+  stats<<-if(is.null(stats)) summ else rbindlist(list(stats,summ)) 
+  // 更新统计信息
+  if(vari=='weight') { 
+    outidx<-which((melted$value>500) & (melted$variable==vari)) 
+    // 处理体重异常值
+  }else if(vari=='bmi') { 
+    outidx<-which((melted$value>200) & (melted$variable==vari)) 
+    // 处理BMI异常值
+  }else if(vari=='height') { 
+    outidx<-which((melted$value>250) & (melted$variable==vari)) 
+    // 处理身高异常值
+  }else { 
+    outs<-scores(vals,type='chisq',prob=thresh_chisq) 
+    // 计算异常值
+    outvals<-unique(sort(vals[outs])) 
+    // 获取异常值
+    outidx<-which((melted$value %in% outvals) & (melted$variable==vari)) 
+    // 获取异常值索引
+  }
+  print(melted[outidx,]$value) 
+  // 打印异常值
+  outidx 
+  // 返回异常值索引
+}
+check<-features[features %ni% c('creatinine','glucose','hgba1c','proteinuria','protcreatinine')] 
+// 检查特征，排除特定变量
+stats<<-NULL 
+// 初始化统计信息
+outliers<-unlist(lapply(check,flag.outliers)) 
+// 获取异常值
+fwrite(as.data.table(stats),'stats.tsv',sep='\t') 
+// 保存统计信息到TSV文件
+fwrite(melted[outliers,],'outliers.tsv',sep='\t') 
+// 保存异常值到TSV文件
+remains<-melted[-outliers,] 
+// 去除异常值
+setkeyv(remains,c('id','date')) 
+// 设置键为'id'和'date'
+egfr.init<-remains[variable=='egfr',min(date),by=id] 
+// 获取每个'id'的最小日期对应的'egfr'
+setnames(egfr.init,c('id','egfr.init')) 
+// 重命名列
+outed<-remains[egfr.init][,rel.year:=(date-egfr.init)/31557600] 
+// 计算相对年份
+setattr(outed$rel.year,'units','years') 
+// 设置单位为年
+outed[,egfr.init:=NULL] 
+// 删除不需要的列
+outed[,outlier:=NULL] 
+// 删除不需要的列
+// fwrite(outed,'outed.tsv',sep='\t') 
+// 保存数据到TSV文件（已注释掉）
+setkey(outed,id) 
+// 设置键为'id'
+
+j<-subset(setDT(outed)[filtered],id %in% filtered$id) 
+// 提取在过滤后的数据中存在的'id'
+joined<-data.table::copy(j[(rel.year<=input$egfryears[1])]) 
+// 复制数据，筛选出相对年份小于等于输入的egfryears
+vars<-features[!features=='creatinine'] 
+// 处理特征，排除肌酐
+combi<-list(vars,vars.extra,j) 
+// 组合特征
+dig<<-digest(combi,algo='xxhash64') 
+// 计算摘要
+print(dig) 
+// 打印摘要
+dig.file<-paste0(dig,".csv") 
+// 生成摘要文件名
+inputs<-c('minegfrobs','minbpobs','minhrobs','egfryears','train_pc') 
+// 定义输入参数
+input.filt<-input 
+// 复制输入参数
+input.filt$egfryears<-paste0(input.filt$egfryears[1],'-',input.filt$egfryears[2]) 
+// 格式化egfryears
+input.filt$train_pc<-input.filt$train_pc 
+// 复制训练比例
+input.filt$num_ts<-num_ts 
+// 复制时间序列数
+input.filt$filtered<-filtered[,.N] 
+// 计算过滤后的样本数
+input.filt$train<-train_set[,.N] 
+// 计算训练集样本数
+input.filt$test<-test_set[,.N] 
+// 计算测试集样本数
+filt<-as.data.table(input.filt) 
+// 转换为数据表
+print(filt) 
+// 打印过滤后的信息
+fwrite(filt,paste0(dig,'.filt.csv')) 
+// 保存过滤后的信息到CSV文件
+fwrite(filtered,paste0(dig,'.meta.csv')) 
+// 保存过滤后的元数据到CSV文件
+if(file.exists(dig.file)) { 
+  fresh<-fread(dig.file) 
+  // 如果摘要文件存在，则读取数据
+}else { 
+  fresh<-data.table() 
+  // 初始化数据表
+  keep<-c('id','rel.year','value') 
+  // 保留的列
+  for(var in vars) { 
+    dt<-joined[variable==var] 
+    // 提取特征数据
+    dt.n<-dt[,.N] 
+    // 计算观察数
+    if(dt.n==0) next 
+    // 如果没有数据则跳过
+    dt<-na.omit(dt[,..keep]) 
+    // 去除NA
+    setnames(dt,'value',var) 
+    // 重命名列
+    cat(paste0(var,': ',dt.n,'\n')) 
+    // 打印特征名和观察数
+    if(var %in% vars.extra) { 
+      // f<-as.data.table(tsfresh$extract_features(dt,column_id='id',column_sort='rel.year',default_fc_parameters=tsfresh$feature_extraction$settings$EfficientFCParameters()),keep.rownames=TRUE) 
+      f<-as.data.table(tsfresh$extract_features(dt,column_id='id',column_sort='rel.year',disable_progressbar=TRUE),keep.rownames=TRUE) 
+      // 提取特征
+    }else { 
+      f<-as.data.table(tsfresh$extract_features(dt,column_id='id',column_sort='rel.year',disable_progressbar=TRUE,default_fc_parameters=tsfresh$feature_extraction$settings$MinimalFCParameters()),keep.rownames=TRUE) 
+      // 提取特征
+    }
+    f$rn=as.numeric(f$rn) 
+    // 将行名转换为数字
+    fresh<-if(var==vars[1]) f else merge(fresh,f,by='rn',all=TRUE) 
+    // 合并数据
+  }
+  setnames(fresh,'rn','id') 
+  // 重命名列
+  colnames(fresh)<-make.names(colnames(fresh),unique=TRUE) 
+  // 确保列名唯一
+  for(j in 1:ncol(fresh)) data.table::set(fresh,which(is.infinite(fresh[[j]])|is.nan(fresh[[j]])),j,NA) 
+  // 处理无穷大和NaN
+  fwrite(fresh,dig.file) 
+  // 保存数据
+}
+setkey(fresh,id) 
+// 设置键为'id'
+colnames(fresh)<-make.names(colnames(fresh),unique=TRUE) 
+// 确保列名唯一
+for(j in 1:ncol(fresh)) data.table::set(fresh,which(is.infinite(fresh[[j]])|is.nan(fresh[[j]])),j,NA) 
+// 处理无穷大和NaN
+fresh[,grep("__sum_values",names(fresh)):=NULL] 
+// 删除不需要的列
+fresh[,grep("__length",names(fresh)):=NULL] 
+// 删除不需要的列
+fresh 
+// 返回处理后的数据
+```
+# ML prediction
+
+## Model training
+
+```{r xgb,echo=TRUE}
+eval_mcc<-function(y_true,y_prob,show=FALSE) { 
+  // 定义评估MCC（Matthews相关系数）的函数，输入为真实标签y_true和预测概率y_prob
+  DT<-data.table(y_true=y_true,y_prob=y_prob,key="y_prob") 
+  // 创建数据表DT，包含真实标签和预测概率，并将预测概率作为键
+  nump<-sum(y_true) 
+  // 计算正类样本的数量
+  numn<-length(y_true)-nump 
+  // 计算负类样本的数量
+  DT[,tn_v:=cumsum(y_true==0)] 
+  // 计算真负（TN）的累积和
+  DT[,fp_v:=cumsum(y_true==1)] 
+  // 计算假阳性（FP）的累积和
+  DT[,fn_v:=numn-tn_v] 
+  // 计算假阴性（FN）
+  DT[,tp_v:=nump-fp_v] 
+  // 计算真阳性（TP）
+  DT[,mcc_v:=(tp_v*tn_v-fp_v*fn_v)/sqrt((tp_v+fp_v)*(tp_v+fn_v)*(tn_v+fp_v)*(tn_v+fn_v))] 
+  // 计算MCC值
+  DT[,mcc_v:=ifelse(!is.finite(mcc_v),0,mcc_v)] 
+  // 如果MCC值不是有限值，则将其设置为0
+  if(!show) return(max(DT[['mcc_v']])) 
+  // 如果不显示，返回最大MCC值
+  best_mcc<-max(DT[['mcc_v']]) 
+  // 获取最佳MCC值
+  best_proba<-DT[['y_prob']][which.max(DT[['mcc_v']])] 
+  // 获取对应最佳MCC值的预测概率
+  y_pred<-as.numeric(y_prob>best_proba) 
+  // 根据最佳概率生成预测标签
+  score<-mcc(y_true,y_pred) 
+  // 计算最终的MCC分数
+  cat("\n",score,best_mcc) 
+  // 打印分数和最佳MCC值
+  return(list(best_proba,best_mcc,y_pred)) 
+  // 返回最佳概率、最佳MCC值和预测标签
+}
+
+mcc_eval<-function(pred,dtrain) {    
+  // 定义MCC评估函数，输入为预测值和训练数据
+  y_true<-getinfo(dtrain,"label") 
+  // 获取真实标签
+  best_mcc<-eval_mcc(y_true,pred) 
+  // 计算最佳MCC值
+  return(list(metric="mcc",value=best_mcc)) 
+  // 返回MCC评估结果
+}
+
+train.id<-train_set$id 
+// 获取训练集的ID
+test.id<-test_set$id 
+// 获取测试集的ID
+pats<-filtered 
+// 将过滤后的数据赋值给pats
+if(predict_mode=='death') { 
+  // 如果预测模式为死亡
+  pats[,category:=ifelse(!is.na(death.y) & death.y<=input$egfryears[2],outcomes[[predict_mode]][2],outcomes[[predict_mode]][1])]  
+  // 根据条件设置类别
+}else {
+  // 如果预测模式不是死亡
+  // pats[,category:=ifelse(!is.na(date.esrd.hit) & preesrd.y<=input$egfryears[2],outcomes[[predict_mode]][2],outcomes[[predict_mode]][1])] 
+  // 注释掉的代码
+  pats[,category:=get(paste0('cat',input$egfryears[2]))] 
+  // 根据输入的egfryears设置类别
+}
+
+meta.cols<-c('id','gender','age.init') //,'egfr.y','death.y' 
+// 定义元数据列
+meta<-pats[,..meta.cols] 
+// 提取元数据
+meta[,gender:=ifelse(gender=='Male',1,0)] 
+// 将性别转换为数值型（男性为1，女性为0）
+setkey(meta,id) 
+// 设置元数据的键为'id'
+// diff.cols<-c('egfr.y','death.y') 
+// 注释掉的代码
+// meta[,(diff.cols):=lapply(.SD,as.numeric),.SDcols=diff.cols] 
+// 注释掉的代码
+// fresh<-fresh() 
+// 注释掉的代码
+fresh.meta<-data.table::copy(meta[fresh]) 
+// 复制元数据与fresh的交集
+train<-fresh.meta[id %in% train.id,] 
+// 获取训练集
+if(smote_flag) { 
+  // 如果启用SMOTE
+  idcat<-c('category','id') 
+  // 定义ID和类别
+  presmote<-pats[,..idcat][train,on='id'] 
+  // 提取训练集的类别和ID
+  presmote$category<-factor(presmote$category,levels=outcomes[[predict_mode]]) 
+  // 将类别转换为因子
+  print(table(presmote$category)) 
+  // 打印类别分布
+  train<-SMOTE(category~.,presmote,perc.over=smote_over,perc.under=smote_under) 
+  // 应用SMOTE进行过采样和欠采样
+  print(table(train$category)) 
+  // 打印处理后的类别分布
+  train.label<-(train$category==outcomes[[predict_mode]][2])*1 
+  // 生成训练标签
+  train[,category:=NULL] 
+  // 删除类别列
+}else {
+  train.label<-setNames((pats[id %in% train.id]$category==outcomes[[predict_mode]][2])*1,pats[id %in% train.id]$id) 
+  // 生成训练标签
+  print(table(pats[id %in% train.id]$category)) 
+  // 打印训练集类别分布
+}
+train[,id:=NULL] 
+// 删除ID列
+dtrain<-xgb.DMatrix(data=as.matrix(train),label=train.label) 
+// 创建XGBoost的DMatrix对象
+test<-fresh.meta[id %in% test.id,] 
+// 获取测试集
+test[,id:=NULL] 
+// 删除ID列
+test.label<-setNames((pats[id %in% test.id]$category==outcomes[[predict_mode]][2])*1,pats[id %in% test.id]$id) 
+// 生成测试标签
+dtest<-xgb.DMatrix(data=as.matrix(test),label=test.label) 
+// 创建XGBoost的DMatrix对象
+pt<-prop.test(c(sum(train.label),sum(test.label)),c(length(train.label),length(test.label))) 
+// 进行比例检验
+pt 
+// 打印比例检验结果
+test_metric<-paste0('test_',eval_metric,'_mean') 
+// 定义测试指标名称
+dig.run<<-paste0(dig,'-',input$egfryears[1],'-',input$egfryears[2],'-',eval_metric,ifelse(predict_mode=='death','-d',''),ifelse(smote_flag,'-s',''),ifelse(num_ts==0,'',paste0('-ts',num_ts))) 
+// 生成运行摘要
+print(dig.run) 
+// 打印运行摘要
+hyper.file<-paste0(dig.run,'.hyper.csv') 
+// 定义超参数文件名
+if(file.exists(hyper.file)) { 
+  // 如果超参数文件存在
+  err.hyper<-fread(paste0("grep -v '^#' ",hyper.file)) 
+  // 读取超参数文件
+  print(tail(err.hyper)) 
+  // 打印超参数文件的最后几行
+  best<-as.list(unclass(err.hyper[ifelse(eval_metric=='error',which.min(get(test_metric,err.hyper)),which.max(get(test_metric,err.hyper)))])) 
+  // 获取最佳超参数
+  print(t(best)) 
+  // 打印最佳超参数
+  print(dim(dtrain)) 
+  // 打印训练数据的维度
+  if(eval_metric=='mcc') { 
+    // 如果评估指标为MCC
+    bst<<-xgboost::xgboost(data=dtrain,objective=objective,feval=mcc_eval,nrounds=best$nrounds,params=best,verbose=0) 
+    // 训练XGBoost模型
+  }else {
+    bst<<-xgboost::xgboost(data=dtrain,objective=objective,eval_metric=eval_metric,nrounds=best$nrounds,params=best,verbose=0) 
+    // 训练XGBoost模型
+  }
+}else if(autoxgb_flag) { // 如果启用自动XGBoost调优
+  auto.train<-data.table::copy(train) 
+  // 复制训练数据
+  auto.train[,names(auto.train):=lapply(.SD,as.numeric)] 
+  // 将所有列转换为数值型
+  auto.train[,label:=as.factor(train.label)] 
+  // 将标签列转换为因子
+  cla_task<-makeClassifTask(data=as.data.frame(auto.train),target="label") 
+  // 创建分类任务
+  cla_auto<-autoxgboost(cla_task,build.final.model=TRUE) 
+  // 自动调优XGBoost模型
+  bst<-cla_auto$final.learner 
+  // 获取最终模型
+  best<-mlr::getHyperPars(bst) 
+  // 获取最佳超参数
+  best$`eval(test_metric)`<-get(test_metric,best_iter) 
+  // 设置测试指标
+  fwrite(data.table(t(unlist(best))),hyper.file) 
+  // 保存最佳超参数
+  bst<<-xgboost::xgboost(data=dtrain,params=best,nrounds=best$nrounds,verbose=0) 
+  // 训练XGBoost模型
+}else { // 网格搜索
+  nES<-sum(train.label==0) // 训练集中非终末期的数量
+  ES<-sum(train.label==1) // 训练集中终末期的数量
+  ratio<-nES/ES // 计算比例
+  if(!quick_flag) { 
+    // 如果不是快速模式
+    xgb.hyper<-expand.grid( 
+      nrounds=c(100,200,500,1000), 
+      max_depth=c(4,6,8,10), 
+      subsample=c(0.5,0.75,1), 
+      colsample_bytree=c(.4,.6,.8,1), 
+      early_stopping_rounds=c(50), 
+      scale_pos_weight=c(ratio^(3/4),ratio^(2/3)) // 设置比例
+    )
+  }else {
+    // 如果是快速模式
+    xgb.hyper<-expand.grid( 
+      nrounds=c(100,200,500,1000), 
+      max_depth=c(4), 
+      subsample=c(0.75,1), 
+      colsample_bytree=c(.4,.6,.8), 
+      early_stopping_rounds=c(50), 
+      scale_pos_weight=c(ratio) // 设置比例
+    )
+  }
+  fwrite(xgb.hyper,paste0(hyper.file,'.param.txt')) 
+  // 保存超参数到文本文件
+  cat(paste(names(xgb.hyper)),'eta',test_metric,"\n") 
+  // 打印超参数名称
+  err.hyper<-rbindlist(apply(xgb.hyper,1,function(hp){ 
+    // 对每组超参数进行循环
+    hp.df<-as.data.frame(t(hp)) 
+    // 转置超参数为数据框
+    hp.df$eta<-2/hp.df$nrounds 
+    // 计算学习率
+    hp.l<-as.list(hp.df) 
+    // 转换为列表
+    if(eval_metric=='mcc') { 
+      // 如果评估指标为MCC
+      xcv<-xgb.cv(data=dtrain,objective=objective,nfold=cv.fold,nrounds=hp.l$nrounds,params=hp.l,stratified=TRUE,verbose=FALSE,feval=mcc_eval) 
+      // 进行交叉验证
+    }else {
+      xcv<-xgb.cv(data=dtrain,objective=objective,nfold=cv.fold,nrounds=hp.l$nrounds,params=hp.l,stratified=TRUE,verbose=FALSE,eval_metric=eval_metric) 
+      // 进行交叉验证
+    }
+    best_iter<-as.list(xcv$evaluation_log[xcv$niter]) 
+    // 获取最佳迭代次数
+    hp.df$`eval(test_metric)`<-get(test_metric,best_iter) 
+    // 设置测试指标
+    cat(paste(unname(hp.df)),"\n") 
+    // 打印超参数和测试指标
+    return(hp.df) 
+    // 返回超参数数据框
+  }))
+  names(err.hyper)[length(names(err.hyper))]<-test_metric 
+  // 设置最后一列的名称为测试指标
+  fwrite(err.hyper,hyper.file) 
+  // 保存超参数评估结果
+  best<-as.list(unclass(err.hyper[ifelse(eval_metric=='error',which.min(get(test_metric,err.hyper)),which.max(get(test_metric,err.hyper)))])) 
+  // 获取最佳超参数
+  if(eval_metric=='mcc') { 
+    // 如果评估指标为MCC
+    bst<<-xgboost(data=dtrain,objective=objective,nrounds=best$nrounds,params=best,verbose=FALSE,feval=mcc_eval) 
+    // 训练XGBoost模型
+  }else {
+    bst<<-xgboost(data=dtrain,objective=objective,nrounds=best$nrounds,params=best,verbose=FALSE,eval_metric=eval_metric) 
+    // 训练XGBoost模型
+  }
+}
+pred<-predict(bst,dtest) 
+// 对测试集进行预测
+pred.label<-ifelse(pred>=0.5,1,0) 
+// 根据预测概率生成预测标签
+test.pats<-as.data.frame(pats[id %in% test.id]) 
+// 获取测试集数据
+test.pats$endstage_hit<-(test.pats$category==outcomes[[predict_mode]][2])*1 
+// 生成终末期命中标签
+test.pats$endstage_pred<-pred.label*1 
+// 生成终末期预测标签
+error<-test.label-pred.label 
+// 计算预测误差
+test.pats$error<-error 
+// 将误差添加到测试数据中
+cm<-caret::confusionMatrix(as.factor(pred.label),as.factor(test.label),positive="1") 
+// 计算混淆矩阵
+
+confusion<-test.pats %>% group_by(endstage_pred,endstage_hit) %>% summarise(n=dplyr::n()) %>% 
+  dcast(endstage_hit~endstage_pred,value.var='n') %>% 
+  mutate(endstage_hit=paste0('Actual ',outcomes[[predict_mode]][2])) 
+// 生成混淆矩阵数据
+d<-rbind(data.frame(endstage_hit='Training set',table(train.label,dnn=c('actual'))),
+         data.frame(endstage_hit='Test set',table(test.label,dnn=c('actual'))),
+         data.frame(endstage_hit='Predicted',table(pred.label,dnn=c('actual')))) %>% 
+  dcast(endstage_hit~actual,value.var='Freq') 
+// 生成训练集、测试集和预测的计数数据
+cm.tab<-cbind(endstage_hit=paste0('Predicted ',outcomes[[predict_mode]][2]),as.data.frame(as.matrix(cm))) 
+// 生成混淆矩阵的表格
+counts<-rbind(d,cm.tab) 
+// 合并计数数据
+print(counts) 
+// 打印计数数据
+cm$byClass[['MCC']]<-eval_mcc(test.label,pred.label) 
+// 计算MCC并添加到混淆矩阵中
+cm.overall<-as.matrix(cm,what="overall")[,1] 
+// 获取混淆矩阵的整体统计
+cm.classes<-as.matrix(cm,what="classes")[,1] 
+// 获取混淆矩阵的类别统计
+cm.stats<-rbind(data.frame(stat=names(cm.overall),value=cm.overall),data.table(stat=names(cm.classes),value=cm.classes)) 
+// 合并整体和类别统计
+cm.dt<-rbindlist(list(counts,cm.stats),fill=TRUE) 
+// 合并计数和统计数据
+print(cm.stats) 
+// 打印统计数据
+fwrite(cm.dt,paste0(dig.run,'.model.perf.csv')) 
+// 保存模型性能数据到CSV文件
+printly(paste0('[',length(train.id),'+',length(test.id),'=',length(train.id)+length(test.id),' patients]: ')) 
+// 打印患者数量
+printly(paste0('Accuracy = ',round(100*cm.overall['Accuracy'],2),'%, 95% CI [',round(100*cm.overall['AccuracyLower'],2),'%,',round(100*cm.overall['AccuracyUpper'],2),'%]; ')) 
+// 打印准确率和95%置信区间
+printly(paste0('Sensitivity = ',round(100*cm.classes['Sensitivity'],2),'%; ')) 
+// 打印灵敏度
+printly(paste0('Specificity = ',round(100*cm.classes['Specificity'],2),'%')) 
+// 打印特异性
+
+shap_values<-SHAPforxgboost::shap.values(xgb_model=bst,X_train=train) 
+// 计算SHAP值
+shap.mean<-data.table(feature=names(shap_values$mean_shap_score),shap=shap_values$mean_shap_score) 
+// 创建SHAP均值数据表
+shap.mean[,rank:=.I] 
+// 添加排名列
+setcolorder(shap.mean,c('rank','shap','feature')) 
+// 设置列顺序
+fwrite(shap.mean,paste0(dig.run,".shap.csv")) 
+// 保存SHAP均值数据到CSV文件
+shap_long<-SHAPforxgboost::shap.prep(xgb_model=bst,X_train=train,top_n=shap_top) 
+// 准备SHAP长格式数据
+xgb<-list(model=bst,shap_values=shap_values,shap_long=shap_long,counts=counts) 
+// 创建包含模型、SHAP值、SHAP长格式数据和计数的列表
+```
+
+```{r contingency}
+DT::datatable(xgb$counts,escape=FALSE,class='compact nowrap',rownames=1,options=list(searching=FALSE,paging=paging,dom='ft')) %>% 
+// 使用DT包创建数据表，数据来源于xgb$counts，设置不转义HTML字符，使用紧凑的样式，不换行，行名从1开始，设置选项
+  formatStyle(1,target='cell',backgroundColor=styleEqual(c(0,1),c('yellow',NA))) 
+// 格式化第一列的单元格，设置背景颜色：如果值为0则为黄色，值为1则不设置背景颜色
+```
+
+```{r fetaure_table}
+imp<-xgb.importance(model=xgb$model) 
+// 计算XGBoost模型的特征重要性，并将结果赋值给imp
+fwrite(imp,paste0(dig.run,'.xgbi.csv')) 
+// 将特征重要性结果保存为CSV文件，文件名为dig.run加上'.xgbi.csv'
+DT::datatable(imp,escape=FALSE,class='compact nowrap',options=list(searching=FALSE,pageLength=20,lengthMenu=c(20,50,100,200))) %>% 
+// 使用DT包创建数据表，数据来源于imp，设置不转义HTML字符，使用紧凑的样式，不换行，禁用搜索功能，设置每页显示20条数据，长度菜单可选20、50、100和200条
+  formatPercentage(columns=c('Gain','Cover','Frequency'), digits=3) 
+// 格式化'Gain'、'Cover'和'Frequency'列为百分比，保留3位小数
+```
+## XGBoost Model
+
+```{r shap_long}
+shap_long<-xgb$shap_long 
+// 从xgb对象中提取SHAP长格式数据并赋值给shap_long
+charsub<-setNames(c(':',' '),c('__','_')) // 定义字符替换规则，将'__'替换为':'，将'_'替换为空格
+levels(shap_long$variable)<-str_replace_all(levels(shap_long$variable),charsub) 
+// 替换shap_long中变量的级别名称
+gg<-shap.plot.summary(shap_long,dilute=5,x_bound=shap_xbound) + 
+// 创建SHAP值的汇总图，设置稀释因子为5，x轴边界为shap_xbound
+#  geom_point(alpha=.5) + 
+// 注释掉的代码：添加点图，透明度为0.5
+  scale_color_viridis_c(option='C',direction=-1) + 
+// 设置颜色为Viridis调色板，选项为'C'，颜色方向为反向
+  theme(text=element_text(size=5),axis.text=element_text(size=5),axis.title.x=element_text(size=6),
+// 设置主题，调整文本、坐标轴文本和坐标轴标题的字体大小
+  legend.text=element_text(size=5),legend.title=element_text(size=5)) 
+// 设置图例文本和标题的字体大小
+gg$layers[[2]]$aes_params$size<-2 
+// 设置第二层的点大小为2
+ggsave(paste0(dig.run,'.shapTop.eps'),plot=gg,device=cairo_ps,dpi=1000,width=140,height=140,units='mm') 
+// 保存图形为EPS格式，文件名为dig.run加上'.shapTop.eps'，设置分辨率为1000，宽高为140mm
+gg 
+// 显示生成的图形
+```
+
+```{r shap_dep}
+shap.plot.dep.aaron<-function(x=x,data_long=data_long) { 
+  // 定义一个名为shap.plot.dep.aaron的函数，输入参数为x和data_long
+  suppressMessages(shap.plot.dependence(x,data_long=data_long,add_hist=FALSE,color_feature=color_feature,size0=0.06) + 
+  // 调用shap.plot.dependence函数绘制SHAP依赖图，抑制消息，设置不添加直方图，指定颜色特征和点大小
+    labs(y="SHAP value") + 
+  // 设置y轴标签为"SHAP value"
+    scale_color_viridis_c(option='D',direction=-1) + 
+  // 设置颜色为Viridis调色板，选项为'D'，颜色方向为反向
+//    labs(x=str_wrap(str_replace_all(x,"__",":"),width=26),title=paste0(LETTERS[match(x,names(xgb$shap_values$mean_shap_score))],')')) + 
+  // 注释掉的代码：设置x轴标签和标题
+    labs(x=str_replace_all(x,charsub),title=paste0(LETTERS[match(x,names(xgb$shap_values$mean_shap_score))],')')) + 
+  // 设置x轴标签，替换字符并设置标题
+    theme(legend.position="none",text=element_text(size=5),axis.text=element_text(size=5),axis.title.x=element_text(size=6),axis.title.y=element_text(size=6),plot.title=element_text(hjust=0)))
+  // 设置主题，调整图例位置和文本、坐标轴文本及标题的字体大小
+}
+
+fig_list<-lapply(names(xgb$shap_values$mean_shap_score)[1:shap_top],shap.plot.dep.aaron,data_long=xgb$shap_long) 
+// 使用lapply函数对前shap_top个特征名称应用shap.plot.dep.aaron函数，生成特征依赖图列表
+gg<-gridExtra::grid.arrange(grobs=fig_list,ncol=shap_ncol) 
+// 使用grid.arrange将特征依赖图排列成网格，列数为shap_ncol
+ggsave(paste0(dig.run,'.shapDep.eps'),plot=gg,device=cairo_ps,dpi=1200,width=277,height=190,units='mm') 
+// 保存生成的图形为EPS格式，文件名为dig.run加上'.shapDep.eps'，设置分辨率为1200，宽度为277mm，高度为190mm
+gg 
+// 显示生成的图形
+```
+
+```{r shap_force}
+suppressMessages(plot_data<-shap.prep.stack.data(shap_contrib=xgb$shap_values$shap_score,top_n=shap_top,n_groups=shap_groups)) 
+// 抑制消息，准备SHAP贡献数据，提取SHAP分数，设置前shap_top个特征和分组数量为shap_groups
+// freq<-plot_data[,.N,by=group] # 仅在缩放图中需要的代码（已注释掉）
+
+suppressWarnings(
+  // 抑制警告
+  // gg<-shap.plot.force_plot(plot_data,zoom_in_group=freq[which.max(N),]$group) + 
+  // 注释掉的代码：绘制SHAP力图，缩放到最大频率的组
+  gg<-shap.plot.force_plot_bygroup(plot_data) + 
+  // 绘制按组的SHAP力图
+    scale_fill_manual(values=col_vector) + 
+  // 手动设置填充颜色，使用col_vector中的颜色
+    theme(legend.position="bottom",legend.key.size=unit(3,'mm'),legend.title=element_text(size=3.5),legend.text=element_text(size=3.5),
+  // 设置主题，调整图例位置、图例键大小、图例标题和文本的字体大小
+      text=element_text(size=4),axis.text=element_text(size=4),axis.title.x=element_text(size=5),axis.title.y=element_text(size=5)) + 
+  // 设置整体文本、坐标轴文本和标题的字体大小
+    guides(fill=guide_legend(ncol=legend_ncol))
+  // 设置图例的列数为legend_ncol
+)
+
+ggsave(paste0(dig.run,'.shapForce.eps'),plot=gg,device=cairo_ps,dpi=1000,width=190,height=140,units='mm') 
+// 保存生成的SHAP力图为EPS格式，文件名为dig.run加上'.shapForce.eps'，设置分辨率为1000，宽度为190mm，高度为140mm
+gg 
+// 显示生成的图形
+```
+
+
+```{r load_clin,echo=TRUE}
+if(!clintest_flag) stop() 
+// 如果clintest_flag为FALSE，则停止执行，表示未进行临床测试
+#knitr::knit_exit() #早期终止，如果不进行临床测试（已注释掉）
+
+# 加载49名临床测试患者的更新数据库转储
+dt<-fread('../data_clin/diabetes.csv',col.names=c('id','date','glucose','glucose.str','hgba1c','hgba1c.str'),na.strings='NULL') 
+// 从'../data_clin/diabetes.csv'文件读取数据，指定列名并将'NULL'视为缺失值
+dt[,date:=fastPOSIXct(date)] 
+// 将'date'列转换为POSIXct日期格式
+diabetes2<-data.table::melt(dt[,c(1,2,3,5)],id.vars=c('id','date'),na.rm=TRUE) 
+// 将数据重塑为长格式，只保留'id'、'date'、'glucose'和'hgba1c'列，去除缺失值
+
+// exam<-fread('Exam.csv',col.names=c('id','date','height','weight','bmi','sit_dia','sit_sys','sit_hr','sta_dia','sta_sys','sta_hr'),na.strings='NULL') 
+// 从'Exam.csv'文件读取数据（已注释掉）
+dt<-fread('../data_clin/sitstandbp.csv',col.names=c('id','date','sit_sys','sit_dia','sit_hr','sta_sys','sta_dia','sta_hr'),na.strings='NULL') 
+// 从'../data_clin/sitstandbp.csv'文件读取数据，指定列名并将'NULL'视为缺失值
+dt[,date:=fastPOSIXct(date)] 
+// 将'date'列转换为POSIXct日期格式
+dt[,diff_dia:=sit_dia-sta_dia] 
+// 计算坐位和站位的收缩压差
+dt[,diff_sys:=sit_sys-sta_sys] 
+// 计算坐位和站位的舒张压差
+dt[,diff_hr:=sit_hr-sta_hr] 
+// 计算坐位和站位的心率差
+dt[,sit_pp:=sit_sys-sit_dia] 
+// 计算坐位的脉压
+dt[,sta_pp:=sta_sys-sta_dia] 
+// 计算站位的脉压
+dt[,diff_pp:=sit_pp-sta_pp] 
+// 计算坐位和站位的脉压差
+exam2<-suppressWarnings(melt(dt,id.vars=c('id','date'),na.rm=TRUE)) 
+// 将数据重塑为长格式，去除缺失值，抑制警告
+exam2$date<-fastPOSIXct(exam2$date) 
+// 将'exam2'数据框中的'date'列转换为POSIXct日期格式
+
+dt<-fread('../data_clin/gfr.csv',col.names=c('id','date','egfr','egfr.str'),na.strings='NULL') 
+// 从'../data_clin/gfr.csv'文件读取数据，指定列名并将'NULL'视为缺失值
+dt[,date:=fastPOSIXct(date)] 
+// 将'date'列转换为POSIXct日期格式
+dt[,egfr.str:=NULL] 
+// 删除不需要的'egfr.str'列
+kidney2<-data.table::melt(dt,id.vars=c('id','date'),na.rm=TRUE) 
+// 将数据重塑为长格式，去除缺失值，进行合理性检查，因为可能存在egfr>200k的异常值
+
+dt<-fread('../data_clin/proteinuria.csv',col.names=c('id','date','test','proteinuria','result.num','result.str'),na.strings='NULL') 
+// 从'../data_clin/proteinuria.csv'文件读取数据，指定列名并将'NULL'视为缺失值
+dt[,date:=fastPOSIXct(date)] 
+// 将'date'列转换为POSIXct日期格式
+protcreatinine2<-data.table::melt(dt[,c(1,2,4)],id.vars=c('id','date'),na.rm=TRUE) 
+// 将数据重塑为长格式，只保留'id'、'date'和'proteinuria'列，去除缺失值
+
+dt<-fread('../data_clin/24hrUrine.csv',col.names=c('id','date','test','proteinuria','result.num','result.str'),na.strings='NULL') 
+// 从'../data_clin/24hrUrine.csv'文件读取数据，指定列名并将'NULL'视为缺失值
+dt[,date:=fastPOSIXct(date)] 
+// 将'date'列转换为POSIXct日期格式
+proteinuria2<-data.table::melt(dt[,c(1,2,4)],id.vars=c('id','date'),na.rm=TRUE) 
+// 将数据重塑为长格式，只保留'id'、'date'和'proteinuria'列，去除缺失值
+
+dt<-fread('../data_clin/modality.csv',col.names=c('id','date','end.date','modality'),na.strings='NULL') 
+// 从'../data_clin/modality.csv'文件读取数据，指定列名并将'NULL'视为缺失值
+dt[,date:=fastPOSIXct(date)] 
+// 将'date'列转换为POSIXct日期格式
+dt[,end.date:=fastPOSIXct(end.date)] 
+// 将'end.date'列转换为POSIXct日期格式
+setkey(dt,id) 
+// 设置数据表的键为'id'
+setorderv(dt,c('id','date')) 
+// 按照'id'和'date'对数据进行排序
+modality2<-data.table::copy(dt) 
+// 复制数据表以备后用
+
+death2<-fread('../data_clin/Death.csv',col.names=c('id','date'),na.strings='NULL') 
+// 从'../data_clin/Death.csv'文件读取数据，指定列名并将'NULL'视为缺失值
+death2[,date:=fastPOSIXct(date)] 
+// 将'date'列转换为POSIXct日期格式
+death2<-na.omit(death2) 
+// 去除缺失值
+setkey(death2,id,date) 
+// 设置数据表的键为'id'和'date'
+
+dt<-unique(data.table::rbindlist(list(kidney2,diabetes2,exam2,protcreatinine2,proteinuria2))) 
+// 合并多个数据表（肾脏、糖尿病、检查、尿液蛋白和24小时尿液蛋白），并去除重复行
+dt<-dt[,value:=as.numeric(value)] 
+// 将'value'列转换为数值型
+setorderv(dt,c('variable','id','date')) 
+// 按照'variable'、'id'和'date'对数据进行排序
+melted2<-as.data.table(dt %>% 
+                        group_by(variable) %>% 
+                        mutate(outlier=scores(value,type='chisq',prob=thresh_chisq)) %>% 
+                        ungroup()) 
+// 将数据重塑为长格式，并计算每个变量的异常值
+
+m<-melted2[variable=='egfr',] 
+// 提取'egfr'变量的数据
+egfr.init<-setDT(m)[m[,.I[which.min(date)],id]$V1] 
+// 获取每个'id'的最小日期对应的'egfr'值
+egfr.init$variable<-'egfr.init' 
+// 将变量名设置为'egfr.init'
+egfr.last<-setDT(m)[m[,.I[which.max(date)],id]$V1] 
+// 获取每个'id'的最大日期对应的'egfr'值
+egfr.last$variable<-'egfr.last' 
+// 将变量名设置为'egfr.last'
+esrd.hit<-setDT(m)[m[,.I[which(value<10,arr.ind=TRUE)[1]],id]$V1] 
+// 获取第一个'egfr'值小于10的记录
+esrd.hit$id=egfr.init$id 
+// 将'id'设置为'egfr.init'的'id'
+esrd.hit$variable='esrd.hit' 
+// 将变量名设置为'esrd.hit'
+esrd.hit$outlier=FALSE 
+// 将异常值标记设置为FALSE
+esrd.close<-setDT(m)[m[,.I[which(value<15,arr.ind=TRUE)[1]],id]$V1] 
+// 获取第一个'egfr'值小于15的记录
+esrd.close$id=egfr.init$id 
+// 将'id'设置为'egfr.init'的'id'
+esrd.close$variable='esrd.close' 
+// 将变量名设置为'esrd.close'
+esrd.close$outlier=FALSE 
+// 将异常值标记设置为FALSE
+egfr.melt2<-na.omit(rbindlist(list(egfr.init,egfr.last,esrd.hit,esrd.close))) 
+// 合并所有'egfr'相关数据，并去除缺失值
+
+dt<-data.table::dcast(egfr.melt2,id~variable,value.var=c('date','value'),sep='.') 
+// 将数据重塑为宽格式，按'id'分组，使用'variable'作为列名
+dt[,egfr.y:=(date.egfr.last-date.egfr.init)/31557600] 
+// 计算'egfr'的年数差
+setattr(dt$egfr.y,'units','years') 
+// 设置'egfr.y'的单位为年
+dt[,preesrd.y:=egfr.y] 
+// 将'egfr.y'赋值给'preesrd.y'
+dt[!is.na(date.esrd.hit),preesrd.y:=(date.esrd.hit-date.egfr.init)/31557600] 
+// 如果存在'esrd.hit'日期，则计算'preesrd.y'
+dt[,preclose.y:=egfr.y] 
+// 将'egfr.y'赋值给'preclose.y'
+dt[!is.na(date.esrd.close),preclose.y:=(date.esrd.close-date.egfr.init)/31557600] 
+// 如果存在'esrd.close'日期，则计算'preclose.y'
+setkey(dt,id) 
+// 设置数据表的键为'id'
+#melted2$relyear<-(melted2$date-dt[.(melted$id),date.egfr.init])/31557600 
+//#setattr(melted2$relyear,'units','years') 
+// 注释掉的代码：计算相对年份并设置单位
+
+melted.both<-unique(data.table::rbindlist(list(melted2,melted[id %in% unique(melted2$id)])))[date>=clin.init & date<=clin.last,] ) 
+// 合并melted2和melted数据，去除重复行，并筛选日期在clin.init和clin.last之间的数据
+for(v in features) { 
+  // 遍历特征
+  // m<-molten[variable==v & relyear<=input$egfryears[1]] 
+  // 注释掉的代码：筛选特征
+  m<-melted.both[variable==v] 
+  // 提取当前特征的数据
+  obs<-m[,.N,by=id] 
+  // 计算每个'id'的观察数
+  setnames(obs,old='N',new=v) 
+  // 重命名列
+  setkey(obs,id) 
+  // 设置键为'id'
+  dt<-obs[dt] 
+  // 将观察数合并到dt中
+}
+// for(j in 1:(ncol(dt)-6)) set(dt,which(is.na(dt[[j]])),j,0) #NA is better than zero!! 
+// 注释掉的代码：将NA替换为0（不建议）
+
+dt<-death2[dt] 
+// 将死亡数据合并到dt中
+setnames(dt,old='date',new='date.death') 
+// 将'date'列重命名为'date.death'
+dt<-patient[dt] 
+// 将患者数据合并到dt中
+
+transplant2<-modality2[modality %in% c('Transplant','Donor','Non RRT'),.(date=min(date),modality=min(modality)),by=.(id)] 
+// 提取移植、供体和非RRT的记录，按'id'分组，获取最小日期和模态
+dialysis2<-modality2[modality %in% c('HD','PD','Nocturnal HD','Haemodiafiltration','Haemofiltration','RSC Clinic'),.(date=min(date),modality=min(modality)),by=.(id)] 
+// 提取透析记录，按'id'分组，获取最小日期和模态
+
+// dt[,age.init:=year(date.egfr.init)-birth.year] 
+// 注释掉的代码：计算初始年龄
+dt[,age.init:=year(clin.last)-birth.year] 
+// 计算初始年龄
+
+dt$date.esrd.hit<-NA 
+// 初始化'esrd.hit'日期为NA
+dt[id %in% dialysis2$id,]$date.esrd.hit<-dialysis2$date 
+// 将透析患者的'esrd.hit'日期设置为透析日期
+dt[,esrd.y:=(date.esrd.hit-clin.last)/365.25] 
+// 计算ESRD年数
+setattr(dt$esrd.y,'units','years') 
+// 设置'esrd.y'的单位为年
+
+dt[id %in% death2$id,]$date.death<-death2$date 
+// 将死亡患者的'date.death'设置为死亡日期
+dt[,death.y:=(date.death-clin.last)/365.25] 
+// 计算死亡年数
+setattr(dt$death.y,'units','years') 
+// 设置'death.y'的单位为年
+
+if(predict_mode=='death') { 
+  // 如果预测模式为死亡
+  dt[,category:=ifelse(!is.na(dt$date.death) & (dt$death.y<=input$egfryears[2]),outcomes[[predict_mode]][2],outcomes[[predict_mode]][1])] 
+  // 根据条件设置类别
+}else { 
+  // 如果预测模式不是死亡
+  dt[,category:=ifelse(!is.na(dt$date.esrd.hit) & (dt$esrd.y<=input$egfryears[2]),outcomes[[predict_mode]][2],outcomes[[predict_mode]][1])]  
+  // 根据条件设置类别
+}
+
+setcolorder(dt,c("id","preesrd.y","preclose.y","egfr.y","esrd.y","death.y",features,"gender","age.init","value.egfr.init","value.esrd.close","value.esrd.hit","value.egfr.last","birth.year","date.egfr.init","date.esrd.close","date.esrd.hit","date.egfr.last","date.death")) 
+// 设置数据框的列顺序
+fwrite(dt,paste0(sample.run,'.meta2.tsv')) 
+// 将数据保存为TSV文件，文件名为sample.run加上'.meta2.tsv'
+
+pats2<-data.table::copy(dt) 
+// 复制数据表到pats2
+meta2<-data.table::copy(dt[,c("id","gender","age.init")]) 
+// 复制id、性别和初始年龄列到meta2
+meta2[,gender:=ifelse(gender=='Male',1,0)] 
+// 将性别转换为数值型（男性为1，女性为0）
+
+dt<-fread('../data_clin/LMprediction.csv',header=TRUE,na.strings='NULL') 
+// 从'../data_clin/LMprediction.csv'文件读取数据，指定列名并将'NULL'视为缺失值
+dt[,date.LM:=fastPOSIXct(date.LM)] 
+// 将'date.LM'列转换为POSIXct日期格式
+LM<-data.table::copy(dt[,c(1,4)]) 
+// 复制id和LM预测列到LM
+LM[,LM.pred:=decimal_date(date.LM)] 
+// 将LM预测日期转换为十进制日期
+LM[,LM:=LM.pred-decimal_date(clin.last)] 
+// 计算LM与临床最后日期的差值
+setkey(LM,id) 
+// 设置LM数据表的键为'id'
+
+dt<-fread('ClinicianPredictions.csv',header=TRUE,na.strings='.',colClasses=c('factor','integer','integer','factor','integer','integer','integer','integer','integer','integer')) 
+// 从'ClinicianPredictions.csv'文件读取数据，指定列名并将'.'视为缺失值
+dt[,`:=`(esrd.yh=esrd.y+fifelse(esrd.half==1,.5,1),death.yh=death.y+fifelse(death.half==1,.5,1))] 
+// 计算ESRD和死亡的预测值，考虑半个单位的情况
+sentinel<-2 
+// 设置哨兵值
+esrd.sen<-max(dt$esrd.yh,na.rm=TRUE)+sentinel 
+// 计算ESRD的阈值
+dt[,esrd.yh.sen:=ifelse(is.na(esrd.yh),esrd.sen,esrd.yh)] 
+// 如果ESRD预测值为NA，则使用阈值
+death.sen<-max(dt$death.yh,na.rm=TRUE)+sentinel 
+// 计算死亡的阈值
+dt[,death.yh.sen:=ifelse(is.na(death.yh),death.sen,death.yh)] 
+// 如果死亡预测值为NA，则使用阈值
+dt[,`:=`(
+  mean.esrd.yh=mean(esrd.yh,na.rm=TRUE), 
+  // 计算ESRD预测值的均值
+  mean.death.yh=mean(death.yh,na.rm=TRUE), 
+  // 计算死亡预测值的均值
+  mean.esrd.w=mean(esrd.within,na.rm=TRUE), 
+  // 计算ESRD在范围内的均值
+  mean.death.w=mean(death.within,na.rm=TRUE), 
+  // 计算死亡在范围内的均值
+  mean.esrd.yh.sen=mean(esrd.yh.sen,na.rm=TRUE), 
+  // 计算ESRD阈值的均值
+  mean.death.yh.sen=mean(death.yh.sen,na.rm=TRUE), 
+  // 计算死亡阈值的均值
+  median.esrd.yh=median(esrd.yh,na.rm=TRUE), 
+  // 计算ESRD预测值的中位数
+  median.death.yh=median(death.yh,na.rm=TRUE), 
+  // 计算死亡预测值的中位数
+  median.esrd.w=median(esrd.within,na.rm=TRUE), 
+  // 计算ESRD在范围内的中位数
+  median.death.w=median(death.within,na.rm=TRUE), 
+  // 计算死亡在范围内的中位数
+  median.esrd.yh.sen=median(esrd.yh.sen,na.rm=TRUE), 
+  // 计算ESRD阈值的中位数
+  median.death.yh.sen=median(death.yh.sen,na.rm=TRUE) 
+  // 计算死亡阈值的中位数
+),by=list(id)] 
+// 按照'id'分组计算上述统计量
+clinician.dt<-dt[,.(mean.esrd.yh=mean(esrd.yh,na.rm=TRUE),median.esrd.yh=median(esrd.yh,na.rm=TRUE),esrd.n=sum(!is.na(esrd.yh)),
+                    mean.death.yh=mean(death.yh,na.rm=TRUE),median.death.yh=median(death.yh,na.rm=TRUE),death.n=sum(!is.na(death.yh))
+                    ),by=clinician] 
+// 按照临床医生分组计算ESRD和死亡的均值和中位数
+setkey(clinician.dt,clinician) 
+// 设置临床医生数据表的键为'clinician'
+setorder(clinician.dt,-median.esrd.yh,-mean.esrd.yh) 
+// 按照ESRD中位数和均值降序排列
+clinician.dt$clinician.sorted<-factor(clinician.dt$clinician,levels=clinician.dt$clinician) 
+// 将临床医生转换为因子，并设置排序
+clinician.sorted<-as.character(clinician.dt$clinician.sorted) 
+// 将排序后的临床医生转换为字符型
+dt[,id.sorted:=factor(id,levels=unique(id[order(-median.esrd.yh,-mean.esrd.yh)]))] 
+// 将id转换为因子，并根据ESRD中位数和均值排序
+dt$age.band<-paste0(as.character(floor(dt$age/10)),"0s") 
+// 将年龄分组为十年带
+setkey(dt,clinician) 
+// 设置数据表的键为'clinician'
+setorder(dt,id,clinician) 
+// 按照'id'和'clinician'排序
+fwrite(dt,'ClinicianPrediction.stats.csv') 
+// 将数据保存为CSV文件
+clinician.test<-clinician.dt[dt,on=c('clinician')] 
+// 将临床医生数据与dt合并
+clinician.test$alias<-paste0("clin.",match(clinician.test$clinician,clinician.sorted)) 
+// 创建临床医生的别名
+clinician.test$alias2<-paste0("clin.",match(clinician.test$clinician,clinician.sorted),"\n(n=",clinician.test[[paste0(predict_mode,'.n')]],")") 
+// 创建临床医生的别名，包含样本数量
+```
+
+```{r fresh2}
+joined2<-meta2[melted.both] 
+// 将meta2与melted.both合并，生成joined2数据表
+joined2[,rel.year:=(date-as.POSIXct(clin.init))/365.25] 
+// 计算相对年份，使用临床初始化日期
+setattr(joined2$rel.year,'units','years') 
+// 设置'rel.year'的单位为年
+fresh2<-data.table() 
+// 创建一个空的数据表fresh2
+keep<-c('id','rel.year','value') 
+// 定义要保留的列名
+
+for(var in vars) { 
+  // 遍历vars中的每个变量
+  dt<-joined2[variable==var] 
+  // 从joined2中提取当前变量的数据
+  dt.n<-dt[,.N] 
+  // 计算当前变量的观察数
+  if(dt.n==0) next 
+  // 如果观察数为0，则跳过当前循环
+  dt<-na.omit(dt[,..keep]) 
+  // 去除缺失值，只保留指定的列
+  setnames(dt,'value',var) 
+  // 将'value'列重命名为当前变量名
+  cat(paste0(var,': ',dt.n,'\n')) 
+  // 打印当前变量名和观察数
+  if(var %in% vars.extra) { 
+    // 如果当前变量在额外变量列表中
+    // f<-as.data.table(tsfresh$extract_features(dt,column_id='id',column_sort='rel.year',default_fc_parameters=tsfresh$feature_extraction$settings$EfficientFCParameters()),keep.rownames=TRUE) 
+    // 注释掉的代码：提取特征，使用高效参数
+    f<-as.data.table(tsfresh$extract_features(dt,column_id='id',column_sort='rel.year',disable_progressbar=TRUE),keep.rownames=TRUE) 
+    // 提取特征，禁用进度条
+  }else { 
+    f<-as.data.table(tsfresh$extract_features(dt,column_id='id',column_sort='rel.year',disable_progressbar=TRUE,default_fc_parameters=tsfresh$feature_extraction$settings$MinimalFCParameters()),keep.rownames=TRUE) 
+    // 提取特征，使用最小参数
+  }
+  f$rn=as.numeric(f$rn) 
+  // 将行名转换为数值型
+  fresh2<-if(var==vars[1]) f else merge(fresh2,f,by='rn',all=TRUE) 
+  // 如果是第一个变量，则直接赋值，否则与fresh2合并
+}
+
+setnames(fresh2,'rn','id') 
+// 将'rn'列重命名为'id'
+colnames(fresh2)<-make.names(colnames(fresh2),unique=TRUE) 
+// 确保列名唯一
+for(j in 1:ncol(fresh2)) data.table::set(fresh2,which(is.infinite(fresh2[[j]])|is.nan(fresh2[[j]])),j,NA) 
+// 将无穷大和NaN值替换为NA
+setkey(fresh2,id) 
+// 设置fresh2数据表的键为'id'
+fwrite(fresh2,paste0(dig.file,".test.csv")) 
+// 将fresh2保存为CSV文件，文件名为dig.file加上'.test.csv'
+colnames(fresh2)<-make.names(colnames(fresh2),unique=TRUE) 
+// 确保列名唯一
+for(j in 1:ncol(fresh2)) data.table::set(fresh2,which(is.infinite(fresh2[[j]])|is.nan(fresh2[[j]])),j,NA) 
+// 将无穷大和NaN值替换为NA
+fresh2[,grep("__sum_values",names(fresh2)):=NULL]	
+// 删除包含'__sum_values'的列
+fresh2[,grep("__length",names(fresh2)):=NULL] 
+// 删除包含'__length'的列
+fresh2 
+// 返回处理后的数据表
+```
+
+```{r test2}
+test2<-meta2[fresh2] 
+// 从meta2中提取fresh2对应的行，生成test2数据表
+test2.label<-setNames((pats2$category==outcomes[[predict_mode]][2])*1,pats2$id) 
+// 创建test2.label，标记pats2中类别为预测模式的第二类的样本，1表示属于该类别，0表示不属于
+test2.id<-test2$id 
+// 提取test2中的'id'列
+test2[,id:=NULL] 
+// 从test2中删除'id'列
+dtest2<-xgb.DMatrix(data=as.matrix(test2),label=test2.label) 
+// 将test2转换为XGBoost的DMatrix格式，包含特征数据和标签
+pt2<-prop.test(c(sum(train.label),sum(test2.label)),c(length(train.label),length(test2.label))) 
+// 进行比例检验，比较训练集和测试集的正类样本比例
+pt2 
+// 输出比例检验的结果
+print(pt2) 
+// 打印比例检验的结果
+
+pred2<-predict(xgb$model,dtest2) 
+// 使用训练好的XGBoost模型对dtest2进行预测，得到预测概率
+pred2.dt<-data.table(id=as.integer(names(test2.label)),p=pred2) 
+// 创建数据表pred2.dt，包含样本id和对应的预测概率
+setkey(pred2.dt,id) 
+// 设置pred2.dt的键为'id'
+pred2.label<-ifelse(pred2>=0.5,1,0) 
+// 将预测概率转换为标签，概率大于等于0.5的标记为1，否则为0
+test.pats2<-as.data.frame(pats2[id %in% test2.id]) 
+// 从pats2中提取id在test2.id中的样本，生成test.pats2数据框
+test.pats2$endstage_hit<-(test.pats2$category==outcomes[[predict_mode]])*1 
+// 创建endstage_hit列，标记是否为预测模式的类别
+test.pats2$endstage_pred<-pred2.label*1 
+// 创建endstage_pred列，存储预测标签
+error2<-test2.label-pred2.label 
+// 计算预测错误，得到真实标签与预测标签的差值
+test.pats2$error<-error2 
+// 将错误值添加到test.pats2数据框中
+```
+
+## Clinician Predictions
+
+```{r clinician}
+# with NAs
+ylab<-paste0('Predicted year of ',outcomes[[predict_mode]][2]) 
+// 设置y轴标签，表示预测的年份，使用预测模式的第二个结果
+print(str(clinician.test)) 
+// 打印clinician.test数据框的结构
+p1p<-clinician.test %>% 
+  plot_ly(x=~alias2,y=~get(paste0(predict_mode,'.yh')),color=~alias,type='box',boxpoints="all",jitter=0.3,pointpos=-1.8,markers=list(opacity=0.5)) %>% layout(title="by patient",xaxis=list(title="Clinicians"),yaxis=list(title=ylab)) 
+// 使用plotly绘制箱线图，x轴为临床医生，y轴为预测的年份，设置颜色和其他参数
+p1p 
+// 显示绘制的箱线图
+#orca(p1p,file=paste0(dig.run,dig.suffix,'.boxClin.eps'),format='eps') 
+// 注释掉的代码：将图形保存为EPS格式
+
+p1<-ggplot(clinician.test,aes(x=alias2,y=get(paste0(predict_mode,'.yh')),color=alias)) + 
+// 使用ggplot绘制散点图和箱线图，x轴为临床医生，y轴为预测的年份
+  geom_point(alpha=0.3,size=2,position=position_jitter(width=0.2,height=0.05)) + 
+  // 添加散点，设置透明度和大小，并添加抖动
+  geom_boxplot(alpha=0.5) + 
+  // 添加箱线图，设置透明度
+  xlab("Clinician") + ylab(ylab) + 
+  // 设置x轴和y轴标签
+  # theme_light() + 
+  // 注释掉的代码：使用浅色主题
+  theme(legend.position='none') + 
+  // 隐藏图例
+  scale_y_continuous(breaks=seq(2020,2030,2)) 
+  // 设置y轴刻度
+p1 
+// 显示绘制的图形
+ggsave(paste0(dig.run,dig.suffix,'.boxClin.eps'),device=cairo_ps,dpi=1000,width=16,height=9) 
+// 将图形保存为EPS格式，设置分辨率和尺寸
+
+p2<-ggplot(clinician.test,aes(x=id.sorted,y=get(paste0(predict_mode,'.yh')),color=age.band)) + 
+// 使用ggplot绘制箱线图，x轴为患者id，y轴为预测的年份，颜色根据年龄分组
+# geom_point(alpha=0.3,size=2,position=position_jitter(width=0.3,height=0.05)) + 
+// 注释掉的代码：添加散点
+  geom_boxplot(alpha=0.5) + 
+  // 添加箱线图，设置透明度
+  xlab("Patients") + ylab(ylab) + 
+  // 设置x轴和y轴标签
+  # theme_light() + 
+  // 注释掉的代码：使用浅色主题
+  guides(color=guide_legend(title="Age band")) + 
+  // 添加图例，标题为“年龄分组”
+  theme(legend.position=c(0.92,0.75),axis.text.x=element_blank(),axis.ticks=element_blank()) + 
+  // 设置图例位置，隐藏x轴文本和刻度
+  scale_y_continuous(breaks=seq(2020,2030,2)) 
+  // 设置y轴刻度
+p2 
+// 显示绘制的图形
+ggsave(paste0(dig.run,dig.suffix,'.boxPat.svg'),device=cairo_ps,dpi=1000,width=16,height=9) 
+// 将图形保存为SVG格式，设置分辨率和尺寸
+
+p3<-ggplot(clinician.test,aes(x=alias,y=get(paste0(predict_mode,'.yh.sen')),color=clinician)) + 
+// 使用ggplot绘制散点图和箱线图，x轴为临床医生，y轴为预测的年份（加上哨兵值）
+  geom_point(alpha=0.3,size=2,position=position_jitter(width=0.3,height=0.05)) + 
+  // 添加散点，设置透明度和大小，并添加抖动
+  geom_boxplot(alpha=0.5) + 
+  // 添加箱线图，设置透明度
+  xlab("Clinician") + ylab(paste0(ylab,' (+sentinel)')) + 
+  // 设置x轴和y轴标签，y轴标签包含“（+哨兵）”
+  theme_light() + 
+  // 使用浅色主题
+  theme(legend.position='none') + 
+  // 隐藏图例
+  scale_y_continuous(breaks=seq(2020,2030,2)) 
+  // 设置y轴刻度
+ggsave(paste0(dig.run,dig.suffix,'.boxClinSen.eps'),device=cairo_ps,dpi=1000,width=16,height=9) 
+// 将图形保存为EPS格式，设置分辨率和尺寸
+
+p4<-ggplot(clinician.test,aes(x=id.sorted,y=get(paste0(predict_mode,'.yh.sen')),color=age.band)) + 
+// 使用ggplot绘制箱线图，x轴为患者id，y轴为预测的年份（加上哨兵值），颜色根据年龄分组
+# geom_point(alpha=0.3,size=2,position=position_jitter(width=0.3,height=0.05)) + 
+// 注释掉的代码：添加散点
+  geom_boxplot(alpha=0.5) + 
+  // 添加箱线图，设置透明度
+  xlab("Patients") + ylab(paste0(ylab,' (+sentinel)')) + 
+  // 设置x轴和y轴标签，y轴标签包含“（+哨兵）”
+  theme_light() + 
+  // 使用浅色主题
+  theme(legend.position='bottom',axis.text.x=element_blank()) + 
+  // 设置图例位置，隐藏x轴文本
+  scale_y_continuous(breaks=seq(2020,2030,2)) 
+  // 设置y轴刻度
+ggsave(paste0(dig.run,dig.suffix,'.boxPatSen.eps'),device=cairo_ps,dpi=1000,width=16,height=9) 
+// 将图形保存为EPS格式，设置分辨率和尺寸
+
+clinician.wide<-data.table::dcast(clinician.test,id~alias,value.var=paste0(predict_mode,'.yh'),fun.agg=mean) 
+// 将clinician.test数据重塑为宽格式，按'id'和'alias'聚合，计算均值
+clinician.wide[is.na(clinician.wide)]<-max(clinician.wide[,-1,with=F],na.rm=TRUE)+sentinel 
+// 将NA值替换为最大值加上哨兵值
+ggpairs(clinician.wide,columns=2:7)+ 
+// 绘制成对图，显示clinician.wide的第2到第7列
+  scale_x_continuous(labels=scales::number_format(accuracy=1,big.mark=""))+ 
+  // 设置x轴刻度格式
+  scale_y_continuous(labels=scales::number_format(accuracy=1,big.mark=""))+ 
+  // 设置y轴刻度格式
+  theme(axis.text.x=element_text(angle=-90,hjust=1)) 
+  // 设置x轴文本的角度
+ggsave(paste0(dig.run,dig.suffix,'.sans_lm.eps'),device=cairo_ps,dpi=1000,width=16,height=9) 
+// 将图形保存为EPS格式，设置分辨率和尺寸
+
+if(predict_mode=='esrd') { 
+  // 如果预测模式为ESRD
+  ggpairs(LM[clinician.wide],columns=c(3,5:10))+ 
+  // 绘制成对图，显示LM和clinician.wide的特定列
+    scale_x_continuous(labels=scales::number_format(accuracy=1,big.mark=""))+ 
+    // 设置x轴刻度格式
+    scale_y_continuous(labels=scales::number_format(accuracy=1,big.mark=""))+ 
+    // 设置y轴刻度格式
+    theme(axis.text.x=element_text(angle=-90,hjust=1)) 
+    // 设置x轴文本的角度
+  ggsave(paste0(dig.run,dig.suffix,'.with_lm.png'),height=9,width=16) 
+  // 将图形保存为PNG格式，设置高度和宽度
+}
+```
+
+```{r comparison}  
+clinicians<-as.character(levels(clinician.dt$clinician.sorted)) 
+// 将clinician.dt中排序后的临床医生转换为字符型向量
+derived<-c('median','mean','min','min2nd') 
+// 定义派生统计量的名称
+use.col<-paste0(predict_mode,'.yh.sen') 
+// 设置使用的列名，基于预测模式
+out.label<-outcomes[[predict_mode]][2] 
+// 获取预测模式的第二个结果作为输出标签
+ct.cols<-c('id','clinician',use.col) 
+// 定义要保留的列
+shifted<-data.table::dcast(clinician.test[,..ct.cols],id~clinician,value.var=c(use.col),fun.aggregate=ifelse(endsWith(use.col,'.within'),min,offset.date)) 
+// 将clinician.test数据重塑为宽格式，按'id'和'clinician'聚合，使用指定的聚合函数
+shifted[,c(2:7)]<-shifted[,c(2:7)]-0.1275114 
+// 对第2到第7列进行偏移处理
+shifted[is.na(shifted)]<-10+sentinel 
+// 将NA值替换为10加上哨兵值
+
+if(predict_mode=='death') { 
+  // 如果预测模式为死亡
+  cmp<-death2[LM[shifted][pred2.dt]] 
+  // 从死亡数据中提取与shifted和pred2.dt匹配的记录
+  setDT(cmp)[,age:=clinician.test$age[match(cmp$id,clinician.test$id)]] 
+  // 将年龄添加到cmp数据中
+  cmp[,Death:=as.double.difftime(date-clin.last)/365.25] 
+  // 计算死亡年数
+}else { 
+  // 如果预测模式不是死亡
+  cmp<-dialysis2[LM[shifted][pred2.dt]] 
+  // 从透析数据中提取与shifted和pred2.dt匹配的记录
+  setDT(cmp)[,age:=clinician.test$age[match(cmp$id,clinician.test$id)]] 
+  // 将年龄添加到cmp数据中
+  cmp[,ESRD:=as.double.difftime(date-clin.last)/365.25] 
+  // 计算ESRD年数
+}
+
+cmp[,ML.rank:=frank(cmp,-p)] 
+// 计算ML排名，基于p值
+cmp[,median:=rowMedians(as.matrix(.SD),na.rm=TRUE),.SDcols=clinicians] 
+// 计算每个临床医生的中位数
+cmp[,mean:=rowMeans(as.matrix(.SD),na.rm=TRUE),.SDcols=clinicians] 
+// 计算每个临床医生的均值
+cmp[,min:=rowSort(as.matrix(.SD))[,1],.SDcols=clinicians] 
+// 计算每个临床医生的最小值
+cmp[,min2nd:=rowSort(as.matrix(.SD))[,2],.SDcols=clinicians] 
+// 计算每个临床医生的第二小值
+cmp[,clin.rank:=frank(cmp,median,-mean)] 
+// 计算临床医生的排名，基于中位数和均值
+cmp[,paste0('p.',out.label):=(!is.na(date))*1] 
+// 创建p值列，标记是否存在日期
+cmp[,p.ML:=(p>=thresh_p)*1] 
+// 根据阈值计算ML的p值
+
+for(col in c(clinicians,derived)) 
+  cmp[,paste0("p.",col):=fifelse(cmp[[col]]<=thresh_2y,1,0)] 
+// 根据阈值计算每个临床医生和派生统计量的p值
+
+setorderv(cmp,c(out.label,'ML.rank'),na.last=TRUE) 
+// 按照输出标签和ML排名对cmp进行排序
+fwrite(cmp,paste0(dig.run,dig.suffix,'.comp',dig.suffix,'.csv')) 
+// 将cmp数据保存为CSV文件
+
+if(predict_mode=='death') col.lm<-c() else col.lm<-c('LM') 
+// 根据预测模式设置列lm
+year.cols<-c(clinicians,derived,col.lm) 
+// 定义年份相关的列
+out.cols<-c('id','age','p',out.label,year.cols) 
+// 定义输出的列
+cmp.out<-cmp[,..out.cols] 
+// 提取cmp中的输出列
+names.out<-names(cmp.out) 
+// 获取输出列的名称
+names.out[5:10]<-paste0("clin.",1:6) 
+// 重命名第5到第10列为“clin.1”到“clin.6”
+
+cmp.DT<-DT::datatable(cmp.out,colnames=names.out,options=list(pageLength=50,dom='tip')) %>% 
+  // 创建数据表，设置列名和选项
+  formatStyle(year.cols,backgroundColor=styleInterval(c(0.501,1.001,thresh_2y,thresh_10y),c('red','orange','yellow','white','silver'))) %>% 
+  // 根据值设置背景颜色
+  formatStyle('p',backgroundColor=styleInterval(0.5,c('white','cyan'))) %>% 
+  // 根据p值设置背景颜色
+  formatStyle(out.label,backgroundColor=styleInterval(c(0.501,1.001,thresh_2y,thresh_10y),c('red','orange','yellow','white','silver'))) %>% 
+  // 根据输出标签设置背景颜色
+  formatRound('p',digits=4) %>% 
+  // 设置p值的显示格式
+  formatRound(c(out.label,'median','mean',col.lm),digits=2) %>% 
+  // 设置其他列的显示格式
+  formatRound(c(clinicians,'min','min2nd'),digits=1) 
+  // 设置临床医生的最小值和第二小值的显示格式
+
+DT::saveWidget(cmp.DT,paste0(dig.run,dig.suffix,'.comp.html')) 
+// 将数据表保存为HTML文件
+webshot::webshot(paste0(dig.run,dig.suffix,'.comp.html'),paste0(dig.run,dig.suffix,'.comp.pdf')) 
+// 将HTML文件转换为PDF文件
+cmp.DT 
+// 返回生成的数据表
+```
+
+```{r confusion}
+cm2dt<-function(cm,lab) { 
+  // 定义函数cm2dt，输入为混淆矩阵cm和标签lab
+  dt<-data.table() 
+  // 创建一个空的数据表dt
+  for(i in 1:length(lab)) { 
+    // 遍历标签lab中的每个元素
+    cm.i<-cm[[lab[i]]] 
+    // 提取当前标签对应的混淆矩阵
+    cm.count<-data.table(id=lab[i],stat=c('TN','FP','FN','TP',paste0('Predicted',out.label,'s')),value=c(cm.i$table,cm.i$table[2]+cm.i$table[4])) 
+    // 创建一个数据表cm.count，包含TN、FP、FN、TP和预测值的统计
+    cm.overall<-as.matrix(cm.i,what="overall")[,1] 
+    // 提取混淆矩阵的整体统计信息
+    cm.classes<-as.matrix(cm.i,what="classes")[,1] 
+    // 提取混淆矩阵的类别统计信息
+    dt<-data.table::rbindlist(list(dt,cm.count,data.table(id=lab[i],stat=names(cm.overall),value=cm.overall),data.table(id=lab[i],stat=names(cm.classes),value=cm.classes))) 
+    // 将统计信息合并到数据表dt中
+  }
+  dt 
+  // 返回数据表dt
+}
+
+col.order<-c('ML',clinicians,derived) #,'LM' 
+// 定义列的顺序，包括ML、临床医生和派生统计量
+cm.l<-list() 
+// 创建一个空列表cm.l
+for(col in col.order) { 
+  // 遍历列顺序中的每一列
+  cm.l[[col]]<-caret::confusionMatrix(as.factor(cmp[[paste0('p.',col)]]),as.factor(cmp[[paste0('p.',out.label)]]),positive="1") 
+  // 计算混淆矩阵，并将结果存储在cm.l中
+  cm.l[[col]]$byClass[['MCC']]<-eval_mcc(cmp[[paste0('p.',out.label)]],cmp[[paste0('p.',col)]]) 
+  // 计算MCC（Matthews相关系数）并存储在混淆矩阵中
+}
+
+cm.dt<-cm2dt(cm.l,col.order) #,'LM' 
+// 调用cm2dt函数，将混淆矩阵转换为数据表格式
+cm.wide<-as.data.table(dcast(cm.dt,stat~factor(id,levels=col.order),value.var='value')) 
+// 将cm.dt数据重塑为宽格式，按stat和id聚合
+stat.order<-c(paste0('Predicted',out.label,'s'),'TP','FN','FP','TN','Accuracy','Sensitivity','Specificity','Precision','Recall','Pos Pred Value','Neg Pred Value','Kappa','F1','Balanced Accuracy','MCC','AccuracyLower','AccuracyUpper','AccuracyNull','AccuracyPValue','McnemarPValue','Prevalence','Detection Rate','Detection Prevalence') 
+// 定义统计量的顺序
+cm.wide$stat<-factor(cm.wide$stat,levels=stat.order) 
+// 将stat列转换为因子，并设置顺序
+setorder(cm.wide,stat) 
+// 按照stat列对cm.wide进行排序
+fwrite(cm.wide,paste0(dig.run,dig.suffix,'.perf.csv')) 
+// 将cm.wide保存为CSV文件
+
+rowCallback <- c( 
+  // 定义行回调函数，用于在数据表中设置行的样式
+  "function(row, dat, index) {", 
+  "  var num_dat = dat.slice(1,dat.length);", 
+  "  var row_max = Math.max.apply(Math,num_dat);", 
+  "  var row_min = Math.min.apply(Math,num_dat);", 
+  "  for(var j=1; j<dat.length; j++){", 
+  "    if(index<5) {", 
+  "      $('td:eq('+j+')', row).html(dat[j]+0);", 
+  "    }", 
+  "    if(dat[j]==row_max) {", 
+  "      $('td:eq('+j+')', row).css('background-color', 'lightcyan');", 
+  "    }", 
+  "    if(dat[j]==row_min) {", 
+  "      $('td:eq('+j+')', row).css('background-color', 'seashell');", 
+  "    }", 
+  "  }", 
+  "}" 
+)
+
+cm.out<-cm.wide[c(1:16),] 
+// 提取cm.wide的前16行
+cm.names<-names(cm.out) 
+// 获取cm.out的列名
+cm.names[3:8]<-paste0("clin.",1:6) 
+// 将第3到第8列的名称重命名为“clin.1”到“clin.6”
+
+cm.DT<-DT::datatable(cm.out,colnames=cm.names,rownames=FALSE,options=list(pageLength=25,dom='tip',rowCallback=JS(rowCallback))) %>% 
+  // 创建数据表cm.DT，设置列名、行名和选项
+  formatRound(col.order,digits=3) 
+  // 设置列的显示格式，保留3位小数
+
+DT::saveWidget(cm.DT,paste0(dig.run,dig.suffix,'.perf.html')) 
+// 将数据表保存为HTML文件
+webshot::webshot(paste0(dig.run,dig.suffix,'.perf.html'),paste0(dig.run,dig.suffix,'.perf.pdf')) 
+// 将HTML文件转换为PDF文件
+cm.DT 
+// 返回生成的数据表
+// The End
+```
