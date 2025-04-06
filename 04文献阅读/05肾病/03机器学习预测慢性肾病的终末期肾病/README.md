@@ -3,6 +3,26 @@ Machine learning to predict end stage kidney disease in chronic kidney disease
 
 ## 文献信息
 
+
+期刊名称：Frontiers in Medicine
+影响因子：3.10
+JCR分区：Q1
+中科院分区(2025)：医学3区
+小类：医学：内科3区
+中科院分区(2023)：医学3区
+小类：医学：内科3区
+OPEN ACCESS：99.44%
+出版周期：暂无数据
+是否综述：否
+预警等级：2021中科院国际期刊低度预警，多地黑名单预警（2023湘雅医学院、长江大学低风险预警、江苏省肿瘤医院低危、浙江工商大学、安徽省立医院）
+年度|影响因子|发文量|自引率
+2023 | 3.10 | 2539 | 3.2%
+2022 | 3.90 | 3950 | 5.1%
+2021 | 5.06 | 2676 | 4.3%
+2020 | 5.09 | 982 | 2.2%
+2019 | 3.90 | 285 | 1.3%
+
+
 |项目|内容|
 | ---- | ---- |
 |标题|Machine learning to predict end stage kidney disease in chronic kidney disease|
