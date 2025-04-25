@@ -4,25 +4,6 @@ Machine learning to predict end stage kidney disease in chronic kidney disease
 ## 文献信息
 
 
-期刊名称：Frontiers in Medicine
-影响因子：3.10
-JCR分区：Q1
-中科院分区(2025)：医学3区
-小类：医学：内科3区
-中科院分区(2023)：医学3区
-小类：医学：内科3区
-OPEN ACCESS：99.44%
-出版周期：暂无数据
-是否综述：否
-预警等级：2021中科院国际期刊低度预警，多地黑名单预警（2023湘雅医学院、长江大学低风险预警、江苏省肿瘤医院低危、浙江工商大学、安徽省立医院）
-年度|影响因子|发文量|自引率
-2023 | 3.10 | 2539 | 3.2%
-2022 | 3.90 | 3950 | 5.1%
-2021 | 5.06 | 2676 | 4.3%
-2020 | 5.09 | 982 | 2.2%
-2019 | 3.90 | 285 | 1.3%
-
-
 |项目|内容|
 | ---- | ---- |
 |标题|Machine learning to predict end stage kidney disease in chronic kidney disease|
@@ -41,11 +22,34 @@ OPEN ACCESS：99.44%
 |研究结果|随机森林模型的AUC最高（0.81），与逻辑回归、朴素贝叶斯和KFRE相当。KFRE在特异性和精确度上表现最佳，但敏感性较低（47%）。|
 |研究结论|机器学习在基于易获取的特征评估慢性肾病预后方面是可行的，三种表现良好的机器学习模型可用于患者筛查。|
 |研究意义|提供了一种新的预测工具，有助于早期识别高风险患者，优化临床决策和患者管理。|
-|阅读开始时间|20250214 23|
-|阅读结束时间|20250214 23|
-|时刻|晚上|
-|星期|星期五|
-|天气|晴朗|
+
+
+## 期刊信息
+| 项目 | 内容 |
+| ---- | ---- |
+| 期刊名称 | Frontiers in Medicine |
+| 影响因子 | 3.10 |
+| JCR分区 | Q1 |
+| 中科院分区(2025) | 医学3区 |
+| 小类 | 医学：内科3区 |
+| 中科院分区(2023) | 医学3区 |
+| 小类 | 医学：内科3区 |
+| OPEN ACCESS | 99.44% |
+| 出版周期 | 暂无数据 |
+| 是否综述 | 否 |
+| 预警等级 | 2021中科院国际期刊低度预警，多地黑名单预警（2023湘雅医学院、长江大学低风险预警、江苏省肿瘤医院低危、浙江工商大学、安徽省立医院） |
+
+### 年度数据
+| 年度 | 影响因子 | 发文量 | 自引率 |
+| ---- | ---- | ---- | ---- |
+| 2023 | 3.10 | 2539 | 3.2% |
+| 2022 | 3.90 | 3950 | 5.1% |
+| 2021 | 5.06 | 2676 | 4.3% |
+| 2020 | 5.09 | 982 | 2.2% |
+| 2019 | 3.90 | 285 | 1.3% |
+
+
+
 
 
 ## 核心内容
@@ -187,10 +191,9 @@ KFRE在本研究的中国CKD患者队列中表现良好，尽管其特异性高�
 
 ## 主要数据(英文展示)
 
-# 重要变量信息
-以下是以Markdown表格形式呈现的根据文献内容抓取的重要变量信息，包括变量名、均值、方差、中位数、分类变量的频率等信息，以便后续使用Python模拟数据生成。
+以下是根据文献内容抓取的重要变量信息，包括变量名、均值、方差、中位数、分类变量的频率等信息，以便后续使用Python模拟数据生成。
 
-## 1. Continuous Variables (连续变量)
+### 1. Continuous Variables (连续变量)
 | Variable Name | Mean ± SD | Median (IQR) |
 | ---- | ---- | ---- |
 | Age (years) | 57.8 ± 17.6 | - |
@@ -222,14 +225,14 @@ KFRE在本研究的中国CKD患者队列中表现良好，尽管其特异性高�
 | Chlorine (mmol/L) | 106.9 ± 3.7 | - |
 | Bicarbonate (mmol/L) | 25.9 ± 3.6 | - |
 
-## 2. Categorical Variables (分类变量)
-### Gender (Male/Female)
+### 2. Categorical Variables (分类变量)
+#### Gender (Male/Female)
 | Gender | Frequency (n) | Percentage (%) |
 | ---- | ---- | ---- |
 | Male | 419 | - |
 | Female | 329 | - |
 
-### Primary Disease
+#### Primary Disease
 | Primary Disease | Frequency (n) | Percentage (%) |
 | ---- | ---- | ---- |
 | Primary Glomerulonephritis (GN) | 292 | 39.0 |
@@ -239,7 +242,7 @@ KFRE在本研究的中国CKD患者队列中表现良好，尽管其特异性高�
 | Others | 18 | 2.4 |
 | Unknown | 53 | 7.1 |
 
-### Medical History
+#### Medical History
 | Medical History | Frequency (n) | Percentage (%) |
 | ---- | ---- | ---- |
 | Hypertension | 558 | 74.6 |
@@ -247,7 +250,7 @@ KFRE在本研究的中国CKD患者队列中表现良好，尽管其特异性高�
 | Cardiovascular or Cerebrovascular Disease | 177 | 23.7 |
 | Smoking | 91 | 12.6 |
 
-## 3. CKD Stages (肾病分期)
+### 3. CKD Stages (肾病分期)
 | CKD Stage | Frequency (n) | Percentage (%) |
 | ---- | ---- | ---- |
 | Stage 1 | 58 | 7.8 |
@@ -256,13 +259,13 @@ KFRE在本研究的中国CKD患者队列中表现良好，尽管其特异性高�
 | Stage 4 | 119 | 15.9 |
 | Stage 5 | 36 | 4.8 |
 
-## 4. Outcome Variable (目标变量)
+### 4. Outcome Variable (目标变量)
 | Outcome | Frequency (n) | Percentage (%) |
 | ---- | ---- | ---- |
 | ESKD+ (Kidney Failure) | 70 | 9.4 |
 | ESKD- (No Kidney Failure) | 678 | 90.6 |
 
-## 5. Additional Notes
+### 5. Additional Notes
 - The dataset contains 748 subjects with a follow-up duration of 6.3 ± 2.3 years.
 - Missing data were handled using multiple imputation.
 - The primary endpoint was kidney failure requiring renal replacement therapy (RRT), labeled as ESKD+.
@@ -744,9 +747,9 @@ plot_roc_curve(results, kfre_predictions, y_test)
 
 
 ## 数据抓取
-## 中文展示
+### 中文展示
 
-### 连续变量信息
+#### 连续变量信息
 | 变量名 | 均值 (Mean) | 标准差 (SD) | 中位数 (Median) | 四分位间距 (IQR) |
 | --- | --- | --- | --- | --- |
 | 年龄 (Age) | 57.8 | 17.6 | -- | -- |
@@ -778,7 +781,7 @@ plot_roc_curve(results, kfre_predictions, y_test)
 | 氯 (Chlorine, mmol/L) | 106.9 | 3.7 | -- | -- |
 | 碳酸氢根 (Bicarbonate, mmol/L) | 25.9 | 3.6 | -- | -- |
 
-### 分类变量信息
+#### 分类变量信息
 | 变量名 | 频率 (Frequency) | 百分比 (%) |
 | --- | --- | --- |
 | 性别 (Gender) | 男性: 419, 女性: 329 | 男性: 56.0%, 女性: 44.0% |
@@ -786,13 +789,13 @@ plot_roc_curve(results, kfre_predictions, y_test)
 | CKD分期 (CKD stage) | 1期: 58 <br> 2期: 183 <br> 3期: 352 <br> 4期: 119 <br> 5期: 36 | 1期: 7.8% <br> 2期: 24.5% <br> 3期: 47.1% <br> 4期: 15.9% <br> 5期: 4.8% |
 | 病史 (Medical history) | 高血压: 558 <br> 糖尿病: 415 <br> 心血管或脑血管疾病: 177 <br> 吸烟: 91 | 高血压: 74.6% <br> 糖尿病: 55.5% <br> 心血管或脑血管疾病: 23.7% <br> 吸烟: 12.6% |
 
-### 其他信息
+#### 其他信息
 - 样本量 (Sample size)：748名患者。
 - 随访时间 (Follow-up duration)：平均6.3年，标准差2.3年。
 - ESKD发生率 (ESKD incidence)：70例（9.4%）。
 
-## 英文展示
-### Continuous Variables (连续变量)
+### 英文展示
+#### Continuous Variables (连续变量)
 | Variable Name | Mean ± SD | Median (IQR) |
 | --- | --- | --- |
 | Age (years) | 57.8 ± 17.6 | - |
@@ -824,13 +827,13 @@ plot_roc_curve(results, kfre_predictions, y_test)
 | Chlorine (mmol/L) | 106.9 ± 3.7 | - |
 | Bicarbonate (mmol/L) | 25.9 ± 3.6 | - |
 
-### Categorical Variables (分类变量)
-#### Gender (Male/Female)
+#### Categorical Variables (分类变量)
+##### Gender (Male/Female)
 | Frequency (n) | Percentage (%) |
 | --- | --- |
 | 419/329 | - |
 
-#### Primary Disease
+##### Primary Disease
 | Disease Type | Frequency (n) | Percentage (%) |
 | --- | --- | --- |
 | Primary Glomerulonephritis (GN) | 292 | 39.0 |
@@ -840,7 +843,7 @@ plot_roc_curve(results, kfre_predictions, y_test)
 | Others | 18 | 2.4 |
 | Unknown | 53 | 7.1 |
 
-#### Medical History
+##### Medical History
 | History Type | Frequency (n) | Percentage (%) |
 | --- | --- | --- |
 | Hypertension | 558 | 74.6 |
@@ -848,7 +851,7 @@ plot_roc_curve(results, kfre_predictions, y_test)
 | Cardiovascular or Cerebrovascular Disease | 177 | 23.7 |
 | Smoking | 91 | 12.6 |
 
-### CKD Stages (肾病分期)
+#### CKD Stages (肾病分期)
 | CKD Stage | Frequency (n) | Percentage (%) |
 | --- | --- | --- |
 | Stage 1 | 58 | 7.8 |
@@ -857,13 +860,13 @@ plot_roc_curve(results, kfre_predictions, y_test)
 | Stage 4 | 119 | 15.9 |
 | Stage 5 | 36 | 4.8 |
 
-### Outcome Variable (目标变量)
+#### Outcome Variable (目标变量)
 | Outcome | Frequency (n) | Percentage (%) |
 | --- | --- | --- |
 | ESKD+ (Kidney Failure) | 70 | 9.4 |
 | ESKD- (No Kidney Failure) | 678 | 90.6 |
 
-### Additional Notes
+#### Additional Notes
 - The dataset contains 748 subjects with a follow-up duration of 6.3 ± 2.3 years.
 - Missing data were handled using multiple imputation.
 - The primary endpoint was kidney failure requiring renal replacement therapy (RRT), labeled as ESKD+.
