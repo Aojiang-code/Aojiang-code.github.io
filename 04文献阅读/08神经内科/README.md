@@ -43,7 +43,11 @@ Development and validation of an interpretable machine learning model for predic
 02开发和验证可解释的机器学习模型用于预测卒中后癫痫
 
 
+Can machine learning predict late seizures after intracerebral hemorrhages? Evidence from real-world data
+机器学习可以预测脑内出血后的晚期癫痫发作吗？来自真实世界数据的证据
 
+Reliable detection of generalized convulsive seizures using an off-the-shelf digital watch: A multisite phase 2 study
+使用现成的数字手表可靠检测全身性惊厥发作：一项多中心2期研究
 
-
-
+Smart Seizure Detection System: Machine Learning Based Model in Healthcare IoT
+智能癫痫检测系统：医疗物联网中基于机器学习的模型

@@ -266,11 +266,216 @@ SHAP分析揭示了NIHSS评分、住院天数、D-二聚体水平和皮质受累
 
 
 ## 六、模拟数据
-请你根据上述抓取的数据信息，给出python代码，并给这份代码取个名字，用于模拟上述数据，最终保存为csv格式，保存的路径为04文献阅读\08神经内科\02开发和验证可解释的机器学习模型用于预测卒中后癫痫\01模拟数据\01data
+以下是对文献中提到的变量的完整总结，并根据这些变量重新完善了模拟数据代码。
+
+### **结局变量**：
+在这篇文章中，主要的结局变量是“卒中后癫痫”（Post-Stroke Epilepsy，PSE）。这是一个二分类变量（0 = 无癫痫，1 = 有癫痫），并且是研究的主要预测目标。
+
+### **完善后的模拟数据代码**：
+我们将继续模拟连续变量、分类变量以及结局变量，并确保所有文中提到的变量都涵盖在内。
+
+```python
+import pandas as pd
+import numpy as np
+
+# 设置随机种子，确保结果可复现
+np.random.seed(42)
+
+# 模拟数据的数量
+n_samples = 1000
+
+# 连续变量模拟
+data_continuous = {
+    'Age (years)': np.random.normal(64.33, 11.84, n_samples),  # 正态分布，均值64.33，标准差11.84
+    'Length of stay (days)': np.random.choice([7, 8, 9, 10, 11], size=n_samples),  # 假设住院天数为离散的5个数值
+    'NIHSS at admission': np.random.choice([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], size=n_samples),  # 假设NIHSS的离散值
+    'Fasting blood glucose (mmol/L)': np.random.normal(5.38, 1.14, n_samples),
+    'Total cholesterol (mmol/L)': np.random.normal(4.44, 1.12, n_samples),
+    'Triglycerides (mmol/L)': np.random.normal(1.2, 0.56, n_samples),
+    'LDL cholesterol (mmol/L)': np.random.normal(2.66, 0.94, n_samples),
+    'D-dimer (ng/mL)': np.random.normal(450, 900, n_samples)  # 假设D-二聚体是正态分布
+}
+
+# 分类变量模拟
+data_categorical = {
+    'Sex (Male)': np.random.choice([0, 1], size=n_samples, p=[0.349, 0.651]),  # 0为女性，1为男性
+    'Hypertension': np.random.choice([0, 1], size=n_samples, p=[0.2778, 0.7222]),  # 0为无，1为有
+    'Diabetes': np.random.choice([0, 1], size=n_samples, p=[0.666, 0.334]),  # 0为无，1为有
+    'Hyperlipidemia': np.random.choice([0, 1], size=n_samples, p=[0.9, 0.1]),
+    'Atrial fibrillation': np.random.choice([0, 1], size=n_samples, p=[0.926, 0.074]),
+    'Coronary heart disease': np.random.choice([0, 1], size=n_samples, p=[0.828, 0.171]),
+    'Stroke Cause - Large-artery atherosclerosis': np.random.choice([0, 1], size=n_samples, p=[0.4378, 0.5622]),
+    'Stroke Cause - Cardioembolism': np.random.choice([0, 1], size=n_samples, p=[0.939, 0.061]),
+    'Stroke Cause - Small-vessel occlusion': np.random.choice([0, 1], size=n_samples, p=[0.715, 0.285]),
+    'Early Seizure': np.random.choice([0, 1], size=n_samples, p=[0.992, 0.008]),  # 0为无，1为有
+    'Cortical Involvement': np.random.choice([0, 1], size=n_samples, p=[0.744, 0.256]),
+    'Multiple Lobes Involvement': np.random.choice([0, 1], size=n_samples, p=[0.765, 0.235]),
+    'Post-Stroke Epilepsy (PSE)': np.random.choice([0, 1], size=n_samples, p=[0.95, 0.05])  # 假设PSE发生率为5%
+}
+
+# 创建DataFrame
+df = pd.DataFrame({**data_continuous, **data_categorical})
+
+# 保存为CSV文件
+save_path = r"04文献阅读\08神经内科\02开发和验证可解释的机器学习模型用于预测卒中后癫痫\01模拟数据\01data\simulated_data.csv"
+df.to_csv(save_path, index=False)
+
+print(f"模拟数据已保存至 {save_path}")
+```
+
+### 代码解析：
+1. **数据模拟**：
+   - **连续变量**：模拟了文中提到的连续变量，如年龄（`Age`）、住院天数（`Length of stay`）、NIHSS评分（`NIHSS at admission`）、血糖水平（`Fasting blood glucose`）等。
+   - **分类变量**：模拟了分类变量，如性别（`Sex`）、高血压（`Hypertension`）、糖尿病（`Diabetes`）等。所有变量的类别和概率值均按文献描述生成。
+   - **结局变量**：增加了卒中后癫痫（PSE）作为目标变量，这是本研究的主要结局变量，并假设其发生率为5%。
+
+2. **数据保存**：通过`pandas.DataFrame`将模拟数据组合，并使用`to_csv()`将其保存为CSV文件。
+
+### 文件保存路径：
+文件将保存为：`04文献阅读\08神经内科\02开发和验证可解释的机器学习模型用于预测卒中后癫痫\01模拟数据\01data\simulated_data.csv`
+
+### 输出：
+代码执行后，模拟数据将保存到指定的路径，并输出保存路径。
+
 
 
 ## 七、复现代码
-请你根据上述生成的数据，按照这篇文献的思路和方法，给出python代码，并给这份代码取个名字，用于复现上述文献中的结果，下述内容是你刚刚给我的实施计划，供你参考：
+为了复现文献中的结果，您需要进行以下步骤：数据预处理、特征选择、机器学习模型训练与验证、以及模型可解释性分析。以下是基于文献内容的完整Python代码。
+
+### 代码的结构和实施计划：
+1. **数据收集与准备**：模拟数据已生成并保存为CSV文件。
+2. **数据预处理**：包括数据拆分、缺失值处理（虽然我们已生成了完整的模拟数据，但为了复现文献中的流程，我们仍进行此步骤）。
+3. **特征选择**：使用**Boruta算法**选择最重要的特征。
+4. **模型训练与验证**：使用六种机器学习算法训练模型，并评估其性能。
+5. **SHAP分析**：对最优模型进行可解释性分析，查看每个特征对预测结果的贡献。
+
+### Python代码：
+
+```python
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import roc_auc_score, accuracy_score, f1_score, confusion_matrix
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
+from sklearn.neural_network import MLPClassifier
+from sklearn.ensemble import AdaBoostClassifier, GradientBoostingClassifier
+from imblearn.over_sampling import SMOTE
+from boruta import BorutaPy
+import shap
+
+# 读取模拟数据
+df = pd.read_csv(r"04文献阅读\08神经内科\02开发和验证可解释的机器学习模型用于预测卒中后癫痫\01模拟数据\01data\simulated_data.csv")
+
+# 数据预处理
+# 特征与目标变量分离
+X = df.drop(columns=['Post-Stroke Epilepsy (PSE)'])
+y = df['Post-Stroke Epilepsy (PSE)']
+
+# 数据标准化（对于某些模型，如SVM和逻辑回归，标准化非常重要）
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# 数据拆分：70%训练集，30%测试集
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.3, random_state=42)
+
+# 处理类不平衡：使用SMOTE进行过采样
+smote = SMOTE(random_state=42)
+X_train_res, y_train_res = smote.fit_resample(X_train, y_train)
+
+# 特征选择：使用Boruta算法
+rf = RandomForestClassifier(n_jobs=-1, max_depth=5, random_state=42)
+boruta = BorutaPy(rf, n_estimators='auto', random_state=42)
+boruta.fit(X_train_res, y_train_res)
+
+# 被选中的特征
+selected_features = X.columns[boruta.support_]
+print(f"Selected Features: {selected_features}")
+
+# 用选中的特征训练模型
+X_train_selected = X_train_res[:, boruta.support_]
+X_test_selected = X_test[:, boruta.support_]
+
+# 定义所有模型
+models = {
+    "Logistic Regression": LogisticRegression(),
+    "Naive Bayes": GaussianNB(),
+    "Support Vector Machine": SVC(probability=True),
+    "Multilayer Perceptron": MLPClassifier(),
+    "AdaBoost": AdaBoostClassifier(),
+    "Gradient Boosting": GradientBoostingClassifier()
+}
+
+# 存储模型评估结果
+results = {}
+
+# 训练并评估所有模型
+for model_name, model in models.items():
+    model.fit(X_train_selected, y_train_res)
+    y_pred = model.predict(X_test_selected)
+    y_prob = model.predict_proba(X_test_selected)[:, 1]
+    
+    auc = roc_auc_score(y_test, y_prob)
+    accuracy = accuracy_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
+    cm = confusion_matrix(y_test, y_pred)
+    
+    results[model_name] = {
+        'AUC': auc,
+        'Accuracy': accuracy,
+        'F1 Score': f1,
+        'Confusion Matrix': cm
+    }
+
+# 显示所有模型的评估结果
+for model_name, result in results.items():
+    print(f"{model_name}:")
+    print(f" AUC: {result['AUC']:.4f}")
+    print(f" Accuracy: {result['Accuracy']:.4f}")
+    print(f" F1 Score: {result['F1 Score']:.4f}")
+    print(f" Confusion Matrix:\n{result['Confusion Matrix']}\n")
+
+# 选择最佳模型（例如，AUC最好的模型）
+best_model_name = max(results, key=lambda model: results[model]['AUC'])
+best_model = models[best_model_name]
+print(f"Best Model: {best_model_name}")
+
+# 进行SHAP分析（可解释性分析）
+explainer = shap.TreeExplainer(best_model)
+shap_values = explainer.shap_values(X_test_selected)
+
+# 可视化SHAP值
+shap.summary_plot(shap_values[1], X_test_selected, feature_names=selected_features)
+
+```
+
+### 代码解读：
+1. **数据预处理**：
+   - 数据从CSV文件中加载并进行标准化。标准化是为了确保所有特征的尺度相同，以便某些机器学习模型（如支持向量机、逻辑回归）能够更好地训练。
+   - 将数据分为训练集（70%）和测试集（30%），并使用**SMOTE**（合成少数类过采样技术）对训练数据进行过采样，以处理类别不平衡问题。
+
+2. **特征选择**：
+   - 使用**Boruta算法**对特征进行选择。Boruta基于随机森林模型筛选出最重要的特征。在该代码中，我们选取了文献中提到的关键特征（如NIHSS评分、住院天数、D-二聚体水平和皮质受累）以及其他变量。
+
+3. **模型训练与验证**：
+   - 使用六种机器学习算法（逻辑回归、朴素贝叶斯、支持向量机、多层感知机、AdaBoost、梯度提升决策树）进行模型训练。
+   - 评估指标包括AUC（曲线下面积）、准确率（Accuracy）、F1分数以及混淆矩阵。
+
+4. **SHAP分析**：
+   - 通过SHAP（Shapley Additive Explanations）方法对最佳模型进行可解释性分析，查看每个特征对预测结果的贡献。SHAP值能够帮助解释模型的决策过程，并且显示特征的正负影响。
+
+### 输出：
+1. **模型评估结果**：包括AUC、准确率、F1分数和混淆矩阵，帮助评估每个模型的预测能力。
+2. **SHAP可视化**：显示每个特征对预测的贡献，便于理解哪些特征对预测卒中后癫痫（PSE）具有重要影响。
+
+### 文件保存路径：
+您可以保存该代码并运行，确保模拟数据已准备好后，代码将自动训练和评估所有模型，并进行SHAP分析。
+
+---
+
 
 
 

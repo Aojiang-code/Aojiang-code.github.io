@@ -32,7 +32,8 @@ data_categorical = {
     'Stroke Cause - Small-vessel occlusion': np.random.choice([0, 1], size=n_samples, p=[0.715, 0.285]),
     'Early Seizure': np.random.choice([0, 1], size=n_samples, p=[0.992, 0.008]),  # 0为无，1为有
     'Cortical Involvement': np.random.choice([0, 1], size=n_samples, p=[0.744, 0.256]),
-    'Multiple Lobes Involvement': np.random.choice([0, 1], size=n_samples, p=[0.765, 0.235])
+    'Multiple Lobes Involvement': np.random.choice([0, 1], size=n_samples, p=[0.765, 0.235]),
+    'Post-Stroke Epilepsy (PSE)': np.random.choice([0, 1], size=n_samples, p=[0.95, 0.05])  # 假设PSE发生率为5%
 }
 
 # 创建DataFrame
