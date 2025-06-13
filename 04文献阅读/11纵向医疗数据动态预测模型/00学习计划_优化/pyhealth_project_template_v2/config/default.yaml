@@ -1,0 +1,17 @@
+data:
+  mimic_path: https://storage.googleapis.com/pyhealth/Synthetic_MIMIC-III/
+  output_path: ./data/output/
+  checkpoint_path: ./checkpoints/
+
+train:
+  batch_size: 64
+  epochs: 50
+  monitor: auc
+  patience: 5
+  metrics: ["auc", "f1", "accuracy"]
+
+task:
+  label_key: aki
+  time_window: 7
+  use_time: true
+  use_visit: true
