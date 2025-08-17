@@ -1,0 +1,46 @@
+# configs/mimic_ids.yaml
+# Fill in with your local definitions. Values below are placeholders.
+
+diagnoses_icd:
+  dka_icd9:  # e.g., ["250.10", "250.11"]
+    - "TO_FILL"
+  dka_icd10: # e.g., ["E10.10", "E11.10", "E13.10"]
+    - "TO_FILL"
+
+items:
+  # Lab itemids (look up in d_labitems / d_items)
+  scr_itemids:   # serum creatinine
+    - 220615    # example (check your build)
+    - 50912     # example (check your build)
+  bun_itemids:
+    - 51006     # example (check your build)
+  plt_itemids:
+    - 51265     # example (check your build)
+  glucose_itemids:
+    - 50809     # example (check your build)
+
+  # Vitals (chartevents or other)
+  hr_itemids:
+    - 220045
+  sbp_itemids:
+    - 220179
+  dbp_itemids:
+    - 220180
+  rr_itemids:
+    - 220210
+  temp_itemids:
+    - 223761
+
+  # Weight
+  weight_itemids:
+    - 226512
+
+  # Intake & Output
+  urine_output_itemids:
+    - 226559
+  fluid_input_itemids:
+    - 226360
+
+  # Derived / states
+  ventilation_flags_itemids:  # presence in first 24h
+    - 224385  # ventilator mode (example)

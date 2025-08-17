@@ -1,0 +1,84 @@
+# 00_config.yaml
+seed: 42
+
+paths:
+  mimic_csv_dir: "/ABSOLUTE/PATH/TO/mimic-iv-2.2"   # <-- TODO
+  duckdb_path: "work/mimic.duckdb"
+  out_dir: "intermediate"
+  work_dir: "work"
+
+cohort:
+  take_first_icu_per_hadm: true
+  feature_window_hours: 24
+  outcome_window_hours: 168   # 7 days
+
+outcomes:
+  kdigo:
+    baseline_method: "first_24h"   # "first_24h" | "lowest_24h" | "pre48h_to_post6h_min"
+    creatinine_increase_mgdl_48h: 0.3
+    creatinine_ratio_7d: 1.5
+    urine_ml_per_kg_per_h_threshold: 0.5
+    urine_low_duration_hours: 6
+
+preprocessing:
+  variable_missing_threshold: 0.2   # drop columns missing > 20%
+  imputation:
+    knn:
+      n_neighbors: 5
+
+split:
+  test_size: 0.15
+  group_by: "subject_id"
+  stratify: true
+
+features:
+  candidate_numeric:
+    - bun
+    - urine_24h
+    - weight
+    - age
+    - plt
+    - glucose
+    - fluid_input_24h
+    - sbp
+    - dbp
+    - hr
+    - rr
+    - temperature
+    - scr_first24h
+  candidate_categorical:
+    - sex
+    - ethnicity
+    - diabetes_type
+    - ventilation_first24h
+  lasso_target_k: 7
+
+models:
+  xgboost:
+    n_estimators: [300, 500, 700]
+    max_depth: [3, 4, 5]
+    learning_rate: [0.03, 0.05, 0.1]
+    subsample: [0.7, 0.8, 1.0]
+    colsample_bytree: [0.7, 0.8, 1.0]
+    reg_lambda: [0.0, 1.0, 3.0]
+  logistic_regression:
+    C: [0.1, 0.5, 1.0, 2.0]
+    penalty: ["l1", "l2"]
+  svm:
+    C: [0.5, 1.0, 2.0]
+    kernel: ["rbf"]
+  adaboost:
+    n_estimators: [100, 300, 500]
+  mlp:
+    hidden_layer_sizes: [[64], [64,32]]
+    alpha: [0.0001, 0.001]
+    max_iter: [200]
+
+evaluation:
+  thresholds:
+    optimize: "youden"  # "youden" | "fixed"
+    fixed_value: 0.5
+  dca:
+    p_min: 0.1
+    p_max: 0.6
+    p_step: 0.02
