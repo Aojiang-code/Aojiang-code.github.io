@@ -1,0 +1,17 @@
+code,system,description
+25010,ICD9CM,DM type II/unspecified with ketoacidosis, not stated as uncontrolled
+25011,ICD9CM,DM type II/unspecified with ketoacidosis, uncontrolled
+25012,ICD9CM,DM type I with ketoacidosis, not stated as uncontrolled
+25013,ICD9CM,DM type I with ketoacidosis, uncontrolled
+E0810,ICD10CM,DM due to underlying condition with ketoacidosis without coma
+E0811,ICD10CM,DM due to underlying condition with ketoacidosis with coma
+E0910,ICD10CM,Drug/chemical induced DM with ketoacidosis without coma
+E0911,ICD10CM,Drug/chemical induced DM with ketoacidosis with coma
+E1010,ICD10CM,Type 1 DM with ketoacidosis without coma
+E1011,ICD10CM,Type 1 DM with ketoacidosis with coma
+E1110,ICD10CM,Type 2 DM with ketoacidosis without coma
+E1111,ICD10CM,Type 2 DM with ketoacidosis with coma
+E1310,ICD10CM,Other specified DM with ketoacidosis without coma
+E1311,ICD10CM,Other specified DM with ketoacidosis with coma
+E1410,ICD10CM,Unspecified DM with ketoacidosis without coma
+E1411,ICD10CM,Unspecified DM with ketoacidosis with coma

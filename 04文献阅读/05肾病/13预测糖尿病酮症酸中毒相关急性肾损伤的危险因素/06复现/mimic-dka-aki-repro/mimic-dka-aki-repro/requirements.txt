@@ -1,0 +1,12 @@
+pandas>=2.0
+numpy>=1.26
+pyarrow>=14.0
+duckdb>=1.0.0
+SQLAlchemy>=2.0
+psycopg2-binary>=2.9
+scikit-learn>=1.4
+xgboost>=2.0
+lightgbm>=4.0
+matplotlib>=3.8
+tqdm>=4.66
+pyyaml>=6.0

@@ -1,0 +1,74 @@
+seed: 20250817
+paths:
+  mimic_root: /path/to/mimiciv
+  raw: data/raw
+  interim: data/interim
+  processed: data/processed
+  models: data/models
+  plots: outputs/plots
+  reports: outputs/reports
+data_source:
+  type: duckdb
+  duckdb:
+    extensions: []
+  postgres:
+    host: localhost
+    port: 5432
+    user: postgres
+    password: YOUR_PASSWORD
+    database: mimiciv
+cohort:
+  adults_only: true
+  first_icu_stay: true
+  index_time: icu_intime
+  exclude_readmissions_within_hours: 48
+prediction:
+  task: aki_within_7d
+  horizon_days: 7
+  observation_window_hours: 24
+features:
+  vitals_item_patterns:
+  - Heart Rate
+  - Respiratory Rate
+  - Mean arterial pressure
+  - SpO2
+  - Temperature
+  - Weight
+  lab_item_patterns:
+  - Urea nitrogen|BUN|Blood urea
+  - Creatinine
+  - Glucose|Blood glucose
+  - Platelet|PLT
+  - WBC
+  - Bilirubin
+  inputs_patterns:
+  - crystalloid|colloid
+  use_knn_impute: true
+  missing_threshold_drop: 0.2
+icd_codesets:
+  dka: codesets/icd_dka_codes.csv
+split:
+  random_train_ratio: 0.85
+  cv_folds: 10
+  random_state: 20250817
+model:
+  selector:
+    type: logreg_l1
+    C: 0.1
+    max_iter: 2000
+  main:
+    type: xgboost
+    params:
+      n_estimators: 400
+      learning_rate: 0.05
+      max_depth: 4
+      subsample: 0.8
+      colsample_bytree: 0.8
+      reg_lambda: 1.0
+      random_state: 20250817
+      n_jobs: -1
+      tree_method: hist
+  calibrator: isotonic
+evaluation:
+  calibration_bins: 10
+  calibration_bootstrap: 1000
