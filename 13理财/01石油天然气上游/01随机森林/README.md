@@ -798,4 +798,791 @@ print(f"[OK] 滚动回测结果已保存：{OUT_BT}")
 > * 本套代码已经：避免了数据泄漏、使用 `TimeSeriesSplit` 做时序交叉验证、以 `balanced_accuracy` 作为评分、更稳健地评估了模型，并附带“下一日 + 一周趋势”预测与图形。
 
 
+# 0401GPT4o
 
+请问根据历史成交价预测未来基金走向趋势的模型有哪些？
+
+我有一份数据，储存的路径为：file_path = '/workspace/input/007844_history_raw.csv'
+
+现在请你用这份数据构建上述模型，要求返回jupyter notebook代码，不需要你进行运行，只需要给出代码即可
+
+
+好的，下面是完整的 Jupyter Notebook 代码（Markdown + Python cell 混合格式），实现以下内容：
+
+* 加载并初步探索基金数据；
+* 预处理基金历史数据；
+* 构建多个模型进行基金价格预测（基于历史净值）：
+
+  * ARIMA
+  * LSTM
+  * XGBoost
+  * Transformer（PatchTST 简化实现）
+
+---
+
+### 🧠 Notebook 标题：基于历史净值的基金趋势预测模型对比分析
+
+---
+
+```markdown
+## 基金价格预测模型比较分析
+数据来源：007844 基金历史净值数据  
+预测目标：未来5日基金单位净值（Unit Net Value）
+
+作者：ChatGPT + 用户  
+日期：2025-09
+```
+
+---
+
+```python
+# 📦 基础依赖
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import datetime
+
+# 统计建模
+from statsmodels.tsa.arima.model import ARIMA
+from sklearn.metrics import mean_squared_error, mean_absolute_error
+
+# ML模型
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import TimeSeriesSplit, GridSearchCV
+import xgboost as xgb
+
+# LSTM
+import torch
+import torch.nn as nn
+from torch.utils.data import Dataset, DataLoader
+
+# Transformer
+from einops import rearrange
+```
+
+---
+
+### 1️⃣ 数据加载与可视化
+
+```python
+# 路径
+file_path = '/workspace/input/007844_history_raw.csv'
+
+# 加载
+df = pd.read_csv(file_path)
+df.head()
+```
+
+---
+
+```python
+# 如果是中文字段，先改列名为英文
+df.columns = ['date', 'unit_nav', 'acc_nav', 'daily_growth', 'buy_status', 'sell_status']
+
+# 转换日期
+df['date'] = pd.to_datetime(df['date'])
+
+# 保留所需列并按时间排序
+df = df[['date', 'unit_nav']].sort_values('date')
+
+# 可视化
+plt.figure(figsize=(12,5))
+plt.plot(df['date'], df['unit_nav'], label='Unit NAV')
+plt.title("Fund Net Value Over Time")
+plt.xlabel("Date")
+plt.ylabel("Net Value")
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+---
+
+### 2️⃣ 预测任务定义与数据准备
+
+```python
+# 设置预测天数
+forecast_horizon = 5
+
+# 构建监督学习格式（滑动窗口）
+def create_supervised_data(data, window_size=20, pred_horizon=5):
+    X, y = [], []
+    for i in range(len(data) - window_size - pred_horizon + 1):
+        X.append(data[i:i+window_size])
+        y.append(data[i+window_size:i+window_size+pred_horizon])
+    return np.array(X), np.array(y)
+
+# 提取目标序列
+nav_series = df['unit_nav'].values
+X, y = create_supervised_data(nav_series, window_size=30, pred_horizon=forecast_horizon)
+
+# 划分训练集和测试集
+split = int(0.8 * len(X))
+X_train, y_train = X[:split], y[:split]
+X_test, y_test = X[split:], y[split:]
+
+print(f"Train size: {X_train.shape}, Test size: {X_test.shape}")
+```
+
+---
+
+### 3️⃣ 模型一：ARIMA（单步预测）
+
+```python
+from tqdm import tqdm
+
+history = list(nav_series[:split+30])
+preds = []
+
+for t in tqdm(range(forecast_horizon)):
+    model = ARIMA(history, order=(5,1,0))  # 简单设置
+    model_fit = model.fit()
+    yhat = model_fit.forecast()[0]
+    preds.append(yhat)
+    history.append(yhat)
+
+plt.plot(range(len(nav_series)), nav_series, label='True')
+plt.plot(range(len(nav_series), len(nav_series)+forecast_horizon), preds, label='ARIMA Forecast')
+plt.legend()
+plt.title('ARIMA Forecast')
+plt.show()
+```
+
+---
+
+### 4️⃣ 模型二：LSTM（多步预测）
+
+```python
+# 构建Dataset类
+class FundDataset(Dataset):
+    def __init__(self, X, y):
+        self.X = torch.tensor(X, dtype=torch.float32)
+        self.y = torch.tensor(y, dtype=torch.float32)
+
+    def __len__(self): return len(self.X)
+    def __getitem__(self, idx): return self.X[idx], self.y[idx]
+
+train_loader = DataLoader(FundDataset(X_train, y_train), batch_size=32, shuffle=True)
+test_loader = DataLoader(FundDataset(X_test, y_test), batch_size=32, shuffle=False)
+
+# 定义模型
+class LSTMModel(nn.Module):
+    def __init__(self, input_dim, hidden_dim=64):
+        super().__init__()
+        self.lstm = nn.LSTM(input_dim, hidden_dim, batch_first=True)
+        self.fc = nn.Linear(hidden_dim, forecast_horizon)
+
+    def forward(self, x):
+        _, (hn, _) = self.lstm(x)
+        out = self.fc(hn[-1])
+        return out
+
+model = LSTMModel(input_dim=1).cuda()
+criterion = nn.MSELoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+
+# 训练循环
+for epoch in range(10):
+    model.train()
+    for Xb, yb in train_loader:
+        Xb, yb = Xb.unsqueeze(-1).cuda(), yb.cuda()
+        preds = model(Xb)
+        loss = criterion(preds, yb)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+```
+
+---
+
+### 5️⃣ 模型三：XGBoost（多输出）
+
+```python
+# 每一维 y 分开建模
+models = []
+preds = []
+
+for i in range(forecast_horizon):
+    model = xgb.XGBRegressor(n_estimators=100)
+    model.fit(X_train, y_train[:, i])
+    models.append(model)
+    pred = model.predict(X_test)
+    preds.append(pred)
+
+preds = np.stack(preds, axis=1)
+
+# 可视化
+plt.plot(y_test[0], label='True')
+plt.plot(preds[0], label='XGBoost Predicted')
+plt.legend()
+plt.title('XGBoost Multi-step Prediction')
+plt.show()
+```
+
+---
+
+### 6️⃣ 模型四：Transformer（PatchTST 简化版）
+
+```python
+class SimpleTransformer(nn.Module):
+    def __init__(self, input_len=30, d_model=64, nhead=4):
+        super().__init__()
+        self.embedding = nn.Linear(1, d_model)
+        self.encoder_layer = nn.TransformerEncoderLayer(d_model=d_model, nhead=nhead)
+        self.transformer = nn.TransformerEncoder(self.encoder_layer, num_layers=2)
+        self.fc = nn.Linear(d_model * input_len, forecast_horizon)
+
+    def forward(self, x):  # x: (B, T, 1)
+        x = self.embedding(x)  # (B, T, D)
+        x = self.transformer(x)  # (B, T, D)
+        x = x.flatten(1)  # (B, T*D)
+        return self.fc(x)
+
+model = SimpleTransformer(input_len=30).cuda()
+```
+
+---
+
+### 📊 模型评估模板
+
+```python
+def evaluate(true, pred):
+    mse = mean_squared_error(true, pred)
+    mae = mean_absolute_error(true, pred)
+    return {'MAE': mae, 'MSE': mse, 'RMSE': np.sqrt(mse)}
+
+# 示例：XGBoost评估
+evaluate(y_test, preds)
+```
+
+---
+
+如需我帮你单独完成每一个模型训练 + 推理 + 评估 + 图表输出 + 多次滑动预测循环，请继续告诉我你最关心哪个模型或结果维度（如：长期走势 vs 波动性 vs 拐点预测等），我可以继续扩展这个 notebook。
+
+# 0402时序模型GPT4o
+
+非常好！我们现在开始构建完整的代码部分（Part A1），内容包括：
+
+---
+
+# ✅ Part A1：数据读取与预处理（为 Prophet、LSTM、XGBoost 做准备）
+
+```python
+# ✅ 必要依赖
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# ✅ 读取数据
+file_path = '/workspace/input/007844_history_raw.csv'
+df = pd.read_csv(file_path)
+
+# ✅ 查看原始列名
+print("原始列名：", df.columns.tolist())
+```
+
+---
+
+## ✅ Step 1：整理字段（适配 Prophet + 其他模型）
+
+```python
+# 标准化列名（根据实际情况修改）
+# 一般包括：日期、单位净值、累计净值、日增长率、买入状态、卖出状态
+df.columns = ['date', 'unit_nav', 'acc_nav', 'daily_growth', 'buy_status', 'sell_status']
+
+# 保留需要的字段，并转换日期格式
+df['date'] = pd.to_datetime(df['date'])
+df = df[['date', 'unit_nav']].dropna().sort_values('date').reset_index(drop=True)
+
+# 可视化数据概况
+plt.figure(figsize=(12, 5))
+plt.plot(df['date'], df['unit_nav'], label='Unit NAV')
+plt.title("Historical Fund Net Value")
+plt.xlabel("Date")
+plt.ylabel("Unit NAV")
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+## ✅ Step 2：为 Prophet 模型准备数据格式
+
+```python
+# Prophet 需要特定格式：'ds' 作为日期，'y' 作为目标值
+df_prophet = df.rename(columns={'date': 'ds', 'unit_nav': 'y'})
+```
+
+---
+
+## ✅ Step 3：为 LSTM / XGBoost 模型构建滑动窗口
+
+```python
+# 构造监督学习序列数据（用于 LSTM 和 XGBoost）
+def create_supervised_data(data, window_size=30, forecast_horizon=1):
+    X, y = [], []
+    for i in range(len(data) - window_size - forecast_horizon + 1):
+        X.append(data[i:i+window_size])
+        y.append(data[i+window_size:i+window_size+forecast_horizon])
+    return np.array(X), np.array(y)
+
+# 提取目标序列
+nav_series = df['unit_nav'].values
+
+# 构造 X, y
+window_size = 30
+forecast_horizon = 1   # 每步预测1天，后面会循环多次递推
+X, y = create_supervised_data(nav_series, window_size=window_size, forecast_horizon=forecast_horizon)
+
+# 划分训练集和测试集
+split_idx = int(len(X) * 0.8)
+X_train, X_test = X[:split_idx], X[split_idx:]
+y_train, y_test = y[:split_idx], y[split_idx:]
+
+print(f"X_train shape: {X_train.shape}, y_train shape: {y_train.shape}")
+print(f"X_test shape: {X_test.shape}, y_test shape: {y_test.shape}")
+```
+
+---
+
+🎯 **下一步 Part A2** 将包括：
+
+* Prophet 模型训练与预测
+* LSTM 模型构建与训练
+* XGBoost 模型训练与预测
+
+是否继续输出 **Part A2**？只需回复“继续”。
+
+
+很好，我们继续输出：
+
+---
+
+# ✅ Part A2：三种模型的训练与预测（Prophet, LSTM, XGBoost）
+
+---
+
+## ✅ Step 1: Prophet 模型训练与未来 1 个月预测
+
+```python
+from prophet import Prophet
+
+# 初始化 Prophet 模型
+prophet_model = Prophet(daily_seasonality=True)
+prophet_model.fit(df_prophet)
+
+# 构建未来 20 个交易日（1 个月）预测日期
+future = prophet_model.make_future_dataframe(periods=20, freq='B')  # 'B' = Business Day
+forecast = prophet_model.predict(future)
+
+# 提取预测结果（未来部分）
+forecast_future = forecast[forecast['ds'] > df_prophet['ds'].max()]
+```
+
+---
+
+## ✅ Step 2: 构建并训练 LSTM 模型
+
+```python
+import torch
+import torch.nn as nn
+from torch.utils.data import Dataset, DataLoader
+
+# 设备选择（兼容 CPU/GPU）
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print("Using device:", device)
+
+# 自定义 Dataset
+class FundDataset(Dataset):
+    def __init__(self, X, y):
+        self.X = torch.tensor(X, dtype=torch.float32)
+        self.y = torch.tensor(y, dtype=torch.float32)
+
+    def __len__(self): return len(self.X)
+    def __getitem__(self, idx): return self.X[idx], self.y[idx]
+
+# DataLoader
+train_loader = DataLoader(FundDataset(X_train, y_train), batch_size=32, shuffle=True)
+test_loader = DataLoader(FundDataset(X_test, y_test), batch_size=32, shuffle=False)
+
+# LSTM 模型
+class LSTMModel(nn.Module):
+    def __init__(self, input_dim=1, hidden_dim=64):
+        super().__init__()
+        self.lstm = nn.LSTM(input_dim, hidden_dim, batch_first=True)
+        self.fc = nn.Linear(hidden_dim, forecast_horizon)
+
+    def forward(self, x):  # x: (B, T, 1)
+        _, (hn, _) = self.lstm(x)
+        out = self.fc(hn[-1])
+        return out
+
+# 实例化并训练
+lstm_model = LSTMModel().to(device)
+criterion = nn.MSELoss()
+optimizer = torch.optim.Adam(lstm_model.parameters(), lr=1e-3)
+
+# LSTM 训练
+for epoch in range(10):
+    lstm_model.train()
+    total_loss = 0
+    for Xb, yb in train_loader:
+        Xb, yb = Xb.unsqueeze(-1).to(device), yb.to(device)
+        pred = lstm_model(Xb)
+        loss = criterion(pred, yb)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        total_loss += loss.item()
+
+    print(f"Epoch {epoch+1}, Loss: {total_loss:.4f}")
+```
+
+---
+
+## ✅ Step 3: LSTM 预测未来 20 日（递推）
+
+```python
+# 使用最近 30 天数据作为输入
+input_seq = torch.tensor(nav_series[-window_size:], dtype=torch.float32).unsqueeze(0).unsqueeze(-1).to(device)
+lstm_preds = []
+
+lstm_model.eval()
+with torch.no_grad():
+    for _ in range(20):
+        pred = lstm_model(input_seq)
+        next_val = pred[0, 0].item()
+        lstm_preds.append(next_val)
+        input_seq = torch.cat([input_seq[:, 1:, :], torch.tensor([[[next_val]]], device=device)], dim=1)
+```
+
+---
+
+## ✅ Step 4: XGBoost 训练与预测
+
+```python
+import xgboost as xgb
+
+# 初始化模型
+xgb_model = xgb.XGBRegressor(n_estimators=100)
+xgb_model.fit(X_train, y_train.ravel())
+
+# 递推预测未来 20 天
+xgb_input = list(nav_series[-window_size:])  # 初始化窗口
+xgb_preds = []
+
+for _ in range(20):
+    features = np.array(xgb_input[-window_size:]).reshape(1, -1)
+    next_val = xgb_model.predict(features)[0]
+    xgb_preds.append(next_val)
+    xgb_input.append(next_val)
+```
+
+---
+
+🎯 **下一步 Part B** 将包括：
+
+* 可视化：展示历史数据 + 三种模型预测曲线（红线、绿线、蓝线）
+* 图例标注、置信区间展示
+* 多模型对比图（支持保存导出）
+
+是否继续输出 **Part B（可视化部分）**？只需回复“继续”。
+
+
+好的，继续输出：
+
+---
+
+# ✅ Part B：三种模型预测结果可视化对比图
+
+我们将绘制一个图，内容如下：
+
+* ✅ 历史成交价（黑色点）
+* ✅ Prophet 预测：红线 + 红点 + 浅蓝色置信区间
+* ✅ LSTM 预测：绿色线 + 绿色圆点
+* ✅ XGBoost 预测：蓝色虚线 + 蓝色方块点
+
+---
+
+## ✅ 可视化代码（Prophet vs LSTM vs XGBoost）
+
+```python
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# --------- Step 1: 设置时间窗口 ---------
+end_date = forecast['ds'].max()
+start_date = end_date - pd.DateOffset(months=4)  # 显示近3个月历史 + 1个月预测
+
+# --------- Step 2: 筛选历史数据和 Prophet 结果 ---------
+forecast_plot = forecast[(forecast['ds'] >= start_date) & (forecast['ds'] <= end_date)]
+history_plot = df_prophet[(df_prophet['ds'] >= start_date) & (df_prophet['ds'] <= end_date)]
+
+# 提取 Prophet 的预测段（未来 20 天）
+future_start = df_prophet['ds'].max()
+forecast_future = forecast_plot[forecast_plot['ds'] > future_start]
+
+# --------- Step 3: 构建统一的未来日期索引（用于对齐 LSTM/XGBoost） ---------
+future_dates = forecast_future['ds'].reset_index(drop=True)  # Series
+
+# --------- Step 4: 绘图 ---------
+plt.figure(figsize=(14, 6))
+
+# 🔵 Prophet置信区间
+plt.fill_between(forecast_plot['ds'],
+                 forecast_plot['yhat_lower'],
+                 forecast_plot['yhat_upper'],
+                 color='blue', alpha=0.15, label='Prophet CI')
+
+# ⚫ 历史真实值
+plt.scatter(history_plot['ds'], history_plot['y'], color='black', s=15, label='Historical NAV')
+
+# 🔴 Prophet预测：红线 + 红点
+plt.plot(forecast_plot['ds'], forecast_plot['yhat'], color='red', linewidth=2, label='Prophet Forecast')
+plt.scatter(forecast_future['ds'], forecast_future['yhat'], color='red', s=30)
+
+# 🟢 LSTM预测：绿线 + 绿点
+plt.plot(future_dates, lstm_preds, color='green', linestyle='-', marker='o', label='LSTM Forecast')
+
+# 🔷 XGBoost预测：蓝虚线 + 蓝方块点
+plt.plot(future_dates, xgb_preds, color='blue', linestyle='--', marker='s', label='XGBoost Forecast')
+
+# --------- Step 5: 图形美化 ---------
+plt.title('Fund Net Value Forecast: Prophet vs LSTM vs XGBoost', fontsize=14)
+plt.xlabel('Date')
+plt.ylabel('Unit NAV')
+plt.xticks(rotation=45)
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+## ✅ 效果说明：
+
+| 模型      | 曲线颜色   | 点形状     | 特征         |
+| ------- | ------ | ------- | ---------- |
+| Prophet | 🔴 红线  | 🔴 红圆点  | 带置信区间的中值预测 |
+| LSTM    | 🟢 绿线  | 🟢 绿圆点  | 递推预测       |
+| XGBoost | 🔷 蓝虚线 | 🔷 蓝方块点 | 递推预测       |
+| 历史数据    | ⚫ 黑点   | -       | 真实值        |
+
+---
+
+## 📎（可选）导出预测数据为 CSV
+
+```python
+future_df = pd.DataFrame({
+    'date': future_dates,
+    'prophet': forecast_future['yhat'].values,
+    'lstm': lstm_preds,
+    'xgboost': xgb_preds
+})
+future_df.to_csv('future_forecast_comparison.csv', index=False)
+```
+
+---
+
+## ✅ 结束语
+
+你现在拥有了一个完整的流程：
+
+1. 数据清洗与滑动窗口构建；
+2. 三种模型（Prophet, LSTM, XGBoost）建模；
+3. 多模型对比图清晰展示预测能力；
+4. 可导出结果用于报告或后续策略开发。
+
+---
+
+如你希望我：
+
+* 为这个 Notebook 添加交互控件（预测天数、窗口长度）
+* 把 Notebook 导出为 PDF / HTML 报告模板
+* 添加基于预测结果的简单买卖信号策略
+
+都可以继续告诉我，我可以继续帮你扩展这个 Notebook。是否需要？
+
+
+
+# 封装
+
+非常好！下面我将为你编写一个**完整的“每日追踪预测系统”模块**，用于：
+
+---
+
+## ✅ 功能目标
+
+| 模块           | 功能描述                                   |
+| ------------ | -------------------------------------- |
+| 1️⃣ 自动生成预测   | 每次运行自动进行 Prophet/LSTM/XGBoost 预测       |
+| 2️⃣ 自动记录预测日期 | 每一条预测记录都标记 `generated_on` 时间戳          |
+| 3️⃣ 自动保存日志   | 将预测结果**追加**到统一的 `forecast_log.csv` 文件中 |
+| 4️⃣ 避免重复写入   | 自动检查是否当天已经写入，防止重复插入                    |
+
+---
+
+## ✅ 文件结构建议
+
+```
+📁 your_project/
+├── forecast_log.csv               ← 每日累计预测结果（持续增长）
+├── 007844_history_raw.csv        ← 原始数据文件（每日更新）
+└── run_daily_forecast.py         ← 每日运行一次即可
+```
+
+---
+
+## ✅ ✨ 全流程代码（封装为 daily\_forecast.py 脚本）
+
+```python
+import pandas as pd
+import numpy as np
+import os
+from prophet import Prophet
+import torch
+import torch.nn as nn
+from torch.utils.data import Dataset, DataLoader
+import xgboost as xgb
+from datetime import datetime
+
+# ---------- Step 1: 加载数据 ----------
+data_path = '007844_history_raw.csv'
+df = pd.read_csv(data_path)
+df.columns = ['date', 'unit_nav', 'acc_nav', 'daily_growth', 'buy_status', 'sell_status']
+df['date'] = pd.to_datetime(df['date'])
+df = df[['date', 'unit_nav']].dropna().sort_values('date').reset_index(drop=True)
+
+# ---------- Step 2: 预测生成日 ----------
+generated_on = df['date'].max()
+
+# ---------- Step 3: Prophet 模型 ----------
+df_prophet = df.rename(columns={'date': 'ds', 'unit_nav': 'y'})
+prophet_model = Prophet(daily_seasonality=True)
+prophet_model.fit(df_prophet)
+future = prophet_model.make_future_dataframe(periods=20, freq='B')
+forecast = prophet_model.predict(future)
+forecast_future = forecast[forecast['ds'] > df_prophet['ds'].max()]
+future_dates = forecast_future['ds'].reset_index(drop=True)
+
+# ---------- Step 4: LSTM 模型 ----------
+def create_supervised_data(data, window_size=30, forecast_horizon=1):
+    X, y = [], []
+    for i in range(len(data) - window_size - forecast_horizon + 1):
+        X.append(data[i:i+window_size])
+        y.append(data[i+window_size:i+window_size+forecast_horizon])
+    return np.array(X), np.array(y)
+
+nav_series = df['unit_nav'].values
+window_size = 30
+forecast_horizon = 1
+X, y = create_supervised_data(nav_series, window_size, forecast_horizon)
+split_idx = int(len(X) * 0.8)
+X_train, y_train = X[:split_idx], y[:split_idx]
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+class FundDataset(Dataset):
+    def __init__(self, X, y):
+        self.X = torch.tensor(X, dtype=torch.float32)
+        self.y = torch.tensor(y, dtype=torch.float32)
+    def __len__(self): return len(self.X)
+    def __getitem__(self, idx): return self.X[idx], self.y[idx]
+
+train_loader = DataLoader(FundDataset(X_train, y_train), batch_size=32, shuffle=True)
+
+class LSTMModel(nn.Module):
+    def __init__(self, input_dim=1, hidden_dim=64):
+        super().__init__()
+        self.lstm = nn.LSTM(input_dim, hidden_dim, batch_first=True)
+        self.fc = nn.Linear(hidden_dim, forecast_horizon)
+    def forward(self, x):
+        _, (hn, _) = self.lstm(x)
+        return self.fc(hn[-1])
+
+lstm_model = LSTMModel().to(device)
+criterion = nn.MSELoss()
+optimizer = torch.optim.Adam(lstm_model.parameters(), lr=1e-3)
+
+for epoch in range(5):
+    lstm_model.train()
+    for Xb, yb in train_loader:
+        Xb, yb = Xb.unsqueeze(-1).to(device), yb.to(device)
+        pred = lstm_model(Xb)
+        loss = criterion(pred, yb)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+lstm_model.eval()
+input_seq = torch.tensor(nav_series[-window_size:], dtype=torch.float32).unsqueeze(0).unsqueeze(-1).to(device)
+lstm_preds = []
+with torch.no_grad():
+    for _ in range(20):
+        pred = lstm_model(input_seq)
+        next_val = pred[0, 0].item()
+        lstm_preds.append(next_val)
+        input_seq = torch.cat([input_seq[:, 1:, :], torch.tensor([[[next_val]]], device=device)], dim=1)
+
+# ---------- Step 5: XGBoost 模型 ----------
+xgb_model = xgb.XGBRegressor(n_estimators=100)
+xgb_model.fit(X_train, y_train.ravel())
+
+xgb_input = list(nav_series[-window_size:])
+xgb_preds = []
+for _ in range(20):
+    features = np.array(xgb_input[-window_size:]).reshape(1, -1)
+    next_val = xgb_model.predict(features)[0]
+    xgb_preds.append(next_val)
+    xgb_input.append(next_val)
+
+# ---------- Step 6: 构建最终 DataFrame ----------
+result_df = pd.DataFrame({
+    'date': future_dates,
+    'prophet': forecast_future['yhat'].values,
+    'lstm': lstm_preds,
+    'xgboost': xgb_preds,
+    'generated_on': generated_on
+})
+
+# ---------- Step 7: 自动保存至日志文件 ----------
+log_file = 'forecast_log.csv'
+if not os.path.exists(log_file):
+    result_df.to_csv(log_file, index=False)
+else:
+    # 检查是否已经预测过当天
+    existing = pd.read_csv(log_file)
+    existing['generated_on'] = pd.to_datetime(existing['generated_on'])
+    if generated_on not in existing['generated_on'].unique():
+        result_df.to_csv(log_file, mode='a', header=False, index=False)
+    else:
+        print(f"📌 今天（{generated_on.date()}）的预测已存在，未重复写入。")
+```
+
+---
+
+## ✅ 每日使用方法
+
+1. 确保你每天都有更新的 `007844_history_raw.csv` 文件；
+2. 每天运行一次该脚本（可用定时器、crontab、Jupyter 调度）；
+3. 所有结果会累计保存在 `forecast_log.csv` 文件中，方便后期评估。
+
+---
+
+## ✅ 后续扩展建议
+
+| 功能       | 说明                                           |
+| -------- | -------------------------------------------- |
+| 📈 自动画图  | 每天运行后输出当天预测曲线图                               |
+| 📊 准确性评估 | 每过几天对比 `generated_on` 与真实 `unit_nav`，评估 RMSE |
+| 📤 数据上传  | 自动推送结果到邮箱、数据库或可视化平台                          |
+
+---
+
+如你愿意，我可以帮你构建 **预测准确率评估器** 或 **完整的 Streamlit Web UI** 来展示这套系统。是否需要继续？
