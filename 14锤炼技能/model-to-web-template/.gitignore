@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# Node
+frontend/node_modules/
+.next/
+
+# OS
+.DS_Store
+
+# Models and data
+models/*.onnx
+models/*.pt
