@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>AKI in ICU - MIMIC-IV 描述性分析</title>
+  <!-- 引入 ECharts CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #1f2933;
+      color: #ffffff;
+      padding: 16px 24px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+    header p {
+      margin: 4px 0 0;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    main {
+      max-width: 1100px;
+      margin: 16px auto 40px;
+      padding: 0 16px;
+    }
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .card {
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 12px 14px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1);
+      flex: 1 1 180px;
+      min-width: 180px;
+    }
+    .card-title {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 6px;
+    }
+    .card-value {
+      font-size: 20px;
+      font-weight: 600;
+      color: #111827;
+    }
+    .section {
+      margin-top: 24px;
+    }
+    .section h2 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+    .section p {
+      font-size: 13px;
+      color: #6b7280;
+      margin: 0 0 8px;
+    }
+    .chart-container {
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1);
+      margin-top: 8px;
+    }
+    .chart-box {
+      width: 100%;
+      height: 320px;
+    }
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: #9ca3af;
+      padding: 12px 0 18px;
+    }
+    .error {
+      color: #b91c1c;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>急性肾损伤（AKI） - ICU 患者概览（MIMIC-IV）</h1>
+    <p>本页展示基于 MIMIC-IV 的 AKI ICU 人群描述性结果（教学用途，非临床决策依据）。</p>
+  </header>
+
+  <main>
+    <!-- 概览卡片 -->
+    <section class="section">
+      <h2>队列概览</h2>
+      <p>展示 AKI ICU 队列的样本量、年龄、中位住院时间及死亡率。</p>
+      <div class="cards" id="summary-cards">
+        <div class="card">
+          <div class="card-title">样本量</div>
+          <div class="card-value" id="card-n">--</div>
+        </div>
+        <div class="card">
+          <div class="card-title">年龄（中位数）</div>
+          <div class="card-value" id="card-age-median">--</div>
+        </div>
+        <div class="card">
+          <div class="card-title">ICU 死亡率</div>
+          <div class="card-value" id="card-icu-mortality">--</div>
+        </div>
+        <div class="card">
+          <div class="card-title">住院死亡率</div>
+          <div class="card-value" id="card-hosp-mortality">--</div>
+        </div>
+      </div>
+      <div id="summary-error" class="error" style="display:none;"></div>
+    </section>
+
+    <!-- 年龄分布 -->
+    <section class="section">
+      <h2>年龄分布</h2>
+      <p>按年龄分组展示 AKI 患者的数量，反映年龄结构。</p>
+      <div class="chart-container">
+        <div id="chart-age" class="chart-box"></div>
+      </div>
+      <div id="age-error" class="error" style="display:none;"></div>
+    </section>
+
+    <!-- 性别分布 -->
+    <section class="section">
+      <h2>性别分布</h2>
+      <p>展示 AKI ICU 患者的性别比例。</p>
+      <div class="chart-container">
+        <div id="chart-gender" class="chart-box"></div>
+      </div>
+      <div id="gender-error" class="error" style="display:none;"></div>
+    </section>
+
+    <!-- 死亡率 -->
+    <section class="section">
+      <h2>短期结局：死亡率</h2>
+      <p>展示 ICU 与住院死亡率。</p>
+      <div class="chart-container">
+        <div id="chart-mortality" class="chart-box"></div>
+      </div>
+      <div id="mortality-error" class="error" style="display:none;"></div>
+    </section>
+  </main>
+
+  <footer>
+    数据来源：MIMIC-IV（教学演示用） · 仅展示汇总统计，不包含个体患者信息
+  </footer>
+
+  <script>
+    async function fetchJson(path, errorElementId) {
+      try {
+        const res = await fetch(path);
+        if (!res.ok) {
+          throw new Error('HTTP ' + res.status);
+        }
+        return await res.json();
+      } catch (err) {
+        console.error('Fetch error for', path, err);
+        const errEl = document.getElementById(errorElementId);
+        if (errEl) {
+          errEl.style.display = 'block';
+          errEl.textContent = '加载数据失败：' + path + '（' + err.message + '）';
+        }
+        return null;
+      }
+    }
+
+    function renderSummaryCards(stats) {
+      if (!stats) return;
+      document.getElementById('card-n').textContent = stats.n?.toLocaleString() ?? '--';
+
+      const ageMedian = stats.age_median;
+      document.getElementById('card-age-median').textContent =
+        (typeof ageMedian === 'number') ? ageMedian.toFixed(1) + ' 岁' : '--';
+
+      const icuRate = stats.icu_mortality_rate;
+      document.getElementById('card-icu-mortality').textContent =
+        (typeof icuRate === 'number') ? (icuRate * 100).toFixed(1) + '%' : '--';
+
+      const hospRate = stats.hosp_mortality_rate;
+      document.getElementById('card-hosp-mortality').textContent =
+        (typeof hospRate === 'number') ? (hospRate * 100).toFixed(1) + '%' : '--';
+    }
+
+    function renderAgeChart(data) {
+      if (!data) return;
+      const dom = document.getElementById('chart-age');
+      const chart = echarts.init(dom);
+
+      const option = {
+        tooltip: { trigger: 'axis' },
+        xAxis: {
+          type: 'category',
+          data: data.age_groups,
+          axisLabel: { rotate: 0 }
+        },
+        yAxis: {
+          type: 'value',
+          name: '人数'
+        },
+        series: [
+          {
+            type: 'bar',
+            data: data.counts
+          }
+        ]
+      };
+      chart.setOption(option);
+      window.addEventListener('resize', () => chart.resize());
+    }
+
+    function renderGenderChart(data) {
+      if (!data) return;
+      const dom = document.getElementById('chart-gender');
+      const chart = echarts.init(dom);
+
+      const seriesData = data.display_categories.map((name, i) => ({
+        name,
+        value: data.counts[i]
+      }));
+
+      const option = {
+        tooltip: { trigger: 'item' },
+        legend: { orient: 'horizontal', bottom: 0 },
+        series: [
+          {
+            type: 'pie',
+            radius: '60%',
+            center: ['50%', '45%'],
+            data: seriesData
+          }
+        ]
+      };
+      chart.setOption(option);
+      window.addEventListener('resize', () => chart.resize());
+    }
+
+    function renderMortalityChart(data) {
+      if (!data) return;
+      const dom = document.getElementById('chart-mortality');
+      const chart = echarts.init(dom);
+
+      const labels = data.display_outcomes;
+      const ratesPercent = data.rates.map(r => r * 100);
+
+      const option = {
+        tooltip: { trigger: 'axis', formatter: '{b}: {c}%' },
+        xAxis: {
+          type: 'category',
+          data: labels
+        },
+        yAxis: {
+          type: 'value',
+          name: '死亡率(%)'
+        },
+        series: [
+          {
+            type: 'bar',
+            data: ratesPercent
+          }
+        ]
+      };
+      chart.setOption(option);
+      window.addEventListener('resize', () => chart.resize());
+    }
+
+    async function initPage() {
+      // 路径是相对于 aki.html 的位置：frontend/aki.html -> frontend/data/aki/xxx
+      const [
+        stats,
+        ageDist,
+        genderDist,
+        mortDist
+      ] = await Promise.all([
+        fetchJson('data/aki/aki_basic_stats.json', 'summary-error'),
+        fetchJson('data/aki/aki_age_distribution.json', 'age-error'),
+        fetchJson('data/aki/aki_gender_distribution.json', 'gender-error'),
+        fetchJson('data/aki/aki_mortality.json', 'mortality-error')
+      ]);
+
+      renderSummaryCards(stats);
+      renderAgeChart(ageDist);
+      renderGenderChart(genderDist);
+      renderMortalityChart(mortDist);
+    }
+
+    document.addEventListener('DOMContentLoaded', initPage);
+  </script>
+</body>
+</html>
